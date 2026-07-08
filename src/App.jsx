@@ -873,6 +873,20 @@ function countDecorGroups(groups, collected) {
   return { total, done };
 }
 
+function isFullyCollected(groupLocation, costume, collected) {
+  return (costume.designs || costume.colors).every(v => collected[decorId(groupLocation, costume.name, v)]);
+}
+
+// Rare decor only shows up once its base costume is fully collected — mirrors how
+// Rare Decor Pikmin actually unlock in-game. Pass showAll to bypass this filter.
+function isRareLocked(group, costume, collected) {
+  const m = costume.name.match(/^(.+) \(Rare\)$/);
+  if (!m) return false;
+  const base = group.costumes.find(c => c.name === m[1]);
+  if (!base) return false;
+  return !isFullyCollected(group.location, base, collected);
+}
+
 // Placeholder color-coded tile — swap for real per-color artwork later
 function ColorTile({ color, available, collected, onToggle }) {
   const hex = PIKMIN_COLOR_HEX[color];
@@ -977,10 +991,11 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
 }
 
 // A location (or special-decor category) section: header + its costume rows
-function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet }) {
+function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor }) {
   const { total, done } = countDecorGroups([group], collected);
   const groupIds = group.costumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(group.location, c.name, variant)));
   const allCollected = done === total;
+  const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(group, c, collected));
   return (
     <div style={{ padding: "12px 0", borderTop: isFirst ? "none" : "1px solid #f0f8ec" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8, gap: 8 }}>
@@ -997,7 +1012,7 @@ function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulk
           <span style={{ fontSize: 10, color: "#bbb", whiteSpace: "nowrap" }}>{done}/{total}</span>
         </div>
       </div>
-      {group.costumes.map(c => (
+      {visibleCostumes.map(c => (
         <CostumeRow key={c.name} groupLocation={group.location} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
       ))}
     </div>
@@ -1077,6 +1092,18 @@ export default function App() {
   // Decor collection state
   const [decorCollected, setDecorCollected] = useState(() => loadJSON('pb_decorCollected', {}));
   const [decorBulkMode, setDecorBulkMode] = useState(false);
+  // Rare decor is hidden until its base costume is fully collected (matches in-game unlock order)
+  // unless this is on — persisted since it's a lasting viewing preference, not a one-off toggle.
+  const [showAllDecor, setShowAllDecor] = useState(() => {
+    try { return localStorage.getItem('pb_showAllDecor') === 'true'; } catch { return false; }
+  });
+  function toggleShowAllDecor() {
+    setShowAllDecor(v => {
+      const next = !v;
+      try { localStorage.setItem('pb_showAllDecor', String(next)); } catch {}
+      return next;
+    });
+  }
   function toggleDecor(id) {
     setDecorCollected(prev => {
       const next = { ...prev, [id]: !prev[id] };
@@ -1338,6 +1365,27 @@ export default function App() {
     );
   }
 
+  // Toggle for bypassing the Rare-decor unlock filter — off by default, since Rare Decor
+  // Pikmin don't actually appear in-game until their base costume set is fully collected.
+  function ShowAllToggle() {
+    return (
+      <button
+        onClick={toggleShowAllDecor}
+        title="Rare decor is hidden until its base costume is fully collected, matching in-game unlock order. Toggle to view everything."
+        style={{
+          display: "flex", alignItems: "center", gap: 5, flexShrink: 0,
+          background: showAllDecor ? "#fde9e7" : "#f5f5f5", border: `1px solid ${showAllDecor ? "#e0453c" : "transparent"}`,
+          borderRadius: 20, padding: "4px 10px 4px 8px", cursor: "pointer", fontFamily: "inherit",
+          fontSize: 10, fontWeight: 700, color: showAllDecor ? "#e0453c" : "#999", transition: "all 0.15s",
+          WebkitTapHighlightColor: "transparent",
+        }}
+      >
+        <span style={{ fontSize: 11 }}>{showAllDecor ? "🔓" : "🔒"}</span>
+        <span>Show all</span>
+      </button>
+    );
+  }
+
   // ── DECOR tab body — reused standalone (tabbed mode) and side-by-side (split-view) ──
   const decorBody = (
     <>
@@ -1345,11 +1393,14 @@ export default function App() {
       <div style={{ flex: 1, width: "100%", background: "#fff", borderRadius: 18, padding: 16, boxShadow: "0 2px 10px rgba(0,0,0,0.07)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 2 }}>
           <div style={{ fontWeight: 800, color: DG, fontSize: 13 }}>🎀 Regular Decor</div>
-          <QuickSelectToggle />
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <ShowAllToggle />
+            <QuickSelectToggle />
+          </div>
         </div>
         <div style={{ fontSize: 11, color: "#aaa" }}>{regularStats.done}/{regularStats.total} collected · tap a color to toggle</div>
         {DECOR_LOCATIONS.map((g, i) => (
-          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} />
+          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor} />
         ))}
       </div>
 
@@ -1360,7 +1411,7 @@ export default function App() {
         </div>
         <div style={{ fontSize: 11, color: "#aaa" }}>{specialStats.done}/{specialStats.total} collected · tap a color to toggle</div>
         {DECOR_SPECIAL_CATEGORIES.map((g, i) => (
-          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} />
+          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor} />
         ))}
       </div>
       </div>
