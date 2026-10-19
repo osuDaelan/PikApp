@@ -10,15 +10,15 @@ const particles = [
   ...[12, 8, 10, 7, 11, 8].map(size => ({ radius: size / 2 + 2, dy: 3 })),
 ];
 
-function assertClear(layout) {
+function assertClear(layout, zone = { x: 36, y: 52, rx: 16, ry: 38 }) {
   layout.forEach(({ x, y, dx, dy }, i) => {
     const { radius } = particles[i];
     for (const progress of [0, .25, .5, .75, 1]) {
       const px = x + dx * progress, py = y + dy * progress;
       assert.ok(px - radius >= -1e-9 && px + radius <= 72 + 1e-9, "glyph stays within tile width");
       assert.ok(py - radius >= -1e-9 && py + radius <= 104 + 1e-9, "glyph avoids label and tile edges");
-      const nx = Math.max(0, Math.abs(px - 36) - radius) / 16;
-      const ny = Math.max(0, Math.abs(py - 52) - radius) / 38;
+      const nx = Math.max(0, Math.abs(px - zone.x) - radius) / zone.rx;
+      const ny = Math.max(0, Math.abs(py - zone.y) - radius) / zone.ry;
       assert.ok(nx * nx + ny * ny >= 1 - 1e-9, "whole glyph clears central oval throughout drift");
     }
   });
@@ -39,4 +39,16 @@ test("random star and twinkle layouts protect the Pikmin throughout their moveme
 
 test("an unlucky random source still finishes outside the dead zone", () => {
   assertClear(createSparkleLayout(particles, () => .5));
+});
+
+test("debug size overrides protect the resized oval at both control limits", () => {
+  let seed = 9401;
+  const random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 2 ** 32);
+  for (const rx of [6, 16, 22]) {
+    for (const ry of [12, 38, 44]) {
+      const zone = { x: 36, y: 52, rx, ry };
+      for (let burst = 0; burst < 50; burst++) assertClear(createSparkleLayout(particles, random, zone), zone);
+      assertClear(createSparkleLayout(particles, () => .5, zone), zone);
+    }
+  }
 });

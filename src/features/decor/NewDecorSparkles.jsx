@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { createSparkleLayout } from "./sparkleLayout.js";
+import SparkleDeadZoneContext from "./SparkleDeadZoneContext.js";
 import "./new-decor-sparkles.css";
 
 const TWINKLES = [
@@ -7,8 +8,9 @@ const TWINKLES = [
 ];
 
 export default function NewDecorSparkles() {
+  const zone = useContext(SparkleDeadZoneContext);
   const [twinkles] = useState(() => {
-    const positions = createSparkleLayout(TWINKLES.map(([size]) => ({ radius: size / 2 + 2, dy: 3 })));
+    const positions = createSparkleLayout(TWINKLES.map(([size]) => ({ radius: size / 2 + 2, dy: 3 })), Math.random, zone);
     return positions.map((position, index) => ({ ...position, size: TWINKLES[index][0], delay: TWINKLES[index][1] }));
   });
 

@@ -2,8 +2,7 @@
 export const SPARKLE_AREA = { width: 72, height: 104 };
 export const SPARKLE_DEAD_ZONE = { x: 36, y: 52, rx: 16, ry: 38 };
 
-function clearsArtwork(x, y, radius) {
-  const zone = SPARKLE_DEAD_ZONE;
+function clearsArtwork(x, y, radius, zone) {
   // Nearest point of the particle's bounding box to the oval's center.
   // Keeping that point outside protects the whole glyph, not just its center.
   const nx = Math.max(0, Math.abs(x - zone.x) - radius) / zone.rx;
@@ -11,14 +10,14 @@ function clearsArtwork(x, y, radius) {
   return nx * nx + ny * ny >= 1;
 }
 
-export function createSparkleLayout(particles, random = Math.random) {
+export function createSparkleLayout(particles, random = Math.random, zone = SPARKLE_DEAD_ZONE) {
   const positions = [];
   return particles.map(({ radius, dx = 0, dy = 0 }) => {
     const { width, height } = SPARKLE_AREA;
     let best;
     let bestGap = -1;
     const consider = point => {
-      if (!clearsArtwork(point.x, point.y, radius)) return false;
+      if (!clearsArtwork(point.x, point.y, radius, zone)) return false;
       const gap = Math.min(...positions.map(p => Math.hypot(point.x - p.x, point.y - p.y)));
       if (gap > bestGap) { best = point; bestGap = gap; }
       return gap >= 12;
@@ -40,9 +39,9 @@ export function createSparkleLayout(particles, random = Math.random) {
     // shortened at the tile edge. Neither axis can move back into the oval.
     return { x, y,
       dx: Math.max(radius - x, Math.min(width - radius - x,
-        Math.sign(x - SPARKLE_DEAD_ZONE.x) * Math.abs(dx))),
+        Math.sign(x - zone.x) * Math.abs(dx))),
       dy: Math.max(radius - y, Math.min(height - radius - y,
-        Math.sign(y - SPARKLE_DEAD_ZONE.y) * Math.abs(dy))),
+        Math.sign(y - zone.y) * Math.abs(dy))),
     };
   });
 }

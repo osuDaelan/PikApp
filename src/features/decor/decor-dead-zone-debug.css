@@ -7,6 +7,10 @@
   padding: 5px 9px; border: 1px solid #b83732; border-radius: 7px;
   background: white; color: #a52c28; font: inherit; cursor: pointer;
 }
+.decor-dead-zone-debug__size { display: flex; align-items: center; gap: 5px; }
+.decor-dead-zone-debug__size span { min-width: 75px; font-variant-numeric: tabular-nums; }
+.decor-dead-zone-debug__size button { min-width: 30px; min-height: 30px; font-weight: 700; }
+.decor-dead-zone-debug button:disabled { opacity: .35; cursor: default; }
 [data-star-dead-zone="visible"] .decor-image-tile::after {
   content: ""; position: absolute; pointer-events: none; z-index: 4;
   left: var(--dead-zone-left); top: var(--dead-zone-top);
