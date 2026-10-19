@@ -1,5 +1,6 @@
 import React from "react";
 import DecorGroup from "./DecorGroup.jsx";
+import DecorDeadZoneDebug from "./DecorDeadZoneDebug.jsx";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "./catalog.js";
 import { countDecorGroups } from "./collection.js";
 import { colors, cardStyle } from "../../shared/styles/theme.js";
@@ -53,7 +54,7 @@ export default function DecorSection({ decor, isWide, isSplit }) {
   const regularStats = countDecorGroups(DECOR_LOCATIONS, decorCollected);
   const specialStats = countDecorGroups(DECOR_SPECIAL_CATEGORIES, decorCollected);
   return (
-    <>
+    <DecorDeadZoneDebug>
       <div style={{ display: "flex", flexDirection: (isWide && !isSplit) ? "row" : "column", gap: 12, alignItems: (isWide && !isSplit) ? "flex-start" : "stretch" }}>
       <div style={{ flex: 1, width: "100%", ...cardStyle }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 2 }}>
@@ -80,6 +81,6 @@ export default function DecorSection({ decor, isWide, isSplit }) {
         ))}
       </div>
       </div>
-    </>
+    </DecorDeadZoneDebug>
   );
 }
