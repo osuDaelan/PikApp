@@ -1,0 +1,19 @@
+.set-completion { position: fixed; inset: 0; pointer-events: none; z-index: 1000; }
+.set-completion__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.set-completion__message {
+  position: absolute; left: 50%; bottom: max(100px, calc(env(safe-area-inset-bottom) + 88px));
+  transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px);
+  padding: 11px 18px; border: 1px solid #ead68d; border-radius: 18px;
+  background: #fffdf1f5; color: #466c35; box-shadow: 0 4px 20px #233c2b26;
+  font: 800 13px/1.45 system-ui, sans-serif; text-align: center;
+  animation: set-completion-arrive 240ms ease-out;
+}
+.set-completion__message span { color: #d4a72f; margin-right: 5px; }
+@keyframes set-completion-arrive {
+  from { opacity: 0; transform: translate(-50%, 6px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .set-completion__canvas { display: none; }
+  .set-completion__message { animation: none; }
+}

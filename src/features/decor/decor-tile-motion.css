@@ -1,0 +1,62 @@
+/* Trial 04: Soft pop and confetti ring. Earlier trials are archived in docs/DECOR_ANIMATION_EXPERIMENTS.md. */
+.decor-image-tile__art {
+  position: relative;
+  transform-origin: 50% 55%;
+}
+.decor-image-tile__art img { transition: opacity 180ms ease, filter 180ms ease; }
+.decor-image-tile__confetti {
+  position: absolute; left: 50%; top: 45%; width: 0; height: 0;
+  pointer-events: none; z-index: 1;
+}
+.decor-image-tile__confetti > span {
+  position: absolute; width: 3px; height: 5px; border-radius: 1px;
+  background: #e5b84f; opacity: 0;
+}
+.decor-image-tile__confetti > span:nth-child(4n + 2) { background: #ed96b5; }
+.decor-image-tile__confetti > span:nth-child(4n + 3) { background: #8bbf76; }
+.decor-image-tile__confetti > span:nth-child(4n + 4) { background: #82bdd4; }
+.decor-image-tile[data-motion="collect"] .decor-image-tile__confetti > span {
+  animation: chef-confetti 380ms ease-out;
+}
+.decor-image-tile[data-motion="collect"] .decor-image-tile__art {
+  animation: chef-soft-pop 400ms cubic-bezier(.2, .65, .3, 1);
+}
+.decor-image-tile[data-motion="release"] .decor-image-tile__art {
+  animation: chef-soft-release 220ms ease-out;
+}
+.decor-image-tile--rare[data-motion="collect"] .decor-image-tile__art { animation-duration: 720ms; }
+.decor-image-tile__stars { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.decor-image-tile__star {
+  position: absolute; width: 16px; height: 16px; overflow: visible;
+  fill: #fff; stroke: #bceaff; stroke-width: .5;
+  filter: drop-shadow(0 0 2px #6dd4ff) drop-shadow(0 0 5px #38adf7);
+  opacity: 0; animation: rare-star-burst 600ms var(--star-delay) ease-out both;
+}
+.decor-image-tile__star--glint {
+  width: 10px; height: 10px; fill: #fff4b9; stroke: #ffe684;
+  filter: drop-shadow(0 0 3px #ffd35c);
+}
+@keyframes rare-star-burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(-16deg); }
+  24% { opacity: 1; transform: translate(-50%, -50%) scale(1.12) rotate(0); }
+  55% { opacity: .95; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--star-dx)), calc(-50% + var(--star-dy))) scale(.65) rotate(12deg); }
+}
+@keyframes chef-soft-pop {
+  0%, 100% { transform: scale(1); }
+  38% { transform: scale(1.075); }
+}
+@keyframes chef-confetti {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--confetti-angle)) translateX(12px) rotate(20deg) scale(.65); }
+  18% { opacity: .95; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--confetti-angle)) translateX(29px) rotate(90deg) scale(.8); }
+}
+@keyframes chef-soft-release {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(.985); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .decor-image-tile__art, .decor-image-tile__confetti > span { animation: none !important; }
+  .decor-image-tile__stars { display: none; }
+  .decor-image-tile__art img { transition: none; }
+}
