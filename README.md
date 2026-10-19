@@ -23,6 +23,23 @@ npm.cmd run preview
 
 Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Committing and pushing to GitHub are separate actions.
 
+## GitHub Pages hosting
+
+The current app can be hosted as a static website at `https://osuDaelan.github.io/PikApp/`. `.github/workflows/deploy.yml` installs locked dependencies, runs tests, builds the app, and publishes only `dist` on pushes to `main` or manual workflow runs. The build uses the repository name as its Vite base path (`/PikApp/`), so scripts, decor images, the icon, and wallpapers load correctly under the project URL. Local development still runs at `http://localhost:5173/`.
+
+To activate it, open the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source, then push the committed workflow/app to `main`. Follow the deployment in **Actions → Deploy PikApp to GitHub Pages**. The URL is an expected deployment address, not confirmation that the site is already live. Committing locally does not publish it; pushing to `main` after setup triggers deployment.
+
+Once published, the site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in and cloud saving remain future work; GitHub Pages hosts the frontend rather than an account database.
+
+To check the hosted path locally:
+
+```powershell
+npm.cmd run build -- --base /PikApp/
+npm.cmd run preview -- --base /PikApp/
+```
+
+Open the preview server's `/PikApp/` URL. GitHub Pages setup follows [Vite's deployment guide](https://vite.dev/guide/static-deploy.html#github-pages) and [GitHub's Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
+
 ## Source organization
 
 ```text
