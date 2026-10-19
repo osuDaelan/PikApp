@@ -9,7 +9,7 @@ October 18, 2026. This work expands the approved Chef Hat image tile to **all 89
 - `docs/decor-image-sources.json` records all 896 IDs with the Pikipedia source page, original asset URL, gallery, dimensions, local byte size, and SHA-256 checksum. Artwork was matched to the actual regular and special gallery file references; aliases were checked against gallery labels.
 - 36 existing entries group multiple in-game designs: Theme Park Ticket, Rainy Day Leaf Hat, Chess Piece, both Hanafuda volumes, Mahjong Tile, and Playing Card. These show one verified representative design, flagged in the manifest, alt text, and tooltip. Adding separate collectable designs would require an explicit catalog/save migration rather than silently changing the existing IDs.
 - Puzzle mappings follow their actual gallery sections: 2021 Fall → file series 1, 2022 Summer → 2, 2023 Summer → 4, and 2024 Fall → 3.
-- Existing numbered Battery/Fairy Lights entries now use individual image tiles. Captions retain their design numbers. Color entries retain their labels; unavailable colors keep the dash placeholder.
+- Existing numbered Battery/Fairy Lights entries now use individual image tiles. Captions retain their design numbers. Color entries retain their labels. Rows render only available species in the usual color order, packed from the first slot; unavailable colors no longer add dash placeholders. This also applies to single-species rows such as Ice Cream: Extra Flavor. Collection IDs, counts, and saves are unchanged.
 - Pikmin artwork belongs to Nintendo; source attribution is recorded in `public/images/ATTRIBUTION.md` and is not a redistribution license.
 
 ## Rendering and measured improvements

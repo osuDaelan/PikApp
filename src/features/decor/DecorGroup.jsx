@@ -7,16 +7,9 @@ import { getDecorImage } from "./decorImages.js";
 import { decorSetId } from "./setCompletion.js";
 const { green: G, orange: O, darkGreen: DG } = colors;
 
-// Placeholder color-coded tile — swap for real per-color artwork later
-function ColorTile({ color, available, collected, onToggle }) {
+// Color-coded fallback for an available entry without artwork.
+function ColorTile({ color, collected, onToggle }) {
   const hex = PIKMIN_COLOR_HEX[color];
-  if (!available) {
-    return (
-      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#f2f2f2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#ccc", flexShrink: 0 }}>
-        –
-      </div>
-    );
-  }
   return (
     <button
       onClick={onToggle}
@@ -104,9 +97,9 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
                 onToggle={() => onToggleColor(id)}
               />;
             })
-          : PIKMIN_COLORS.map(color => {
+          : PIKMIN_COLORS.filter(color => availSet.has(color)).map(color => {
               const id = decorId(groupLocation, costume.name, color);
-              const image = availSet.has(color) ? getDecorImage(id) : null;
+              const image = getDecorImage(id);
               if (image) return (
                 <DecorImageTile key={color} id={id} image={image} rare={rare} color={color}
                   label={`${groupLocation} · ${costume.name} · ${color} Pikmin`}
@@ -116,9 +109,8 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
               <ColorTile
                 key={color}
                 color={color}
-                available={availSet.has(color)}
-                collected={!!collected[decorId(groupLocation, costume.name, color)]}
-                onToggle={() => onToggleColor(decorId(groupLocation, costume.name, color))}
+                collected={!!collected[id]}
+                onToggle={() => onToggleColor(id)}
               />
               );
             })}
