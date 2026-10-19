@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // White five-point stars with blue halos, alternating with small golden glints.
 const STARS = [
@@ -8,8 +8,16 @@ const STARS = [
 ];
 
 export default function RareTileStars() {
+  // This component mounts for each burst. Keep its small offsets stable until
+  // the burst ends, then choose fresh positions the next time it is collected.
+  const [stars] = useState(() => STARS.map(([x, y, ...motion]) => [
+    x + Math.random() * 6 - 3,
+    y + Math.random() * 6 - 3,
+    ...motion,
+  ]));
+
   return <span className="decor-image-tile__stars" aria-hidden="true">
-    {STARS.map(([x, y, dx, dy, delay, sparkle], index) => (
+    {stars.map(([x, y, dx, dy, delay, sparkle], index) => (
       <svg key={index} viewBox="0 0 24 24"
         className={`decor-image-tile__star${sparkle ? " decor-image-tile__star--glint" : ""}`}
         style={{ left: x, top: y, "--star-dx": `${dx}px`, "--star-dy": `${dy}px`, "--star-delay": `${delay}ms` }}>
