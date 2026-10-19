@@ -27,8 +27,8 @@
 }
 @keyframes new-decor-twinkle {
   0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.25); }
-  42% { opacity: .95; transform: translate(-50%, -65%) scale(1); }
-  72% { opacity: .5; transform: translate(-50%, -80%) scale(.65); }
+  42% { opacity: .95; transform: translate(-50%, calc(-50% + var(--twinkle-dy))) scale(1); }
+  72% { opacity: .5; transform: translate(-50%, calc(-50% + var(--twinkle-dy))) scale(.65); }
 }
 @media (prefers-reduced-motion: reduce) {
   .new-decor-sparkles { display: none; animation: none; }

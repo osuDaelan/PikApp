@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createSparkleLayout } from "./sparkleLayout.js";
 import "./new-decor-sparkles.css";
 
 const TWINKLES = [
@@ -6,14 +7,15 @@ const TWINKLES = [
 ];
 
 export default function NewDecorSparkles() {
-  const [twinkles] = useState(() => TWINKLES.map(([size, delay]) => ({
-    size, delay, x: 14 + Math.random() * 44, y: 16 + Math.random() * 76,
-  })));
+  const [twinkles] = useState(() => {
+    const positions = createSparkleLayout(TWINKLES.map(([size]) => ({ radius: size / 2 + 2, dy: 3 })));
+    return positions.map((position, index) => ({ ...position, size: TWINKLES[index][0], delay: TWINKLES[index][1] }));
+  });
 
   return <span className="new-decor-sparkles" aria-hidden="true">
-    {twinkles.map(({ size, delay, x, y }, index) => (
+    {twinkles.map(({ size, delay, x, y, dy }, index) => (
       <svg key={index} viewBox="0 0 24 24" className="new-decor-sparkles__glint"
-        style={{ left: x, top: y, width: size, height: size, "--twinkle-delay": `${delay}ms` }}>
+        style={{ left: x, top: y, width: size, height: size, "--twinkle-delay": `${delay}ms`, "--twinkle-dy": `${dy}px` }}>
         <polygon points="12,0 14.5,9.5 24,12 14.5,14.5 12,24 9.5,14.5 0,12 9.5,9.5" />
       </svg>
     ))}

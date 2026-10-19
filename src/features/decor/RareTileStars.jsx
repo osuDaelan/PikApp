@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createSparkleLayout } from "./sparkleLayout.js";
 
 // White five-point stars with blue halos, alternating with small golden glints.
 const STAR_MOTION = [
@@ -8,21 +9,10 @@ const STAR_MOTION = [
 ];
 
 function createStars() {
-  const positions = [];
-  return STAR_MOTION.map(motion => {
-    let best;
-    let bestDistance = -1;
-    // Fresh positions across the artwork, with room for each star's drift and
-    // glow. Prefer 16px spacing; bounded attempts also handle crowded layouts.
-    for (let attempt = 0; attempt < 24; attempt++) {
-      const point = [16 + Math.random() * 40, 16 + Math.random() * 76];
-      const distance = Math.min(...positions.map(([x, y]) => Math.hypot(point[0] - x, point[1] - y)));
-      if (distance > bestDistance) { best = point; bestDistance = distance; }
-      if (distance >= 16) break;
-    }
-    positions.push(best);
-    return [...best, ...motion];
-  });
+  const positions = createSparkleLayout(STAR_MOTION.map(([dx, dy, , glint]) => ({
+    radius: glint ? 7 : 10, dx, dy,
+  })));
+  return positions.map(({ x, y, dx, dy }, index) => [x, y, dx, dy, ...STAR_MOTION[index].slice(2)]);
 }
 
 export default function RareTileStars() {
