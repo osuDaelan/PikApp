@@ -2,6 +2,29 @@
 
 October 19, 2026. Reference: the user's supplied screen recording. The rare reveal around 6.4 seconds shows white five-point stars with blue halos and smaller gold glints. The set-card sequence around 10 seconds adds two sprays of tumbling colorful confetti and a few sparkles. These effects are recreated with application code; no frames or game animation files are shipped.
 
+## Additional recording observations
+
+Reviewed `screen-20261019-012922.mp4` (9.8945s, 720×1594) and `screen-20261019-012947.mp4` (13.1365s, 720×1594), including quarter-second samples around the checklist reveal. Times below are approximate elapsed video time, not exact game effect durations.
+
+| Sequence | Visible effects in the recordings |
+| --- | --- |
+| Gift/reveal, both clips, roughly 0–3.5s | Open striped gift with bright light rising from inside; colorful rectangular confetti rises then tumbles downward. Several pastel pink/green/blue-white luminous bursts have thin radiating rays, tiny bright points, and fading trails. The Ice Pikmin turns/bobs as its flexible stem and flower move. The first clip shows a white flower, the second a yellow flower. These character movements belong to the game footage; PikApp still uses static PNGs. |
+| Checklist presentation, roughly 3.5–4.5s | Garden scenery washes into a pale translucent backdrop; a rounded white Roadside collection card enters/enlarges into the foreground. Its orange-red ribbon, gold medallion, title shadow, and rows of decorated Pikmin remain visible. Missing items are gray silhouettes. The ribbon/medallion is present in the incomplete example too, so it is not evidence of a newly earned completion badge. |
+| Newly added checklist item, roughly 4.25–5.5s | The relevant Ice silhouette briefly lights up with a pink/lilac then mint-green/cyan glow. Full-color artwork appears inside the glow, with white/cyan pointed glints and a thin horizontal flare; small twinkles linger around the new item as the larger glow subsides. The other entries stay steady. This is distinct from the larger character-reveal bursts and from set-completion confetti. |
+| Incomplete set, first clip | Another gray silhouette remains. After the new-item highlight, the card rests briefly and leaves; there is no additional checklist-wide completion confetti shower. The view returns to the Ice Pikmin with name/location text and Name/OK buttons. |
+| Completed set, second clip, roughly 5.5–8s | After the new-item highlight, colorful confetti sprays up from both sides of the card, arcs, spreads, and falls over it. A few tiny bright sparkles accompany the shower. The card stays steady while particles fade; it later leaves and the character confirmation view returns, then closes to the map. |
+| Persistent presentation | Flower-filled dusk garden, purple-to-orange sky, softly lit Pikmin, and outlined white reveal/confirmation captions. Phone recording/status/volume controls are overlays, not game celebration effects. |
+
+Implementation scope: preserve our existing short pop, regular confetti ring, rare stars, and set-completion blast. Add the checklist's new-item glow/twinkle concept to all newly collected tiles, with the user's requested **three-second** fade. The recordings do not establish an exact three-second in-game duration. We are not adding a gift scene, animated 3D character, full-screen checklist transition, medal, or name dialog in this revision. The footage establishes appearance, not Nintendo's underlying shaders/particle system.
+
+## Three-second new-item sparkles
+
+Every mounted tile that changes from uncollected to collected gets a brief mint/cyan radial glow and six small white/cream four-point twinkles. Positions are chosen within the tile when the effect mounts. Twinkles gently grow, drift upward, and recede in staggered pulses; the whole layer fades out over three seconds and is then removed. The glow subsides earlier so the artwork stays readable. This layer runs alongside the short regular confetti or rare-star burst and is independent of their animation-end cleanup. Completing the last item can show both tile sparkles and the existing set blast.
+
+`useDecorTileMotion.js` tracks this temporary presentation separately as `data-sparkling`; it does not change collection IDs or storage. It skips saved selections on mount, cancels on uncollect/unmount, and clears when reduced motion becomes enabled. `DecorImageTile.jsx` conditionally mounts `NewDecorSparkles.jsx`; `new-decor-sparkles.css` owns its appearance. The three-second cleanup is in the hook; the matching `3s` outer CSS fade must be changed with it if retiming. Tune count/size/delay/position in `TWINKLES` and the component initializer, and tune glow/color/pulses in CSS. Removing the component import/render removes this visual layer without affecting the other celebrations.
+
+Performance: six small SVGs and one CSS radial gradient only while a newly selected tile sparkles, no image requests, dependencies, canvas, RAF loop, or idle particle elements. CSS uses finite opacity/transform animations. The active layer has one cleanup timer and a temporary motion-preference listener; both are removed on cleanup. Bulk additions animate only mounted entries whose collection state changes, without replaying old collected tiles.
+
 ## Completing a set
 
 A set is one existing costume/design row: for example, standard Chef Hat and rare Chef Hat are separate sets. Only the available colors or numbered designs in that row are required. `setCompletion.js` precomputes the sets and detects incomplete → complete transitions. `useSetCompletion.js` watches collection updates, so manual toggles and bulk selection use the same rule. Existing complete saves do not celebrate on initial load; revealing a rare row or removing an item also does not count. Uncollecting and later completing the set again does count. A bulk update that completes several sets produces one event containing all newly completed sets.
@@ -22,6 +45,7 @@ To tune the rare effect, edit the bounds/spacing in `createStars` and movement i
 
 ## Verification
 
+- Three-second sparkles: browser selection produced six glints alongside the regular ring; the ring had ended at 1.14s while the sparkle layer remained, and the layer was gone at 3.26s. Rare selection produced eight rare stars plus six new twinkles, with no regular confetti; rare stars finished while twinkles continued. Uncollecting immediately removed the new layer. Reloading a saved collected item produced no sparkles. Reduced-motion selection produced none, and enabling reduced motion during an effect removed the layer. Test additions were restored and media emulation cleared. All 23 tests and the production build passed.
 - Full-layout revision: two browser bursts produced different eight-particle arrangements within the tile bounds; test progress was restored. Production build passed.
 - October 19 position variation: two browser bursts each rendered eight stars/glints, with fresh coordinates within 3px of every original anchor. Movement offsets and delays matched between bursts. Removing the test selection restored its original uncollected state and left zero star nodes. Production build passed; no CSS or collection/storage changes were needed.
 - All 23 automated tests and the production build pass. Tests cover the last required color, saved complete sets, unrelated edits/removals, combined bulk completion, numbered/single-color sets, true recompletion, and rare-only classification alongside the existing 896-image and progress tests.

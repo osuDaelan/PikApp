@@ -2,6 +2,7 @@ import React, { memo, useState } from "react";
 import { decorImageUrl } from "./decorImages.js";
 import useDecorTileMotion from "./useDecorTileMotion.js";
 import RareTileStars from "./RareTileStars.jsx";
+import NewDecorSparkles from "./NewDecorSparkles.jsx";
 import "./decor-image-tile.css";
 import "./decor-tile-motion.css";
 
@@ -18,6 +19,7 @@ function DecorImageTile({ id, image, rare = false, color, label, collected, onTo
           <span key={index} style={{ "--confetti-angle": `${index * 45}deg` }} />
         ))}
       </span>)}
+      {motion["data-sparkling"] && <NewDecorSparkles />}
       {collected && (
         <span className="decor-image-tile__status" aria-hidden="true">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
