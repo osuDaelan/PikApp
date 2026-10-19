@@ -1,6 +1,7 @@
 // Coordinates inside a 76×120 tile's border. Leave the label below y=104 clear.
 export const SPARKLE_AREA = { width: 72, height: 104 };
-export const SPARKLE_DEAD_ZONE = { x: 36, y: 52, rx: 16, ry: 38 };
+export const SPARKLE_DEAD_ZONE = { x: 36, y: 52, rx: 15, ry: 15 };
+const SPAWN_BAND = 8;
 
 function clearsArtwork(x, y, radius, zone) {
   // Nearest point of the particle's bounding box to the oval's center.
@@ -10,27 +11,37 @@ function clearsArtwork(x, y, radius, zone) {
   return nx * nx + ny * ny >= 1;
 }
 
-export function createSparkleLayout(particles, random = Math.random, zone = SPARKLE_DEAD_ZONE) {
+export function createSparkleLayout(particles, random = Math.random) {
+  const zone = SPARKLE_DEAD_ZONE;
   const positions = [];
   return particles.map(({ radius, dx = 0, dy = 0 }) => {
     const { width, height } = SPARKLE_AREA;
     let best;
     let bestGap = -1;
     const consider = point => {
+      if (point.x < radius || point.x > width - radius
+          || point.y < radius || point.y > height - radius) return false;
       if (!clearsArtwork(point.x, point.y, radius, zone)) return false;
       const gap = Math.min(...positions.map(p => Math.hypot(point.x - p.x, point.y - p.y)));
       if (gap > bestGap) { best = point; bestGap = gap; }
       return gap >= 12;
     };
-    // Rejection sampling leaves an oval hole without fixed angular slots.
+    const aroundZone = (angle, gap) => ({
+      x: zone.x + Math.cos(angle) * (zone.rx + radius + gap),
+      y: zone.y + Math.sin(angle) * (zone.ry + radius + gap),
+    });
+    // Random angles and radial gaps keep particles close to the circular
+    // dead zone, rather than scattering them across the entire tile.
     for (let attempt = 0; attempt < 96; attempt++) {
-      if (consider({ x: radius + random() * (width - 2 * radius),
-        y: radius + random() * (height - 2 * radius) })) break;
+      if (consider(aroundZone(random() * Math.PI * 2, random() * SPAWN_BAND))) break;
     }
-    // Bounded fallback for an unlucky/constant RNG; never fall into the oval.
+    // A bounded perimeter search also handles an unlucky/constant RNG without
+    // falling back to distant tile corners or entering the protected center.
     if (!best) {
-      for (const x of [radius, width - radius]) {
-        for (const y of [radius, height - radius]) consider({ x, y });
+      for (let angle = 0; angle < 16; angle++) {
+        for (let gap = 0; gap <= SPAWN_BAND; gap += 2) {
+          consider(aroundZone(angle * Math.PI / 8, gap));
+        }
       }
     }
     const { x, y } = best;

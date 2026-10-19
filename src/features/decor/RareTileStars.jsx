@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { createSparkleLayout } from "./sparkleLayout.js";
-import SparkleDeadZoneContext from "./SparkleDeadZoneContext.js";
 
 // White five-point stars with blue halos, alternating with small golden glints.
 const STAR_MOTION = [
@@ -9,17 +8,16 @@ const STAR_MOTION = [
   [2, -6, 45, true], [5, 1, 90, true], [-2, 5, 0, true],
 ];
 
-function createStars(zone) {
+function createStars() {
   const positions = createSparkleLayout(STAR_MOTION.map(([dx, dy, , glint]) => ({
     radius: glint ? 7 : 10, dx, dy,
-  })), Math.random, zone);
+  })));
   return positions.map(({ x, y, dx, dy }, index) => [x, y, dx, dy, ...STAR_MOTION[index].slice(2)]);
 }
 
 export default function RareTileStars() {
-  const zone = useContext(SparkleDeadZoneContext);
   // Pick a complete layout once per burst, never on animation frames/rerenders.
-  const [stars] = useState(() => createStars(zone));
+  const [stars] = useState(createStars);
 
   return <span className="decor-image-tile__stars" aria-hidden="true">
     {stars.map(([x, y, dx, dy, delay, sparkle], index) => (

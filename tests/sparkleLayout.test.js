@@ -10,7 +10,7 @@ const particles = [
   ...[12, 8, 10, 7, 11, 8].map(size => ({ radius: size / 2 + 2, dy: 3 })),
 ];
 
-function assertClear(layout, zone = { x: 36, y: 52, rx: 16, ry: 38 }) {
+function assertClear(layout, zone = { x: 36, y: 52, rx: 15, ry: 15 }) {
   layout.forEach(({ x, y, dx, dy }, i) => {
     const { radius } = particles[i];
     for (const progress of [0, .25, .5, .75, 1]) {
@@ -41,14 +41,23 @@ test("an unlucky random source still finishes outside the dead zone", () => {
   assertClear(createSparkleLayout(particles, () => .5));
 });
 
-test("debug size overrides protect the resized oval at both control limits", () => {
+test("stars vary around the 30px dead zone instead of the distant tile corners", () => {
   let seed = 9401;
   const random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 2 ** 32);
-  for (const rx of [6, 16, 22]) {
-    for (const ry of [12, 38, 44]) {
-      const zone = { x: 36, y: 52, rx, ry };
-      for (let burst = 0; burst < 50; burst++) assertClear(createSparkleLayout(particles, random, zone), zone);
-      assertClear(createSparkleLayout(particles, () => .5, zone), zone);
-    }
+  const quadrants = new Set();
+  for (let burst = 0; burst < 100; burst++) {
+    const layout = createSparkleLayout(particles, random);
+    layout.forEach(({ x, y }, index) => {
+      const distance = Math.hypot(x - 36, y - 52);
+      assert.ok(distance >= 15 + particles[index].radius - 1e-9);
+      assert.ok(distance <= 15 + particles[index].radius + 8 + 1e-9, "spawn stays in the nearby band");
+      quadrants.add(`${x < 36}:${y < 52}`);
+    });
+    assertClear(layout);
   }
+  assert.equal(quadrants.size, 4, "random placement reaches every side of the dead zone");
+  createSparkleLayout(particles, () => .5).forEach(({ x, y }, index) => {
+    assert.ok(Math.hypot(x - 36, y - 52) <= 15 + particles[index].radius + 8 + 1e-9,
+      "fallback also stays near the dead zone");
+  });
 });
