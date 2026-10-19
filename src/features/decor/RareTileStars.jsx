@@ -1,20 +1,33 @@
 import React, { useState } from "react";
 
 // White five-point stars with blue halos, alternating with small golden glints.
-const STARS = [
-  [5, 23, -6, -8, 0], [58, 35, 7, -6, 35], [7, 70, -7, 5, 70],
-  [57, 82, 6, 7, 20], [32, 94, 0, 7, 90],
-  [27, 12, 2, -6, 45, true], [54, 60, 5, 1, 90, true], [24, 82, -2, 5, 0, true],
+const STAR_MOTION = [
+  [-6, -8, 0], [7, -6, 35], [-7, 5, 70],
+  [6, 7, 20], [0, 7, 90],
+  [2, -6, 45, true], [5, 1, 90, true], [-2, 5, 0, true],
 ];
 
+function createStars() {
+  const positions = [];
+  return STAR_MOTION.map(motion => {
+    let best;
+    let bestDistance = -1;
+    // Fresh positions across the artwork, with room for each star's drift and
+    // glow. Prefer 16px spacing; bounded attempts also handle crowded layouts.
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const point = [16 + Math.random() * 40, 16 + Math.random() * 76];
+      const distance = Math.min(...positions.map(([x, y]) => Math.hypot(point[0] - x, point[1] - y)));
+      if (distance > bestDistance) { best = point; bestDistance = distance; }
+      if (distance >= 16) break;
+    }
+    positions.push(best);
+    return [...best, ...motion];
+  });
+}
+
 export default function RareTileStars() {
-  // This component mounts for each burst. Keep its small offsets stable until
-  // the burst ends, then choose fresh positions the next time it is collected.
-  const [stars] = useState(() => STARS.map(([x, y, ...motion]) => [
-    x + Math.random() * 6 - 3,
-    y + Math.random() * 6 - 3,
-    ...motion,
-  ]));
+  // Pick a complete layout once per burst, never on animation frames/rerenders.
+  const [stars] = useState(createStars);
 
   return <span className="decor-image-tile__stars" aria-hidden="true">
     {stars.map(([x, y, dx, dy, delay, sparkle], index) => (
