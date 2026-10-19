@@ -1,6 +1,6 @@
 // Coordinates inside a 76×120 tile's border. Leave the label below y=104 clear.
 export const SPARKLE_AREA = { width: 72, height: 104 };
-export const SPARKLE_DEAD_ZONE = { x: 36, y: 52, rx: 15, ry: 15 };
+export const SPARKLE_DEAD_ZONE = { x: 36, y: 52, rx: 17, ry: 17 };
 const SPAWN_BAND = 8;
 
 function clearsArtwork(x, y, radius, zone) {
