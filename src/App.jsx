@@ -13,6 +13,7 @@ import useWindowWidth from "./shared/hooks/useWindowWidth.js";
 import { appStyle, scrollPaneStyle } from "./shared/styles/theme.js";
 import useWallpaper from "./features/wallpapers/useWallpaper.js";
 import { wallpaperUrl } from "./features/wallpapers/catalog.js";
+import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
 
 export default function App() {
   const winWidth = useWindowWidth();
@@ -45,6 +46,7 @@ export default function App() {
 
       <AppHeader />
       <LevelBadge level={calculator.level} openEdit={calculator.openEdit} />
+      {import.meta.env.DEV && <LocalCalculatorSave calculator={calculator} />}
 
       {/* Content */}
       <div style={{

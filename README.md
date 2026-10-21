@@ -19,6 +19,16 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
+## Local calculator autosave
+
+When running `npm.cmd run dev` on localhost, applied calculator changes automatically back up to `.local/calculator-progress.json` after 400ms. The file contains level, steps/flowers input, daily averages, coins, and step-entry mode. The Update Stats form's **Save** button still applies its edits; daily-average changes save directly. A small status below the level badge shows saving, successful file backup, or retrying after failure.
+
+On startup, the app reads this file before mounting the calculator. It restores a newer backup into the existing `pb_*` browser keys; timestamped newer browser edits take priority over an older file. This supports refreshing/restarting the dev server, cleared calculator storage, and fresh local browsers using the same project. Decor progress stays in browser storage and is not included in this calculator-only file.
+
+The `.local/` directory is Git-ignored and denied by Vite's static file server. The development middleware accepts only same-origin loopback requests and validated calculator fields, serializes atomic file replacement, rejects stale writes, and preserves an existing malformed file rather than overwriting it. Browser saves continue if the backup service is unavailable; the app retries file saving. This file endpoint, startup restore, and status UI are excluded from production builds. Implementation: `dev/localCalculatorBackup.js`, `src/storage/calculatorBackupData.js`, `src/storage/localCalculatorBackup.js`, and `src/shared/components/LocalCalculatorSave.jsx`.
+
+Verified with 30 tests and a production build. Browser checks confirmed an edited average reached disk and survived reload, original calculator fields returned after clearing only those browser keys, decor data remained intact, and the private file URL returned 403. Personal progress files are not committed.
+
 ## Commit workflow
 
 Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Committing and pushing to GitHub are separate actions.

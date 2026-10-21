@@ -91,7 +91,7 @@ export default function useCalculator(store = guestProgressStore) {
 
   const timeline = projectLevels(level, stepsLeft, flowersLeft, dSteps, dFlowers, 130);
   return {
-    level, req, rem, stepPct, flowerPct, stepDays, flowerDays, bothDays, timeline,
+    level, stepsInput, flowersInput, req, rem, stepPct, flowerPct, stepDays, flowerDays, bothDays, timeline,
     coinsNow, coinsDay, coinsCapped, coinsEarnedByThen, coinsAtLevelUp,
     dSteps, setDSteps, dFlowers, setDFlowers,
     editing, setEditing, editFocus, openEdit, saveEdit, handleLevelChange,
