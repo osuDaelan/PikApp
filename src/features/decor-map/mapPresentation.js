@@ -67,7 +67,7 @@ export function featureStyle(place, selectedIds, selected = false) {
   const categoryId = placeCategory(place, selectedIds);
   const colors = markerColors(categoryId);
   const polygon = ["Polygon", "MultiPolygon"].includes(place.geometry.type);
-  return { color: colors.accent, fillColor: categoryId === "waterside" ? "#60b5ed" : ["park", "forest"].includes(categoryId) ? "#6fb661" : "#a3b4c8",
+  return { color: colors.accent, fillColor: categoryId === "waterside" ? "#60b5ed" : ["park", "forest"].includes(categoryId) ? "#519f46" : "#a3b4c8",
     weight: selected ? 4 : 2, opacity: selected ? 1 : .85, fill: polygon,
     fillOpacity: selected ? .43 : .28, fillRule: "evenodd", lineCap: "round", lineJoin: "round" };
 }
