@@ -1,8 +1,8 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion, starting with decor images and reliable progress saving across visits and devices.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The next major section is a decor map for location discovery and personal pins, followed by reliable account progress saving across devices.
 
-This is a planning document. Tasks below are proposed work, not completed features. Google sign-in is the intended sign-in experience; the hosting, authentication, and database providers have not been selected.
+Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database and map/data providers have not been selected. A GitHub Pages workflow is prepared, but activation is unconfirmed after a private-repository plan/visibility restriction.
 
 ## 1. Organize the existing app for new sections
 
@@ -13,7 +13,10 @@ This is a planning document. Tasks below are proposed work, not completed featur
 - [x] Keep the current calculator and existing saved collections working during the changes.
 - [x] Preserve existing collection IDs when moving data. Add a migration if any IDs must change.
 
-Completed: feature modules, shared controls/styles, and a storage interface with legacy guest keys and isolated local account caches. No ID migration was needed. Account authentication and cloud synchronization remain in steps 3–4. See `README.md` for the folder map and storage contract.
+Completed: feature modules, shared controls/styles, and a storage interface with legacy guest keys and isolated local account caches. No ID migration was needed. Account authentication and cloud synchronization remain in steps 4–5. See `docs/PROJECT_GUIDE.md` for the current folder map and `README.md` for the storage contract.
+
+- [x] Audit and document the current project before starting the third section.
+- [x] Separate current behavior, historical experiments, remaining tasks and map planning notes.
 
 ## 2. Add images to the decor tracker
 
@@ -32,7 +35,7 @@ Images now cover all 896 existing checklist entries, including regular, rare, sp
 ### Tracker interface
 
 - [x] Replace placeholder color/design tiles with image tiles while preserving collection toggles.
-- [x] Make collected, uncollected, unavailable, and locked items visually distinguishable.
+- [x] Distinguish collected/uncollected items and control locked rare visibility; omit unavailable species instead of leaving empty slots.
 - [x] Keep a useful fallback when an image is missing or fails to load.
 - [x] Lazy-load images and reserve their dimensions to avoid layout shifts.
 - [x] Give each toggle an accessible name and pressed state; support keyboard operation.
@@ -41,7 +44,26 @@ Images now cover all 896 existing checklist entries, including regular, rare, sp
 - [x] Add a set-completion confetti blast and rare-only tile stars inspired by the in-game reference video, with reduced-motion support and no persistent particle loop.
 - [ ] Add search and filters for category, color, collected, and missing items as the catalogue grows.
 
-## 3. Add accounts with Google sign-in
+## 3. Add the decor map (next major feature)
+
+Confirmed direction: both location discovery and personal pins. The detailed first slice and providers remain undecided. See [Decor map plan](docs/DECOR_MAP_PLAN.md); no map implementation has started.
+
+- [x] Record the existing shell/data/storage boundaries and the desktop navigation limitation.
+- [x] Confirm the map's overall purpose: discovery plus personal pins.
+- [ ] Define the first test area, priority categories and the smallest useful version of discovery/pins.
+- [ ] Select the map renderer and place-data source after checking coverage, accuracy, deployment fit, credentials, attribution and cost.
+- [ ] Decide desktop map layout and how to retain the Now + Decor split view.
+- [ ] Make all three sections reachable at every screen width; decide whether section/map URLs are required.
+- [ ] Implement the map feature separately from the shell and checklist, with adapters for source places and decor categories.
+- [ ] Display one representative category/area with loading, empty, error and retry states before expanding.
+- [ ] Add selected-place details and category filters; reuse existing catalogue/artwork and one collection state owner.
+- [ ] Implement explicit location permission controls and a denied/unavailable fallback if Locate me is included.
+- [ ] Define personal pin IDs, fields, separate durable storage, recovery/export and privacy defaults; implement basic add/edit/delete.
+- [ ] Bound requests and markers; cancel obsolete fetches and clean up listeners/map instances.
+- [ ] Verify phone/desktop usability, pan/zoom responsiveness, dense results, production asset paths and unchanged existing saves.
+- [ ] Document source limitations; candidate locations must not be presented as guaranteed in-game decor results.
+
+## 4. Add accounts with Google sign-in
 
 Google sign-in establishes who the user is. A separate database/storage layer saves their progress.
 
@@ -57,16 +79,19 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 - [ ] Enforce per-user access in the database/backend so users can only read and change their own progress.
 - [ ] Explain what account data is saved and how users can delete it.
 
-## 4. Save and synchronize progress
+## 5. Save and synchronize progress
 
 ### Data model and guest migration
 
 - [ ] Define a versioned saved-progress schema with stable decor IDs and update timestamps.
-- [ ] Continue saving guest progress locally.
+- [x] Continue saving guest calculator/collection progress in browser storage with legacy keys.
+- [x] Add a private development-only calculator file backup and startup restore; exclude personal data and the endpoint from production.
+- [ ] Add portable export/import and decide whether to expand file backup beyond calculator data.
 - [ ] On first sign-in, offer to import the collection already saved in that browser.
 - [ ] Define what happens if both guest progress and account progress exist; preview the merge and avoid silently replacing either collection.
 - [ ] Keep a local recovery copy until the import has succeeded.
-- [ ] Keep guest data separate from signed-in account data, including when switching accounts or signing out.
+- [x] Provide isolated guest/account local cache namespaces without automatically importing guest data.
+- [ ] Integrate and test those namespaces with real authentication, including account switching and sign-out.
 - [ ] Decide whether to record when an item was collected, in addition to its collected/uncollected state.
 
 ### Cloud persistence
@@ -77,34 +102,41 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 - [ ] Handle failed requests without losing the user's recent changes.
 - [ ] Define conflict handling for edits made in multiple tabs or on multiple devices, including uncollecting an item.
 - [ ] Batch rapid changes and bulk selections to avoid unnecessary writes.
-- [ ] Add export/import so users can back up and move their progress.
+- [ ] Extend the portable export/import flow above to account progress so users can back up and move it.
 - [ ] Provide account-data deletion and a clear confirmation before clearing a collection.
 
-## 5. Verification before release
+## 6. Verification before release
 
-- [ ] Confirm existing localStorage progress survives the update.
+- [x] Verify existing localStorage formats and original 896 collection IDs during the feature/image changes.
+- [ ] Recheck saved progress and layout after map integration and later schema/account changes.
 - [ ] Test guest use, first sign-in, guest import, returning sign-in, sign-out, and account switching.
 - [ ] Verify progress saved on one device is restored on another.
 - [ ] Verify one account cannot access another account's data, including through direct requests.
 - [ ] Test offline edits, failed saves, reconnects, and conflicting updates.
-- [ ] Confirm catalogue updates preserve previously collected items.
+- [x] Add a regression check for the original catalogue IDs and totals.
+- [ ] Continue checking ID compatibility for each future catalogue expansion or migration.
 - [ ] Check image loading, touch targets, keyboard navigation, and mobile performance.
-- [ ] Run the production build and focused tests for persistence, migration, and merging.
-- [ ] Document local setup, required environment variables, provider configuration, and deployment steps.
+- [x] Establish the current test/build baseline: 30 Node tests passed and production build succeeded after local backup implementation.
+- [ ] Add focused map checks and later migration/merge tests when those behaviors exist; run relevant tests/builds for each feature change.
+- [x] Document current local setup and prepared GitHub Pages workflow.
+- [ ] Confirm hosting activation and a successful deployment; document selected map/auth providers and required configuration when added.
 
 ## Suggested implementation order
 
-1. Extract the decor data/components and preserve current saves.
-2. Add images for one category and review the result.
-3. Roll images out to the remaining catalogue.
-4. Choose providers and implement Google sign-in with per-user data access.
-5. Implement guest import, automatic saving, and cross-device sync.
-6. Verify recovery, account isolation, accessibility, and deployment.
+1. Keep the existing feature structure, project guide and accepted visual notes current (baseline complete).
+2. Define the map's first slice and data source, then make the third section reachable on every layout.
+3. Implement and test a small map slice, then expand discovery, personal pins and collection-aware filters incrementally.
+4. Confirm deployment and measure real-device performance; optimize measured bottlenecks.
+5. Choose auth/database providers and implement Google sign-in with per-user access.
+6. Implement explicit guest import, account autosave, cross-device conflicts and recovery.
+7. Verify account isolation, accessibility, location-data behavior and release configuration.
 
 ## Decisions to make when implementation starts
 
-- Where the app will be hosted and which auth/database service it will use.
-- Which image source and display style to use.
+- Which map/data source to use, which areas/categories to start with, and how personal pins will persist.
+- How desktop navigation and optional shareable map URLs should work.
+- How to activate hosting and which auth/database service to use.
+- How to resolve artwork redistribution permission; the current images and display style are already chosen.
 - Whether progress logging needs collection dates/history or only the current checklist.
 - How guest and account progress should merge, and how concurrent edits should resolve.
 

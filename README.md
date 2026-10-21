@@ -1,6 +1,16 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion. Current sections: level calculator and decor collection tracker. See `TODO.md` for planned images, Google sign-in, and cloud progress saving.
+An all-in-one Pikmin Bloom companion. Current sections: level calculator and decor collection tracker, with images for all 896 existing checklist entries. The decor map is the next major section; Google sign-in and cloud progress saving remain planned.
+
+## Project notes
+
+- [Project guide](docs/PROJECT_GUIDE.md): current features, code ownership, data flow, storage, accepted visual decisions, limitations and change workflow.
+- [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
+- [TODOs](TODO.md): completed milestones and remaining implementation tasks.
+- [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
+- [Asset attribution](public/images/ATTRIBUTION.md) and [per-image inventory](docs/decor-image-sources.json): provenance and representative-design limitations.
+
+The existing **Pikmin Decor Visuals and Animations** reference-site investigation remains below. Current implementation is summarized in the project guide; historical experiments are not current requirements.
 
 ## Local development
 
@@ -38,6 +48,8 @@ Starting October 19, 2026, create a descriptive local Git commit after each majo
 The current app can be hosted as a static website at `https://osuDaelan.github.io/PikApp/`. `.github/workflows/deploy.yml` installs locked dependencies, runs tests, builds the app, and publishes only `dist` on pushes to `main` or manual workflow runs. The build uses the repository name as its Vite base path (`/PikApp/`), so scripts, decor images, the icon, and wallpapers load correctly under the project URL. Local development still runs at `http://localhost:5173/`.
 
 To activate it, open the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source, then push the committed workflow/app to `main`. Follow the deployment in **Actions → Deploy PikApp to GitHub Pages**. The URL is an expected deployment address, not confirmation that the site is already live. Committing locally does not publish it; pushing to `main` after setup triggers deployment.
+
+At the last setup check, GitHub showed that the private repository needed a plan or visibility change before Pages could be enabled. Activation is still unconfirmed. Preparing the workflow does not change repository visibility or remove that restriction.
 
 Once published, the site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in and cloud saving remain future work; GitHub Pages hosts the frontend rather than an account database.
 
@@ -79,7 +91,9 @@ src/
 tests/                          Calculation, collection, and storage regression tests
 ```
 
-Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Add future tools under `features/` and connect them through the shell/navigation.
+This tree shows the original feature extraction. The app also has `features/wallpapers/`, decor image/effect modules, development backup code in `dev/` and `src/storage/`, and the deployment workflow. See [the current source ownership table](docs/PROJECT_GUIDE.md#source-ownership) for the full module map.
+
+Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Add future tools under `features/` and connect them through the shell/navigation. Desktop currently hides navigation and always shows Now + Decor at 1100px and above; adding the map requires updating that layout as well as the tab list.
 
 Calculator and decor state hooks currently mount in the shell so switching tabs or responsive layouts preserves in-memory state. The header owns its clock so its one-second updates do not rerender the whole tracker.
 
@@ -109,7 +123,7 @@ Collection names, variants, and ID generation remain unchanged, so existing vali
 
 `createProgressStore({ accountId })` provides a separate local cache namespace for a future account. It never automatically imports guest data. This is an organizational boundary, **not authentication or access control**. Future cloud sync must authenticate users, enforce server-side per-user access, handle conflicts/retries, and explicitly import guest progress. Mount fresh state hooks when changing stores/accounts to avoid carrying one session's in-memory state into another. Inject `getStorage` when testing.
 
-Writes return a success flag; the current UI retains its existing silent local-save behavior. Saving/error indicators and remote sync are in later TODO phases. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
+Writes return a success flag; browser-storage failures currently have no general UI status. The development calculator file backup has a separate saving/saved/retry indicator, described above. Cloud save indicators and remote sync remain future work. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
 
 ## Decor images
 
@@ -252,6 +266,6 @@ Wallpapers use the approved framing on every device: fill the screen, center the
 
 The schedule runs in development and production. Implementation lives in `src/features/wallpapers/`: `catalog.js` defines the three official images, `timeOfDay.js` defines the schedule, and `useWallpaper.js` keeps it current. Source links are in `public/images/ATTRIBUTION.md`.
 
-## Scope of the organization refactor
+## Original organization refactor scope
 
-This step moves existing data, behavior, and UI into modules. It does not change game requirements, forecast assumptions, or add account features. Known calculation edge cases and data updates from the project analysis still need a separate correctness pass before relying on all forecasts. All production dependencies remain unchanged.
+The initial organization step moved existing data, behavior, and UI into modules without adding accounts or changing forecast assumptions. Later work added images/effects, requirements through level 120, wallpapers, deployment preparation and development calculator backup. A separate calculator correctness pass remains pending; existing regression tests do not establish every forecast edge case. React and React DOM remain the only production dependencies. See the project guide and TODOs for current scope.
