@@ -87,9 +87,9 @@ Map POIs are candidate locations. Do not present a source classification as a gu
 
 ## Approved visual direction — October 21, 2026
 
-User approved the recommendations from the [Bekkan area-highlighting review](DECOR_MAP_REFERENCE.md#additional-reference-bekkan-decor-spot-searcher): green park fills, blue water fills, a stronger outline for the selected area, and room for area results within bounded searches so numerous point locations do not crowd them out. Preserve real boundaries, relation holes and open lines. These refinements remain to be implemented.
+User approved the recommendations from the [Bekkan area-highlighting review](DECOR_MAP_REFERENCE.md#additional-reference-bekkan-decor-spot-searcher): green park fills, blue water fills, a stronger outline for the selected area, and room for area results within bounded searches so numerous point locations do not crowd them out. These refinements are implemented, preserving real boundaries, relation holes and open lines; see [current behavior and budgets](DECOR_MAP_IMPLEMENTATION.md).
 
-User does **not** like the current map pin appearance: the pale pin with a green border and category emoji, shown in their screenshot with the park clover. Redesign these discovery markers; the replacement style has not been chosen. Current implementation references: `markerIcon` in `src/features/decor-map/MapCanvas.jsx` and `.decor-map-marker` in `src/features/decor-map/decor-map.css`. This feedback concerns PikApp's overlay pins, rather than icons printed in the OSM background tiles.
+User does **not** like the original pale, green-bordered category-emoji pin, shown in their screenshot with the park clover. On the user's instruction to implement the changes, the first replacement uses compact tinted circles with simple SVG category line icons and a stronger selected ring. Saved pins have a gold accent/badge. This style is available for review and may be revised; it is not recorded as a final user-approved design. Revise `src/features/decor-map/mapPresentation.js`, `markerIcon` in `MapCanvas.jsx` and `.decor-map-marker` in `decor-map.css`. This feedback concerns PikApp's overlay pins, rather than icons printed in the OSM background tiles.
 
 ## Follow-up decisions
 

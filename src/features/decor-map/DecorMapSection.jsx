@@ -177,6 +177,7 @@ export default function DecorMapSection({ decorCollected }) {
       </aside>
       <div className="decor-map__map-area">
         <MapCanvas initialViewport={initialViewport} places={results.places} scannedBounds={results.scannedBounds} pins={state.pins} selectedCategoryIds={effectiveIds}
+          selectedPlaceId={panel === "discover" && !editing ? selectedPlace?.id : null}
           focus={focus} addingPin={addingPin} onViewport={onViewport} onPlace={choosePlace} onPin={choosePin} onNewPin={newPin} />
         <div className="decor-map__map-tools">
           <button type="button" className="decor-map__primary" title="Includes a surrounding buffer; results stay while you pan" disabled={!bounds || !!areaProblem || !effectiveIds.length || results.phase === "loading"} onClick={results.search}>Search this area</button>

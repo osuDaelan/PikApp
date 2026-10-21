@@ -4,6 +4,8 @@ import { boundsAreaKm2, MAX_SEARCH_AREA_KM2, validPoint } from "./coordinates.js
 
 export const MAX_PLACES = 400;
 export const MAX_OSM_ELEMENTS = 500;
+export const OSM_TYPE_LIMITS = { node: 300, way: 125, relation: 75 };
+export const RESERVED_SHAPES = 100;
 const escapeRegex = text => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export function buildOverpassQuery(categoryIds, bounds) {
@@ -18,7 +20,8 @@ export function buildOverpassQuery(categoryIds, bounds) {
     }).join("");
     selectors.add(`nwr${filters};`);
   }
-  return `[out:json][timeout:20][bbox:${bounds.map(value => Number(value.toFixed(5))).join(",")}];\n(\n${[...selectors].sort().join("\n")}\n);\nout body geom ${MAX_OSM_ELEMENTS + 1};`;
+  const outputs = Object.entries(OSM_TYPE_LIMITS).map(([type, limit]) => `${type}.matches;\nout body geom ${limit + 1};`).join("\n");
+  return `[out:json][timeout:20][bbox:${bounds.map(value => Number(value.toFixed(5))).join(",")}];\n(\n${[...selectors].sort().join("\n")}\n)->.matches;\n${outputs}`;
 }
 
 export function validOsmId(id) {
@@ -77,7 +80,19 @@ export function normalizeOsmResults(data, selectedIds) {
       sourceUrl: `https://www.openstreetmap.org/${id}` });
   }
   const places = [...unique.values()].sort((a, b) => a.name.localeCompare(b.name));
-  return { places: places.slice(0, MAX_PLACES), incomplete,
-    truncated: data.elements.length > MAX_OSM_ELEMENTS || places.length > MAX_PLACES,
+  const polygons = places.filter(place => ["Polygon", "MultiPolygon"].includes(place.geometry.type));
+  const lines = places.filter(place => ["LineString", "MultiLineString"].includes(place.geometry.type));
+  const shapes = [...polygons, ...lines];
+  // Keep room for multipolygons as well as ways; unused shares are borrowed.
+  const reserved = ["relation/", "way/"].flatMap(prefix => shapes.filter(place => place.id.startsWith(prefix)).slice(0, RESERVED_SHAPES / 2));
+  const initialIds = new Set(reserved.map(place => place.id));
+  reserved.push(...shapes.filter(place => !initialIds.has(place.id)).slice(0, RESERVED_SHAPES - reserved.length));
+  const reservedIds = new Set(reserved.map(place => place.id));
+  const displayed = [...reserved, ...places.filter(place => !reservedIds.has(place.id)).slice(0, MAX_PLACES - reserved.length)]
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const typeCounts = data.elements.reduce((counts, element) => { counts[element.type] = (counts[element.type] || 0) + 1; return counts; }, {});
+  return { places: displayed, incomplete,
+    truncated: Object.entries(OSM_TYPE_LIMITS).some(([type, limit]) => typeCounts[type] > limit)
+      || data.elements.length > MAX_OSM_ELEMENTS || places.length > MAX_PLACES,
     osmTimestamp: data.osm3s?.timestamp_osm_base || null };
 }

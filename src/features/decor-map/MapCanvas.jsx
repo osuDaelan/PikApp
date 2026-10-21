@@ -3,20 +3,39 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CATEGORY_BY_ID } from "./categories.js";
 import { MAP_TILES } from "./providers.js";
+import { featureStyle, markerColors, markerGlyph, placeCategory } from "./mapPresentation.js";
 
-function markerIcon(icon, saved = false) {
+function markerIcon(categoryId, saved = false, selected = false) {
   const element = document.createElement("span");
-  element.className = `decor-map-marker${saved ? " decor-map-marker--saved" : ""}`;
-  element.textContent = icon;
-  return L.divIcon({ html: element, className: "decor-map-marker-host", iconSize: [34, 40], iconAnchor: [17, 38] });
+  element.className = `decor-map-marker${saved ? " decor-map-marker--saved" : ""}${selected ? " decor-map-marker--selected" : ""}`;
+  const colors = markerColors(categoryId, saved);
+  element.style.setProperty("--marker-accent", colors.accent);
+  element.style.setProperty("--marker-tint", colors.tint);
+  element.innerHTML = markerGlyph(categoryId);
+  return L.divIcon({ html: element, className: "decor-map-marker-host", iconSize: [32, 32], iconAnchor: [16, 16] });
 }
 
-export default function MapCanvas({ initialViewport, places, scannedBounds, pins, selectedCategoryIds, focus, addingPin,
+function configureMarkerElement(marker, label, selected = false) {
+  const element = marker.getElement();
+  element?.setAttribute("aria-label", label);
+  if (selected) element?.setAttribute("aria-current", "true");
+  else element?.removeAttribute("aria-current");
+  if (element) element.onkeydown = event => {
+    if (!["Enter", " "].includes(event.key) || event.repeat) return;
+    event.preventDefault();
+    event.stopPropagation();
+    marker.fire("click", { originalEvent: event });
+  };
+}
+
+export default function MapCanvas({ initialViewport, places, scannedBounds, pins, selectedCategoryIds, selectedPlaceId, focus, addingPin,
   onViewport, onPlace, onPin, onNewPin }) {
   const element = useRef(null);
   const mapRef = useRef(null);
   const callbacks = useRef({});
   const addMode = useRef(addingPin);
+  const discoveries = useRef(new Map());
+  const previousSelection = useRef(null);
   const [tileError, setTileError] = useState(false);
   callbacks.current = { onViewport, onPlace, onPin, onNewPin };
   addMode.current = addingPin;
@@ -26,6 +45,9 @@ export default function MapCanvas({ initialViewport, places, scannedBounds, pins
     const map = L.map(element.current, { zoomControl: false, minZoom: 2, maxZoom: 19,
       preferCanvas: true, worldCopyJump: true, zoomAnimation: !reduced, fadeAnimation: !reduced, markerZoomAnimation: !reduced });
     mapRef.current = map;
+    // Keep water blue when a surrounding park is selected and brought forward.
+    map.createPane("decor-map-land").style.zIndex = 410;
+    map.createPane("decor-map-water").style.zIndex = 420;
     L.control.zoom({ position: "bottomright" }).addTo(map);
     const tiles = L.tileLayer(MAP_TILES.url, { maxZoom: 19, attribution: MAP_TILES.attribution,
       keepBuffer: 1, updateWhenIdle: true });
@@ -60,31 +82,53 @@ export default function MapCanvas({ initialViewport, places, scannedBounds, pins
     const map = mapRef.current;
     if (!map) return;
     const layer = L.layerGroup().addTo(map);
+    const entries = new Map();
     for (const place of places) {
-      const category = CATEGORY_BY_ID.get(selectedCategoryIds.find(id => place.categoryIds.includes(id)) || place.categoryIds[0]);
+      const categoryId = placeCategory(place, selectedCategoryIds);
+      let shape = null;
       if (place.geometry.type !== "Point") {
-        L.geoJSON({ type: "Feature", properties: {}, geometry: place.geometry }, {
-          style: { color: "#448961", weight: 2, fillColor: "#9bd2b1", fillOpacity: 0.24 },
-          onEachFeature: (feature, shape) => shape.on("click", () => callbacks.current.onPlace(place)),
+        shape = L.geoJSON({ type: "Feature", properties: {}, geometry: place.geometry }, {
+          pane: categoryId === "waterside" ? "decor-map-water" : "decor-map-land",
+          style: featureStyle(place, selectedCategoryIds),
+          onEachFeature: (feature, path) => path.on("click", () => { if (!addMode.current) callbacks.current.onPlace(place); }),
         }).addTo(layer);
       }
-      L.marker([place.lat, place.lng], { icon: markerIcon(category?.icon || "🌱"), title: place.name,
+      const label = `${place.name} · ${place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(", ")}`;
+      const marker = L.marker([place.lat, place.lng], { icon: markerIcon(categoryId), title: place.name,
         alt: `${place.name} · ${place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(", ")}`,
         keyboard: true, bubblingMouseEvents: false, riseOnHover: true })
-        .on("click", () => callbacks.current.onPlace(place)).addTo(layer);
+        .on("click", () => addMode.current ? callbacks.current.onNewPin({ lat: place.lat, lng: place.lng }) : callbacks.current.onPlace(place)).addTo(layer);
+      configureMarkerElement(marker, label);
+      entries.set(place.id, { place, categoryId, shape, marker, label });
     }
-    return () => layer.remove();
+    discoveries.current = entries;
+    return () => { discoveries.current = new Map(); layer.remove(); };
   }, [places, selectedCategoryIds]);
+
+  // Update only the old/new selection; do not rebuild hundreds of markers.
+  useEffect(() => {
+    for (const id of new Set([previousSelection.current, selectedPlaceId])) {
+      const entry = discoveries.current.get(id);
+      if (!entry) continue;
+      const selected = id === selectedPlaceId;
+      entry.shape?.setStyle(featureStyle(entry.place, selectedCategoryIds, selected));
+      if (selected) entry.shape?.bringToFront();
+      entry.marker.setIcon(markerIcon(entry.categoryId, false, selected));
+      entry.marker.setZIndexOffset(selected ? 1000 : 0);
+      configureMarkerElement(entry.marker, entry.label, selected);
+    }
+    previousSelection.current = selectedPlaceId;
+  }, [selectedPlaceId, places, selectedCategoryIds]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
     const layer = L.layerGroup().addTo(map);
     for (const pin of pins) {
-      const category = CATEGORY_BY_ID.get(pin.categoryIds[0]);
-      L.marker([pin.lat, pin.lng], { icon: markerIcon(category?.icon || "📍", true),
+      const marker = L.marker([pin.lat, pin.lng], { icon: markerIcon(pin.categoryIds[0], true),
         title: pin.name, alt: `Saved pin: ${pin.name}`, keyboard: true, bubblingMouseEvents: false, riseOnHover: true })
         .on("click", () => callbacks.current.onPin(pin)).addTo(layer);
+      configureMarkerElement(marker, `Saved pin: ${pin.name}`);
     }
     return () => layer.remove();
   }, [pins]);
@@ -92,7 +136,11 @@ export default function MapCanvas({ initialViewport, places, scannedBounds, pins
   useEffect(() => {
     if (!focus || !mapRef.current) return;
     const map = mapRef.current;
-    map.setView([focus.lat, focus.lng], focus.zoom, { animate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches });
+    const animate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const shapeBounds = discoveries.current.get(focus.id)?.shape?.getBounds();
+    if (shapeBounds?.isValid()) {
+      map.fitBounds(shapeBounds, { paddingTopLeft: [32, 60], paddingBottomRight: [32, 120], maxZoom: 17, animate });
+    } else map.setView([focus.lat, focus.lng], focus.zoom, { animate });
   }, [focus]);
 
   return <>

@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { MAP_CATEGORIES, matchCategories } from "../src/features/decor-map/categories.js";
-import { buildOverpassQuery, normalizeOsmResults, geometryPosition } from "../src/features/decor-map/osm.js";
+import { buildOverpassQuery, normalizeOsmResults, geometryPosition, OSM_TYPE_LIMITS, MAX_PLACES, RESERVED_SHAPES } from "../src/features/decor-map/osm.js";
+import { featureStyle, placeCategory } from "../src/features/decor-map/mapPresentation.js";
 import { parseMapLocation, mapViewUrl, searchAreaProblem } from "../src/features/decor-map/coordinates.js";
 import { createPlaceClient } from "../src/features/decor-map/placeClient.js";
 import { createMapStore, defaultMapState, MAP_STORAGE_KEY, parsePinBackup, pinBackup, mergePins } from "../src/features/decor-map/mapStorage.js";
@@ -35,7 +36,9 @@ test("Overpass queries bound the area, use token boundaries, and ignore unknown 
   assert(query.includes('(^|;)[[:space:]]*restaurant[[:space:]]*(;|$)'));
   assert(!query.includes("(^|;)?"));
   assert.equal((query.match(/\*italian\[/g) || []).length, 1);
-  assert(query.endsWith("out body geom 501;"));
+  assert(query.includes(")->.matches;"));
+  for (const [type, limit] of Object.entries(OSM_TYPE_LIMITS)) assert(query.includes(`${type}.matches;\nout body geom ${limit + 1};`));
+  assert.equal((query.match(/out body geom/g) || []).length, 3);
   assert(!query.includes('bad'));
   assert.throws(() => buildOverpassQuery([], bounds), /Choose/);
   assert.throws(() => buildOverpassQuery(["park"], [-80, -170, 80, 170]), /Zoom in/);
@@ -64,6 +67,65 @@ test("geometry positions avoid a polygon hole and incomplete/failed OSM searches
   assert.throws(() => normalizeOsmResults({}, ["park"]), /unreadable/);
   const partial = normalizeOsmResults({ elements: [{ type: "way", id: 1, nodes: [1, 2, 3], tags: { leisure: "park" }, geometry: [outer[0], null, outer[2]] }] }, ["park"]);
   assert.equal(partial.places.length, 0);
+});
+
+test("dense mixed searches retain point locations, way areas and relation holes within the display limit", () => {
+  const points = Array.from({ length: 300 }, (_, index) => ({ ...node, id: index + 1000, tags: { amenity: "restaurant", name: `A restaurant ${index}` } }));
+  const ways = Array.from({ length: 125 }, (_, index) => ({ type: "way", id: index + 2000,
+    tags: { leisure: "park", name: `Z park ${String(index).padStart(3, "0")}` }, geometry: outer }));
+  const relations = Array.from({ length: 75 }, (_, index) => ({ ...relation, id: index + 3000,
+    tags: { type: "multipolygon", natural: "water", name: `ZZ water ${String(index).padStart(3, "0")}` },
+    members: relation.members.map((member, part) => ({ ...member, ref: 10000 + index * 2 + part })) }));
+  const result = normalizeOsmResults({ elements: [...points, ...ways, ...relations] }, ["restaurant", "park", "waterside"]);
+  assert.equal(result.places.length, MAX_PLACES);
+  assert.equal(result.places.filter(place => place.geometry.type !== "Point").length, RESERVED_SHAPES);
+  assert.equal(result.places.filter(place => place.id.startsWith("way/")).length, 50);
+  assert.equal(result.places.filter(place => place.id.startsWith("relation/")).length, 50);
+  assert(result.places.filter(place => place.id.startsWith("relation/")).every(place => place.geometry.coordinates.length === 2));
+  assert.equal(result.truncated, true);
+});
+
+test("each download bucket reports truncation even when the combined response is small", () => {
+  for (const type of ["node", "way", "relation"]) {
+    const sample = type === "node" ? node : type === "relation" ? relation
+      : { type: "way", id: 100, tags: { leisure: "park" }, geometry: outer };
+    const elements = Array.from({ length: OSM_TYPE_LIMITS[type] + 1 }, (_, index) => ({ ...sample, id: 20000 + index }));
+    assert.equal(normalizeOsmResults({ elements }, ["restaurant", "park"]).truncated, true, type);
+  }
+  const justAreas = normalizeOsmResults({ elements: [relation] }, ["park"]);
+  assert.equal(justAreas.truncated, false);
+  assert.equal(justAreas.places.length, 1, "unused marker slots do not hide area-only results");
+});
+
+test("park/water presentation follows active categories, strengthens selection and never fills open lines", () => {
+  const place = { categoryIds: ["park", "waterside"], geometry: { type: "Polygon" } };
+  assert.equal(placeCategory(place, ["park"]), "park");
+  assert.equal(placeCategory(place, ["waterside", "park"]), "waterside");
+  const park = featureStyle(place, ["park"]), water = featureStyle(place, ["waterside"]);
+  assert.notEqual(park.fillColor, water.fillColor);
+  const selected = featureStyle(place, ["waterside"], true);
+  assert(selected.weight > water.weight);
+  assert(selected.fillOpacity > water.fillOpacity);
+  assert.equal(selected.fillRule, "evenodd");
+  for (const type of ["LineString", "MultiLineString"]) assert.equal(featureStyle({ ...place, geometry: { type } }, ["park"], true).fill, false);
+  assert.equal(featureStyle({ ...place, geometry: { type: "MultiPolygon" } }, ["park"]).fill, true);
+});
+
+test("split outer rings and an inner hole survive the normalizer as a complete multipolygon", () => {
+  const points = outer.slice(0, 3), rest = outer.slice(2);
+  const distant = outer.map(point => ({ lat: point.lat + .03, lon: point.lon + .03 }));
+  const complex = { ...relation, members: [
+    { type: "way", ref: 910, role: "outer", geometry: points },
+    { type: "way", ref: 911, role: "outer", geometry: rest },
+    { type: "way", ref: 912, role: "inner", geometry: inner },
+    { type: "way", ref: 913, role: "outer", geometry: distant },
+  ] };
+  const result = normalizeOsmResults({ elements: [complex] }, ["park"]);
+  assert.equal(result.places.length, 1);
+  const geometry = result.places[0].geometry;
+  assert.equal(geometry.type, "MultiPolygon");
+  assert.equal(geometry.coordinates.length, 2);
+  assert.equal(geometry.coordinates.flat().length, 3, "two outer rings plus one inner ring");
 });
 
 test("map coordinates and URL navigation validate inputs and preserve the deployment path", () => {
