@@ -85,6 +85,12 @@ Map POIs are candidate locations. Do not present a source classification as a gu
 6. Add category filtering and collection-aware information; then expand the data mapping after verifying real source records.
 7. Add personal pins with durable storage/export and basic add/edit/delete. Define any eventual account sync separately; do not imply browser-only pins are backed up across devices.
 
+## Approved visual direction — October 21, 2026
+
+User approved the recommendations from the [Bekkan area-highlighting review](DECOR_MAP_REFERENCE.md#additional-reference-bekkan-decor-spot-searcher): green park fills, blue water fills, a stronger outline for the selected area, and room for area results within bounded searches so numerous point locations do not crowd them out. Preserve real boundaries, relation holes and open lines. These refinements remain to be implemented.
+
+User does **not** like the current map pin appearance: the pale pin with a green border and category emoji, shown in their screenshot with the park clover. Redesign these discovery markers; the replacement style has not been chosen. Current implementation references: `markerIcon` in `src/features/decor-map/MapCanvas.jsx` and `.decor-map-marker` in `src/features/decor-map/decor-map.css`. This feedback concerns PikApp's overlay pins, rather than icons printed in the OSM background tiles.
+
 ## Follow-up decisions
 
 - Rule accuracy and any regional expansion beyond the initial 39 categories.

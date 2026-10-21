@@ -61,6 +61,8 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [ ] Implement actual regional validation before adding country-dependent Fortune rules; weather/event outcomes remain outside OSM discovery.
 - [x] Add loading, empty, error, timeout, cancellation and retry states, with explicit Search this area requests.
 - [x] Retain the last scan while panning/zooming or replacing a search; include a bounded surrounding buffer and show its scanned-area outline.
+- [ ] Implement approved green park/blue water fills and a stronger selected-area outline; reserve room for area results within bounded searches. See [approved visual direction](docs/DECOR_MAP_PLAN.md#approved-visual-direction--october-21-2026).
+- [ ] Redesign discovery pins: user dislikes the current pale, green-bordered emoji pin (park clover screenshot); replacement style is undecided.
 - [x] Add selected-place details, category filtering and Missing only using the single existing collection state owner.
 - [x] Implement explicit one-shot Locate me and denied/unavailable fallbacks.
 - [x] Add versioned separate pin/preferences storage, protected unreadable saves, add/edit/confirmed delete, export and reviewed import/merge.
