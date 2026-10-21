@@ -27,7 +27,7 @@ The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geo
 | [TODO](../TODO.md) | Completed milestones and actionable remaining work |
 | [Decor map plan](DECOR_MAP_PLAN.md) | Proposed map boundary, decisions still needed, and implementation sequence |
 | [Decor map implementation](DECOR_MAP_IMPLEMENTATION.md) | Current controls, module ownership, providers, saved pin schema and verification |
-| [OSM map reference](DECOR_MAP_REFERENCE.md) | Pixelpirate source investigation: tag rules, Overpass, geometry, optional server mirror and issues to improve |
+| [OSM map reference](DECOR_MAP_REFERENCE.md) | Pixelpirate investigation plus Bekkan Spot Searcher's boundary/node pipeline, differences from PikApp and proposed area-highlight improvements |
 | [Image rollout](DECOR_IMAGE_ROLLOUT.md) | Artwork rollout, representative-image limitations, performance work and measurements |
 | [Celebrations](DECOR_CELEBRATIONS.md) | In-game reference observations and implemented particle/celebration behavior |
 | [Animation experiments](DECOR_ANIMATION_EXPERIMENTS.md) | Retired styles, source snapshots, and the accepted regular-tile style |
