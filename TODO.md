@@ -1,6 +1,6 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The next major section is a decor map for location discovery and personal pins, followed by reliable account progress saving across devices.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The first decor-map slice now covers location discovery and local personal pins; refinement and reliable account progress saving across devices remain.
 
 Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database providers have not been selected. The map will use the user's chosen OSM/Overpass discovery approach; exact services remain open. A GitHub Pages workflow is prepared, but activation is unconfirmed after a private-repository plan/visibility restriction.
 
@@ -44,26 +44,29 @@ Images now cover all 896 existing checklist entries, including regular, rare, sp
 - [x] Add a set-completion confetti blast and rare-only tile stars inspired by the in-game reference video, with reduced-motion support and no persistent particle loop.
 - [ ] Add search and filters for category, color, collected, and missing items as the catalogue grows.
 
-## 3. Add the decor map (next major feature)
+## 3. Decor map: initial slice and follow-ups
 
-Confirmed direction: both location discovery and personal pins, following Pixelpirate's OSM tag-based map approach. The detailed first slice and service endpoints remain undecided. See [Decor map plan](docs/DECOR_MAP_PLAN.md) and [source investigation](docs/DECOR_MAP_REFERENCE.md); no map implementation has started.
+The first slice is implemented in its own lazy React feature: 39 OSM location categories, map/details, local personal pins and pin export/import. See [current implementation](docs/DECOR_MAP_IMPLEMENTATION.md), [map plan](docs/DECOR_MAP_PLAN.md) and [reference investigation](docs/DECOR_MAP_REFERENCE.md). Public example testing starts in Boston; no personal location is committed.
 
 - [x] Record the existing shell/data/storage boundaries and the desktop navigation limitation.
 - [x] Confirm the map's overall purpose: discovery plus personal pins.
 - [x] Trace the chosen OSM reference's frontend, rule table, query/classification/geometry pipeline and optional server mirror; record integration gaps and live-test limits.
-- [ ] Define the first test area, priority categories and the smallest useful version of discovery/pins.
-- [ ] Confirm the recommended Leaflet dependency and select tile, Overpass and search services/configuration after checking coverage, accuracy, deployment fit, attribution and cost. Do not copy prohibited public Nominatim autocomplete or assume access to the reference's restricted mirror.
-- [ ] Decide desktop map layout and how to retain the Now + Decor split view.
-- [ ] Make all three sections reachable at every screen width; decide whether section/map URLs are required.
-- [ ] Implement the map feature separately from the shell and checklist, with adapters for source places and decor categories.
-- [ ] Validate normalized tag matching, unique category matches, country rules and original OSM object IDs; preserve proper polygon/relation geometry and holes.
-- [ ] Display one representative category/area with loading, empty, error and retry states before expanding.
-- [ ] Add selected-place details and category filters; reuse existing catalogue/artwork and one collection state owner.
-- [ ] Implement explicit location permission controls and a denied/unavailable fallback if Locate me is included.
-- [ ] Define personal pin IDs, fields, separate durable storage, recovery/export and privacy defaults; implement basic add/edit/delete.
-- [ ] Bound requests and markers; cancel obsolete fetches and clean up listeners/map instances.
-- [ ] Verify phone/desktop usability, pan/zoom responsiveness, dense results, production asset paths and unchanged existing saves.
-- [ ] Document source limitations; candidate locations must not be presented as guaranteed in-game decor results.
+- [x] Define the first public test area, location categories, discovery flow and basic personal pins.
+- [x] Install Leaflet/converter and configure independent tile/Overpass providers with attribution. Use the working French source by default; keep manual alternatives.
+- [ ] Select a provider/design for address/city-name search. Current controls accept coordinates/map links; no public Nominatim autocomplete or restricted author mirror is used.
+- [x] Keep Now + Decor in desktop Overview, with dedicated Decor and Map views.
+- [x] Make all three sections reachable at every width, with section hashes/back/forward and shareable map-view URLs.
+- [x] Implement the map separately from the shell/checklist, with source and category adapters.
+- [x] Test normalized tag matching, unique categories, source IDs and polygon/relation holes.
+- [ ] Implement actual regional validation before adding country-dependent Fortune rules; weather/event outcomes remain outside OSM discovery.
+- [x] Add loading, empty, error, timeout, cancellation and retry states, with explicit Search this area requests.
+- [x] Add selected-place details, category filtering and Missing only using the single existing collection state owner.
+- [x] Implement explicit one-shot Locate me and denied/unavailable fallbacks.
+- [x] Add versioned separate pin/preferences storage, protected unreadable saves, add/edit/confirmed delete, export and reviewed import/merge.
+- [x] Bound searches/results, cache/throttle requests, cancel obsolete work and clean up map instances/listeners.
+- [x] Verify desktop/390px layouts, controlled map geometry/details, pin reload/export/import and unchanged existing calculator/checklist values.
+- [ ] Profile dense real-world results and GPS/touch behavior on a physical phone; add clustering or list pagination if measurements justify it.
+- [x] Document data uncertainty and keep candidate locations distinct from guaranteed game results.
 
 ## 4. Add accounts with Google sign-in
 
@@ -125,9 +128,9 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 
 ## Suggested implementation order
 
-1. Keep the existing feature structure, project guide and accepted visual notes current (baseline complete).
-2. Define the map's first slice and data source, then make the third section reachable on every layout.
-3. Implement and test a small map slice, then expand discovery, personal pins and collection-aware filters incrementally.
+1. Keep feature boundaries, the project guide and accepted visual notes current (baseline and initial map complete).
+2. Review the first map slice, including real public-service behavior and the local pin workflow.
+3. Refine discovery/regions, choose address search if wanted, and add features incrementally.
 4. Confirm deployment and measure real-device performance; optimize measured bottlenecks.
 5. Choose auth/database providers and implement Google sign-in with per-user access.
 6. Implement explicit guest import, account autosave, cross-device conflicts and recovery.

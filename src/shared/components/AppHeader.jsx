@@ -19,7 +19,7 @@ export default function AppHeader() {
         />
         <div>
           <div style={{ fontWeight: 900, fontSize: 19, color: "#fff", textShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>Pikmin Bloom</div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", fontWeight: 600 }}>Level Calculator</div>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", fontWeight: 600 }}>Your Bloom companion</div>
         </div>
       </div>
       <div style={{ marginTop: 8, background: "rgba(0,0,0,0.15)", borderRadius: 20, padding: "4px 14px", display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.9)", letterSpacing: 0.3 }}>

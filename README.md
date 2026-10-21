@@ -1,11 +1,12 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion. Current sections: level calculator and decor collection tracker, with images for all 896 existing checklist entries. The decor map is the next major section; Google sign-in and cloud progress saving remain planned.
+An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Google sign-in and cloud progress saving remain planned.
 
 ## Project notes
 
 - [Project guide](docs/PROJECT_GUIDE.md): current features, code ownership, data flow, storage, accepted visual decisions, limitations and change workflow.
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
+- [Decor map implementation](docs/DECOR_MAP_IMPLEMENTATION.md): current controls, code boundaries, providers, pin backups and verification.
 - [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
@@ -94,7 +95,7 @@ tests/                          Calculation, collection, and storage regression 
 
 This tree shows the original feature extraction. The app also has `features/wallpapers/`, decor image/effect modules, development backup code in `dev/` and `src/storage/`, and the deployment workflow. See [the current source ownership table](docs/PROJECT_GUIDE.md#source-ownership) for the full module map.
 
-Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Add future tools under `features/` and connect them through the shell/navigation. Desktop currently hides navigation and always shows Now + Decor at 1100px and above; adding the map requires updating that layout as well as the tab list.
+Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Navigation is available at every width. At 1100px and above, **Overview** preserves Now + Decor side by side; Decor and Map each have their own view. Hash navigation supports back/forward without a routing dependency. The lazy-loaded `features/decor-map/` feature owns its OSM queries, geometry and separate `pb_decorMap_v1` save; see its implementation notes above.
 
 Calculator and decor state hooks currently mount in the shell so switching tabs or responsive layouts preserves in-memory state. The header owns its clock so its one-second updates do not rerender the whole tracker.
 
@@ -269,4 +270,4 @@ The schedule runs in development and production. Implementation lives in `src/fe
 
 ## Original organization refactor scope
 
-The initial organization step moved existing data, behavior, and UI into modules without adding accounts or changing forecast assumptions. Later work added images/effects, requirements through level 120, wallpapers, deployment preparation and development calculator backup. A separate calculator correctness pass remains pending; existing regression tests do not establish every forecast edge case. React and React DOM remain the only production dependencies. See the project guide and TODOs for current scope.
+The initial organization step moved existing data, behavior, and UI into modules without adding accounts or changing forecast assumptions. Later work added images/effects, requirements through level 120, wallpapers, deployment preparation, development calculator backup and the decor map. A separate calculator correctness pass remains pending; existing regression tests do not establish every forecast edge case. Production dependencies now include React, React DOM, Leaflet and the OSM-to-GeoJSON converter. See the project guide and TODOs for current scope.

@@ -1,10 +1,12 @@
 # Decor map plan
 
-Status: planning only, October 21, 2026. No map code, dependency, API credentials or location dataset has been added. The user has selected the OSM tag-based discovery approach described below; endpoint/hosting and search choices remain open. Proposed implementation details are recommendations, not completed features.
+Status: initial slice implemented October 21, 2026. See [current implementation](DECOR_MAP_IMPLEMENTATION.md) for actual modules, controls, pin storage, service choices and verification. The original design below explains the intended boundaries; address search, regional expansion, physical-device profiling and cloud sync remain follow-up work. No private API credentials or bundled location dataset were added.
 
 ## Purpose and first decision
 
-The decor map will be PikApp's third section. On October 21, the user confirmed **both location discovery and personal pins**. Start with a small geographic-map slice, then add durable personal pins incrementally. The first area, categories and detailed pin fields still need definition. Keep accounts and community sharing outside the first slice unless explicitly requested.
+The decor map is PikApp's third section. On October 21, the user confirmed **both location discovery and personal pins**. The initial area, categories and local pin fields are now defined in the implementation notes. Accounts and community sharing remain outside this slice.
+
+The initial slice now includes 39 location categories, OSM place/area discovery, details and personal pins with local save/export/import. Desktop Overview preserves the two-pane dashboard, and Map has its own view. Public Boston example queries use the French Overpass instance by default; alternatives are selectable. Coordinate/map-link navigation is included; city/address search is deferred.
 
 ## Chosen reference approach: OSM decor discovery
 
@@ -83,15 +85,13 @@ Map POIs are candidate locations. Do not present a source classification as a gu
 6. Add category filtering and collection-aware information; then expand the data mapping after verifying real source records.
 7. Add personal pins with durable storage/export and basic add/edit/delete. Define any eventual account sync separately; do not imply browser-only pins are backed up across devices.
 
-## Decisions still open
+## Follow-up decisions
 
-- First implementation slice, initial region and priority categories within the confirmed discovery/pins scope.
-- Final dependency/version and tile/Overpass/search endpoints, hosting, API access and required attribution/usage terms within the agreed OSM approach.
+- Rule accuracy and any regional expansion beyond the initial 39 categories.
+- Address-search service/design and production-scale hosting/provider requirements; initial dependencies, tile host and Overpass sources are configured.
 - Candidate-place accuracy and any connection to the game's actual decor classifications.
-- Desktop full-width Map and the final way to retain/select Now + Decor split view.
-- Shareable section/map URLs and browser back/forward behavior.
-- Geolocation controls, retention and defaults.
-- Personal pin fields/storage, offline behavior, export and future sync.
+- Physical-phone location/touch behavior and measured dense-area performance.
+- Pin cross-tab conflicts, offline behavior and future account sync; local fields/storage/export/import are implemented.
 - Whether community contributions are ever wanted; moderation and public sharing are separate later scope.
 
 Track actionable work in [TODO](../TODO.md); see [the project guide](PROJECT_GUIDE.md) for current architecture and compatibility requirements.
