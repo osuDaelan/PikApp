@@ -6,6 +6,7 @@ An all-in-one Pikmin Bloom companion. Current sections: level calculator and dec
 
 - [Project guide](docs/PROJECT_GUIDE.md): current features, code ownership, data flow, storage, accepted visual decisions, limitations and change workflow.
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
+- [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
 - [Asset attribution](public/images/ATTRIBUTION.md) and [per-image inventory](docs/decor-image-sources.json): provenance and representative-design limitations.

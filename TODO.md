@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The next major section is a decor map for location discovery and personal pins, followed by reliable account progress saving across devices.
 
-Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database and map/data providers have not been selected. A GitHub Pages workflow is prepared, but activation is unconfirmed after a private-repository plan/visibility restriction.
+Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database providers have not been selected. The map will use the user's chosen OSM/Overpass discovery approach; exact services remain open. A GitHub Pages workflow is prepared, but activation is unconfirmed after a private-repository plan/visibility restriction.
 
 ## 1. Organize the existing app for new sections
 
@@ -46,15 +46,17 @@ Images now cover all 896 existing checklist entries, including regular, rare, sp
 
 ## 3. Add the decor map (next major feature)
 
-Confirmed direction: both location discovery and personal pins. The detailed first slice and providers remain undecided. See [Decor map plan](docs/DECOR_MAP_PLAN.md); no map implementation has started.
+Confirmed direction: both location discovery and personal pins, following Pixelpirate's OSM tag-based map approach. The detailed first slice and service endpoints remain undecided. See [Decor map plan](docs/DECOR_MAP_PLAN.md) and [source investigation](docs/DECOR_MAP_REFERENCE.md); no map implementation has started.
 
 - [x] Record the existing shell/data/storage boundaries and the desktop navigation limitation.
 - [x] Confirm the map's overall purpose: discovery plus personal pins.
+- [x] Trace the chosen OSM reference's frontend, rule table, query/classification/geometry pipeline and optional server mirror; record integration gaps and live-test limits.
 - [ ] Define the first test area, priority categories and the smallest useful version of discovery/pins.
-- [ ] Select the map renderer and place-data source after checking coverage, accuracy, deployment fit, credentials, attribution and cost.
+- [ ] Confirm the recommended Leaflet dependency and select tile, Overpass and search services/configuration after checking coverage, accuracy, deployment fit, attribution and cost. Do not copy prohibited public Nominatim autocomplete or assume access to the reference's restricted mirror.
 - [ ] Decide desktop map layout and how to retain the Now + Decor split view.
 - [ ] Make all three sections reachable at every screen width; decide whether section/map URLs are required.
 - [ ] Implement the map feature separately from the shell and checklist, with adapters for source places and decor categories.
+- [ ] Validate normalized tag matching, unique category matches, country rules and original OSM object IDs; preserve proper polygon/relation geometry and holes.
 - [ ] Display one representative category/area with loading, empty, error and retry states before expanding.
 - [ ] Add selected-place details and category filters; reuse existing catalogue/artwork and one collection state owner.
 - [ ] Implement explicit location permission controls and a denied/unavailable fallback if Locate me is included.
@@ -133,7 +135,7 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 
 ## Decisions to make when implementation starts
 
-- Which map/data source to use, which areas/categories to start with, and how personal pins will persist.
+- Which tile/Overpass/search services to use within the chosen OSM approach, which areas/categories to start with, and how personal pins will persist.
 - How desktop navigation and optional shareable map URLs should work.
 - How to activate hosting and which auth/database service to use.
 - How to resolve artwork redistribution permission; the current images and display style are already chosen.

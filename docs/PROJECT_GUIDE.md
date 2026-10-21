@@ -26,6 +26,7 @@ There is currently no map library, router, authentication SDK, cloud database, g
 | This guide | Current architecture, decisions, ownership, limitations, and change workflow |
 | [TODO](../TODO.md) | Completed milestones and actionable remaining work |
 | [Decor map plan](DECOR_MAP_PLAN.md) | Proposed map boundary, decisions still needed, and implementation sequence |
+| [OSM map reference](DECOR_MAP_REFERENCE.md) | Pixelpirate source investigation: tag rules, Overpass, geometry, optional server mirror and issues to improve |
 | [Image rollout](DECOR_IMAGE_ROLLOUT.md) | Artwork rollout, representative-image limitations, performance work and measurements |
 | [Celebrations](DECOR_CELEBRATIONS.md) | In-game reference observations and implemented particle/celebration behavior |
 | [Animation experiments](DECOR_ANIMATION_EXPERIMENTS.md) | Retired styles, source snapshots, and the accepted regular-tile style |
@@ -166,7 +167,7 @@ GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow bui
 
 ## Open questions and known limits
 
-- The map will support both candidate-location discovery and personal pins. The first implementation slice, geographic scope, provider/data source and relationship to in-game decor detection are not defined yet.
+- The map will support both candidate-location discovery and personal pins, using the user's chosen OSM tag-based reference approach. The source investigation is recorded in `DECOR_MAP_REFERENCE.md`. The first implementation slice, exact tile/Overpass/search services and game-rule accuracy remain to be defined; Leaflet is the recommended renderer and is not installed yet.
 - Should Map get the full desktop content area, and should the existing Now + Decor split remain a separate dashboard view? Section URLs and shareable map locations are not implemented.
 - No location permission, location retention, public submission or sharing behavior has been approved. Decide these when the corresponding feature is in scope.
 - Artwork usage permission remains unresolved despite recorded attribution. Some images represent grouped designs, and source resolutions vary.
