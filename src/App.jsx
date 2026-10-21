@@ -24,7 +24,10 @@ export default function App() {
   const isWide = winWidth >= 720; // threshold for switching to the side-by-side card layout
   const isDesktop = winWidth >= 1100;
   const isSplit = isDesktop && tab === "now"; // Overview preserves the two-pane dashboard.
-  const containerMax = isSplit || tab === "map" ? 1360 : 1200;
+  const isDesktopMap = isDesktop && tab === "map";
+  const fillsViewport = isSplit || isDesktopMap;
+  const viewportHeight = isDesktopMap ? "100dvh" : isSplit ? "100vh" : "auto";
+  const containerMax = tab === "map" ? undefined : isSplit ? 1360 : 1200;
 
   // Defensively zero out any residual horizontal scroll on the split-view panes
   // (can otherwise get stuck mid-scroll when toggling in/out of split view).
@@ -43,10 +46,10 @@ export default function App() {
   const decorBody = <DecorSection decor={decor} isWide={isWide} isSplit={isSplit} />;
 
   return (
-    <div className="pikapp-root" data-wallpaper-id={wallpaper.id} style={{ ...appStyle, background: "#203e30", height: isSplit ? "100vh" : "auto", overflow: isSplit ? "hidden" : "visible" }}>
+    <div className={`pikapp-root${isDesktopMap ? " pikapp-root--desktop-map" : ""}`} data-wallpaper-id={wallpaper.id} style={{ ...appStyle, background: "#203e30", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible" }}>
       <img className="pikapp-wallpaper" src={wallpaperUrl(wallpaper, import.meta.env.BASE_URL)} alt="" style={{ objectFit: "cover", objectPosition: "center 50%" }} />
       <div className="pikapp-wallpaper-shade" aria-hidden="true" style={{ background: "rgba(0,0,0,0.18)" }} />
-    <div style={{ maxWidth: containerMax, margin: "0 auto", display: "flex", flexDirection: "column", minHeight: "100vh", height: isSplit ? "100vh" : "auto", overflow: isSplit ? "hidden" : "visible", transition: "max-width 0.15s" }}>
+    <div style={{ maxWidth: containerMax, margin: "0 auto", display: "flex", flexDirection: "column", minHeight: "100vh", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible", transition: "max-width 0.15s" }}>
 
       <AppHeader />
       {tab !== "map" && <LevelBadge level={calculator.level} openEdit={calculator.openEdit} />}
@@ -54,8 +57,8 @@ export default function App() {
 
       {/* Content */}
       <div style={{
-        flex: 1, minHeight: 0, padding: "12px 14px 90px",
-        display: isSplit ? "flex" : "block", flexDirection: "column", overflow: isSplit ? "hidden" : "visible",
+        flex: 1, minHeight: 0, padding: isDesktopMap ? "12px 14px 14px" : "12px 14px 90px",
+        display: fillsViewport ? "flex" : "block", flexDirection: "column", overflow: fillsViewport ? "hidden" : "visible",
       }}>
 
         {tab !== "map" && <StatsEditor calculator={calculator} />}
@@ -87,7 +90,7 @@ export default function App() {
       </div>
       </div>
 
-      <Navigation tab={tab} setTab={setTab} isWide={isWide} isDesktop={isDesktop} containerMax={containerMax} />
+      <Navigation tab={tab} setTab={setTab} isWide={isWide} isDesktop={isDesktop} containerMax={containerMax} inHeader={isDesktopMap} />
       <SetCompletionCelebration completion={decor.completion} onFinish={decor.dismissCompletion} />
     </div>
   );

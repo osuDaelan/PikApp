@@ -84,7 +84,7 @@ The stats editor keeps drafts until **Save** applies them. Daily averages save d
 
 - Below 720px: section navigation spans the bottom of the screen.
 - From 720px: navigation floats and calculator cards can use a wider layout.
-- At 1100px and above: Overview renders Now + Decor side by side. Decor and Map open their own views; navigation remains visible.
+- At 1100px and above: Overview renders Now + Decor side by side. Decor opens its own view. Map uses the full window width with 14px side/bottom gutters and navigation in the top-right header; its sidebar remains 300px while the map canvas expands.
 - Active section follows `#now`, `#decor`, or `#map` and browser history. Map view query parameters support a shareable viewport without including pins.
 - Map hides calculator-specific controls; the calculator/collection hooks and development backup lifecycle remain mounted in the shell.
 

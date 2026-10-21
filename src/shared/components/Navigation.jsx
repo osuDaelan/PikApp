@@ -2,12 +2,14 @@ import React from "react";
 import { colors } from "../styles/theme.js";
 import { SECTIONS } from "../sections.js";
 
-export default function Navigation({ tab, setTab, isWide, isDesktop, containerMax }) {
+export default function Navigation({ tab, setTab, isWide, isDesktop, containerMax, inHeader = false }) {
   const { green: G, darkGreen: DG } = colors;
   const navMax = 360;
   return (
     <nav aria-label="Main sections" style={{
-      position: "fixed", bottom: isWide ? 16 : 0, left: "50%", transform: "translateX(-50%)",
+      position: inHeader ? "absolute" : "fixed", top: inHeader ? 18 : undefined,
+      bottom: inHeader ? undefined : isWide ? 16 : 0, right: inHeader ? 18 : undefined,
+      left: inHeader ? undefined : "50%", transform: inHeader ? "none" : "translateX(-50%)",
       width: isWide ? "auto" : "100%", maxWidth: isWide ? navMax : containerMax, zIndex: 10000,
       background: "rgba(255,255,255,0.97)", borderTop: isWide ? "none" : "1px solid #e8f5e0",
       borderRadius: isWide ? 20 : 0, display: "flex", justifyContent: "center",
