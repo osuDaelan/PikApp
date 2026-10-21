@@ -11,7 +11,7 @@ function markerIcon(icon, saved = false) {
   return L.divIcon({ html: element, className: "decor-map-marker-host", iconSize: [34, 40], iconAnchor: [17, 38] });
 }
 
-export default function MapCanvas({ initialViewport, places, pins, selectedCategoryIds, focus, addingPin,
+export default function MapCanvas({ initialViewport, places, scannedBounds, pins, selectedCategoryIds, focus, addingPin,
   onViewport, onPlace, onPin, onNewPin }) {
   const element = useRef(null);
   const mapRef = useRef(null);
@@ -46,6 +46,15 @@ export default function MapCanvas({ initialViewport, places, pins, selectedCateg
     observer.observe(element.current);
     return () => { observer.disconnect(); tiles.off(); map.off(); map.remove(); mapRef.current = null; };
   }, []);
+
+  useEffect(() => {
+    if (!scannedBounds || !mapRef.current) return;
+    const [south, west, north, east] = scannedBounds;
+    const outline = L.rectangle([[south, west], [north, east]], {
+      color: "#537c61", weight: 2, opacity: .8, dashArray: "7 7", fill: false, interactive: false,
+    }).addTo(mapRef.current);
+    return () => outline.remove();
+  }, [scannedBounds]);
 
   useEffect(() => {
     const map = mapRef.current;

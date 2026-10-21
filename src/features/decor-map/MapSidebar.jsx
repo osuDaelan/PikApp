@@ -23,7 +23,7 @@ export function CategoryPanel({ selectedIds, stats, onToggle, onSelectAll, onCle
       {!categories.length && <p className="decor-map__hint">No matching categories.</p>}
     </div>
     <p className="decor-map__hint">Location categories only. Weather, event decors and rare variants are not predicted by this map.</p>
-    {results.phase === "success" && <div className="decor-map__result-list">
+    {results.hasScan && <div className="decor-map__result-list">
       <h3>Places found · {results.places.length}</h3>
       {results.places.slice(0, shown).map(place => <button type="button" key={place.id} onClick={() => onPlace(place)}>
         <span aria-hidden="true">{CATEGORY_BY_ID.get(place.categoryIds[0])?.icon}</span><span>{place.name}<small>{place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ")}</small></span>

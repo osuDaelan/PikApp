@@ -50,6 +50,27 @@ export function searchAreaProblem(bounds, zoom) {
   return "";
 }
 
+// Double the view's width/height for room to pan, while keeping the same
+// area and coordinate limits as an ordinary search. Never trim the view.
+export function bufferedSearchBounds(bounds) {
+  const area = boundsAreaKm2(bounds);
+  if (!Number.isFinite(area) || area > MAX_SEARCH_AREA_KM2) return null;
+  const [south, west, north, east] = bounds;
+  const lat = (south + north) / 2, lng = (west + east) / 2;
+  const halfHeight = (north - south) / 2, halfWidth = (east - west) / 2;
+  const factor = Math.max(1, Math.min(2, Math.sqrt(MAX_SEARCH_AREA_KM2 / area) * .9999,
+    (85.0511 - Math.abs(lat)) / halfHeight, (180 - Math.abs(lng)) / halfWidth));
+  const expanded = [lat - halfHeight * factor, lng - halfWidth * factor,
+    lat + halfHeight * factor, lng + halfWidth * factor];
+  return boundsAreaKm2(expanded) <= MAX_SEARCH_AREA_KM2 ? expanded : [...bounds];
+}
+
+export function boundsContain(outer, inner) {
+  if (!Number.isFinite(boundsAreaKm2(outer)) || !Number.isFinite(boundsAreaKm2(inner))) return false;
+  return inner[0] >= outer[0] - .00001 && inner[1] >= outer[1] - .00001
+    && inner[2] <= outer[2] + .00001 && inner[3] <= outer[3] + .00001;
+}
+
 export function mapViewUrl(href, viewport) {
   const url = new URL(href);
   url.hash = "map";

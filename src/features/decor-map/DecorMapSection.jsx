@@ -4,7 +4,7 @@ import PinEditor from "./PinEditor.jsx";
 import { CategoryPanel, PinsPanel, PlaceDetails } from "./MapSidebar.jsx";
 import { MAP_CATEGORIES } from "./categories.js";
 import { countDecorGroups } from "../decor/collection.js";
-import { parseMapLocation, mapViewUrl, searchAreaProblem, validPoint } from "./coordinates.js";
+import { parseMapLocation, mapViewUrl, searchAreaProblem, validPoint, bufferedSearchBounds, boundsContain } from "./coordinates.js";
 import { DATA_SOURCES } from "./placeClient.js";
 import { MAX_IMPORT_BYTES, MAX_PINS, mergePins, parsePinBackup, pinBackup } from "./mapStorage.js";
 import useMapProgress from "./useMapProgress.js";
@@ -42,8 +42,11 @@ export default function DecorMapSection({ decorCollected }) {
   useEffect(() => { alive.current = true; return () => { alive.current = false; locateRequest.current++; }; }, []);
   const stats = useMemo(() => new Map(MAP_CATEGORIES.map(category => [category.id, countDecorGroups([category.group], decorCollected)])), [decorCollected]);
   const effectiveIds = useMemo(() => state.categoryIds.filter(id => !missingOnly || stats.get(id).done < stats.get(id).total), [state.categoryIds, stats, missingOnly]);
-  const results = usePlaceSearch({ bounds, categoryIds: effectiveIds, sourceId: state.sourceId });
+  const searchBounds = useMemo(() => bufferedSearchBounds(bounds), [bounds]);
+  const results = usePlaceSearch({ bounds: searchBounds, categoryIds: effectiveIds, sourceId: state.sourceId });
   const areaProblem = searchAreaProblem(bounds, state.viewport.zoom);
+  const insideScan = boundsContain(results.scannedBounds, bounds);
+  useEffect(() => { setSelectedPlace(previous => previous ? results.places.find(place => place.id === previous.id) || null : null); }, [results.places]);
 
   const onViewport = useCallback((viewport, nextBounds) => {
     setBounds(nextBounds);
@@ -120,12 +123,17 @@ export default function DecorMapSection({ decorCollected }) {
     } catch (error) { setNotice(error.message); }
   }
 
-  let mapStatus = "Choose categories, then search this area.";
+  let mapStatus = "Search this area to load nearby decor locations. Results stay while you pan.";
   if (addingPin) mapStatus = "Tap a spot on the map to place your pin.";
   else if (!bounds) mapStatus = "Preparing the map…";
-  else if (results.phase === "loading") mapStatus = "Finding candidate decor locations…";
-  else if (results.phase === "error") mapStatus = results.message;
-  else if (results.phase === "success") mapStatus = results.places.length ? `${results.places.length} candidate places${results.cached ? " · cached search" : ""}${results.truncated ? " · some results omitted; zoom in" : ""}${results.incomplete ? " · incomplete shapes skipped" : ""}` : "No matching OSM places found here. Try another area or category.";
+  else if (results.phase === "loading") mapStatus = `Finding nearby decor locations…${results.hasScan ? " Previous scan stays visible." : ""}`;
+  else if (results.phase === "error") mapStatus = `${results.message}${results.hasScan ? " Previous scan kept." : ""}`;
+  else if (results.hasScan) {
+    mapStatus = `${results.places.length} candidate places in last scan${results.cached ? " · cached" : ""}`;
+    mapStatus += insideScan ? " · view inside scanned area" : ` · ${areaProblem || "view extends beyond scan; search here again"}`;
+    if (results.truncated) mapStatus += " · partial results; zoom in and search again";
+    if (results.incomplete) mapStatus += " · incomplete shapes skipped";
+  }
   else if (!effectiveIds.length) mapStatus = missingOnly && state.categoryIds.length ? "Selected categories are complete in your checklist. Turn off Missing only to search them." : "Choose at least one decor category.";
   else if (areaProblem) mapStatus = areaProblem;
 
@@ -163,22 +171,23 @@ export default function DecorMapSection({ decorCollected }) {
         <details className="decor-map__options"><summary>Map options & location</summary>
           <form onSubmit={goTo}><label>Coordinates or a map link<input value={locationText} onChange={event => setLocationText(event.target.value)} placeholder="Latitude, longitude or map link" /></label><button type="submit">Go to location</button></form>
           <label>Map data source<select value={state.sourceId} onChange={event => setState(previous => ({ ...previous, sourceId: event.target.value }))}>{DATA_SOURCES.map(source => <option key={source.id} value={source.id}>{source.label}</option>)}</select></label>
-          <p className="decor-map__hint">Map data comes from OSM through Overpass. Searches use the visible area. Public services may be busy; try the other source if a search fails.</p>
+          <p className="decor-map__hint">Search includes the visible area plus a surrounding buffer, up to 200 km². Results stay while you pan or zoom. Search again to replace them; changing categories or data source clears them. Public services may be busy; try the other source if a search fails.</p>
           <a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener noreferrer">Report an OSM map issue ↗</a>
         </details>
       </aside>
       <div className="decor-map__map-area">
-        <MapCanvas initialViewport={initialViewport} places={results.places} pins={state.pins} selectedCategoryIds={effectiveIds}
+        <MapCanvas initialViewport={initialViewport} places={results.places} scannedBounds={results.scannedBounds} pins={state.pins} selectedCategoryIds={effectiveIds}
           focus={focus} addingPin={addingPin} onViewport={onViewport} onPlace={choosePlace} onPin={choosePin} onNewPin={newPin} />
         <div className="decor-map__map-tools">
-          <button type="button" className="decor-map__primary" disabled={!bounds || !!areaProblem || !effectiveIds.length || results.phase === "loading"} onClick={results.search}>Search this area</button>
+          <button type="button" className="decor-map__primary" title="Includes a surrounding buffer; results stay while you pan" disabled={!bounds || !!areaProblem || !effectiveIds.length || results.phase === "loading"} onClick={results.search}>Search this area</button>
           <button type="button" aria-pressed={addingPin} onClick={startPin}>{addingPin ? "Cancel pin" : "📍 Add pin"}</button>
           <button type="button" disabled={locating} onClick={locate}>{locating ? "Locating…" : "◎ Locate me"}</button>
         </div>
         <div className={`decor-map__map-status${results.phase === "error" ? " decor-map__map-status--error" : ""}`} role="status">
           {results.phase === "loading" && <span className="decor-map__spinner" aria-hidden="true" />}{mapStatus}
+          {results.hasScan && <small>Dashed outline: last scanned area</small>}
           {results.phase === "loading" && <button type="button" onClick={results.cancel}>Cancel</button>}
-          {results.phase === "error" && <button type="button" onClick={results.search}>Retry</button>}
+          {results.phase === "error" && <button type="button" disabled={!bounds || !!areaProblem || !effectiveIds.length} onClick={results.search}>Retry</button>}
         </div>
       </div>
     </div>
