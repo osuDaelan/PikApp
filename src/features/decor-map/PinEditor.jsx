@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MAP_CATEGORIES } from "./categories.js";
 import { validPoint } from "./coordinates.js";
+import { MAX_PIN_NAME_LENGTH } from "./mapStorage.js";
 
 export default function PinEditor({ draft, onSave, onCancel, onDelete }) {
   const [name, setName] = useState(draft.name || "New pin");
@@ -21,7 +22,7 @@ export default function PinEditor({ draft, onSave, onCancel, onDelete }) {
   }
   return <form className="decor-map__pin-form" onSubmit={submit}>
     <div className="decor-map__panel-heading"><h3>{draft.id ? "Edit pin" : "Save a pin"}</h3><button type="button" onClick={onCancel}>Cancel</button></div>
-    <label>Pin name<input autoFocus required maxLength={120} value={name} onChange={event => setName(event.target.value)} /></label>
+    <label>Pin name<input autoFocus required maxLength={MAX_PIN_NAME_LENGTH} value={name} onChange={event => setName(event.target.value)} /></label>
     <label>Notes<textarea maxLength={2000} rows={4} value={notes} onChange={event => setNotes(event.target.value)} placeholder="What would you like to remember?" /></label>
     <div className="decor-map__coordinates">
       <label>Latitude<input inputMode="decimal" value={lat} onChange={event => setLat(event.target.value)} /></label>

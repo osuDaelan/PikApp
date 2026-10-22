@@ -17,7 +17,8 @@ export default function useMapProgress() {
   useEffect(() => {
     // Replace the current map view rather than adding history for every pan.
     // Re-entering a shared link now restores the latest view, not stale params.
-    window.history.replaceState({}, "", mapViewUrl(window.location.href, state.viewport));
+    try { window.history.replaceState({}, "", mapViewUrl(window.location.href, state.viewport)); }
+    catch { /* Map navigation and saving still work when URL updates are blocked. */ }
   }, [state.viewport]);
   function importPins(pins) {
     const next = { ...state, pins: mergePins(state.pins, pins) };

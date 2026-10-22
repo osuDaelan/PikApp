@@ -2,6 +2,7 @@ import osmtogeojson from "osmtogeojson";
 import { CATEGORY_BY_ID, cleanCategoryIds, matchCategories } from "./categories.js";
 import { boundsAreaKm2, MAX_SEARCH_AREA_KM2, validPoint } from "./coordinates.js";
 import { validOsmId } from "./osmId.js";
+import { MAX_PIN_NAME_LENGTH } from "./mapStorage.js";
 export { validOsmId } from "./osmId.js";
 
 export const MAX_PLACES = 400;
@@ -74,7 +75,8 @@ export function normalizeOsmResults(data, selectedIds) {
     const position = geometryPosition(feature.geometry);
     if (!position) continue;
     unique.set(id, { id, ...position, categoryIds, geometry: feature.geometry,
-      name: typeof feature.properties?.tags?.name === "string" ? feature.properties.tags.name.slice(0, 200) : "Unnamed place",
+      name: typeof feature.properties?.tags?.name === "string"
+        ? feature.properties.tags.name.trim().slice(0, MAX_PIN_NAME_LENGTH) || "Unnamed place" : "Unnamed place",
       sourceUrl: `https://www.openstreetmap.org/${id}` });
   }
   const places = [...unique.values()].sort((a, b) => a.name.localeCompare(b.name));

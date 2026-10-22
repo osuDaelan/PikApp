@@ -5,6 +5,7 @@ import { DATA_SOURCES, DEFAULT_SOURCE_ID } from "./providers.js";
 
 export const MAP_STORAGE_KEY = "pb_decorMap_v1";
 export const MAX_PINS = 1000;
+export const MAX_PIN_NAME_LENGTH = 120;
 // Enough for a valid export at all per-pin limits, including multibyte notes.
 export const MAX_IMPORT_BYTES = 16 * 1024 * 1024;
 export const defaultMapState = () => ({ version: 1, viewport: { ...DEFAULT_VIEWPORT },
@@ -12,7 +13,7 @@ export const defaultMapState = () => ({ version: 1, viewport: { ...DEFAULT_VIEWP
 
 function normalizePin(pin) {
   if (!pin || typeof pin.id !== "string" || !/^[\w-]{1,100}$/.test(pin.id)
-      || typeof pin.name !== "string" || !pin.name.trim() || pin.name.length > 120
+      || typeof pin.name !== "string" || !pin.name.trim() || pin.name.length > MAX_PIN_NAME_LENGTH
       || typeof pin.notes !== "string" || pin.notes.length > 2000
       || !validPoint(pin.lat, pin.lng)
       || !Array.isArray(pin.categoryIds) || pin.categoryIds.some(id => !cleanCategoryIds([id]).length)

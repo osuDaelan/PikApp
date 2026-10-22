@@ -5,7 +5,7 @@ import { buildOverpassQuery, normalizeOsmResults, geometryPosition, OSM_TYPE_LIM
 import { featureStyle, placeCategory } from "../src/features/decor-map/mapPresentation.js";
 import { parseMapLocation, mapViewUrl, searchAreaProblem } from "../src/features/decor-map/coordinates.js";
 import { createPlaceClient } from "../src/features/decor-map/placeClient.js";
-import { createMapStore, defaultMapState, MAP_STORAGE_KEY, parsePinBackup, pinBackup, mergePins } from "../src/features/decor-map/mapStorage.js";
+import { createMapStore, defaultMapState, MAP_STORAGE_KEY, MAX_PIN_NAME_LENGTH, parsePinBackup, pinBackup, mergePins } from "../src/features/decor-map/mapStorage.js";
 import { sectionFromHash } from "../src/shared/sections.js";
 
 const bounds = [42.355, -71.065, 42.365, -71.055];
@@ -58,6 +58,23 @@ test("OSM normalization preserves relation identity, polygon holes, and distinct
   assert(result.places.some(place => place.id === "way/11"));
   assert.deepEqual(result.places.find(place => place.id === "node/11").categoryIds, ["restaurant", "italian"]);
   assert.equal(result.places.find(place => place.id === "node/11").name, node.tags.name, "external names stay plain data for React text rendering");
+});
+
+test("long and blank OSM names produce place names that can be saved and exported as pins", () => {
+  const result = normalizeOsmResults({ elements: [
+    { ...node, tags: { ...node.tags, name: `  ${"Long place ".repeat(30)}  ` } },
+    { ...node, id: 12, tags: { ...node.tags, name: "   " } },
+  ] }, ["restaurant"]);
+  const long = result.places.find(place => place.id === "node/11");
+  assert.equal(long.name.length, MAX_PIN_NAME_LENGTH);
+  assert.equal(result.places.find(place => place.id === "node/12").name, "Unnamed place");
+  const pins = result.places.map((place, index) => savedPin({ id: `place-${index}`, name: place.name,
+    lat: place.lat, lng: place.lng, categoryIds: place.categoryIds, osmId: place.id }));
+  let stored;
+  const store = createMapStore({ getStorage: () => ({ getItem: () => stored ?? null, setItem: (key, value) => { stored = value; } }) });
+  assert.equal(store.write({ ...defaultMapState(), pins }).ok, true);
+  assert.deepEqual(store.read().state.pins, pins);
+  assert.deepEqual(parsePinBackup(pinBackup(pins)), pins);
 });
 
 test("geometry positions avoid a polygon hole and incomplete/failed OSM searches are explicit", () => {

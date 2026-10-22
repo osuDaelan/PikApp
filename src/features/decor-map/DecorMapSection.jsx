@@ -42,7 +42,8 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
   const sidebar = useRef(null);
   const alive = useRef(true);
   const locateRequest = useRef(0);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; locateRequest.current++; }; }, []);
+  const importRequest = useRef(0);
+  useEffect(() => { alive.current = true; return () => { alive.current = false; locateRequest.current++; importRequest.current++; }; }, []);
   const stats = useMemo(() => new Map(MAP_CATEGORIES.map(category => [category.id, countDecorGroups([category.group], decorCollected)])), [decorCollected]);
   const effectiveIds = useMemo(() => state.categoryIds.filter(id => !missingOnly || stats.get(id).done < stats.get(id).total), [state.categoryIds, stats, missingOnly]);
   const searchBounds = useMemo(() => bufferedSearchBounds(bounds), [bounds]);
@@ -113,12 +114,16 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
+    const request = ++importRequest.current;
+    setImportPreview(null);
     try {
       if (file.size > MAX_IMPORT_BYTES) throw new Error("Choose a JSON pin backup smaller than 16 MB.");
-      const imported = parsePinBackup(await file.text());
+      const text = await file.text();
+      if (!alive.current || request !== importRequest.current) return;
+      const imported = parsePinBackup(text);
       const merged = mergePins(state.pins, imported);
-      if (alive.current) { setImportPreview({ imported, added: merged.length - state.pins.length }); setNotice(""); }
-    } catch (error) { if (alive.current) setNotice(error.message); }
+      if (alive.current && request === importRequest.current) { setImportPreview({ imported, added: merged.length - state.pins.length, name: file.name }); setNotice(""); }
+    } catch (error) { if (alive.current && request === importRequest.current) setNotice(error.message); }
   }
   function confirmImport() {
     try {
@@ -156,7 +161,7 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
         {notice && <div className="decor-map__notice" role="status">{notice}<button type="button" aria-label="Dismiss map message" onClick={() => setNotice("")}>×</button></div>}
         {copyUrl && <input aria-label="Map view link" readOnly value={copyUrl} onFocus={event => event.target.select()} />}
         {importPreview && <div className="decor-map__import-preview" role="group" aria-label="Review pin import">
-          <h3>Import {importPreview.imported.length} pins?</h3><p>{importPreview.added} new pins. Matching IDs keep the newer edit.</p>
+          <h3>Import {importPreview.imported.length} pins?</h3><p>{importPreview.name}</p><p>{importPreview.added} new pins. Matching IDs keep the newer edit.</p>
           <button type="button" onClick={confirmImport}>{progress.recoveryRaw !== null ? "Replace unreadable map data with import" : "Merge imported pins"}</button>
           <button type="button" onClick={() => setImportPreview(null)}>Cancel import</button>
         </div>}
