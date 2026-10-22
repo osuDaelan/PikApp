@@ -1,13 +1,13 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Google sign-in controls and session handling are implemented; live sign-in needs Firebase project configuration. Cloud progress saving remains planned.
+An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Progress saves automatically in the browser without an account. Google sign-in is hidden and cloud saving is deferred at the user's request.
 
 ## Project notes
 
 - [Project guide](docs/PROJECT_GUIDE.md): current features, code ownership, data flow, storage, accepted visual decisions, limitations and change workflow.
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
 - [Decor map implementation](docs/DECOR_MAP_IMPLEMENTATION.md): current controls, code boundaries, providers, pin backups and verification.
-- [Google sign-in](docs/GOOGLE_SIGN_IN.md): Firebase setup, local/Pages configuration, session behavior and remaining live verification. Progress still saves in the browser.
+- [Google sign-in](docs/GOOGLE_SIGN_IN.md): retained authentication groundwork and future reactivation/setup reference. The controls are currently hidden; progress saves in the browser.
 - [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
@@ -32,11 +32,19 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
-## Google sign-in
+## Browser autosave
 
-The header's account control supports Firebase Authentication with Google, session restoration, sign-out, loading/error feedback and guest mode. Follow [the setup guide](docs/GOOGLE_SIGN_IN.md) to supply the Firebase Web app config locally and through GitHub Actions repository variables. Missing or incomplete config leaves the Google button unavailable with a guest-mode explanation; Firebase is not initialized. The SDK loads in a separate chunk when configured.
+No account is needed. Applied calculator edits, daily averages, checklist selections and saved map pins/preferences are written to browser storage and loaded on returning to the same site in the same browser/profile on the same device. The calculator's **Save** button applies its form edits; daily averages and checklist selections save directly. The calculator/checklist badge shows **Autosave ready**, **Saved in this browser** or **Changes not saved**. Its **Browser saves** dialog explains the scope and offers **Try saving again** for failed writes. Map saving has its own status and recovery/export controls.
 
-This phase authenticates a user only. Calculator stats, checklist progress and map pins continue using their current browser saves, including when a user signs in, signs out or switches Google accounts. Cloud storage, per-account progress selection and guest import are separate work; the account panel explains that cross-device saving is not ready. A real Firebase project and physical-phone OAuth checks are still required before declaring live sign-in verified.
+Closing and reopening a normal browser tab does not intentionally reset progress. If a storage error persists, keep the tab open: changes that have not been saved are retained only in memory until retry succeeds. Clearing site data, changing browser/profile/device, or private-browsing storage limits can remove or separate saves. Localhost, different ports and the public GitHub Pages site have separate storage. Devices do not sync; export map pins for a separate copy. The private calculator file backup below is an additional localhost-development feature.
+
+Verified on October 22 with 70 passing tests and a production build: calculator stats/averages, a checklist selection and a public test map pin with category/notes survived closing and reopening an isolated preview tab. Save failures and latest-value retry are covered by controlled-storage tests. Existing user progress was left intact.
+
+## Google sign-in (deferred)
+
+On October 22, 2026, the user asked to hide Google sign-in entirely and focus on browser autosave and returning visitors. The existing account dialog/session controller and Firebase adapter are retained under `src/features/auth/` for later work, but the account control is not mounted, Firebase is not initialized, and its auth SDK is not included in the production app bundle. No Firebase project setup is needed for the current app.
+
+[The sign-in guide](docs/GOOGLE_SIGN_IN.md) is a future reactivation reference. Account login, cloud storage, per-account progress selection, guest import and cross-device synchronization remain separate deferred work; browser saves stay active and their existing keys and values are preserved.
 
 ## First-visit calculator defaults
 
@@ -64,7 +72,7 @@ The public website uses [GitHub Pages](https://osuDaelan.github.io/PikApp/). `.g
 
 On October 21, 2026, the user authorized making the repository public and publishing the app. GitHub Pages is configured to use **GitHub Actions**, with HTTPS enforced. Follow deployments in [Actions → Deploy PikApp to GitHub Pages](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml). A successful run publishes that commit; a local commit alone does not publish it. Future pushes to `main` automatically run the same checks and deployment.
 
-The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in code awaits Firebase configuration; cloud saving remains future work. GitHub Pages hosts the frontend rather than an account database.
+The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in is hidden and cloud saving is deferred. GitHub Pages hosts the frontend rather than an account database.
 
 To check the hosted path locally:
 
@@ -136,7 +144,7 @@ Collection names, variants, and ID generation remain unchanged, so existing vali
 
 `createProgressStore({ accountId })` provides a separate local cache namespace for a future account. It never automatically imports guest data. This is an organizational boundary, **not authentication or access control**. Future cloud sync must authenticate users, enforce server-side per-user access, handle conflicts/retries, and explicitly import guest progress. Mount fresh state hooks when changing stores/accounts to avoid carrying one session's in-memory state into another. Inject `getStorage` when testing.
 
-Writes return a success flag; browser-storage failures currently have no general UI status. The development calculator file backup has a separate saving/saved/retry indicator, described above. Cloud save indicators and remote sync remain future work. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
+Writes return a success flag. `getSaveStatus()` and `subscribeSaveStatus()` expose successful/failed browser writes to the calculator/checklist status UI; failed values remain retryable through `retryFailedWrites()` without clearing other saved fields. The development calculator file backup has a separate saving/saved/retry indicator, described above, and map saving has its own error/recovery flow. Remote sync remains deferred. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
 
 ## Decor images
 

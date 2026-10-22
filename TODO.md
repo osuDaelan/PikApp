@@ -1,8 +1,8 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The first decor-map slice now covers location discovery and local personal pins; refinement and reliable account progress saving across devices remain.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave and restoration for returning visitors, alongside decor-map refinement. Accounts and cross-device saving are deferred.
 
-Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in/session controls now use Firebase Authentication; real sign-in awaits project configuration and verification. Cloud progress sync is not implemented. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -72,17 +72,17 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [ ] Profile dense real-world results and GPS/touch behavior on a physical phone; add clustering or list pagination if measurements justify it.
 - [x] Document data uncertainty and keep candidate locations distinct from guaranteed game results.
 
-## 4. Add accounts with Google sign-in
+## 4. Deferred accounts with Google sign-in
 
-Google sign-in establishes who the user is. A separate database/storage layer saves their progress.
+On October 22 the user chose to hide sign-in entirely and focus on browser autosave and returning visits. The completed auth groundwork below is retained for later; it is not mounted and does not initialize Firebase or enter the production app bundle. Configuration and real OAuth verification are deferred, not current user setup tasks. Google sign-in would establish identity; a separate database/storage layer would save account progress.
 
 - [x] Select Firebase Authentication with Google for the sign-in foundation. Firestore is proposed for the separate cloud-sync phase.
 - [ ] Define which data belongs to an account: decor collection, player stats, daily averages, and lasting preferences.
 - [ ] Set up separate development and production configuration.
 - [ ] Configure Google sign-in and approved local/production callback URLs.
-- [x] Add sign-in, sign-out, and account status controls in the shared header, with guest mode when configuration is absent.
+- [x] Implement sign-in, sign-out, and account status controls; retain them unmounted with no visible account control, at the user's request.
 - [x] Implement cancelled sign-in, expired-session/error messages and loading/retry handling; cover the session controller with controlled-client tests.
-- [x] Implement Firebase's session observer and cleanup for returning users.
+- [x] Implement Firebase's session observer and cleanup for future account use; do not mount it while sign-in is deferred.
 - [ ] Verify real Google sign-in, restoration, sign-out and mobile popup behavior after configuring Firebase. See [setup and verification](docs/GOOGLE_SIGN_IN.md).
 - [x] Keep guest use available without requiring an account.
 - [x] Keep privileged server credentials out of the frontend and Git; commit a blank Web-config template and ignore local env files.
@@ -95,6 +95,8 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 
 - [ ] Define a versioned saved-progress schema with stable decor IDs and update timestamps.
 - [x] Continue saving guest calculator/collection progress in browser storage with legacy keys.
+- [x] Show calculator/checklist browser-save success or error status and let failed writes be retried; keep map saving in its existing separate flow.
+- [x] Verify saved calculator edits, daily averages, checklist choices and a test map pin/category/notes after closing and reopening a separate production-preview site's tab; retain existing user data during the check. Full browser restart and physical-device checks remain future validation.
 - [x] Add a private development-only calculator file backup and startup restore; exclude personal data and the endpoint from production.
 - [ ] Add portable export/import and decide whether to expand file backup beyond calculator data.
 - [ ] On first sign-in, offer to import the collection already saved in that browser.
@@ -138,10 +140,10 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 1. Keep feature boundaries, the project guide and accepted visual notes current (baseline and initial map complete).
 2. Review the first map slice, including real public-service behavior and the local pin workflow.
 3. Refine discovery/regions, choose address search if wanted, and add features incrementally.
-4. Confirm deployment and measure real-device performance; optimize measured bottlenecks.
-5. Configure and verify Firebase Google sign-in, then implement cloud storage with per-user access.
-6. Implement explicit guest import, account autosave, cross-device conflicts and recovery.
-7. Verify account isolation, accessibility, location-data behavior and release configuration.
+4. Verify browser autosave/status/retry and returning-visitor restoration in the same browser/site; document storage-clearing and private-browsing limits. No Firebase setup is needed.
+5. Measure real-device performance and optimize measured bottlenecks.
+6. Resume Google sign-in/Firebase configuration only when the user brings accounts back into scope; then plan database authorization, explicit guest import and cloud conflicts/recovery.
+7. Verify accessibility, location-data behavior and release configuration; verify account isolation when account storage exists.
 
 ## Decisions to make when implementation starts
 

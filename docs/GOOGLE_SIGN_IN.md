@@ -1,14 +1,20 @@
-# Google sign-in
+# Google sign-in (deferred)
 
-Setup and scope: October 22, 2026. This phase adds Firebase Authentication for Google sign-in and session restoration. A Firebase project and its Web app configuration must be supplied before real sign-in can work. Blank or incomplete configuration leaves sign-in unavailable with a setup explanation; there is no simulated signed-in account.
+Status: October 22, 2026. The user asked to hide Google sign-in entirely and focus on browser autosave and returning visitors. The auth code is retained for later, but the account control/session hook is not mounted, Firebase is not initialized, and the auth SDK is excluded from the production app bundle. Firebase setup and cloud sync are deferred; there is no account or configuration requirement for using the current app.
 
-## What this phase saves
+The instructions below are a future reactivation reference, not a pending request for the user to create a Firebase project. Before exposing sign-in again, restore its UI mount deliberately and complete the configuration and verification steps. There is no simulated signed-in account.
 
-Firebase manages the authentication session and account identity. Calculator values, decor collection, map pins and map preferences continue using the existing browser-local saves. Sign-in, sign-out and switching Google accounts do not clear, upload, import or replace that progress. Another account using the same browser continues seeing that browser's local progress. Another device has its own local progress.
+## Current browser saving
+
+Calculator values, daily averages, decor checklist selections and saved map pins/preferences persist locally and restore when returning to the same site in the same browser/profile on the same device. No account is needed. Calculator/checklist saves have success/error feedback and retry; map saving retains its separate error/recovery/export flow. Closing and reopening a normal tab does not intentionally clear progress. Localhost and GitHub Pages are separate storage areas; other browsers/devices do not share saves. Clearing site data or private-browsing limits can discard saves. See [browser autosave](../README.md#browser-autosave) and [the persistence guide](PROJECT_GUIDE.md#persistence-and-privacy-boundaries).
+
+## Retained authentication scope
+
+If re-enabled, Firebase would manage the authentication session and account identity. The retained implementation leaves calculator values, decor collection, map pins and map preferences in their existing browser-local saves. Its sign-in, sign-out and account switching do not clear, upload, import or replace that progress. Another account using the same browser would see that browser's local progress; another device would have its own local progress.
 
 This is an authentication foundation, not cloud progress sync. There is no Firestore database integration or account-specific progress migration in this phase. Session restoration is separate from progress restoration. Firebase's [persistence documentation](https://firebase.google.com/docs/auth/web/auth-state-persistence) describes how an auth session can survive reopening when browser storage permits it; private browsing or blocked storage can change that behavior.
 
-## Firebase console setup
+## Future Firebase console setup
 
 1. Open the [Firebase console](https://console.firebase.google.com/). Select an existing Firebase project, or create one for PikApp. A separate development project keeps test accounts separate from production. Repeat the relevant setup below for each project. Google Analytics is optional for this feature.
 2. In the project overview, choose **Web** (`</>`) or **Add app → Web**. Register a Web app with a recognizable nickname, such as `PikApp web`. Keep the existing GitHub Pages hosting; Firebase Hosting is not needed for this implementation.
@@ -25,7 +31,7 @@ This is an authentication foundation, not cloud progress sync. There is no Fires
 
 Use the Web app's supplied `authDomain`, normally `PROJECT_ID.firebaseapp.com`. The GitHub Pages hostname belongs in Authorized domains; it does not replace the Firebase auth handler domain.
 
-## Local configuration
+## Future local configuration
 
 Use Node.js 24.12 or newer. The pinned Firebase 13.1.0 SDK's app/auth packages require that runtime; the GitHub Pages workflow uses Node 24 as well.
 
@@ -42,30 +48,30 @@ Use values from the same Web app/project. Restart `npm.cmd run dev` after changi
 
 `.env`, `.env.local` and other `.env.*` files are ignored; only the blank `.env.example` template is committed. These are client configuration fields and become visible in the built website. Firebase-specific Web API keys identify the project; they do not authorize access to private data. Use Firebase's supplied key and its applicable API restrictions. Never place service-account JSON, private keys, Admin SDK credentials or OAuth client secrets in any `VITE_*` variable. See Firebase's [API key explanation](https://firebase.google.com/docs/projects/api-keys).
 
-## GitHub Pages configuration
+## Future GitHub Pages configuration
 
 In the [PikApp repository](https://github.com/osuDaelan/PikApp), open **Settings → Secrets and variables → Actions → Variables**. Add four **repository variables** with the same names as the table above, using the production Web app's values. The build step in [the Pages workflow](../.github/workflows/deploy.yml) supplies them to Vite.
 
 Environment values are compiled into the JavaScript build. After adding or changing the variables, run the Pages deployment workflow again or publish a new commit; existing deployed files do not change by themselves. Local `.env.local` is not uploaded to GitHub or used by GitHub Actions.
 
-PikApp uses a Google **popup** flow, started by the sign-in button. This keeps the app on its existing GitHub Pages URL and avoids relying on redirect state across separate hosting/auth domains. Firebase documents popup sign-in as an option for [browsers that block cross-origin redirect storage](https://firebase.google.com/docs/auth/web/redirect-best-practices#option_2_switch_to_signinwithpopup). Do not substitute `/PikApp/__/auth/handler` as a GitHub Pages route. Popup behavior still needs testing on actual mobile Safari and Chrome; this note does not claim those checks have passed.
+The retained adapter uses a Google **popup** flow when enabled by a sign-in button. This keeps the app on its existing GitHub Pages URL and avoids relying on redirect state across separate hosting/auth domains. Firebase documents popup sign-in as an option for [browsers that block cross-origin redirect storage](https://firebase.google.com/docs/auth/web/redirect-best-practices#option_2_switch_to_signinwithpopup). Do not substitute `/PikApp/__/auth/handler` as a GitHub Pages route. Popup behavior still needs testing on actual mobile Safari and Chrome; this note does not claim those checks have passed.
 
-## Manual verification
+## Reactivation verification (deferred)
 
-Record results for localhost and the deployed `/PikApp/` URL separately. Use test accounts and retain existing user progress.
+When sign-in returns to scope, record results for localhost and the deployed `/PikApp/` URL separately. Use test accounts and retain existing user progress. None of these steps is needed to use current browser autosave.
 
-- [x] With all configuration absent, show the setup/unavailable explanation and disabled Google button, and allow guest use. The session-controller test also confirms no client initialization.
+- [ ] Once the controls are deliberately re-enabled, recheck the setup/unavailable explanation and disabled Google button with all configuration absent. The retained session-controller test confirms no client initialization for that state.
 - [ ] With only part of the configuration present, explain that setup is incomplete and keep guest use working.
 - [ ] With the proper provider and authorized hostname configured, clicking sign-in opens Google and the account control reflects the successfully authenticated user.
 - [ ] Close/cancel the popup and block popups once; show useful feedback, permit retry and keep the app usable without signing in.
 - [ ] Reload/reopen after sign-in and verify session restoration; test the storage-unavailable case and any fallback message.
 - [ ] Sign out, sign in again and switch between two test accounts. Calculator values, collection choices and pins stay unchanged throughout. Do not expect account-specific progress yet.
 - [ ] Verify on physical mobile Safari and Chrome, including popup return/cancellation. These checks remain pending until a configured live project is available.
-- [x] Confirm that the production build still uses `/PikApp/` asset paths and that no development calculator backup endpoint is bundled.
+- [ ] After reactivation, confirm that the production build still uses `/PikApp/` asset paths and that no development calculator backup endpoint is bundled.
 
 For `auth/unauthorized-domain`, check the hostname in the same Firebase project identified by the deployed config. For a disabled provider, enable Google in that project. For configuration errors after editing environment variables, restart Vite locally or rebuild/redeploy Pages. Diagnose a blocked popup through the browser's popup controls and retry from the sign-in button.
 
-Initial verification on October 22: 66 Node tests passed, including controlled auth lifecycle/error/race cases and incomplete-config guards. The production build passed; the auth SDK is a separate roughly 156 kB chunk (32 kB gzip). A production preview confirmed the unavailable/guest dialog, keyboard Escape returning focus to its trigger, and guest calculator edits surviving dialog use and reload. The narrow viewport check fit the dialog without horizontal overflow. These browser checks used no Firebase project, real Google account or simulated logged-in browser session; the real OAuth and physical-phone checks above remain pending.
+Historical prototype verification on October 22, before sign-in was hidden: 66 Node tests passed, including controlled auth lifecycle/error/race cases and incomplete-config guards. That production build passed with a separate roughly 156 kB auth SDK chunk (32 kB gzip); the current unmounted feature is excluded from the production app bundle. A prototype preview confirmed the unavailable/guest dialog, keyboard Escape returning focus to its trigger, and guest calculator edits surviving dialog use and reload. Its narrow viewport check fit the dialog without horizontal overflow. Those checks used no Firebase project, real Google account or simulated logged-in browser session; real OAuth and physical-phone checks remain deferred.
 
 ## Separate cloud-sync phase
 

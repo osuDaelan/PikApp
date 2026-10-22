@@ -1,6 +1,6 @@
 # PikApp project guide
 
-Last reviewed: October 22, 2026, including Google sign-in groundwork, public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
+Last reviewed: October 22, 2026, including the user's decision to hide sign-in and focus on browser autosave, public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
 
 ## Purpose and current status
 
@@ -12,12 +12,12 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 | Decor checklist | 896 stable entries, regular/rare/event and numbered designs, local artwork, collection totals, bulk selection, rare unlock rules | Search/filters, real-device performance measurements, any future catalogue expansion |
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
-| Progress | Browser autosave for calculator and collection; private calculator file backup during localhost development | Collection file backup, portable export/import, cloud sync |
-| Sign-in | Shared account dialog, Firebase Google popup/session observer, sign-out, guest mode and error handling | Supply Firebase Web app configuration and verify real Google sign-in; progress remains browser-local |
+| Progress | Browser autosave for calculator and collection with saved/error feedback and retry; separate local map saves; private calculator file backup during localhost development | Collection file backup, portable export/import; cloud sync is deferred |
+| Sign-in | Auth groundwork retained for later; all account controls are hidden and unmounted | Google sign-in, Firebase configuration and cloud progress sync are deferred at the user's request |
 | Hosting | Public repository; HTTPS GitHub Pages configured with automatic test/build/deployment on pushes to `main` | Check the deployment workflow when publishing future changes |
 | Decor map | OSM discovery for 39 categories, place details, personal pins, local save and pin export/import | Address search provider, region rules, real-phone/dense-area profiling, cloud sync |
 
-The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. Runtime dependencies also include React, React DOM and Firebase (only its modular app/auth imports are used); Vite provides development and builds. Hash sections do not require a router dependency. Firebase Auth loads separately when configuration is complete. There is no cloud progress database or bundled location dataset. See [package.json](../package.json).
+The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. React and React DOM render the app; Vite provides development and builds. Firebase remains installed for retained authentication groundwork, but its feature is not mounted, no Firebase initialization runs, and its auth SDK is excluded from the production app bundle. Hash sections do not require a router dependency. There is no cloud progress database or bundled location dataset. See [package.json](../package.json).
 
 ## Where to find project knowledge
 
@@ -28,7 +28,7 @@ The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geo
 | [TODO](../TODO.md) | Completed milestones and actionable remaining work |
 | [Decor map plan](DECOR_MAP_PLAN.md) | Proposed map boundary, decisions still needed, and implementation sequence |
 | [Decor map implementation](DECOR_MAP_IMPLEMENTATION.md) | Current controls, module ownership, providers, saved pin schema and verification |
-| [Google sign-in](GOOGLE_SIGN_IN.md) | Firebase setup, environment configuration, auth-only scope and pending live verification |
+| [Google sign-in](GOOGLE_SIGN_IN.md) | Deferred auth groundwork, future Firebase setup/reactivation reference and historical verification limits |
 | [OSM map reference](DECOR_MAP_REFERENCE.md) | Pixelpirate investigation plus Bekkan Spot Searcher's boundary/node pipeline, differences from PikApp and proposed area-highlight improvements |
 | [Image rollout](DECOR_IMAGE_ROLLOUT.md) | Artwork rollout, representative-image limitations, performance work and measurements |
 | [Celebrations](DECOR_CELEBRATIONS.md) | In-game reference observations and implemented particle/celebration behavior |
@@ -63,9 +63,10 @@ Paths below are relative to the project root.
 | `src/features/decor-map/` | Lazy map section, category adapter, Overpass client, GeoJSON/layers, separate pin/preferences storage; detailed ownership in the map implementation notes |
 | `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, desktop Overview, hash links and back/forward behavior |
 | `src/shared/components/` | Header/clock, navigation, inputs, rings, local backup status |
-| `src/features/auth/` | Account dialog, auth-only session controller, Firebase web config/adapter and session hook; never reads or writes app progress |
+| `src/shared/components/BrowserSaveStatus.jsx`, `browser-save.css` | Calculator/checklist browser-save badge, explanatory dialog and retry action; separate from map saving |
+| `src/features/auth/` | Retained, unmounted account dialog/session controller, Firebase web config/adapter and session hook; never reads or writes app progress |
 | `src/shared/{hooks,styles}/`, `src/shared/format.js` | Persisted-state/window hooks, theme/layout helpers, formatting |
-| `src/storage/progressStore.js` / `createProgressStore` | Synchronous browser storage contract and guest/account cache namespaces |
+| `src/storage/progressStore.js` / `createProgressStore` | Synchronous browser storage contract, save-status subscriptions/retry and future account cache namespaces |
 | `src/storage/{calculatorBackupData,localCalculatorBackup}.js` | Calculator backup schema, browser client and startup restoration |
 | `dev/localCalculatorBackup.js`, `vite.config.js` | Development-only file endpoint and private-file protection |
 | `public/images/` | Decor PNGs, app icon JPG, Garden WebP wallpapers |
@@ -134,11 +135,13 @@ All sizes use Nintendo Garden: day 6:00 AM–4:59 PM, evening 5:00 PM–9:59 PM,
 | Bulk mode, effect state and selected map place | In memory | Not durable saved progress |
 | Map view, filters, source and personal pins | Separate versioned `pb_decorMap_v1` browser entry; pin JSON export/import available | No cloud copy; not part of the private calculator file backup |
 
-`progressStore` exposes `read(field, fallback)` and `write(field, value)` returning a success flag. It only accepts its declared fields and falls back on malformed collection data or inaccessible storage. Browser write failures currently have no general UI status. The development file backup has its own saving/saved/retry status.
+`progressStore` exposes `read(field, fallback)` and `write(field, value)` returning a success flag. It only accepts its declared fields and falls back on malformed collection data or inaccessible storage. `getSaveStatus()` and `subscribeSaveStatus()` supply the calculator/checklist badge's **Autosave ready**, **Saved in this browser** or **Changes not saved** status. Its **Browser saves** dialog offers **Try saving again** through `retryFailedWrites()`. Failed values remain in memory, so the tab needs to remain open until retry succeeds; a later successful write to a different field does not hide an unresolved failure. The development file backup and map save/recovery flow have their own status.
 
 The development backup debounces applied calculator changes by 400ms, restores before mount, compares timestamps, validates an allowlist of fields, rejects stale writes, and atomically replaces the file. Its endpoint accepts same-origin loopback requests only; Vite denies static access to `.local/`. The endpoint, restore and status UI are development-only. See [README autosave details](../README.md#local-calculator-autosave) and `localCalculatorBackup.test.js`.
 
-Localhost, different ports/hostnames and a deployed site have separate browser storage. Google sign-in/session code is implemented, but live activation requires Firebase project setup. Authentication does not save gameplay progress: a database, access rules, migration, conflict handling and recovery remain separate work. Signing in/out or changing accounts leaves the current browser's guest progress in place; account cache namespaces are not selected automatically. Do not put personal progress, precise locations, private notes or credentials into committed documentation or assets.
+Returning to the same site in the same normal browser/profile on the same device restores saved calculator values, collection choices and map pins/preferences without an account. Closing a tab does not intentionally clear those saves. Localhost, different ports/hostnames and a deployed site have separate browser storage; another browser/device has a different save. Clearing site data or private-browsing storage limits can discard progress. Map pin export provides a separate copy; broad progress export/import and cross-device sync remain deferred.
+
+On October 22, the user asked to hide Google sign-in entirely and prioritize browser autosave. Auth/session code remains implemented but unmounted, with no Firebase initialization or auth SDK in the production app bundle. Do not request Firebase setup as an active prerequisite for the current app. Future account progress would still require a database, access rules, migration, conflict handling and recovery; the existing account cache namespaces are not selected automatically. Do not put personal progress, precise locations, private notes or credentials into committed documentation or assets.
 
 ## Development, validation and Git
 
@@ -156,7 +159,9 @@ npm.cmd run build
 
 Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Use Node 24.12 or newer for the Firebase SDK; Node 24 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **66 passing Node tests** and a production build with the `/PikApp/` base, including auth session restoration/cleanup, safe errors and configuration guards, zero-rate and partial-timeline calculator regressions, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Auth controller checks use controlled clients; real Google OAuth awaits Firebase setup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
+The current baseline is **70 passing Node tests** and a production build with the `/PikApp/` base. The browser-save tests cover stable status subscriptions, failures that remain visible despite unrelated successful writes, retrying the latest failed values, partial recovery and successful replacement without replaying stale values. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage, development backup, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import. Retained auth controller checks use controlled clients; real Google OAuth remains unverified and deferred.
+
+On October 22, a separate production-preview origin confirmed fresh level-1/zero defaults, applied calculator values and daily averages, a collected Red Chef Hat, and a public test pin with its category/notes surviving a complete tab close and reopen. Existing user saves were not changed. The browser-save dialog opened, Escape closed it and returned focus, and the badge fit a 390px viewport without horizontal overflow. The build excludes the unmounted authentication feature/SDK and retains lazy map loading. Storage failures/retry were checked with controlled storage in Node tests rather than a forced browser quota failure. These checks are not comprehensive automated end-to-end coverage, a full browser restart, physical-phone performance results, or proof of cloud isolation. Manual map checks distinguish controlled responses from successful live public-service data.
 
 For changes, run checks appropriate to the behavior changed; use browser checks for layout/interaction and production builds for import/asset/build changes. For documentation-only changes, check paths, links, consistency and the diff. Avoid writing tests that merely repeat the implementation.
 
@@ -182,4 +187,4 @@ GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow bui
 - Artwork usage permission remains unresolved despite recorded attribution. Some images represent grouped designs, and source resolutions vary.
 - Real-phone image memory/scroll performance has not been measured for the complete catalogue. Browser-only decor progress can be lost if storage is cleared.
 - Calculator data was last checked against Pikipedia on October 18, 2026. The earlier project analysis called for a separate correctness pass; existing tests do not establish every forecast edge case.
-- Authentication/database choice, guest import, multi-device conflicts, progress export/import and collection history remain pending. They do not require a rewrite of the existing features.
+- Firebase activation, a progress database, guest import, multi-device conflicts, progress export/import and collection history remain deferred. Browser saving requires no account. These features do not require a rewrite of the existing app.

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fmtDate, fmtTime } from "../format.js";
-import AccountMenu from "../../features/auth/AccountMenu.jsx";
+import BrowserSaveStatus from "./BrowserSaveStatus.jsx";
 
 export default function AppHeader() {
   const [now, setNow] = useState(() => new Date());
@@ -10,7 +10,6 @@ export default function AppHeader() {
   }, []);
   return (
     <div style={{ padding: "18px 18px 0", textAlign: "center", position: "relative" }}>
-      <AccountMenu />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
         <img
           src={`${import.meta.env.BASE_URL}images/pikmin-bloom-icon.jpg`}
@@ -27,6 +26,7 @@ export default function AppHeader() {
       <div style={{ marginTop: 8, background: "rgba(0,0,0,0.15)", borderRadius: 20, padding: "4px 14px", display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.9)", letterSpacing: 0.3 }}>
         🕐 {fmtTime(now)} · {fmtDate(now)}
       </div>
+      <BrowserSaveStatus />
     </div>
   );
 }
