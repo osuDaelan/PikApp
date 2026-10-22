@@ -14,6 +14,8 @@ An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
 - [Asset attribution](public/images/ATTRIBUTION.md) and [per-image inventory](docs/decor-image-sources.json): provenance and representative-design limitations.
 
+Latest audit: **112 tests and the production build pass**, and full/production-only dependency audits report zero findings. See [audit fixes and verification limits](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
+
 The existing **Pikmin Decor Visuals and Animations** reference-site investigation remains below. Current implementation is summarized in the project guide; historical experiments are not current requirements.
 
 ## Local development
@@ -60,7 +62,7 @@ Private feedback is **not connected yet**: the owner's Formspree endpoint and ve
 
 **Continue on GitHub** remains an optional public route. It opens a prefilled issue draft in [PikApp's public repository](https://github.com/osuDaelan/PikApp/issues); visitors need a GitHub account and submit there themselves. The public warning stays explicit, and opening a draft creates no issue. PikApp includes only the form's type, section, title and details; it does not attach stats, checklist progress, pins, coordinates, the current URL or device details. Formspree still receives normal network information and the site origin for its service checks.
 
-Validation, a three-second review delay, a honeypot and local 60-second/three-per-hour/duplicate-within-24-hour handoff limits add best-effort friction. A handoff counts even if the hosted step is canceled or fails. Clearing storage or calling the endpoint directly can bypass client controls; Formspree performs actual service-side spam checks once configured. The current 101 tests and production build pass. Browser checks covered disabled private configuration, optional public review and configured private POST fields/attributes without submitting. Actual hosted processing and inbox delivery remain pending; see [feedback notes](docs/FEEDBACK.md).
+Validation, a three-second review delay, a honeypot and local 60-second/three-per-hour/duplicate-within-24-hour handoff limits add best-effort friction. A handoff counts even if the hosted step is canceled or fails. Clearing storage or calling the endpoint directly can bypass client controls; Formspree performs actual service-side spam checks once configured. The current 112 tests and production build pass. Browser checks covered disabled private configuration, optional public review and configured private POST fields/attributes without submitting. Actual hosted processing and inbox delivery remain pending; see [feedback notes](docs/FEEDBACK.md).
 
 ## Google sign-in (deferred)
 
@@ -80,13 +82,13 @@ When running `npm.cmd run dev` on localhost, applied calculator changes automati
 
 On startup, the app reads this file before mounting the calculator. It restores a newer backup into the existing `pb_*` browser keys; timestamped newer browser edits take priority over an older file. This supports refreshing/restarting the dev server, cleared calculator storage, and fresh local browsers using the same project. Decor progress stays in browser storage and is not included in this calculator-only file.
 
-The `.local/` directory is Git-ignored and denied by Vite's static file server. The development middleware accepts only same-origin loopback requests and validated calculator fields, serializes atomic file replacement, rejects stale writes, and preserves an existing malformed file rather than overwriting it. Browser saves continue if the backup service is unavailable; the app retries file saving. This file endpoint, startup restore, and status UI are excluded from production builds. Implementation: `dev/localCalculatorBackup.js`, `src/storage/calculatorBackupData.js`, `src/storage/localCalculatorBackup.js`, and `src/shared/components/LocalCalculatorSave.jsx`.
+The `.local/` directory is Git-ignored and denied by Vite's static file server. The development middleware accepts only same-origin loopback requests and validated calculator fields, serializes atomic file replacement, rejects stale writes, and preserves an existing malformed file rather than overwriting it. Browser saves continue if the backup service is unavailable. Failed startup restoration pauses file writes until the service/storage is restored and the page reloads; ordinary write failures after verified startup still retry. Partial startup restores roll back, and unreadable browser saves cannot overwrite the file with fallback values. This file endpoint, startup restore, and status UI are excluded from production builds. Implementation: `dev/localCalculatorBackup.js`, `src/storage/calculatorBackupData.js`, `src/storage/localCalculatorBackup.js`, and `src/shared/components/LocalCalculatorSave.jsx`.
 
 Verified with 30 tests and a production build. Browser checks confirmed an edited average reached disk and survived reload, original calculator fields returned after clearing only those browser keys, decor data remained intact, and the private file URL returned 403. Personal progress files are not committed.
 
 ## Commit workflow
 
-Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Committing and pushing to GitHub are separate actions.
+Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Follow `CLAUDE.md`: automatically commit major cohesive changes and push to `origin main` without asking again. A successful Pages deployment publishes the pushed commit.
 
 ## GitHub Pages hosting
 

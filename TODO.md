@@ -114,7 +114,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 
 ### Cloud persistence
 
-- [ ] Recheck Firebase's unused Firestore/Node gRPC dependency advisories before adding database functionality; see the sign-in setup notes.
+- [x] Patch the October 22 dependency advisories: Vite 6.4.5, compatible transitive updates and a scoped Firestore gRPC override; full and production-only audits report zero findings. Recheck before future database activation.
 
 - [ ] Load saved account progress after sign-in.
 - [ ] Automatically save collection changes and profile updates.
@@ -136,10 +136,10 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Add a regression check for the original catalogue IDs and totals.
 - [ ] Continue checking ID compatibility for each future catalogue expansion or migration.
 - [ ] Check image loading, touch targets, keyboard navigation, and mobile performance.
-- [x] Establish the current test/build baseline: 30 Node tests passed and production build succeeded after local backup implementation.
-- [ ] Add focused map checks and later migration/merge tests when those behaviors exist; run relevant tests/builds for each feature change.
+- [x] Establish the current test/build baseline: 112 Node tests and the production `/PikApp/` build pass after the October 22 audit. Earlier milestone counts remain historical.
+- [x] Add focused map query, geometry, search lifecycle, pin storage and import checks. Add future account migration/merge tests when those behaviors exist.
 - [x] Document current local setup and prepared GitHub Pages workflow.
-- [ ] Confirm hosting activation and a successful deployment; document selected map/auth providers and required configuration when added.
+- [x] Confirm public Pages hosting and successful deployment through repair commit `c942d52`; provider setup and pending auth/feedback work are documented. Check each later deployment separately.
 
 ## 7. Private feedback and optional GitHub issues
 
@@ -154,21 +154,34 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [ ] Test physical-phone layout/touch; authenticated public GitHub submission remains separate.
 - [ ] Monitor private inbox/spam/quota after release. Consider GitHub moderation or temporary interaction limits only if the optional public route needs them; no new repository restrictions are enabled by this feature.
 
+## October 22 audit follow-ups
+
+- [x] Protect unreadable initial calculator/checklist saves from fallback autosave and retry; block full snapshots of unreadable progress. Explicit edits can replace the affected field, including unchanged-value saves.
+- [x] Roll back partial local calculator restores and block file writes after failed startup restoration; avoid advancing the initial fallback's freshness marker.
+- [x] Keep step-entry mode in the stats draft until Save, convert values without changing remaining steps, reject overflow, and allow flower-only projections with zero daily steps.
+- [x] Add the verified flower tasks for reaching levels 7, 13 and 18; preserve existing IDs and user saves.
+- [x] Align OSM and saved-pin name limits, invalidate obsolete pin-file reads/previews, show the filename and tolerate blocked map history updates.
+- [x] Publish four cohesive repair commits; record the 112-test/build/audit results and browser verification limits in the [project guide](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
+- [ ] Verify below-level-100 flower-task reset behavior against an actual in-game transition. `projectLevels()` currently subtracts consecutive flower requirements; update only after confirming whether that is correct. Other game tasks are not forecast inputs.
+- [ ] Add browser regressions for stats mode Cancel/Save, unchanged-value recovery, failed startup restoration, overlapping pin-file reads and blocked history. Current controlled-storage tests cover failure logic; the audit's browser checks covered ordinary flows.
+- [ ] Consider a raw calculator/checklist recovery download before allowing replacement of unreadable data, following the existing map recovery pattern. Currently full snapshots are blocked and explicit edits replace the affected field; they cannot recover its original contents.
+- [ ] Measure checklist scrolling/image memory and dense-map interactions on a physical phone before adding virtualization, clustering or image conversion.
+- [ ] Consider dependency update alerts and a lightweight lint check. Keep the gRPC override until upstream compatibility and advisories are reviewed; avoid forced Firebase downgrades.
+
 ## Suggested implementation order
 
-1. Keep feature boundaries, the project guide and accepted visual notes current (baseline and initial map complete).
-2. Review the first map slice, including real public-service behavior and the local pin workflow.
-3. Refine discovery/regions, choose address search if wanted, and add features incrementally.
-4. Verify browser autosave/status/retry, returning-visitor restoration and full-progress JSON transfer/recovery; document explicit replacement, private coordinates/notes, storage-clearing and private-browsing limits. No Firebase setup is needed.
-5. Measure real-device performance and optimize measured bottlenecks.
-6. Resume Google sign-in/Firebase configuration only when the user brings accounts back into scope; then plan database authorization, explicit guest import and cloud conflicts/recovery.
-7. Verify accessibility, location-data behavior and release configuration; verify account isolation when account storage exists.
+1. Confirm flower-task reset semantics in-game and correct the forecast if needed; avoid guessing about progress calculations.
+2. Connect the owner's Formspree inbox and verify private delivery/CAPTCHA. Keep Google hidden and GitHub feedback optional.
+3. Add the targeted browser regressions above and improve unreadable-save recovery before expanding persistence behavior.
+4. Measure physical-phone checklist/map performance, touch and accessibility; optimize the measured bottlenecks.
+5. Refine map discovery/regions or add address search when wanted, preserving existing feature/storage boundaries.
+6. Keep dependency checks, notes and deployment verification current. Continue manual full-progress transfer without Firebase setup.
+7. Resume Google sign-in and cloud sync only when the user brings accounts back into scope; first define authorization, guest import, conflict resolution, deletion and recovery.
 
 ## Decisions to make when implementation starts
 
-- Which tile/Overpass/search services to use within the chosen OSM approach, which areas/categories to start with, and how personal pins will persist.
-- How desktop navigation and optional shareable map URLs should work.
-- How to activate hosting and which auth/database service to use.
+- Whether to add address search and which provider/region rules to use; OSM tiles, selectable Overpass endpoints, local pins and map-view sharing already exist.
+- Which account/database configuration to activate if deferred Google/Firebase work resumes; public Pages hosting is already active.
 - How to resolve artwork redistribution permission; the current images and display style are already chosen.
 - Whether progress logging needs collection dates/history or only the current checklist.
 - How guest and account progress should merge, and how concurrent edits should resolve.

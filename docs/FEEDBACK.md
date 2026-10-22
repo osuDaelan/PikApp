@@ -82,7 +82,7 @@ Maintainers can review [GitHub's moderation tools](https://docs.github.com/en/co
 
 ## Verification and remaining work
 
-The full suite passes **101 Node tests**, including 16 feedback tests, and the production `/PikApp/` build passes. Feedback checks cover allowed endpoints, the private POST field allowlist, bounded Unicode text without GitHub URL restrictions, separate private/public duplicate fingerprints with legacy GitHub compatibility, known fields/text boundaries, honeypot rejection, fixed/encoded GitHub URLs, URL length, cooldown/hour/day boundaries, persistent/memory fallback, metadata privacy and bounded corrupt/future/oversized-history recovery.
+The full suite passes **112 Node tests**, including 16 feedback tests, and the production `/PikApp/` build passes. Feedback checks cover allowed endpoints, the private POST field allowlist, bounded Unicode text without GitHub URL restrictions, separate private/public duplicate fingerprints with legacy GitHub compatibility, known fields/text boundaries, honeypot rejection, fixed/encoded GitHub URLs, URL length, cooldown/hour/day boundaries, persistent/memory fallback, metadata privacy and bounded corrupt/future/oversized-history recovery.
 
 On October 22, that public-route preview confirmed the initial three-second disabled review button, short-message rejection, selected type/section, prepared text/focus, GitHub sign-in handoff, cooldown after reload and Escape/focus return. Its 390px dialog and 1100px desktop-map header did not overflow/overlap. Issues was enabled. Recheck the updated private/public UI; prior layout results do not cover the new controls.
 
