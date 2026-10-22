@@ -20,12 +20,15 @@
     "react-dom": "^18.3.1"
   },
   "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "^1.13.6"
+    },
     "osmtogeojson": {
       "@xmldom/xmldom": "0.9.12"
     }
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^5.4.11"
+    "vite": "^6.4.5"
   }
 }
