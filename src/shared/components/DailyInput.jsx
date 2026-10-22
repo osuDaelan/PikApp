@@ -14,7 +14,7 @@ export default function DailyInput({ icon, label, value, onChange, sliderMax, co
     if (digits === "") return "Enter a number.";
     if (!/^\d+$/.test(digits)) return "Numbers only — no letters, symbols, or negatives.";
     const n = parseInt(digits, 10);
-    if (n <= 0) return "Must be at least 1.";
+    if (n < 0) return "Must be 0 or more.";
     return "";
   }
 
@@ -39,7 +39,7 @@ export default function DailyInput({ icon, label, value, onChange, sliderMax, co
 
   function handleBlur() {
     const digits = stripCommas(raw);
-    if (error || digits === "" || parseInt(digits, 10) <= 0) {
+    if (error || digits === "" || parseInt(digits, 10) < 0) {
       setRaw(fmtComma(value));
       setError("");
     } else {
@@ -77,6 +77,7 @@ export default function DailyInput({ icon, label, value, onChange, sliderMax, co
           <input
             type="text"
             inputMode="numeric"
+            aria-label={label}
             value={raw}
             onChange={handleChange}
             onBlur={handleBlur}

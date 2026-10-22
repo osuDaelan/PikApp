@@ -9,9 +9,10 @@ export default function StatsEditor({ calculator }) {
   const {
     editing, setEditing, editFocus, eLevel, eLevelRaw, eLevelError,
     eStepsInput, setEStepsInput, eFlowersInput, setEFlowersInput, eCoinsNow, setECoinsNow,
-    handleLevelChange, saveEdit, totalStepsMode, toggleTotalStepsMode, req,
+    handleLevelChange, saveEdit, totalStepsMode, toggleTotalStepsMode,
   } = calculator;
   if (!editing) return null;
+  const editReq = LEVELS[eLevel + 1];
   return (
     <div style={{ background: "#fff", borderRadius: 18, padding: 18, marginBottom: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.13)" }}>
       <div style={{ fontWeight: 900, color: DG, fontSize: 15, marginBottom: 4 }}>📝 Update Stats</div>
@@ -60,18 +61,18 @@ export default function StatsEditor({ calculator }) {
             : <>Enter the steps remaining shown in your game. Lv {eLevel}→{eLevel+1} requires <b>{LEVELS[eLevel+1] ? fmt(LEVELS[eLevel+1].steps) : "—"}</b> {eLevel < 100 ? "total" : ""} steps.</>
           }
         </div>
-        <ValidatedInput value={eStepsInput} onChange={setEStepsInput} placeholder={eLevel < 100 && totalStepsMode ? "e.g. 5250000" : "e.g. 334924"} accentColor="#c8e6b8" autoFocus={editFocus === "steps"} />
+        <ValidatedInput value={eStepsInput} onChange={setEStepsInput} placeholder="e.g. 1000" accentColor="#c8e6b8" autoFocus={editFocus === "steps"} />
       </div>
 
       {/* Flowers to go */}
       <div style={{ marginBottom: 16 }}>
-        {req && req.flowers != null ? (
+        {editReq && editReq.flowers != null ? (
           <>
             <div style={{ fontWeight: 700, fontSize: 13, color: "#555", marginBottom: 2 }}>🌸 Flowers to go</div>
             <div style={{ fontSize: 10, color: "#aaa", marginBottom: 5 }}>
               The game requires <b>{LEVELS[eLevel+1] ? fmt(LEVELS[eLevel+1].flowers) : "—"}</b> flowers for Lv {eLevel}→{eLevel+1}. Enter what it shows you left.
             </div>
-            <ValidatedInput value={eFlowersInput} onChange={setEFlowersInput} placeholder={eLevel < 100 ? "e.g. 85000" : "e.g. 243753"} accentColor="#f8c8e8" autoFocus={editFocus === "flowers"} />
+            <ValidatedInput value={eFlowersInput} onChange={setEFlowersInput} placeholder="e.g. 500" accentColor="#f8c8e8" autoFocus={editFocus === "flowers"} />
           </>
         ) : (
           <div style={{ padding: "10px 12px", background: "#f0f8ec", borderRadius: 10, fontSize: 12, color: "#888" }}>

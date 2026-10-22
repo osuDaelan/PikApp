@@ -31,6 +31,12 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
+## First-visit calculator defaults
+
+New visitors start at level 1 with zero steps, flowers, daily averages and coins, and an empty decor collection. The calculator prompts for game stats and daily averages before showing estimates. Zero daily averages are valid inputs; a timeline stops before any later requirement that cannot be estimated without a positive average, rather than displaying invalid dates or infinite durations. The stats editor shows flower requirements for the level being edited.
+
+These are fallbacks for missing save fields, not a reset. Existing browser progress and private development backups retain priority. Previously saved sample values are preserved too, because the app cannot distinguish those from values a visitor entered deliberately. Localhost and the public site still have separate saves.
+
 ## Local calculator autosave
 
 When running `npm.cmd run dev` on localhost, applied calculator changes automatically back up to `.local/calculator-progress.json` after 400ms. The file contains level, steps/flowers input, daily averages, coins, and step-entry mode. The Update Stats form's **Save** button still applies its edits; daily-average changes save directly. A small status below the level badge shows saving, successful file backup, or retrying after failure.

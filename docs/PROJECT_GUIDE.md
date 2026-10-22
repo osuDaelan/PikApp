@@ -1,6 +1,6 @@
 # PikApp project guide
 
-Last reviewed: October 21, 2026, including the first decor-map implementation. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
+Last reviewed: October 22, 2026, including public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
 
 ## Purpose and current status
 
@@ -8,7 +8,7 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 
 | Area | Implemented now | Remaining work |
 | --- | --- | --- |
-| Now / calculator | Level requirements through 120, daily averages, step/flower forecasts, coin estimates, stats editor | Separate forecast correctness review; requirements above 120 are not in the dataset |
+| Now / calculator | Level requirements through 120, daily averages, step/flower forecasts, coin estimates, stats editor; new visitors start at level 1 with zeroed stats | Separate forecast correctness review; requirements above 120 are not in the dataset |
 | Decor checklist | 896 stable entries, regular/rare/event and numbered designs, local artwork, collection totals, bulk selection, rare unlock rules | Search/filters, real-device performance measurements, any future catalogue expansion |
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
@@ -79,6 +79,8 @@ Paths below are relative to the project root.
 6. `AppHeader` owns its one-second clock. Wallpaper timing lives in its own feature. Neither belongs in collection logic.
 
 The stats editor keeps drafts until **Save** applies them. Daily averages save directly. Below level 100, step input can represent lifetime total or remaining steps depending on the mode; at level 100 and above it represents remaining steps. Flower input represents remaining flowers. Preserve these meanings when extending storage or using projections elsewhere.
+
+Fresh calculator saves use level 1 and zero steps, flowers, daily averages and coins. Existing fields, including saved zeros, take priority; no reset or migration is performed. The editor initializes from loaded stats and uses the draft level to choose flower inputs. With no daily step average or no average for outstanding flowers, show the setup prompt instead of estimates. Later timeline rows stop before a requirement with an unknown rate, with a prompt for the missing flower average. Typed zero averages and slider zeros both work. Private localhost backup restoration still overrides missing fields in development; it is excluded from the public build.
 
 ### Current section layout
 
@@ -151,7 +153,7 @@ npm.cmd run build
 
 Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Node 22 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **50 passing Node tests** and a production build with the `/PikApp/` base, including map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
+The current baseline is **53 passing Node tests** and a production build with the `/PikApp/` base, including zero-rate and partial-timeline calculator regressions, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
 
 For changes, run checks appropriate to the behavior changed; use browser checks for layout/interaction and production builds for import/asset/build changes. For documentation-only changes, check paths, links, consistency and the diff. Avoid writing tests that merely repeat the implementation.
 

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getLevelReq, projectLevels, coinsPerDay } from "../src/features/calculator/calculations.js";
+import { getLevelReq, projectLevels, coinsPerDay, daysToComplete } from "../src/features/calculator/calculations.js";
 import { MAX_KNOWN } from "../src/features/calculator/levelData.js";
 
 test("requirements keep the cumulative/per-level boundary at the same levels", () => {
@@ -37,13 +37,39 @@ test("projection uses full per-level requirements through 120 and stops before u
   assert.deepEqual(projectLevels(120, 0, 0, 10000, 1000, 130), []);
 });
 
-test("default next-level and timeline calculations retain their existing results", () => {
+test("saved-progress next-level and timeline calculations retain their existing results", () => {
   const timeline = projectLevels(101, 334924, 243753, 8000, 500, 2);
   assert.deepEqual(timeline.map(({ level, days, stepsLeft, flowersLeft, bottleneck }) =>
     ({ level, days, stepsLeft, flowersLeft, bottleneck })), [
     { level: 102, days: 488, stepsLeft: 334924, flowersLeft: 243753, bottleneck: "flowers" },
     { level: 103, days: 1074, stepsLeft: 475400, flowersLeft: 292600, bottleneck: "flowers" },
   ]);
+});
+
+test("completion time needs a positive daily rate only when work remains", () => {
+  assert.equal(daysToComplete(0, 0), 0);
+  assert.equal(daysToComplete(-5, 0), 0);
+  assert.equal(daysToComplete(0, 500), 0);
+  assert.equal(daysToComplete(900, 200), 4.5);
+  assert.equal(daysToComplete(900, 0), Infinity);
+  assert.equal(daysToComplete(900, -1), Infinity);
+
+  const timeline = projectLevels(1, 0, 0, 0, 0, 130);
+  assert.deepEqual(timeline.map(({ level, days }) => ({ level, days })), [{ level: 2, days: 0 }]);
+  assert.ok(Number.isFinite(timeline[0].date.getTime()));
+});
+
+test("missing step or flower averages do not invent a completion date", () => {
+  assert.deepEqual(projectLevels(101, 100, 0, 0, 500), []);
+  assert.deepEqual(projectLevels(101, 0, 100, 8000, 0), []);
+});
+
+test("a low-level timeline stops when a later flower requirement has no daily average", () => {
+  const timeline = projectLevels(1, 0, 0, 500, 0, 130);
+  assert.deepEqual(timeline.map(({ level }) => level), Array.from({ length: 21 }, (_, index) => index + 2));
+  assert.equal(timeline.at(-1).days, 288);
+  assert.equal(getLevelReq(timeline.at(-1).level).flowers, 500);
+  assert.ok(timeline.every(({ days, date }) => Number.isFinite(days) && Number.isFinite(date.getTime())));
 });
 
 test("coin estimates retain rounding and the daily cap", () => {

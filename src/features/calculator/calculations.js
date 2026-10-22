@@ -19,15 +19,21 @@ export function buildRemaining(stepsLeft, flowersLeft, level) {
   };
 }
 
+export function daysToComplete(remaining, dailyAverage) {
+  if (!(remaining > 0)) return 0;
+  return dailyAverage > 0 ? remaining / dailyAverage : Infinity;
+}
+
 export function projectLevels(level, stepsLeft, flowersLeft, dSteps, dFlowers, count = 10) {
   const out = [];
   let sL = stepsLeft, fL = flowersLeft, lvl = level, dayOff = 0;
   for (let i = 0; i < count; i++) {
     const nextLv = lvl + 1;
     if (nextLv > MAX_KNOWN) break;
-    const sd = dSteps > 0 ? sL / dSteps : Infinity;
-    const fd = fL > 0 && dFlowers > 0 ? fL / dFlowers : 0;
+    const sd = daysToComplete(sL, dSteps);
+    const fd = daysToComplete(fL, dFlowers);
     const days = Math.ceil(Math.max(sd, fd));
+    if (!Number.isFinite(days)) break;
     dayOff += days;
     const date = new Date();
     date.setDate(date.getDate() + dayOff);

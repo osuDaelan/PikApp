@@ -12,7 +12,7 @@ export default function CalculatorSection({ calculator }) {
     level, req, rem, stepPct, flowerPct, openEdit,
     dSteps, setDSteps, dFlowers, setDFlowers,
     coinsNow, coinsDay, coinsCapped, coinsEarnedByThen, coinsAtLevelUp,
-    stepDays, flowerDays, bothDays, timeline,
+    stepDays, flowerDays, bothDays, canProject, timeline,
   } = calculator;
   return (
     <>
@@ -63,6 +63,17 @@ export default function CalculatorSection({ calculator }) {
             </div>
           </div>
 
+          {!canProject ? (
+            <div style={{ ...cardStyle, marginBottom: 12 }}>
+              <div style={{ fontWeight: 800, color: DG, fontSize: 14 }}>Set up your calculator</div>
+              <p style={{ color: "#666", fontSize: 12, lineHeight: 1.5 }}>
+                Enter your current game stats and daily averages to see level-up estimates.
+              </p>
+              <button type="button" onClick={() => openEdit("level")} style={{ background: G, color: "#fff", border: "none", borderRadius: 10, padding: "10px 14px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer" }}>
+                Enter your stats
+              </button>
+            </div>
+          ) : <>
           {/* ETA */}
           <div style={{ ...cardStyle, marginBottom: 12 }}>
             <div style={{ fontWeight: 800, color: DG, fontSize: 13, marginBottom: 10 }}>🎯 ETA to Level {level + 1}</div>
@@ -131,6 +142,9 @@ export default function CalculatorSection({ calculator }) {
                   </div>
                 );
               })}
+              {timeline.length > 0 && timeline[timeline.length - 1].level < MAX_KNOWN && (
+                <p style={{ padding: "10px 0", fontSize: 12, color: "#777" }}>Enter a daily flower average to project later levels.</p>
+              )}
               {level + timeline.length >= MAX_KNOWN && (
                 <div style={{ margin: "10px 0 14px", padding: "8px 10px", background: "#fef9e7", borderRadius: 10, fontSize: 11, color: "#c8a800" }}>
                   ⚠️ Wiki data only goes to Lv {MAX_KNOWN}. Levels {MAX_KNOWN + 1}–130 not yet documented.
@@ -138,6 +152,7 @@ export default function CalculatorSection({ calculator }) {
               )}
             </div>
           </div>
+          </>}
         </div>
       )}
     </>
