@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createCalculatorBackupFile, isLocalBackupRequest } from "../dev/localCalculatorBackup.js";
 import { validCalculatorSnapshot } from "../src/storage/calculatorBackupData.js";
-import { markCalculatorChanged, restoreLocalCalculatorBackup } from "../src/storage/localCalculatorBackup.js";
+import { assertLocalCalculatorRestoreVerified, markCalculatorChanged, restoreLocalCalculatorBackup, saveLocalCalculatorBackup } from "../src/storage/localCalculatorBackup.js";
 
 const calculator = {
   level: 106, stepsInput: 100000, flowersInput: 50000,
@@ -41,7 +41,7 @@ test("local calculator backup survives reopening and rejects stale/invalid write
 
 test("restoration recovers all calculator fields without changing decor progress", async () => {
   const entries = new Map([["pb_decorCollected", '{"saved":true}']]);
-  const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value) };
+  const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value), removeItem: key => entries.delete(key) };
   const request = async () => ({ ok: true, json: async () => record(20) });
   await restoreLocalCalculatorBackup({ storage, request });
   for (const [field, value] of Object.entries(calculator)) assert.equal(entries.get(`pb_${field}`), String(value));
@@ -58,6 +58,58 @@ test("missing or failed backup service leaves existing browser values intact", a
   await assert.rejects(restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: false }) }));
 });
 
+test("a failed development restore rolls back partial writes and preserves missing fields", async () => {
+  const initial = { pb_level: "9", pb_flowersInput: "42", pb_localCalculatorUpdatedAt: "10", pb_decorCollected: '{"saved":true}' };
+  const entries = new Map(Object.entries(initial));
+  let failed = false;
+  const storage = {
+    getItem: key => entries.get(key) ?? null,
+    setItem(key, value) {
+      if (key === "pb_dSteps" && !failed) { failed = true; throw new Error("Quota exceeded"); }
+      entries.set(key, value);
+    },
+    removeItem: key => entries.delete(key),
+  };
+  await assert.rejects(restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: true, json: async () => record(20) }) }),
+    error => error.rollbackFailed === false && /Previous browser values were restored/.test(error.message));
+  assert.deepEqual(Object.fromEntries(entries), initial);
+});
+
+test("failed startup restoration cannot overwrite a good file through subsequent autosave", async t => {
+  const entries = new Map([["pb_level", "9"], ["pb_localCalculatorUpdatedAt", "10"]]);
+  let posts = 0;
+  t.mock.method(globalThis, "fetch", async () => { posts++; return { ok: true }; });
+  const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value), removeItem: key => entries.delete(key) };
+  await assert.rejects(restoreLocalCalculatorBackup({ storage, request: async () => { throw new Error("Server temporarily unavailable"); } }));
+  assert.throws(() => assertLocalCalculatorRestoreVerified(), error => error.code === "RESTORE_UNVERIFIED");
+  assert.equal(entries.get("pb_localCalculatorUpdatedAt"), "10");
+  await assert.rejects(saveLocalCalculatorBackup(calculator, 100), error => error.code === "RESTORE_UNVERIFIED" && /not restored safely/.test(error.message));
+  assert.equal(posts, 0);
+  await restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: true, json: async () => null }) });
+  assert.doesNotThrow(() => assertLocalCalculatorRestoreVerified());
+  await saveLocalCalculatorBackup(calculator, 100);
+  assert.equal(posts, 1, "a verified empty file allows the normal backup path again");
+});
+
+test("a failed rollback is explicit and the existing development file remains protected", async t => {
+  const entries = new Map([["pb_level", "9"], ["pb_localCalculatorUpdatedAt", "10"]]);
+  let restoring = false, posts = 0;
+  const storage = {
+    getItem: key => entries.get(key) ?? null,
+    setItem(key, value) {
+      if (key === "pb_stepsInput") { restoring = true; throw new Error("Quota exceeded"); }
+      if (key === "pb_level" && restoring) throw new Error("Rollback blocked");
+      entries.set(key, value);
+    },
+    removeItem: key => entries.delete(key),
+  };
+  t.mock.method(globalThis, "fetch", async () => { posts++; return { ok: true }; });
+  await assert.rejects(restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: true, json: async () => record(20) }) }),
+    error => error.rollbackFailed === true && /backup file is unchanged/.test(error.message));
+  await assert.rejects(saveLocalCalculatorBackup(calculator, 100), /not restored safely/);
+  assert.equal(posts, 0);
+});
+
 test("development saves preserve imported freshness when the device clock moves backwards", async () => {
   const entries = new Map([["pb_localCalculatorUpdatedAt", "9001"], ["pb_level", "9"]]);
   const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value) };
@@ -71,7 +123,7 @@ test("development saves preserve imported freshness when the device clock moves 
 test("backup accepts calculator fields only and blocks unrelated website requests", () => {
   assert.equal(validCalculatorSnapshot(calculator), true);
   for (const invalid of [{ ...calculator, extra: "secret" }, { ...calculator, stepsInput: -1 },
-    { ...calculator, coinsNow: "433" }, { ...calculator, totalStepsMode: "false" }]) {
+    { ...calculator, coinsNow: "433" }, { ...calculator, totalStepsMode: "false" }, { ...calculator, dSteps: 1_000_000_000 }]) {
     assert.equal(validCalculatorSnapshot(invalid), false);
   }
   assert.equal(isLocalBackupRequest({ host: "localhost:5173", origin: "http://localhost:5173" }), true);

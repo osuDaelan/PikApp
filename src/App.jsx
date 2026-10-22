@@ -17,6 +17,7 @@ import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
 import useSectionNavigation from "./shared/hooks/useSectionNavigation.js";
 import { calculatorSnapshot } from "./storage/calculatorBackupData.js";
 import { createMapStore } from "./features/decor-map/mapStorage.js";
+import { guestProgressStore } from "./storage/progressStore.js";
 
 const DecorMapSection = lazy(() => import("./features/decor-map/DecorMapSection.jsx"));
 
@@ -55,6 +56,7 @@ function AppSession({ importComplete, onProgressImported }) {
   const mapProgress = useRef(null);
   const captureMapProgress = useCallback(readTransferState => { mapProgress.current = readTransferState; }, []);
   function getProgressSnapshot() {
+    guestProgressStore.assertReadable();
     let map;
     if (mapProgress.current) map = mapProgress.current();
     else {

@@ -1,12 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { calculatorSnapshot } from "../../storage/calculatorBackupData.js";
-import { isCalculatorBackedUp, markCalculatorChanged, saveLocalCalculatorBackup } from "../../storage/localCalculatorBackup.js";
+import { guestProgressStore } from "../../storage/progressStore.js";
+import { assertLocalCalculatorRestoreVerified, isCalculatorBackedUp, markCalculatorChanged, saveLocalCalculatorBackup } from "../../storage/localCalculatorBackup.js";
 
 export default function LocalCalculatorSave({ calculator }) {
   const snapshot = JSON.stringify(calculatorSnapshot(calculator));
+  const initialSnapshot = useRef(snapshot);
   const [status, setStatus] = useState("Saving local backup…");
   useEffect(() => {
     const data = JSON.parse(snapshot);
+    try { guestProgressStore.assertReadable(); }
+    catch { setStatus("File backup paused · restore browser storage and reload"); return; }
+    try { assertLocalCalculatorRestoreVerified(); }
+    catch {
+      // Do not make the startup fallback newer than the unread file. Later user
+      // edits still need a freshness marker so restoring on reload preserves them.
+      if (snapshot !== initialSnapshot.current) {
+        try { markCalculatorChanged(Date.now()); } catch { /* Browser save status reports unavailable storage. */ }
+      }
+      setStatus("File backup paused · reload to retry restoration");
+      return;
+    }
     if (isCalculatorBackedUp(data)) { setStatus("Saved locally · file backup"); return; }
     let savedAt = Date.now();
     let cancelled = false;
@@ -19,8 +33,12 @@ export default function LocalCalculatorSave({ calculator }) {
       try {
         await saveLocalCalculatorBackup(data, savedAt);
         if (!cancelled) setStatus("Saved locally · file backup");
-      } catch {
+      } catch (error) {
         if (!cancelled) {
+          if (error.code === "RESTORE_UNVERIFIED") {
+            setStatus("File backup paused · reload to retry restoration");
+            return;
+          }
           setStatus("File backup unavailable · retrying…");
           retry = window.setTimeout(save, 5000);
         }

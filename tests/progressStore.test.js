@@ -64,6 +64,54 @@ test("invalid collection data falls back without crashing", () => {
   }
 });
 
+test("unreadable progress cannot be erased by mount autosave or its retry button", () => {
+  const original = '{"saved":true,"future":{"collected":true}}';
+  const storage = memoryStorage({ pb_decorCollected: original, pb_level: "999" });
+  const store = createProgressStore({ getStorage: () => storage });
+  assert.deepEqual(store.read("decorCollected", {}), {});
+  assert.equal(store.read("level", 1), 1);
+  assert.equal(store.write("decorCollected", {}), false);
+  assert.equal(store.write("level", 1), false);
+  assert.equal(store.retryFailedWrites(), false);
+  assert.equal(storage.getItem("pb_decorCollected"), original);
+  assert.equal(storage.getItem("pb_level"), "999");
+  assert.throws(() => store.assertReadable(), /original data is protected/);
+  assert.equal(store.getSaveStatus().status, "error");
+  assert.equal(store.write("level", 1, { allowUnreadable: true }), true, "an intentional save of the displayed fallback is allowed");
+  assert.equal(store.write("level", 9, { allowUnreadable: true }), true);
+  assert.throws(() => store.assertReadable(), /protected/);
+  assert.equal(store.write("decorCollected", { newlyChosen: true }, { allowUnreadable: true }), true);
+  assert.doesNotThrow(() => store.assertReadable());
+  assert.equal(store.getSaveStatus().status, "saved");
+  assert.deepEqual(store.read("decorCollected", {}), { newlyChosen: true });
+});
+
+test("a temporary read failure cannot overwrite progress when writes become available", () => {
+  const storage = memoryStorage({ pb_level: "50" });
+  let blocked = true;
+  const store = createProgressStore({ getStorage: () => { if (blocked) throw new Error("Temporarily blocked"); return storage; } });
+  assert.equal(store.read("level", 1), 1);
+  blocked = false;
+  assert.equal(store.write("level", 1), false);
+  assert.equal(store.retryFailedWrites(), false);
+  assert.equal(storage.getItem("pb_level"), "50");
+  assert.throws(() => store.assertReadable(), /Restore browser storage and reload/);
+  const reloaded = createProgressStore({ getStorage: () => storage });
+  assert.equal(reloaded.read("level", 1), 50);
+  assert.doesNotThrow(() => reloaded.assertReadable());
+});
+
+test("invalid numeric and option values are protected rather than truncated or reset", () => {
+  for (const [field, raw, fallback] of [["stepsInput", "101junk", 0], ["dSteps", "-1", 0],
+    ["level", "0", 1], ["level", "121", 1], ["coinsNow", "1000000000", 0], ["showAllDecor", "yes", false]]) {
+    const storage = memoryStorage({ [`pb_${field}`]: raw });
+    const store = createProgressStore({ getStorage: () => storage });
+    assert.equal(store.read(field, fallback), fallback);
+    assert.equal(store.write(field, fallback), false);
+    assert.equal(storage.getItem(`pb_${field}`), raw);
+  }
+});
+
 test("blocked storage does not prevent using the app", () => {
   const store = createProgressStore({ getStorage: () => { throw new Error("Blocked"); } });
   assert.equal(store.read("level", 101), 101);
