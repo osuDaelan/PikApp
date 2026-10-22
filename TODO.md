@@ -1,6 +1,6 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave and restoration for returning visitors, alongside decor-map refinement. Accounts and cross-device saving are deferred.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits and manual full-progress file transfer, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
 Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
@@ -93,15 +93,21 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 
 ### Data model and guest migration
 
-- [ ] Define a versioned saved-progress schema with stable decor IDs and update timestamps.
+- [x] Define a versioned portable full-progress JSON format with stable decor IDs and an export timestamp.
+- [ ] Define future account-sync update timestamps/revisions and conflict metadata separately from the portable browser-save format.
 - [x] Continue saving guest calculator/collection progress in browser storage with legacy keys.
 - [x] Show calculator/checklist browser-save success or error status and let failed writes be retried; keep map saving in its existing separate flow.
 - [x] Verify saved calculator edits, daily averages, checklist choices and a test map pin/category/notes after closing and reopening a separate production-preview site's tab; retain existing user data during the check. Full browser restart and physical-device checks remain future validation.
 - [x] Add a private development-only calculator file backup and startup restore; exclude personal data and the endpoint from production.
-- [ ] Add portable export/import and decide whether to expand file backup beyond calculator data.
+- [x] Add **Browser saves → Export progress / Import progress** for calculator values, checklist/visibility and map pins/preferences; leave OSM results, artwork and auth data out.
+- [x] Validate and preview imports before explicit **Replace browser progress**; replace rather than merge so unchecked items and deleted pins can transfer.
+- [x] Keep a local previous-save recovery copy, offer **Download previous save**, and report replacement/rollback failures.
+- [x] Remount app progress after successful import without reloading the page; protect imported calculator values from an older development file backup.
+- [x] Verify export, reviewed import and restored values/pin details after reload across isolated browser origins, without changing real user saves. Node tests cover invalid files, explicit unchecks/deletions, recovery round-trips and failed-write rollback; physical-phone file selection remains to be checked.
+- [ ] Decide whether to expand the private development file backup beyond calculator data; full-progress exports are manual downloaded files.
 - [ ] On first sign-in, offer to import the collection already saved in that browser.
 - [ ] Define what happens if both guest progress and account progress exist; preview the merge and avoid silently replacing either collection.
-- [ ] Keep a local recovery copy until the import has succeeded.
+- [ ] Keep a local recovery copy until any future guest-to-account import has succeeded.
 - [x] Provide isolated guest/account local cache namespaces without automatically importing guest data.
 - [ ] Integrate and test those namespaces with real authentication, including account switching and sign-out.
 - [ ] Decide whether to record when an item was collected, in addition to its collected/uncollected state.
@@ -124,7 +130,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Verify existing localStorage formats and original 896 collection IDs during the feature/image changes.
 - [ ] Recheck saved progress and layout after map integration and later schema/account changes.
 - [ ] Test guest use, first sign-in, guest import, returning sign-in, sign-out, and account switching.
-- [ ] Verify progress saved on one device is restored on another.
+- [ ] Verify future account progress is automatically restored on another signed-in device; manual full-progress transfer is a separate flow.
 - [ ] Verify one account cannot access another account's data, including through direct requests.
 - [ ] Test offline edits, failed saves, reconnects, and conflicting updates.
 - [x] Add a regression check for the original catalogue IDs and totals.
@@ -140,7 +146,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 1. Keep feature boundaries, the project guide and accepted visual notes current (baseline and initial map complete).
 2. Review the first map slice, including real public-service behavior and the local pin workflow.
 3. Refine discovery/regions, choose address search if wanted, and add features incrementally.
-4. Verify browser autosave/status/retry and returning-visitor restoration in the same browser/site; document storage-clearing and private-browsing limits. No Firebase setup is needed.
+4. Verify browser autosave/status/retry, returning-visitor restoration and full-progress JSON transfer/recovery; document explicit replacement, private coordinates/notes, storage-clearing and private-browsing limits. No Firebase setup is needed.
 5. Measure real-device performance and optimize measured bottlenecks.
 6. Resume Google sign-in/Firebase configuration only when the user brings accounts back into scope; then plan database authorization, explicit guest import and cloud conflicts/recovery.
 7. Verify accessibility, location-data behavior and release configuration; verify account isolation when account storage exists.

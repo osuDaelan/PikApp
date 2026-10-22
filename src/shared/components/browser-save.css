@@ -12,6 +12,27 @@
 .browser-save-dialog__status--error { background: #fff1e6; color: #8c351a; }
 .browser-save-dialog__retry { width: 100%; min-height: 40px; margin-top: 12px; border: 0; border-radius: 10px; background: #327b50; color: white; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 .browser-save-dialog__hint { color: #647466; }
+.progress-transfer { margin-top: 18px; padding-top: 16px; border-top: 1px solid #dce8d7; }
+.progress-transfer h3 { margin: 0 0 8px; font-size: 15px; }
+.progress-transfer h4 { margin: 0 0 8px; font-size: 14px; }
+.progress-transfer__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.progress-transfer button, .progress-transfer__file { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #bfd3b8; border-radius: 10px; background: #f7fbf3; color: #285338; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.progress-transfer__file { position: relative; overflow: hidden; }
+.progress-transfer__file input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.progress-transfer__file:focus-within { outline: 3px solid #285338; outline-offset: 3px; }
+.progress-transfer button:disabled, .progress-transfer__file--busy { opacity: .6; cursor: default; }
+.progress-transfer p.progress-transfer__hint { font-size: 11px; color: #647466; }
+.progress-transfer__preview { margin-top: 14px; padding: 12px; border: 1px solid #bfd3b8; border-radius: 12px; background: #f4f8ee; }
+.progress-transfer__preview p { font-size: 12px; }
+.progress-transfer__filename { overflow-wrap: anywhere; color: #647466; }
+.progress-transfer table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.progress-transfer th, .progress-transfer td { padding: 6px 3px; border-bottom: 1px solid #dce8d7; text-align: right; }
+.progress-transfer th:first-child { text-align: left; }
+.progress-transfer button.progress-transfer__replace { background: #327b50; border-color: #327b50; color: #fff; }
+.progress-transfer__notice { color: #285338; }
+.progress-transfer__error { color: #9a302d; }
+.progress-transfer__recovery { margin-top: 14px; }
+.progress-transfer__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 @media (max-width: 719px) {
   .browser-save { position: static; margin-top: 6px; }
   .browser-save__trigger { min-height: 28px; padding: 4px 10px; font-size: 11px; }

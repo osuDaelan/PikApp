@@ -1,6 +1,6 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Progress saves automatically in the browser without an account. Google sign-in is hidden and cloud saving is deferred at the user's request.
+An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Progress saves automatically in the browser without an account and can be moved manually using a full-progress JSON file. Google sign-in is hidden and cloud saving is deferred at the user's request.
 
 ## Project notes
 
@@ -34,11 +34,22 @@ npm.cmd run preview
 
 ## Browser autosave
 
-No account is needed. Applied calculator edits, daily averages, checklist selections and saved map pins/preferences are written to browser storage and loaded on returning to the same site in the same browser/profile on the same device. The calculator's **Save** button applies its form edits; daily averages and checklist selections save directly. The calculator/checklist badge shows **Autosave ready**, **Saved in this browser** or **Changes not saved**. Its **Browser saves** dialog explains the scope and offers **Try saving again** for failed writes. Map saving has its own status and recovery/export controls.
+No account is needed. Applied calculator edits, daily averages, checklist selections and saved map pins/preferences are written to browser storage and loaded on returning to the same site in the same browser/profile on the same device. The calculator's **Save** button applies its form edits; daily averages and checklist selections save directly. The calculator/checklist badge shows **Autosave ready**, **Saved in this browser** or **Changes not saved**. Its **Browser saves** dialog explains the scope, offers **Try saving again** for failed writes, and contains full-progress export/import. Map saving also retains its separate status and pin-only recovery/export controls.
 
-Closing and reopening a normal browser tab does not intentionally reset progress. If a storage error persists, keep the tab open: changes that have not been saved are retained only in memory until retry succeeds. Clearing site data, changing browser/profile/device, or private-browsing storage limits can remove or separate saves. Localhost, different ports and the public GitHub Pages site have separate storage. Devices do not sync; export map pins for a separate copy. The private calculator file backup below is an additional localhost-development feature.
+Closing and reopening a normal browser tab does not intentionally reset progress. If a storage error persists, keep the tab open: changes that have not been saved are retained only in memory until retry succeeds. Clearing site data, changing browser/profile/device, or private-browsing storage limits can remove or separate saves. Localhost, different ports and the public GitHub Pages site have separate storage. Devices do not sync automatically; use the manual transfer below to move a save. The private calculator file backup is an additional localhost-development feature.
 
-Verified on October 22 with 70 passing tests and a production build: calculator stats/averages, a checklist selection and a public test map pin with category/notes survived closing and reopening an isolated preview tab. Save failures and latest-value retry are covered by controlled-storage tests. Existing user progress was left intact.
+The October 22 autosave check confirmed calculator stats/averages, a checklist selection and a public test map pin with category/notes survived closing and reopening an isolated preview tab. Save failures and latest-value retry are covered by controlled-storage tests. Existing user progress was left intact.
+
+## Move or back up full progress
+
+1. Open the save-status badge, then choose **Export progress** in **Browser saves**. PikApp downloads a JSON file containing the seven calculator fields, checklist values and rare-visibility preference, plus map pins/preferences. It excludes scanned OSM results, artwork and authentication data.
+2. Copy or send the downloaded file yourself to the other device/browser, or keep it as a separate backup. PikApp does not upload or send it. The JSON is not encrypted and can contain precise pin coordinates and private notes; keep it private.
+3. On the destination site, open **Browser saves → Import progress**, choose that JSON file and review its level, collected-item count and pin count. The format also works for moving progress between localhost and the public site.
+4. Choose **Replace browser progress** only when the preview is the save you want. This replaces calculator, checklist and map data instead of merging it: unchecked items and removed pins in the imported save remain unchecked/removed. The app remounts its saved state after success without reloading the page.
+
+Before replacement, PikApp keeps a local copy of the previous save and offers **Download previous save**. If writing the replacement fails, it attempts to roll back and reports the failure, including any incomplete recovery. Download the previous save and import it to restore that version if needed. This recovery copy is stored in the same browser; clearing site data can remove it too, so an exported file is the separate backup. Validation or preview alone does not replace current progress. The existing map-only pin import/export remains available separately.
+
+Verified with **83 passing tests** and a production build: an exported preview save imported into a second, independent browser origin with its calculator values, checklist choice and pin/category/notes intact after reload. The previous-save control was available after import. Controlled-storage tests cover invalid files, explicit unchecks/pin removal, readable recovery round-trips, failed writes/rollback and backwards-clock development backups. A narrow viewport check fitted the transfer dialog without horizontal overflow; physical-phone file selection remains unverified.
 
 ## Google sign-in (deferred)
 
@@ -72,7 +83,7 @@ The public website uses [GitHub Pages](https://osuDaelan.github.io/PikApp/). `.g
 
 On October 21, 2026, the user authorized making the repository public and publishing the app. GitHub Pages is configured to use **GitHub Actions**, with HTTPS enforced. Follow deployments in [Actions → Deploy PikApp to GitHub Pages](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml). A successful run publishes that commit; a local commit alone does not publish it. Future pushes to `main` automatically run the same checks and deployment.
 
-The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in is hidden and cloud saving is deferred. GitHub Pages hosts the frontend rather than an account database.
+The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site; full-progress JSON export/import provides manual transfer. Devices do not sync automatically. Google sign-in is hidden and cloud saving is deferred. GitHub Pages hosts the frontend rather than an account database.
 
 To check the hosted path locally:
 
@@ -144,7 +155,7 @@ Collection names, variants, and ID generation remain unchanged, so existing vali
 
 `createProgressStore({ accountId })` provides a separate local cache namespace for a future account. It never automatically imports guest data. This is an organizational boundary, **not authentication or access control**. Future cloud sync must authenticate users, enforce server-side per-user access, handle conflicts/retries, and explicitly import guest progress. Mount fresh state hooks when changing stores/accounts to avoid carrying one session's in-memory state into another. Inject `getStorage` when testing.
 
-Writes return a success flag. `getSaveStatus()` and `subscribeSaveStatus()` expose successful/failed browser writes to the calculator/checklist status UI; failed values remain retryable through `retryFailedWrites()` without clearing other saved fields. The development calculator file backup has a separate saving/saved/retry indicator, described above, and map saving has its own error/recovery flow. Remote sync remains deferred. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
+Writes return a success flag. `getSaveStatus()` and `subscribeSaveStatus()` expose successful/failed browser writes to the calculator/checklist status UI; failed values remain retryable through `retryFailedWrites()` without clearing other saved fields. `src/storage/progressTransfer.js` owns the separate versioned full-progress format, validation, previous-save recovery and replacement/rollback path; `src/shared/components/ProgressTransfer.jsx` owns its dialog controls. After a successful import, the app remounts its progress owners to read the imported values. The development calculator freshness marker is updated so an older development file cannot replace the imported calculator save. The development calculator file backup has a separate saving/saved/retry indicator, described above, and map saving has its own error/recovery flow. Remote sync remains deferred. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
 
 ## Decor images
 

@@ -1,6 +1,6 @@
 import { cleanCategoryIds, DEFAULT_CATEGORY_IDS } from "./categories.js";
 import { DEFAULT_VIEWPORT, validPoint, validViewport } from "./coordinates.js";
-import { validOsmId } from "./osm.js";
+import { validOsmId } from "./osmId.js";
 import { DATA_SOURCES, DEFAULT_SOURCE_ID } from "./providers.js";
 
 export const MAP_STORAGE_KEY = "pb_decorMap_v1";

@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createCalculatorBackupFile, isLocalBackupRequest } from "../dev/localCalculatorBackup.js";
 import { validCalculatorSnapshot } from "../src/storage/calculatorBackupData.js";
-import { restoreLocalCalculatorBackup } from "../src/storage/localCalculatorBackup.js";
+import { markCalculatorChanged, restoreLocalCalculatorBackup } from "../src/storage/localCalculatorBackup.js";
 
 const calculator = {
   level: 106, stepsInput: 100000, flowersInput: 50000,
@@ -56,6 +56,16 @@ test("missing or failed backup service leaves existing browser values intact", a
   const storage = { getItem: () => "104", setItem: () => assert.fail("must not write") };
   await restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: true, json: async () => null }) });
   await assert.rejects(restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: false }) }));
+});
+
+test("development saves preserve imported freshness when the device clock moves backwards", async () => {
+  const entries = new Map([["pb_localCalculatorUpdatedAt", "9001"], ["pb_level", "9"]]);
+  const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value) };
+  const effectiveTime = markCalculatorChanged(5000, { storage });
+  assert.equal(effectiveTime, 9002, "the returned timestamp must also be used for the file backup POST");
+  assert.equal(entries.get("pb_localCalculatorUpdatedAt"), "9002");
+  await restoreLocalCalculatorBackup({ storage, request: async () => ({ ok: true, json: async () => record(9000, { level: 3 }) }) });
+  assert.equal(entries.get("pb_level"), "9", "an older development file cannot undo imported progress");
 });
 
 test("backup accepts calculator fields only and blocks unrelated website requests", () => {

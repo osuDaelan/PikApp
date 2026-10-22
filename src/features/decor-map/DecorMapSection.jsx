@@ -20,9 +20,12 @@ function download(text, name) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export default function DecorMapSection({ decorCollected }) {
+export default function DecorMapSection({ decorCollected, onProgressSnapshot }) {
   const progress = useMapProgress();
   const { state, setState } = progress;
+  useEffect(() => {
+    onProgressSnapshot?.({ state, recoveryRaw: progress.recoveryRaw });
+  }, [state, progress.recoveryRaw, onProgressSnapshot]);
   const [initialViewport] = useState(state.viewport);
   const [bounds, setBounds] = useState(null);
   const [focus, setFocus] = useState(null);

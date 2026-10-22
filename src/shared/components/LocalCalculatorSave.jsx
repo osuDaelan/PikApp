@@ -8,11 +8,11 @@ export default function LocalCalculatorSave({ calculator }) {
   useEffect(() => {
     const data = JSON.parse(snapshot);
     if (isCalculatorBackedUp(data)) { setStatus("Saved locally · file backup"); return; }
-    const savedAt = Date.now();
+    let savedAt = Date.now();
     let cancelled = false;
     let retry;
     setStatus("Saving local backup…");
-    try { markCalculatorChanged(savedAt); }
+    try { savedAt = markCalculatorChanged(savedAt); }
     catch { setStatus("Browser storage unavailable · backing up to file…"); }
     async function save() {
       setStatus("Saving local backup…");

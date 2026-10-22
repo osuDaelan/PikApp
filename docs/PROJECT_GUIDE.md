@@ -1,6 +1,6 @@
 # PikApp project guide
 
-Last reviewed: October 22, 2026, including the user's decision to hide sign-in and focus on browser autosave, public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
+Last reviewed: October 22, 2026, including manual full-progress transfer, the user's decision to hide sign-in and focus on browser autosave, public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
 
 ## Purpose and current status
 
@@ -12,7 +12,7 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 | Decor checklist | 896 stable entries, regular/rare/event and numbered designs, local artwork, collection totals, bulk selection, rare unlock rules | Search/filters, real-device performance measurements, any future catalogue expansion |
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
-| Progress | Browser autosave for calculator and collection with saved/error feedback and retry; separate local map saves; private calculator file backup during localhost development | Collection file backup, portable export/import; cloud sync is deferred |
+| Progress | Browser autosave with saved/error feedback and retry; manual full-progress JSON export/import with preview, explicit replacement and previous-save recovery; separate map saves; private development calculator backup | Automatic full-progress backups and cloud sync remain deferred |
 | Sign-in | Auth groundwork retained for later; all account controls are hidden and unmounted | Google sign-in, Firebase configuration and cloud progress sync are deferred at the user's request |
 | Hosting | Public repository; HTTPS GitHub Pages configured with automatic test/build/deployment on pushes to `main` | Check the deployment workflow when publishing future changes |
 | Decor map | OSM discovery for 39 categories, place details, personal pins, local save and pin export/import | Address search provider, region rules, real-phone/dense-area profiling, cloud sync |
@@ -44,7 +44,7 @@ Paths below are relative to the project root.
 | Path / important symbols | Owns |
 | --- | --- |
 | `src/main.jsx` | Development backup restore before React mounts; production entry point |
-| `src/App.jsx` | App shell, feature state instances, active section, responsive layout, global celebration mounting |
+| `src/App.jsx` | App shell, feature state instances, active section, responsive layout, global celebration mounting and state remount after a full-progress import |
 | `src/shared/components/Navigation.jsx` / `TABS` | Current Now and Decor section buttons |
 | `src/features/calculator/levelData.js` / `MAX_KNOWN` | Level requirements and current dataset limit |
 | `src/features/calculator/calculations.js` | Pure requirements, forecasts, and coin calculations |
@@ -61,12 +61,15 @@ Paths below are relative to the project root.
 | `src/features/decor/{setCompletion,useSetCompletion,setConfetti}.js`, `SetCompletionCelebration.jsx`, `set-completion.css` | Set transitions, global canvas burst, completion message |
 | `src/features/wallpapers/` | Official image catalogue, local-time schedule, refresh on time/focus/visibility changes |
 | `src/features/decor-map/` | Lazy map section, category adapter, Overpass client, GeoJSON/layers, separate pin/preferences storage; detailed ownership in the map implementation notes |
+| `src/features/decor-map/osmId.js` | Lightweight saved-pin source-ID validation, shared without loading the geometry converter; `osm.js` re-exports the same symbol |
 | `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, desktop Overview, hash links and back/forward behavior |
 | `src/shared/components/` | Header/clock, navigation, inputs, rings, local backup status |
 | `src/shared/components/BrowserSaveStatus.jsx`, `browser-save.css` | Calculator/checklist browser-save badge, explanatory dialog and retry action; separate from map saving |
+| `src/shared/components/ProgressTransfer.jsx` | Full-progress JSON export/import controls, validated preview, explicit replacement and previous-save download inside Browser saves |
 | `src/features/auth/` | Retained, unmounted account dialog/session controller, Firebase web config/adapter and session hook; never reads or writes app progress |
 | `src/shared/{hooks,styles}/`, `src/shared/format.js` | Persisted-state/window hooks, theme/layout helpers, formatting |
 | `src/storage/progressStore.js` / `createProgressStore` | Synchronous browser storage contract, save-status subscriptions/retry and future account cache namespaces |
+| `src/storage/progressTransfer.js` | Versioned full-progress format, validation, local previous-save recovery, replacement/rollback and development-backup freshness marker |
 | `src/storage/{calculatorBackupData,localCalculatorBackup}.js` | Calculator backup schema, browser client and startup restoration |
 | `dev/localCalculatorBackup.js`, `vite.config.js` | Development-only file endpoint and private-file protection |
 | `public/images/` | Decor PNGs, app icon JPG, Garden WebP wallpapers |
@@ -76,7 +79,7 @@ Paths below are relative to the project root.
 ## Runtime and state flow
 
 1. In development, `main.jsx` attempts to restore the private calculator backup before mounting React. Production skips that restore.
-2. `App.jsx` creates `useCalculator()` and `useDecorCollection()` once. Section changes use these same state owners rather than making independent copies.
+2. `App.jsx` owns `useCalculator()` and `useDecorCollection()`. Section changes use the same state owners rather than making independent copies. A successful full-progress import deliberately remounts saved state so the imported calculator, collection and map values take effect without a page reload.
 3. Saved fields initialize through `useProgressState()` and `progressStore.read()`. Committed state changes write through `progressStore.write()`.
 4. Feature components receive state and actions. Calculator calculations stay in the calculator feature; catalogue/counting/rarity rules stay in the decor feature.
 5. Decor state transitions trigger temporary effects. Loading existing collected entries does not replay selection or set-completion effects.
@@ -134,12 +137,20 @@ All sizes use Nintendo Garden: day 6:00 AM–4:59 PM, evening 5:00 PM–9:59 PM,
 | Future account cache | `pb_account:<encoded account ID>:` namespace available through `createProgressStore({ accountId })` | Cache separation only; no authentication or server access control |
 | Bulk mode, effect state and selected map place | In memory | Not durable saved progress |
 | Map view, filters, source and personal pins | Separate versioned `pb_decorMap_v1` browser entry; pin JSON export/import available | No cloud copy; not part of the private calculator file backup |
+| Full-progress export | User-downloaded versioned JSON with calculator values, checklist values/visibility and map pins/preferences | Manual transfer; plaintext file can contain private coordinates and notes; no automatic upload/sync |
+| Previous-save recovery | Local browser copy created before full-progress replacement, available through **Download previous save** | Same-browser recovery only; not an independent backup if site data is cleared |
 
 `progressStore` exposes `read(field, fallback)` and `write(field, value)` returning a success flag. It only accepts its declared fields and falls back on malformed collection data or inaccessible storage. `getSaveStatus()` and `subscribeSaveStatus()` supply the calculator/checklist badge's **Autosave ready**, **Saved in this browser** or **Changes not saved** status. Its **Browser saves** dialog offers **Try saving again** through `retryFailedWrites()`. Failed values remain in memory, so the tab needs to remain open until retry succeeds; a later successful write to a different field does not hide an unresolved failure. The development file backup and map save/recovery flow have their own status.
 
 The development backup debounces applied calculator changes by 400ms, restores before mount, compares timestamps, validates an allowlist of fields, rejects stale writes, and atomically replaces the file. Its endpoint accepts same-origin loopback requests only; Vite denies static access to `.local/`. The endpoint, restore and status UI are development-only. See [README autosave details](../README.md#local-calculator-autosave) and `localCalculatorBackup.test.js`.
 
-Returning to the same site in the same normal browser/profile on the same device restores saved calculator values, collection choices and map pins/preferences without an account. Closing a tab does not intentionally clear those saves. Localhost, different ports/hostnames and a deployed site have separate browser storage; another browser/device has a different save. Clearing site data or private-browsing storage limits can discard progress. Map pin export provides a separate copy; broad progress export/import and cross-device sync remain deferred.
+Returning to the same site in the same normal browser/profile on the same device restores saved calculator values, collection choices and map pins/preferences without an account. Closing a tab does not intentionally clear those saves. Localhost, different ports/hostnames and a deployed site have separate browser storage; another browser/device has a different save. Clearing site data or private-browsing storage limits can discard progress. **Browser saves → Export progress / Import progress** moves the full save manually between those environments. The user transfers the downloaded file; PikApp does not upload it. Map-only pin export/import also remains available. Automatic cross-device sync is deferred.
+
+Full-progress import validates a versioned JSON file and previews level, collected count and pin count before the explicit **Replace browser progress** action. It replaces the seven calculator fields, checklist booleans and rare-visibility preference, and map pins/preferences; it does not merge collections or pins, so uncollecting items and deleting pins can be transferred. OSM scan results, artwork and auth data are excluded. The file can include precise coordinates and private notes and should be treated as private, unencrypted data.
+
+Before replacement, keep the previous save locally for **Download previous save**. Replacement writes use a guarded rollback path: failures report whether restoration was incomplete rather than claiming success. A successful import remounts the app's saved state without reloading the page and updates the local calculator freshness marker so an older development backup cannot overwrite imported data. The local recovery copy shares browser-storage limits; an exported file is the separate backup. Import validation or preview does not alter the current save.
+
+The portable format is `pikapp-progress`, version 1, limited to 20 MB of UTF-8 JSON. Import rejects unknown decor IDs, unsupported versions, malformed values and unrelated fields. The `pb_progressRecovery_v1` entry holds a readable previous backup plus exact originals for the 11 replaced storage keys. It excludes unrelated account/auth keys. If a rollback is incomplete, the UI offers recovery details for troubleshooting; that raw envelope is not accepted as a normal progress import. Export uses applied live calculator/checklist state and the latest mounted map snapshot (or the saved map before first mount), so failed browser writes need not hide recent changes. An unreadable saved map blocks full transfer until its map recovery flow is resolved. Closing Browser saves resets import previews and pending file reads.
 
 On October 22, the user asked to hide Google sign-in entirely and prioritize browser autosave. Auth/session code remains implemented but unmounted, with no Firebase initialization or auth SDK in the production app bundle. Do not request Firebase setup as an active prerequisite for the current app. Future account progress would still require a database, access rules, migration, conflict handling and recovery; the existing account cache namespaces are not selected automatically. Do not put personal progress, precise locations, private notes or credentials into committed documentation or assets.
 
@@ -159,9 +170,11 @@ npm.cmd run build
 
 Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Use Node 24.12 or newer for the Firebase SDK; Node 24 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **70 passing Node tests** and a production build with the `/PikApp/` base. The browser-save tests cover stable status subscriptions, failures that remain visible despite unrelated successful writes, retrying the latest failed values, partial recovery and successful replacement without replaying stale values. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage, development backup, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import. Retained auth controller checks use controlled clients; real Google OAuth remains unverified and deferred.
+The current baseline is **83 passing Node tests** and a production build with the `/PikApp/` base. New transfer tests cover strict format validation, UTF-8 limits, maximum pin collections, explicit unchecks/removals, readable and exact raw recovery, unchanged unrelated storage, recovery-write protection, rollback including absent keys, explicit rollback failures and supported timestamps. A development regression check preserves imported progress when the clock moves backwards; the file backup uses the effective monotonic timestamp. The browser-save tests cover stable status subscriptions, failures that remain visible despite unrelated successful writes, retrying the latest failed values, partial recovery and successful replacement without replaying stale values. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage, development backup, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import. Retained auth controller checks use controlled clients; real Google OAuth remains unverified and deferred.
 
 On October 22, a separate production-preview origin confirmed fresh level-1/zero defaults, applied calculator values and daily averages, a collected Red Chef Hat, and a public test pin with its category/notes surviving a complete tab close and reopen. Existing user saves were not changed. The browser-save dialog opened, Escape closed it and returned focus, and the badge fit a 390px viewport without horizontal overflow. The build excludes the unmounted authentication feature/SDK and retains lazy map loading. Storage failures/retry were checked with controlled storage in Node tests rather than a forced browser quota failure. These checks are not comprehensive automated end-to-end coverage, a full browser restart, physical-phone performance results, or proof of cloud isolation. Manual map checks distinguish controlled responses from successful live public-service data.
+
+The manual-transfer browser check exported that synthetic save, previewed it against an empty second preview origin, confirmed replacement, and verified calculator inputs/averages, the selected decor, pin category/notes and persistence after reload. The previous-save download control remained available after reload. The transfer dialog fitted a 390px viewport without horizontal overflow. Invalid files, recovery restoration and quota/rollback failure paths were tested with controlled storage in Node, not forced through the browser; physical-phone file selection remains unverified. The production build keeps Leaflet and the geometry converter in the lazy map chunk, with no Firebase or development backup endpoint in production JavaScript.
 
 For changes, run checks appropriate to the behavior changed; use browser checks for layout/interaction and production builds for import/asset/build changes. For documentation-only changes, check paths, links, consistency and the diff. Avoid writing tests that merely repeat the implementation.
 
@@ -187,4 +200,4 @@ GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow bui
 - Artwork usage permission remains unresolved despite recorded attribution. Some images represent grouped designs, and source resolutions vary.
 - Real-phone image memory/scroll performance has not been measured for the complete catalogue. Browser-only decor progress can be lost if storage is cleared.
 - Calculator data was last checked against Pikipedia on October 18, 2026. The earlier project analysis called for a separate correctness pass; existing tests do not establish every forecast edge case.
-- Firebase activation, a progress database, guest import, multi-device conflicts, progress export/import and collection history remain deferred. Browser saving requires no account. These features do not require a rewrite of the existing app.
+- Firebase activation, a progress database, account guest-import/merge, automatic multi-device conflicts, automatic full-progress backups and collection history remain deferred. Browser saving and manual full-progress transfer require no account. These features do not require a rewrite of the existing app.

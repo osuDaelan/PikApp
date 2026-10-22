@@ -21,8 +21,12 @@ export function isCalculatorBackedUp(snapshot) {
   return savedSnapshot === JSON.stringify(snapshot);
 }
 
-export function markCalculatorChanged(savedAt) {
-  window.localStorage.setItem(UPDATED_KEY, String(savedAt));
+export function markCalculatorChanged(savedAt, { storage = window.localStorage } = {}) {
+  const previous = Number(storage.getItem(UPDATED_KEY));
+  const effectiveTime = Math.max(savedAt, Number.isSafeInteger(previous) && previous >= 0 ? previous + 1 : 0);
+  if (!Number.isSafeInteger(effectiveTime) || effectiveTime <= 0) throw new Error("Invalid local save timestamp");
+  storage.setItem(UPDATED_KEY, String(effectiveTime));
+  return effectiveTime;
 }
 
 export async function saveLocalCalculatorBackup(calculator, savedAt, { keepalive = false } = {}) {

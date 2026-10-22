@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import CalculatorSection from "./features/calculator/CalculatorSection.jsx";
 import StatsEditor from "./features/calculator/StatsEditor.jsx";
 import LevelBadge from "./features/calculator/LevelBadge.jsx";
@@ -15,10 +15,20 @@ import useWallpaper from "./features/wallpapers/useWallpaper.js";
 import { wallpaperUrl } from "./features/wallpapers/catalog.js";
 import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
 import useSectionNavigation from "./shared/hooks/useSectionNavigation.js";
+import { calculatorSnapshot } from "./storage/calculatorBackupData.js";
+import { createMapStore } from "./features/decor-map/mapStorage.js";
 
 const DecorMapSection = lazy(() => import("./features/decor-map/DecorMapSection.jsx"));
 
 export default function App() {
+  const [importRevision, setImportRevision] = useState(0);
+  // Imported values initialize all feature hooks together, without old effects
+  // writing their previous state back over the imported save.
+  return <AppSession key={importRevision} importComplete={importRevision > 0}
+    onProgressImported={() => setImportRevision(value => value + 1)} />;
+}
+
+function AppSession({ importComplete, onProgressImported }) {
   const winWidth = useWindowWidth();
   const [tab, setTab] = useSectionNavigation();
   const isWide = winWidth >= 720; // threshold for switching to the side-by-side card layout
@@ -42,6 +52,24 @@ export default function App() {
 
   const calculator = useCalculator();
   const decor = useDecorCollection();
+  const mapProgress = useRef(null);
+  const captureMapProgress = useCallback(snapshot => { mapProgress.current = snapshot; }, []);
+  function getProgressSnapshot() {
+    const loadedMap = mapProgress.current || createMapStore().read();
+    if (loadedMap.recoveryRaw != null || loadedMap.error) {
+      throw new Error("Your saved map data could not be read. Use the map’s recovery controls before transferring all progress.");
+    }
+    return { calculator: calculatorSnapshot(calculator),
+      decor: { collected: decor.decorCollected, showAll: decor.showAllDecor }, map: loadedMap.state };
+  }
+  function finishImport() {
+    // A shared map URL must not override the viewport from the imported save.
+    const url = new URL(window.location.href);
+    for (const key of ["mapLat", "mapLng", "mapZoom", "lat", "lng", "zoom"]) url.searchParams.delete(key);
+    try { window.history.replaceState({}, "", url.href); }
+    catch { /* Import is already saved; a blocked history update must not prevent restoration. */ }
+    onProgressImported();
+  }
   const nowBody = <CalculatorSection calculator={calculator} />;
   const decorBody = <DecorSection decor={decor} isWide={isWide} isSplit={isSplit} />;
 
@@ -51,7 +79,7 @@ export default function App() {
       <div className="pikapp-wallpaper-shade" aria-hidden="true" style={{ background: "rgba(0,0,0,0.18)" }} />
     <div style={{ maxWidth: containerMax, margin: "0 auto", display: "flex", flexDirection: "column", minHeight: "100vh", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible", transition: "max-width 0.15s" }}>
 
-      <AppHeader />
+      <AppHeader getProgressSnapshot={getProgressSnapshot} onProgressImported={finishImport} importComplete={importComplete} />
       {tab !== "map" && <LevelBadge level={calculator.level} openEdit={calculator.openEdit} />}
       {import.meta.env.DEV && <div style={tab === "map" ? { display: "none" } : undefined}><LocalCalculatorSave calculator={calculator} /></div>}
 
@@ -74,7 +102,7 @@ export default function App() {
             {tab === "now" && nowBody}
             {tab === "decor" && decorBody}
             {tab === "map" && <Suspense fallback={<div role="status" style={{ ...appStyle, minHeight: 250, borderRadius: 18, padding: 25 }}>Loading decor map…</div>}>
-              <DecorMapSection decorCollected={decor.decorCollected} />
+              <DecorMapSection decorCollected={decor.decorCollected} onProgressSnapshot={captureMapProgress} />
             </Suspense>}
           </>
         )}

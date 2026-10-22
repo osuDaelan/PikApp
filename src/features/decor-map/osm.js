@@ -1,6 +1,8 @@
 import osmtogeojson from "osmtogeojson";
 import { CATEGORY_BY_ID, cleanCategoryIds, matchCategories } from "./categories.js";
 import { boundsAreaKm2, MAX_SEARCH_AREA_KM2, validPoint } from "./coordinates.js";
+import { validOsmId } from "./osmId.js";
+export { validOsmId } from "./osmId.js";
 
 export const MAX_PLACES = 400;
 export const MAX_OSM_ELEMENTS = 500;
@@ -22,10 +24,6 @@ export function buildOverpassQuery(categoryIds, bounds) {
   }
   const outputs = Object.entries(OSM_TYPE_LIMITS).map(([type, limit]) => `${type}.matches;\nout body geom ${limit + 1};`).join("\n");
   return `[out:json][timeout:20][bbox:${bounds.map(value => Number(value.toFixed(5))).join(",")}];\n(\n${[...selectors].sort().join("\n")}\n)->.matches;\n${outputs}`;
-}
-
-export function validOsmId(id) {
-  return typeof id === "string" && /^(node|way|relation)\/[1-9]\d{0,15}$/.test(id);
 }
 
 function pointInRing(point, ring) {
