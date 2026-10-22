@@ -1,0 +1,5 @@
+.app-header-actions { position: absolute; top: 18px; left: 18px; display: flex; align-items: center; justify-content: center; gap: 8px; z-index: 10001; }
+.app-header-actions .browser-save { position: static; margin-top: 0; }
+@media (max-width: 1099px) {
+  .app-header-actions { position: static; margin-top: 8px; flex-wrap: wrap; }
+}

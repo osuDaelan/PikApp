@@ -1,6 +1,6 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits and manual full-progress file transfer, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and public GitHub feedback, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
 Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
@@ -140,6 +140,17 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [ ] Add focused map checks and later migration/merge tests when those behaviors exist; run relevant tests/builds for each feature change.
 - [x] Document current local setup and prepared GitHub Pages workflow.
 - [ ] Confirm hosting activation and a successful deployment; document selected map/auth providers and required configuration when added.
+
+## 7. Public feedback through GitHub
+
+- [x] Use GitHub issues for public feedback, requiring the visitor's GitHub account on GitHub; keep Google sign-in deferred.
+- [x] Add a responsive header feedback dialog with type, section, title/details, review and explicit **Continue on GitHub**. Open a draft only; the visitor makes the final submission on GitHub.
+- [x] Use the fixed `osuDaelan/PikApp` issue target with encoded title/body only; require no token, API server or extra GitHub permissions.
+- [x] State that submitted reports are public and omit automatic stats, checklist, pins, location, page URL and device details.
+- [x] Add validation, a three-second review delay, honeypot and 7,500-character encoded URL cap; add local 60-second, three-per-hour and duplicate-within-24-hours draft limits with metadata-only storage/memory fallback.
+- [x] Document that limits count draft opens, including canceled drafts, and can be bypassed; GitHub sign-in and repository moderation provide the enforcement boundary. See [Feedback](docs/FEEDBACK.md).
+- [x] Verify form validation/review, GitHub draft navigation, cooldown after reload, Escape/focus return and 390px/1100px layouts; 97 Node tests and the production build pass. No public test issue was submitted; physical-phone and authenticated final submission checks remain separate.
+- [ ] Monitor actual feedback after release. Consider GitHub's temporary repository interaction limits if abuse occurs; no new repository restrictions are enabled as part of this feature.
 
 ## Suggested implementation order
 

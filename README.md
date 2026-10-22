@@ -8,6 +8,7 @@ An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
 - [Decor map implementation](docs/DECOR_MAP_IMPLEMENTATION.md): current controls, code boundaries, providers, pin backups and verification.
 - [Google sign-in](docs/GOOGLE_SIGN_IN.md): retained authentication groundwork and future reactivation/setup reference. The controls are currently hidden; progress saves in the browser.
+- [Feedback](docs/FEEDBACK.md): public GitHub issue drafts, privacy boundaries, best-effort spam controls and maintainer moderation options.
 - [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
@@ -50,6 +51,16 @@ The October 22 autosave check confirmed calculator stats/averages, a checklist s
 Before replacement, PikApp keeps a local copy of the previous save and offers **Download previous save**. If writing the replacement fails, it attempts to roll back and reports the failure, including any incomplete recovery. Download the previous save and import it to restore that version if needed. This recovery copy is stored in the same browser; clearing site data can remove it too, so an exported file is the separate backup. Validation or preview alone does not replace current progress. The existing map-only pin import/export remains available separately.
 
 Verified with **85 passing tests** and a production build: an exported preview save imported into a second, independent browser origin with its calculator values, checklist choice and pin/category/notes intact after reload. A further browser check rejected an unsupported file, canceled a valid preview without changes, downloaded the previous save and imported it to restore the original stats, unchecked selection and empty pin list after reload. Controlled-storage tests cover failed writes/rollback, exact recovery and backwards-clock development backups. A failed initial map read blocks full transfer until recovery/reopening succeeds; ordinary write failures still allow exporting live unsaved pins. A narrow viewport check fitted the transfer dialog without horizontal overflow; physical-phone file selection remains unverified.
+
+## Send feedback
+
+Use **Feedback** in the header to choose a type and app section, describe the problem or suggestion, and select **Review feedback**. **Continue on GitHub** opens a prefilled issue draft in [PikApp's public repository](https://github.com/osuDaelan/PikApp/issues). A GitHub account is required there; review the draft and submit it on GitHub yourself. Opening the draft does not create an issue, and PikApp cannot confirm whether you submitted it.
+
+Feedback is public if submitted. Do not include private information. PikApp prepares only the form's type, section, title and details; it does not attach calculator stats, checklist progress, pins, location, the current page URL or device information. No PikApp account, Google setup, access token or feedback server is needed.
+
+The form has validation, a three-second minimum review delay, a hidden bot-trap field and local limits: 60 seconds between GitHub draft opens, three opens per hour, and the same report once per 24 hours. An open counts even if the draft is canceled on GitHub. These are best-effort browser controls; clearing storage or going directly to GitHub can bypass them. GitHub sign-in and repository moderation remain the enforcement boundary. See [the feedback notes](docs/FEEDBACK.md) for configuration, privacy and optional moderation tools.
+
+Verified with 97 passing tests and a production build. Browser checks confirmed validation, review, the GitHub sign-in handoff, cooldown persistence after reload, keyboard dismissal and narrow/desktop layouts. No public test issue was submitted.
 
 ## Google sign-in (deferred)
 

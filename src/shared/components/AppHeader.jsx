@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fmtDate, fmtTime } from "../format.js";
 import BrowserSaveStatus from "./BrowserSaveStatus.jsx";
+import FeedbackButton from "../../features/feedback/FeedbackButton.jsx";
+import "./app-header.css";
 
 export default function AppHeader({ getProgressSnapshot, onProgressImported, importComplete }) {
   const [now, setNow] = useState(() => new Date());
@@ -26,7 +28,10 @@ export default function AppHeader({ getProgressSnapshot, onProgressImported, imp
       <div style={{ marginTop: 8, background: "rgba(0,0,0,0.15)", borderRadius: 20, padding: "4px 14px", display: "inline-block", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.9)", letterSpacing: 0.3 }}>
         🕐 {fmtTime(now)} · {fmtDate(now)}
       </div>
-      <BrowserSaveStatus getProgressSnapshot={getProgressSnapshot} onProgressImported={onProgressImported} importComplete={importComplete} />
+      <div className="app-header-actions">
+        <BrowserSaveStatus getProgressSnapshot={getProgressSnapshot} onProgressImported={onProgressImported} importComplete={importComplete} />
+        <FeedbackButton />
+      </div>
     </div>
   );
 }
