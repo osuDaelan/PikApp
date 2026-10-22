@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { normalizeFeedback, buildFeedbackIssueUrl, createFeedbackGuard, FEEDBACK_TYPES, FEEDBACK_SECTIONS,
-  FEEDBACK_STORAGE_KEY, MAX_FEEDBACK_URL_LENGTH, MIN_REVIEW_MS } from "../src/features/feedback/feedback.js";
+  FEEDBACK_STORAGE_KEY, MAX_FEEDBACK_URL_LENGTH, MIN_REVIEW_MS, getPrivateFeedbackEndpoint,
+  buildPrivateFeedbackFields } from "../src/features/feedback/feedback.js";
 
 const MINUTE = 60_000, HOUR = 3_600_000, DAY = 86_400_000;
 const draft = (title = "A useful feedback title") => ({ type: "bug", section: "map", title,
@@ -44,6 +45,27 @@ test("issue links keep a fixed destination and encode user text only as title/bo
   assert.equal(url.searchParams.has("template"), false);
 });
 
+test("private feedback accepts only a plain HTTPS Formspree form endpoint", () => {
+  assert.equal(getPrivateFeedbackEndpoint("  https://formspree.io/f/xabc1234  "), "https://formspree.io/f/xabc1234");
+  for (const endpoint of [undefined, null, "", " ", "http://formspree.io/f/xabc1234", "javascript:alert(1)",
+    "https://example.test/f/xabc1234", "https://formspree.io.example.test/f/xabc1234",
+    "https://user@formspree.io/f/xabc1234", "https://formspree.io:443/f/xabc1234",
+    "https://formspree.io:8443/f/xabc1234", "https://formspree.io/f/xabc1234?next=elsewhere",
+    "https://formspree.io/f/xabc1234#fragment", "https://formspree.io/f/", "https://formspree.io/f/xabc1234/",
+    "https://formspree.io/f/../other", "https://formspree.io/f/xabc1234%2fother", "https://formspree.io/f/id/other"])
+    assert.equal(getPrivateFeedbackEndpoint(endpoint), "", String(endpoint));
+});
+
+test("private form payload contains only the reviewed text, category labels and empty honeypot", () => {
+  const fields = buildPrivateFeedbackFields({ ...draft(), title: "  A private feedback title  " });
+  assert.deepEqual(fields, { title: "A private feedback title", message: draft().message,
+    type: "Bug report", section: "Decor map", _gotcha: "" });
+  assert.ok(Object.values(fields).every(value => typeof value === "string"));
+  assert.throws(() => buildPrivateFeedbackFields({ ...draft(), email: "not-requested@example.test" }));
+  assert.throws(() => buildPrivateFeedbackFields({ ...draft(), currentUrl: "https://example.test/private" }));
+  assert.throws(() => buildPrivateFeedbackFields({ ...draft(), website: "honeypot filled" }));
+});
+
 test("encoded URL limits fail before a draft opening is claimed", () => {
   const f = fixture(), guard = f.guard();
   const tooLong = { ...draft(), message: "花".repeat(1000) };
@@ -52,6 +74,34 @@ test("encoded URL limits fail before a draft opening is claimed", () => {
   assert.equal(f.values.has(FEEDBACK_STORAGE_KEY), false);
   assert.equal(guard.getStatus().allowed, true);
   assert.ok(buildFeedbackIssueUrl({ ...draft(), message: "x".repeat(1000) }).length <= MAX_FEEDBACK_URL_LENGTH);
+});
+
+test("private POST handoffs allow bounded Unicode text without GitHub URL restrictions", () => {
+  const f = fixture(), guard = f.guard(), value = { ...draft(), message: "花".repeat(1000) };
+  assert.throws(() => buildFeedbackIssueUrl(value), /too long/);
+  assert.equal(guard.claim(value).ok, false);
+  assert.equal(f.values.size, 0);
+  assert.equal(buildPrivateFeedbackFields(value).message, value.message);
+  assert.deepEqual(guard.claim(value, { channel: "private" }), { ok: true });
+  assert.equal(guard.getStatus().retryAfterMs, MINUTE);
+  f.advance(MINUTE);
+  const duplicate = guard.claim(value, { channel: "private" });
+  assert.equal(duplicate.ok, false);
+  assert.equal(duplicate.retryAfterMs, DAY - MINUTE);
+  assert.match(duplicate.error, /already continued/);
+  assert.doesNotMatch(duplicate.error, /GitHub|submitted|received/);
+  assert.equal(f.values.get(FEEDBACK_STORAGE_KEY).includes("花"), false);
+});
+
+test("legacy GitHub fingerprints stay valid while private duplicates have a separate namespace", () => {
+  // Actual fingerprint produced by the original GitHub-only helper for draft().
+  const f = fixture(JSON.stringify({ version: 1, attempts: [{ at: 10 * DAY - MINUTE, hash: "892e4f743c3c672e" }], blockedUntil: 0 }));
+  const guard = f.guard();
+  assert.equal(guard.claim(draft()).ok, false);
+  assert.equal(guard.claim(draft(), { channel: "not-a-channel" }).ok, false);
+  assert.deepEqual(guard.claim(draft(), { channel: "private" }), { ok: true });
+  assert.equal(guard.claim(draft("A different public draft")).retryAfterMs, MINUTE);
+  assert.equal(JSON.parse(f.values.get(FEEDBACK_STORAGE_KEY)).version, 1);
 });
 
 test("opening cooldown and rolling hourly limits survive fresh guard instances", () => {
@@ -80,7 +130,7 @@ test("duplicate normalized drafts wait 24 hours and history contains no feedback
   const duplicate = f.guard().claim({ ...draft(), title: ` ${draft().title} `, message: ` ${draft().message} ` });
   assert.equal(duplicate.ok, false);
   assert.equal(duplicate.retryAfterMs, DAY - MINUTE);
-  assert.match(duplicate.error, /draft.*already opened/);
+  assert.match(duplicate.error, /already continued/);
   const stored = f.values.get(FEEDBACK_STORAGE_KEY);
   assert.equal(stored.includes(draft().title), false);
   assert.equal(stored.includes(draft().message), false);

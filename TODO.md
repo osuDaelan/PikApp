@@ -1,6 +1,6 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and public GitHub feedback, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and private feedback with optional public GitHub issues, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
 Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
@@ -141,16 +141,18 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Document current local setup and prepared GitHub Pages workflow.
 - [ ] Confirm hosting activation and a successful deployment; document selected map/auth providers and required configuration when added.
 
-## 7. Public feedback through GitHub
+## 7. Private feedback and optional GitHub issues
 
-- [x] Use GitHub issues for public feedback, requiring the visitor's GitHub account on GitHub; keep Google sign-in deferred.
-- [x] Add a responsive header feedback dialog with type, section, title/details, review and explicit **Continue on GitHub**. Open a draft only; the visitor makes the final submission on GitHub.
-- [x] Use the fixed `osuDaelan/PikApp` issue target with encoded title/body only; require no token, API server or extra GitHub permissions.
-- [x] State that submitted reports are public and omit automatic stats, checklist, pins, location, page URL and device details.
-- [x] Add validation, a three-second review delay, honeypot and 7,500-character encoded URL cap; add local 60-second, three-per-hour and duplicate-within-24-hours draft limits with metadata-only storage/memory fallback.
-- [x] Document that limits count draft opens, including canceled drafts, and can be bypassed; GitHub sign-in and repository moderation provide the enforcement boundary. See [Feedback](docs/FEEDBACK.md).
-- [x] Verify form validation/review, GitHub draft navigation, cooldown after reload, Escape/focus return and 390px/1100px layouts; 97 Node tests and the production build pass. No public test issue was submitted; physical-phone and authenticated final submission checks remain separate.
-- [ ] Monitor actual feedback after release. Consider GitHub's temporary repository interaction limits if abuse occurs; no new repository restrictions are enabled as part of this feature.
+- [x] Record the updated user decision: private feedback is primary; public GitHub issues remain optional, with an explicit public warning and GitHub account/final submission there. Google sign-in remains deferred.
+- [x] Keep the header type/section/title/details review flow, fixed encoded title/body-only GitHub target, no token or GitHub API server, and metadata-only client limits.
+- [x] Omit automatic stats, checklist, pins, coordinates, page URL and device details from reports; distinguish normal provider network/origin information.
+- [x] Document owner Formspree setup, native POST/hosted CAPTCHA handoff, blank configuration, free-plan quota and lack of delivery confirmation in PikApp. See [Feedback](docs/FEEDBACK.md).
+- [x] Preserve historical GitHub-only verification: 97 tests/build, validation/review/navigation, cooldown after reload, Escape/focus and 390px/1100px layouts. No public issue was submitted; this does not verify private delivery.
+- [x] Verify the updated helper/build and UI: 101 tests pass, private configuration is disabled when absent, public review remains explicit, Escape/reopen defaults to private, and a configured preview has the reviewed allowlisted fields and native POST/new-tab/`noopener` attributes. No provider submission was sent.
+- [ ] Connect the owner's Formspree endpoint and verified receiving inbox. Enable/check actual provider spam/CAPTCHA and domain settings; configure `VITE_FEEDBACK_ENDPOINT` for local development and the Pages build.
+- [ ] Verify hosted CAPTCHA/errors/cancel flow and actual delivery to the intended inbox/dashboard after owner setup. Keep handoff wording distinct from delivery success.
+- [ ] Test physical-phone layout/touch; authenticated public GitHub submission remains separate.
+- [ ] Monitor private inbox/spam/quota after release. Consider GitHub moderation or temporary interaction limits only if the optional public route needs them; no new repository restrictions are enabled by this feature.
 
 ## Suggested implementation order
 

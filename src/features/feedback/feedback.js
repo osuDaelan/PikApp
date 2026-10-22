@@ -49,6 +49,19 @@ export function buildFeedbackIssueUrl(value) {
   return url.href;
 }
 
+export function getPrivateFeedbackEndpoint(raw) {
+  if (typeof raw !== "string") return "";
+  const endpoint = raw.trim();
+  return /^https:\/\/formspree\.io\/f\/[A-Za-z0-9_-]{1,100}$/.test(endpoint) ? endpoint : "";
+}
+
+export function buildPrivateFeedbackFields(value) {
+  const draft = normalizeFeedback(value);
+  return { title: draft.title, message: draft.message,
+    type: FEEDBACK_TYPES.find(item => item.id === draft.type).label,
+    section: FEEDBACK_SECTIONS.find(item => item.id === draft.section).label, _gotcha: "" };
+}
+
 // A noncryptographic fingerprint supports best-effort duplicate checks. It is not
 // authentication, proof of submission, or protection against someone editing storage.
 function fingerprint(value) {
@@ -83,20 +96,20 @@ function generalStatus(history, time) {
   const last = history.attempts.at(-1);
   if (last && last.at + MIN_INTERVAL_MS > until && last.at + MIN_INTERVAL_MS > time) {
     until = last.at + MIN_INTERVAL_MS;
-    reason = "Please wait a minute between opening feedback drafts.";
+    reason = "Please wait a minute before continuing with more feedback.";
   }
   const recent = history.attempts.filter(attempt => attempt.at > time - HOUR_MS);
   if (recent.length >= MAX_HOURLY) {
     const hourlyUntil = recent[recent.length - MAX_HOURLY].at + HOUR_MS;
     if (hourlyUntil > until) {
       until = hourlyUntil;
-      reason = "You have opened three feedback drafts this hour. Please try again later.";
+      reason = "You have continued with feedback three times this hour. Please try again later.";
     }
   }
   return { allowed: until <= time, retryAfterMs: Math.max(0, until - time), reason };
 }
 
-/** Local, bypassable limits apply to opening drafts, not to issue submission. */
+/** Local, bypassable limits apply to provider handoffs, not confirmed delivery. */
 export function createFeedbackGuard({ getStorage = defaultStorage, now = Date.now } = {}) {
   let memory = memoryHistories.get(getStorage);
   if (!memory) {
@@ -106,7 +119,7 @@ export function createFeedbackGuard({ getStorage = defaultStorage, now = Date.no
 
   function currentTime() {
     const time = now();
-    if (!Number.isSafeInteger(time) || time < 0) throw new Error("Check your device clock before opening feedback.");
+    if (!Number.isSafeInteger(time) || time < 0) throw new Error("Check your device clock before continuing with feedback.");
     return time;
   }
 
@@ -144,26 +157,30 @@ export function createFeedbackGuard({ getStorage = defaultStorage, now = Date.no
       const time = currentTime();
       return generalStatus(load(time), time);
     } catch {
-      return { allowed: false, retryAfterMs: MIN_INTERVAL_MS, reason: "Check your device clock before opening feedback." };
+      return { allowed: false, retryAfterMs: MIN_INTERVAL_MS, reason: "Check your device clock before continuing with feedback." };
     }
   }
 
   return {
     getStatus,
-    claim(value) {
+    claim(value, { channel = "github" } = {}) {
       let draft, time;
       try {
+        if (!["github", "private"].includes(channel)) throw new Error("Choose an available feedback destination.");
         draft = normalizeFeedback(value);
-        buildFeedbackIssueUrl(draft);
+        if (channel === "github") buildFeedbackIssueUrl(draft);
+        else buildPrivateFeedbackFields(draft);
         time = currentTime();
       } catch (error) { return { ok: false, error: error.message, retryAfterMs: 0 }; }
       const history = load(time);
       const status = generalStatus(history, time);
       if (!status.allowed) return { ok: false, error: status.reason, retryAfterMs: status.retryAfterMs };
-      const hash = fingerprint(JSON.stringify([draft.type, draft.section, draft.title, draft.message]));
+      // Preserve existing public-draft fingerprints; private handoffs have their own namespace.
+      const identity = [draft.type, draft.section, draft.title, draft.message];
+      const hash = fingerprint(JSON.stringify(channel === "github" ? identity : ["private", ...identity]));
       const duplicate = history.attempts.filter(attempt => attempt.hash === hash).at(-1);
       if (duplicate) return { ok: false,
-        error: "That feedback draft was already opened in this browser. Check GitHub before trying again.",
+        error: "You already continued with this feedback in this browser. Check the destination before trying again.",
         retryAfterMs: duplicate.at + DAY_MS - time };
       memory.history = { ...history, attempts: [...history.attempts, { at: time, hash }] };
       persist();
