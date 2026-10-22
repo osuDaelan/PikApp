@@ -198,6 +198,39 @@ test("unreadable or future map saves are preserved until an explicit replacement
   assert.equal(blocked.write(defaultMapState(), { replaceUnreadable: true }).ok, false);
 });
 
+test("a map read failure cannot export its empty fallback after storage access recovers", () => {
+  const original = { ...defaultMapState(), pins: [savedPin()] };
+  let stored = JSON.stringify(original), readable = false;
+  const storage = {
+    getItem() { if (!readable) throw new Error("Temporarily unavailable"); return stored; },
+    setItem(key, value) { stored = value; },
+  };
+  const store = createMapStore({ getStorage: () => storage });
+  const loaded = store.read();
+  assert(loaded.error);
+  assert.equal(loaded.raw, null, "read access failed before any raw recovery data was available");
+  assert.equal(loaded.state.pins.length, 0);
+  readable = true;
+  assert.throws(() => store.getTransferState(loaded.state), /saved map data could not be read/);
+  assert.equal(store.write(loaded.state).ok, false);
+  assert.deepEqual(JSON.parse(stored), original, "fallback state must not overwrite the original pins");
+  const reopened = createMapStore({ getStorage: () => storage });
+  assert.deepEqual(reopened.getTransferState(reopened.read().state), original);
+  assert.equal(store.write(original, { replaceUnreadable: true }).ok, true);
+  assert.deepEqual(store.getTransferState(original), original, "explicit successful recovery unblocks transfer");
+});
+
+test("a map write failure still allows transfer of the latest live pins", () => {
+  const original = { ...defaultMapState(), pins: [savedPin()] };
+  const stored = JSON.stringify(original);
+  const store = createMapStore({ getStorage: () => ({ getItem: () => stored, setItem() { throw new Error("Quota exceeded"); } }) });
+  const loaded = store.read();
+  const latest = { ...loaded.state, pins: [...loaded.state.pins, savedPin({ id: "new-unsaved-pin" })] };
+  assert.equal(store.write(latest).ok, false);
+  assert.deepEqual(store.getTransferState(latest), latest);
+  assert.equal(store.getTransferState(latest).pins.length, 2);
+});
+
 test("pin import is validated completely, merges newer edits and rejects unsafe source references", () => {
   const original = savedPin();
   assert.deepEqual(parsePinBackup(pinBackup([original])), [original]);

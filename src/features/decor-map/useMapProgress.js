@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createMapStore, mergePins } from "./mapStorage.js";
 import { mapViewUrl, viewportFromParams } from "./coordinates.js";
 
@@ -9,6 +9,7 @@ export default function useMapProgress() {
     viewport: viewportFromParams(new URLSearchParams(window.location.search)) || loaded.state.viewport }));
   const [saveError, setSaveError] = useState(loaded.error);
   const [recoveryRaw, setRecoveryRaw] = useState(loaded.raw);
+  const getTransferState = useCallback(() => store.getTransferState(state), [store, state]);
   useEffect(() => {
     const result = store.write(state);
     setSaveError(result.error);
@@ -27,5 +28,5 @@ export default function useMapProgress() {
     setState(next);
     return true;
   }
-  return { state, setState, saveError, recoveryRaw, importPins };
+  return { state, setState, saveError, recoveryRaw, importPins, getTransferState };
 }

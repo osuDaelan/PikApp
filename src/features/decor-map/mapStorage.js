@@ -43,6 +43,10 @@ export function normalizeMapState(value) {
 export function createMapStore({ getStorage = () => window.localStorage } = {}) {
   let blocked = false;
   return {
+    getTransferState(state) {
+      if (blocked) throw new Error("Your saved map data could not be read. Reopen the map or reload PikApp to retry before transferring progress. If it stays unreadable, use the map’s recovery controls.");
+      return state;
+    },
     read() {
       let raw = null;
       try {

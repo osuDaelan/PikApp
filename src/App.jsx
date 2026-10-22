@@ -53,14 +53,16 @@ function AppSession({ importComplete, onProgressImported }) {
   const calculator = useCalculator();
   const decor = useDecorCollection();
   const mapProgress = useRef(null);
-  const captureMapProgress = useCallback(snapshot => { mapProgress.current = snapshot; }, []);
+  const captureMapProgress = useCallback(readTransferState => { mapProgress.current = readTransferState; }, []);
   function getProgressSnapshot() {
-    const loadedMap = mapProgress.current || createMapStore().read();
-    if (loadedMap.recoveryRaw != null || loadedMap.error) {
-      throw new Error("Your saved map data could not be read. Use the map’s recovery controls before transferring all progress.");
+    let map;
+    if (mapProgress.current) map = mapProgress.current();
+    else {
+      const store = createMapStore();
+      map = store.getTransferState(store.read().state);
     }
     return { calculator: calculatorSnapshot(calculator),
-      decor: { collected: decor.decorCollected, showAll: decor.showAllDecor }, map: loadedMap.state };
+      decor: { collected: decor.decorCollected, showAll: decor.showAllDecor }, map };
   }
   function finishImport() {
     // A shared map URL must not override the viewport from the imported save.

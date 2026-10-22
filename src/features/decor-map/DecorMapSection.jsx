@@ -24,8 +24,8 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
   const progress = useMapProgress();
   const { state, setState } = progress;
   useEffect(() => {
-    onProgressSnapshot?.({ state, recoveryRaw: progress.recoveryRaw });
-  }, [state, progress.recoveryRaw, onProgressSnapshot]);
+    onProgressSnapshot?.(progress.getTransferState);
+  }, [progress.getTransferState, onProgressSnapshot]);
   const [initialViewport] = useState(state.viewport);
   const [bounds, setBounds] = useState(null);
   const [focus, setFocus] = useState(null);
