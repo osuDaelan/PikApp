@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { fmtComma, stripCommas } from "../format.js";
+import { validateWholeNumberInput as validate } from "../numericInput.js";
 
 export default function ValidatedInput({ value, onChange, placeholder, accentColor, autoFocus }) {
   const [raw, setRaw] = useState(fmtComma(value));
   const [error, setError] = useState("");
 
   useEffect(() => { setRaw(fmtComma(value)); }, [value]);
-
-  function validate(str) {
-    const digits = stripCommas(str);
-    if (digits === "" || digits === "-") return "Please enter a number.";
-    if (!/^\d+$/.test(digits)) return "Numbers only — no letters, symbols, or negatives.";
-    const n = parseInt(digits, 10);
-    if (n < 0) return "Must be 0 or greater.";
-    if (n > 999999999) return "That's a very large number!";
-    return "";
-  }
 
   function handleChange(e) {
     const input = e.target.value;

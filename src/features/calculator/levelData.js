@@ -1,5 +1,5 @@
 // 1–100: cumulative totals required. 101+: per-level requirements.
-// Source: https://www.pikminwiki.com/Level (verified through 120 on 2026-10-18).
+// Source: https://www.pikminwiki.com/Level (through 120; early flower tasks checked 2026-10-22).
 export const LEVELS = [
   null,
   { steps: 0, flowers: null },
@@ -8,18 +8,18 @@ export const LEVELS = [
   { steps: 1500, flowers: null },
   { steps: 3000, flowers: null },
   { steps: 5000, flowers: null },
-  { steps: 7500, flowers: null },
+  { steps: 7500, flowers: 10 },
   { steps: 10500, flowers: null },
   { steps: 14000, flowers: null },
   { steps: 18000, flowers: null },
   { steps: 23000, flowers: null },
   { steps: 29000, flowers: null },
-  { steps: 36000, flowers: null },
+  { steps: 36000, flowers: 100 },
   { steps: 44000, flowers: null },
   { steps: 53000, flowers: null },
   { steps: 63000, flowers: null },
   { steps: 74000, flowers: null },
-  { steps: 86000, flowers: null },
+  { steps: 86000, flowers: 200 },
   { steps: 99000, flowers: null },
   { steps: 113000, flowers: null },
   { steps: 128000, flowers: null },

@@ -2,7 +2,7 @@ import { useState } from "react";
 import useProgressState from "../../shared/hooks/useProgressState.js";
 import { guestProgressStore } from "../../storage/progressStore.js";
 import { MAX_KNOWN } from "./levelData.js";
-import { getLevelReq, buildRemaining, coinsPerDay, projectLevels, daysToComplete, FLOWERS_PER_COIN, MAX_COINS_PER_DAY } from "./calculations.js";
+import { getLevelReq, buildRemaining, coinsPerDay, projectLevels, daysToComplete, convertStepEntryMode, FLOWERS_PER_COIN, MAX_COINS_PER_DAY } from "./calculations.js";
 
 export default function useCalculator(store = guestProgressStore) {
   // Core state:
@@ -23,7 +23,8 @@ export default function useCalculator(store = guestProgressStore) {
   // Edit panel state
   const [editing, setEditing] = useState(false);
   const [editFocus, setEditFocus] = useState(null); // 'steps' | 'flowers' | 'level'
-  const [totalStepsMode, toggleTotalStepsMode] = useProgressState("totalStepsMode", false, store);
+  const [totalStepsMode, setTotalStepsMode] = useProgressState("totalStepsMode", false, store);
+  const [eTotalStepsMode, setETotalStepsMode] = useState(totalStepsMode);
   const [eLevel, setELevel] = useState(level);
   const [eStepsInput, setEStepsInput] = useState(stepsInput);
   const [eFlowersInput, setEFlowersInput] = useState(flowersInput);
@@ -36,6 +37,7 @@ export default function useCalculator(store = guestProgressStore) {
     setEStepsInput(stepsInput);
     setEFlowersInput(flowersInput);
     setECoinsNow(coinsNow);
+    setETotalStepsMode(totalStepsMode);
     setELevelRaw(String(level));
     setELevelError("");
     setEditFocus(focus);
@@ -63,7 +65,13 @@ export default function useCalculator(store = guestProgressStore) {
     setStepsInput(eStepsInput);
     setFlowersInput(eFlowersInput);
     setCoinsNow(eCoinsNow);
+    setTotalStepsMode(eTotalStepsMode);
     setEditing(false);
+  }
+
+  function toggleEditStepsMode(nextMode) {
+    setEStepsInput(value => convertStepEntryMode(value, eLevel, eTotalStepsMode, nextMode));
+    setETotalStepsMode(nextMode);
   }
 
   // Compute derived values
@@ -84,7 +92,9 @@ export default function useCalculator(store = guestProgressStore) {
       ? Math.round((req.flowers - rem.flowersLeft) / req.flowers * 100) : 100;
   }
   const bothDays = Math.ceil(Math.max(stepDays, flowerDays));
-  const canProject = Boolean(rem && dSteps > 0 && Number.isFinite(bothDays));
+  // A zero step average is fine when all steps are already complete; only the
+  // outstanding requirements need a positive rate. Keep fresh zero saves in setup.
+  const canProject = Boolean(rem && (dSteps > 0 || dFlowers > 0) && Number.isFinite(bothDays));
 
   const coinsDay = coinsPerDay(dFlowers);
   const coinsCapped = dFlowers / FLOWERS_PER_COIN > MAX_COINS_PER_DAY;
@@ -99,6 +109,6 @@ export default function useCalculator(store = guestProgressStore) {
     editing, setEditing, editFocus, openEdit, saveEdit, handleLevelChange,
     eLevel, eLevelRaw, eLevelError,
     eStepsInput, setEStepsInput, eFlowersInput, setEFlowersInput, eCoinsNow, setECoinsNow,
-    totalStepsMode, toggleTotalStepsMode,
+    totalStepsMode, eTotalStepsMode, toggleEditStepsMode,
   };
 }

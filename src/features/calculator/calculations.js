@@ -7,6 +7,13 @@ export function getLevelReq(level) {
   return LEVELS[next];
 }
 
+// Switching the editor's representation must keep the same remaining progress.
+export function convertStepEntryMode(value, level, fromLifetime, toLifetime) {
+  const req = getLevelReq(level);
+  if (!req || level >= 100 || fromLifetime === toLifetime) return value;
+  return Math.max(0, req.steps - value);
+}
+
 // stepsLeft / flowersLeft are what the game shows you
 export function buildRemaining(stepsLeft, flowersLeft, level) {
   const req = getLevelReq(level);

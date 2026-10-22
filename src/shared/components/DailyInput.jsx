@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fmtComma, stripCommas } from "../format.js";
+import { validateWholeNumberInput as validate } from "../numericInput.js";
 
 // Slider + free-form input for daily averages
 export default function DailyInput({ icon, label, value, onChange, sliderMax, color }) {
@@ -8,15 +9,6 @@ export default function DailyInput({ icon, label, value, onChange, sliderMax, co
   const trackRef = useRef(null);
 
   useEffect(() => { setRaw(fmtComma(value)); }, [value]);
-
-  function validate(str) {
-    const digits = stripCommas(str);
-    if (digits === "") return "Enter a number.";
-    if (!/^\d+$/.test(digits)) return "Numbers only — no letters, symbols, or negatives.";
-    const n = parseInt(digits, 10);
-    if (n < 0) return "Must be 0 or more.";
-    return "";
-  }
 
   function handleChange(e) {
     const input = e.target.value;
@@ -39,7 +31,7 @@ export default function DailyInput({ icon, label, value, onChange, sliderMax, co
 
   function handleBlur() {
     const digits = stripCommas(raw);
-    if (error || digits === "" || parseInt(digits, 10) < 0) {
+    if (validate(digits)) {
       setRaw(fmtComma(value));
       setError("");
     } else {

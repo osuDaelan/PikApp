@@ -9,7 +9,7 @@ export default function StatsEditor({ calculator }) {
   const {
     editing, setEditing, editFocus, eLevel, eLevelRaw, eLevelError,
     eStepsInput, setEStepsInput, eFlowersInput, setEFlowersInput, eCoinsNow, setECoinsNow,
-    handleLevelChange, saveEdit, totalStepsMode, toggleTotalStepsMode,
+    handleLevelChange, saveEdit, eTotalStepsMode, toggleEditStepsMode,
   } = calculator;
   if (!editing) return null;
   const editReq = LEVELS[eLevel + 1];
@@ -43,11 +43,11 @@ export default function StatsEditor({ calculator }) {
           {eLevel < 100 && (
             <div style={{ display: "flex", alignItems: "center", gap: 0, background: "#f0f0f0", borderRadius: 8, padding: 2 }}>
               {[["to go", false], ["lifetime total", true]].map(([label, val]) => (
-                <button key={label} onClick={() => toggleTotalStepsMode(val)}
+                <button key={label} onClick={() => toggleEditStepsMode(val)}
                   style={{ padding: "3px 9px", borderRadius: 6, border: "none", fontSize: 10, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s",
-                    background: totalStepsMode === val ? "#fff" : "transparent",
-                    color: totalStepsMode === val ? DG : "#aaa",
-                    boxShadow: totalStepsMode === val ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
+                    background: eTotalStepsMode === val ? "#fff" : "transparent",
+                    color: eTotalStepsMode === val ? DG : "#aaa",
+                    boxShadow: eTotalStepsMode === val ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
                   }}>
                   {label}
                 </button>
@@ -56,7 +56,7 @@ export default function StatsEditor({ calculator }) {
           )}
         </div>
         <div style={{ fontSize: 10, color: "#aaa", marginBottom: 5 }}>
-          {eLevel < 100 && totalStepsMode
+          {eLevel < 100 && eTotalStepsMode
             ? <>Lv {eLevel}→{eLevel+1} needs <b>{LEVELS[eLevel+1] ? fmt(LEVELS[eLevel+1].steps) : "—"}</b> total lifetime steps. Enter your all-time step count.</>
             : <>Enter the steps remaining shown in your game. Lv {eLevel}→{eLevel+1} requires <b>{LEVELS[eLevel+1] ? fmt(LEVELS[eLevel+1].steps) : "—"}</b> {eLevel < 100 ? "total" : ""} steps.</>
           }
