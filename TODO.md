@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The first decor-map slice now covers location discovery and local personal pins; refinement and reliable account progress saving across devices remain.
 
-Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database providers have not been selected. The map will use the user's chosen OSM/Overpass discovery approach; exact services remain open. A GitHub Pages workflow is prepared, but activation is unconfirmed after a private-repository plan/visibility restriction.
+Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database providers have not been selected. The map will use the user's chosen OSM/Overpass discovery approach; exact services remain open. The repository is now public and HTTPS GitHub Pages is configured through GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 

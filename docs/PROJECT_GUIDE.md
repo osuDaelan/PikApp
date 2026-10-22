@@ -13,7 +13,7 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
 | Progress | Browser autosave for calculator and collection; private calculator file backup during localhost development | Collection file backup, portable export/import, account login, cloud sync |
-| Hosting | GitHub Pages build/deployment workflow prepared | Successful public deployment has not been confirmed; last setup showed a private-repository plan/visibility restriction |
+| Hosting | Public repository; HTTPS GitHub Pages configured with automatic test/build/deployment on pushes to `main` | Check the deployment workflow when publishing future changes |
 | Decor map | OSM discovery for 39 categories, place details, personal pins, local save and pin export/import | Address search provider, region rules, real-phone/dense-area profiling, cloud sync |
 
 The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. Runtime dependencies also include React and React DOM; Vite provides development and builds. Hash sections do not require a router dependency. There is no authentication SDK, cloud database or bundled location dataset. See [package.json](../package.json).
@@ -151,13 +151,13 @@ npm.cmd run build
 
 Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Node 22 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **41 passing Node tests** and a production build, including 11 map tests for query/matching/geometry, request lifecycle, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
+The current baseline is **50 passing Node tests** and a production build with the `/PikApp/` base, including map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
 
 For changes, run checks appropriate to the behavior changed; use browser checks for layout/interaction and production builds for import/asset/build changes. For documentation-only changes, check paths, links, consistency and the diff. Avoid writing tests that merely repeat the implementation.
 
 Create a descriptive local commit after each major cohesive change, following the user's October 19 instruction. Update the relevant notes in the same change. Commit and push are separate actions; a local commit does not update GitHub. At this audit's start, local `main` was one commit ahead of `origin/main` (the development calculator backup). This is a point-in-time observation, not a permanent status.
 
-GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow builds with `/PikApp/` as the Vite base and deploys `dist`; asset helpers already accept `import.meta.env.BASE_URL`. Keep new map assets compatible with that base. The expected hosted URL is `https://osuDaelan.github.io/PikApp/`, but deployment is unconfirmed. The last Pages setup screen required changing repository visibility or plan; neither change is authorized by this planning pass.
+GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow builds with `/PikApp/` as the Vite base and deploys `dist`; asset helpers already accept `import.meta.env.BASE_URL`. Keep new map assets compatible with that base. On October 21, 2026, the user authorized public visibility and website publication. The repository is public and Pages uses GitHub Actions with HTTPS enforced at [PikApp](https://osuDaelan.github.io/PikApp/). [Deployment runs](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml) identify the published commit. Only production output is deployed; development calculator files stay local. Localhost and the public website have separate browser saves; cloud sync is not implemented.
 
 ## Map feature boundaries
 
@@ -177,4 +177,4 @@ GitHub remote: `https://github.com/osuDaelan/PikApp.git`. The Pages workflow bui
 - Artwork usage permission remains unresolved despite recorded attribution. Some images represent grouped designs, and source resolutions vary.
 - Real-phone image memory/scroll performance has not been measured for the complete catalogue. Browser-only decor progress can be lost if storage is cleared.
 - Calculator data was last checked against Pikipedia on October 18, 2026. The earlier project analysis called for a separate correctness pass; existing tests do not establish every forecast edge case.
-- Hosting activation, authentication/database choice, guest import, multi-device conflicts, progress export/import and collection history remain pending. They do not require a rewrite of the existing features.
+- Authentication/database choice, guest import, multi-device conflicts, progress export/import and collection history remain pending. They do not require a rewrite of the existing features.

@@ -47,11 +47,9 @@ Starting October 19, 2026, create a descriptive local Git commit after each majo
 
 ## GitHub Pages hosting
 
-The current app can be hosted as a static website at `https://osuDaelan.github.io/PikApp/`. `.github/workflows/deploy.yml` installs locked dependencies, runs tests, builds the app, and publishes only `dist` on pushes to `main` or manual workflow runs. The build uses the repository name as its Vite base path (`/PikApp/`), so scripts, decor images, the icon, and wallpapers load correctly under the project URL. Local development still runs at `http://localhost:5173/`.
+The public website uses [GitHub Pages](https://osuDaelan.github.io/PikApp/). `.github/workflows/deploy.yml` installs locked dependencies, runs tests, builds the app, and publishes only `dist` on pushes to `main` or manual workflow runs. The build uses the repository name as its Vite base path (`/PikApp/`), so scripts, decor images, the icon, and wallpapers load correctly under the project URL. Local development still runs at `http://localhost:5173/`.
 
-To activate it, open the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source, then push the committed workflow/app to `main`. Follow the deployment in **Actions → Deploy PikApp to GitHub Pages**. The URL is an expected deployment address, not confirmation that the site is already live. Committing locally does not publish it; pushing to `main` after setup triggers deployment.
-
-At the last setup check, GitHub showed that the private repository needed a plan or visibility change before Pages could be enabled. Activation is still unconfirmed. Preparing the workflow does not change repository visibility or remove that restriction.
+On October 21, 2026, the user authorized making the repository public and publishing the app. GitHub Pages is configured to use **GitHub Actions**, with HTTPS enforced. Follow deployments in [Actions → Deploy PikApp to GitHub Pages](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml). A successful run publishes that commit; a local commit alone does not publish it. Future pushes to `main` automatically run the same checks and deployment.
 
 Once published, the site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in and cloud saving remain future work; GitHub Pages hosts the frontend rather than an account database.
 
