@@ -8,7 +8,7 @@ An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
 - [Decor map implementation](docs/DECOR_MAP_IMPLEMENTATION.md): current controls, code boundaries, providers, pin backups and verification.
 - [Google sign-in](docs/GOOGLE_SIGN_IN.md): retained authentication groundwork and future reactivation/setup reference. The controls are currently hidden; progress saves in the browser.
-- [Feedback](docs/FEEDBACK.md): private Formspree handoff setup, optional public GitHub issues, privacy and spam-control boundaries.
+- [Feedback](docs/FEEDBACK.md): the single in-app form, private Formspree setup, privacy and spam-control boundaries.
 - [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
@@ -56,13 +56,13 @@ Verified with **85 passing tests** and a production build: an exported preview s
 
 ## Send feedback
 
-Use **Feedback** in the header to choose a type and app section, describe the problem or suggestion, then select **Review feedback**. The preferred private route sends reviewed fields through a normal HTML POST to an owner-controlled Formspree form in a new tab. Finish its hosted CAPTCHA/confirmation step there. PikApp reports the handoff, not confirmed delivery. No PikApp or Google account is needed.
+Use **Feedback** in the header to choose a type and app section, describe the problem or suggestion, then select **Review feedback**. There is one in-app form, with no destination selector or GitHub links. **Continue to send ↗** posts the reviewed fields to an owner-controlled Formspree form in a new tab. Finish its hosted CAPTCHA/confirmation step there. PikApp reports the handoff, not confirmed delivery. No PikApp or Google account is needed.
 
 Private feedback is **not connected yet**: the owner's Formspree endpoint and verified inbox are still needed. `VITE_FEEDBACK_ENDPOINT` must contain the owned `https://formspree.io/f/{form-id}` endpoint in the repository Actions variables for Pages, or `.env.local` for development; rebuild/redeploy or restart Vite after changes. Empty/invalid configuration keeps private handoff disabled. Enable provider spam/CAPTCHA and allowed-domain settings, then verify delivery in the intended inbox. [Setup instructions and limits](docs/FEEDBACK.md#owner-setup-before-enabling-private-feedback) include the free plan's 50 monthly submissions and above-quota delivery behavior.
 
-**Continue on GitHub** remains an optional public route. It opens a prefilled issue draft in [PikApp's public repository](https://github.com/osuDaelan/PikApp/issues); visitors need a GitHub account and submit there themselves. The public warning stays explicit, and opening a draft creates no issue. PikApp includes only the form's type, section, title and details; it does not attach stats, checklist progress, pins, coordinates, the current URL or device details. Formspree still receives normal network information and the site origin for its service checks.
+PikApp includes only the form's type, section, title and details; it does not attach stats, checklist progress, pins, coordinates, the current URL or device details. Formspree still receives normal network information and the site origin for its service checks. GitHub issues remain available directly on the repository, outside the app's feedback form.
 
-Validation, a three-second review delay, a honeypot and local 60-second/three-per-hour/duplicate-within-24-hour handoff limits add best-effort friction. A handoff counts even if the hosted step is canceled or fails. Clearing storage or calling the endpoint directly can bypass client controls; Formspree performs actual service-side spam checks once configured. The current 112 tests and production build pass. Browser checks covered disabled private configuration, optional public review and configured private POST fields/attributes without submitting. Actual hosted processing and inbox delivery remain pending; see [feedback notes](docs/FEEDBACK.md).
+Validation, a three-second review delay, a honeypot and local 60-second/three-per-hour/duplicate-within-24-hour handoff limits add best-effort friction. A handoff counts even if the hosted step is canceled or fails. Clearing storage or calling the endpoint directly can bypass client controls; Formspree performs actual service-side spam checks once configured. All 112 tests and the production build pass. An isolated browser confirmed the single form has no destination selector/GitHub links and stays disabled when unconfigured, with a clean console. Actual hosted processing/inbox delivery remain pending; see [feedback notes](docs/FEEDBACK.md).
 
 ## Google sign-in (deferred)
 

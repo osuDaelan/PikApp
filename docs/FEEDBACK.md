@@ -1,17 +1,16 @@
 # PikApp feedback
 
-Last reviewed: October 22, 2026. The user changed the preferred route to **private feedback**, with public GitHub issues as an optional alternative. The private route uses a normal HTML POST to an owner-controlled Formspree form. Google sign-in remains hidden; visitors need no PikApp or Google account.
+Last reviewed: October 22, 2026. The user wants **one in-app feedback form**, with no destination selector, GitHub links or public-report route in the app. The form uses a normal HTML POST to an owner-controlled Formspree endpoint. GitHub issues remain available directly on the repository, outside this UI. Google sign-in remains hidden; visitors need no PikApp or Google account.
 
-**Setup is pending.** No owner-provided Formspree endpoint/account or verified receiving inbox has been connected. With an empty or invalid `VITE_FEEDBACK_ENDPOINT`, the private handoff is visibly unavailable; optional public GitHub feedback remains usable. A prepared UI or passing build does not establish private delivery.
+**Setup is pending.** No owner-provided Formspree endpoint/account or verified receiving inbox has been connected. With an empty or invalid `VITE_FEEDBACK_ENDPOINT`, sending is disabled and the form says **Feedback isn’t available yet. Please check back soon.** A prepared UI or passing build does not establish delivery; removing the selector does not connect the inbox.
 
 ## Visitor flow
 
 1. Open **Feedback** in the header, beside the browser-save control. The button is compact on narrow screens.
-2. Choose a feedback type and app section, enter a title and details, then select **Review feedback**.
-3. When private feedback is configured, explicitly continue with the private route. The browser POSTs the reviewed fields to Formspree in a new tab. Finish any hosted CAPTCHA or confirmation step there and read that page's result. Provider-side validation or service errors are shown by Formspree.
-4. Alternatively, explicitly choose **Continue on GitHub** after its public warning. This opens a prefilled issue draft at [PikApp's public repository](https://github.com/osuDaelan/PikApp/issues/new). A GitHub account and final submission on GitHub are required; canceling the draft creates no issue.
+2. Choose a feedback type and app section and enter a title and details. When the inbox is configured, select **Review feedback**.
+3. Review the text, then explicitly choose **Continue to send ↗**. The browser POSTs the reviewed fields to Formspree in a new tab. Finish any hosted CAPTCHA or confirmation step there and read that page's result. Provider-side validation or service errors are shown by Formspree.
 
-PikApp reports a handoff request, not confirmed delivery. The native POST is not an AJAX request, and the app cannot inspect the cross-origin provider result, confirm an inbox email or know whether the hosted step was completed. Likewise, it cannot observe whether a GitHub draft became an issue. Formspree documents [plain HTML form integration](https://formspree.io/html/); GitHub documents [prefilled issue URLs](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue#creating-an-issue-from-a-url-query).
+PikApp reports a handoff request, not confirmed delivery. The native POST is not an AJAX request, and the app cannot inspect the cross-origin provider result, confirm an inbox email or know whether the hosted step was completed. Formspree documents [plain HTML form integration](https://formspree.io/html/).
 
 ## Implementation ownership and configuration
 
@@ -19,9 +18,9 @@ Paths are relative to the project root.
 
 | File | Role |
 | --- | --- |
-| `src/features/feedback/FeedbackButton.jsx` | Native dialog, fields/review, configured private POST and optional explicit public GitHub continuation |
+| `src/features/feedback/FeedbackButton.jsx` | Single native dialog/form, fields/review and configured private POST; no destination selector or GitHub links |
 | `src/features/feedback/feedback.css` | Header button, dialog, review, error and responsive presentation |
-| `src/features/feedback/feedback.js` / `normalizeFeedback`, `getPrivateFeedbackEndpoint`, `buildPrivateFeedbackFields`, `buildFeedbackIssueUrl`, `createFeedbackGuard` | Allowed fields, endpoint validation, POST field allowlist, fixed GitHub URL and local handoff limits |
+| `src/features/feedback/feedback.js` / `normalizeFeedback`, `getPrivateFeedbackEndpoint`, `buildPrivateFeedbackFields`, `createFeedbackGuard` | Allowed fields, endpoint validation, POST field allowlist and local handoff limits; older GitHub URL helper retained only for compatibility/history |
 | `src/shared/components/AppHeader.jsx` | Mounts the feedback control next to browser-save status; no feedback state belongs in calculator, checklist or map stores |
 | `src/shared/components/app-header.css` | Groups header controls without overlapping the logo or desktop map navigation; places controls below the clock on smaller screens |
 | `tests/feedback.test.js` | Pure-helper validation, endpoint/encoded URL and local-limit regression checks |
@@ -30,7 +29,7 @@ Paths are relative to the project root.
 
 Private handoff accepts only the configured `https://formspree.io/f/{owned-form-id}` endpoint. The form uses `method="POST"` and `target="_blank"`, sending `title`, `message`, `type`, `section` and an empty Formspree `_gotcha` honeypot field. There is no AJAX client, added dependency, embedded secret or PikApp backend. The Formspree form ID is a public client identifier, not a secret or proof of access control. Never put account credentials, service keys or a personal access token into a `VITE_*` variable.
 
-The optional GitHub target remains fixed to `https://github.com/osuDaelan/PikApp/issues/new`, using only `title` and `body` query parameters. It does not use labels, assignees, privileged issue types, GitHub API calls, OAuth scopes or access tokens. Neither endpoint is taken from visitor input or the current page URL.
+The endpoint is not taken from visitor input or the current page URL. No GitHub API, access token or GitHub authentication client is involved in sending this form.
 
 `FEEDBACK_TYPES` allows Bug report, Suggestion and Question. `FEEDBACK_SECTIONS` allows General, Overview, Decor checklist and Decor map. Trimmed titles must contain 8–100 characters and details 20–1,000 characters; both the form and helper enforce these bounds. The helper rejects unexpected input fields as well as unsupported type/section values.
 
@@ -50,7 +49,7 @@ The optional GitHub target remains fixed to `https://github.com/osuDaelan/PikApp
    This is a placeholder, not a connected form. Leave the value blank to keep private handoff disabled. Do not commit a receiving email, account credentials or secrets.
 7. Submit a clearly labeled test through the actual published site, finish the hosted step, and verify the report in the intended inbox and Formspree dashboard/spam folder. Check provider rejection/cancel behavior too. Only after this can private delivery be recorded as verified.
 
-The domain check needs an origin referrer. Keep the private handoff compatible with `strict-origin-when-cross-origin` and `noopener`; do not add `noreferrer`, `no-referrer` or a `same-origin` referrer policy to that handoff, which would make Formspree treat it as spam. Cross-origin referrers should contain only the site origin, not the map URL or query. Some privacy browsers may suppress the header; include this in real inbox testing. The GitHub link can retain `noreferrer`.
+The domain check needs an origin referrer. Keep the handoff compatible with `strict-origin-when-cross-origin` and `noopener`; do not add `noreferrer`, `no-referrer` or a `same-origin` referrer policy to that handoff, which would make Formspree treat it as spam. Cross-origin referrers should contain only the site origin, not the map URL or query. Some privacy browsers may suppress the header; include this in real inbox testing.
 
 As checked October 22, Formspree's [free plan](https://formspree.io/plans) allows **50 submissions per month** with a 30-day archive. This is a service/account quota, separate from the per-browser limits below. [Over-limit submissions](https://help.formspree.io/articles/form-and-project-settings/over-limit-submissions) can be retained by Formspree without notification email or plugin processing until the owner reprocesses them with available quota. Monitor the provider dashboard and quota; a hosted success page is not proof that an email reached the inbox.
 
@@ -58,7 +57,7 @@ As checked October 22, Formspree's [free plan](https://formspree.io/plans) allow
 
 Only the selected type/section and entered title/details are used to prepare the report. PikApp does not automatically attach calculator stats, checklist selections, map pins or notes, precise coordinates, the current URL, browser user agent or other device details. A native Formspree request still exposes normal network/browser information and the site origin to that provider; its CAPTCHA, processing, retention and email delivery follow its own service behavior. Private means the report is not posted to the public GitHub tracker, not that it bypasses a third-party processor.
 
-Choosing **Continue on GitHub** sends the encoded report text in a URL to GitHub, where it can appear in browser history. Submitting the draft publishes it in the public issue tracker. Visitors should remove private information before continuing or submitting. Progress export files, credentials and private pin locations should not be attached to public feedback.
+The app does not publish this feedback as a GitHub issue. Anyone opening an issue directly on the public repository is using a separate public workflow; keep credentials, progress files and private pin locations out of those issues.
 
 Draft text is kept in the form's memory rather than browser progress storage. Local anti-spam storage contains fingerprint/timestamp metadata under `pb_feedback_v1`, not the title or details. The helper uses a memory fallback when browser storage is unavailable. This metadata is not app progress and is excluded from full-progress export/import and recovery.
 
@@ -69,23 +68,26 @@ Draft text is kept in the form's memory rather than browser progress storage. Lo
 | Minimum review time | Wait at least three seconds before reviewing a newly opened form |
 | Honeypot | Reject a filled hidden bot-trap field |
 | Validation | Allow only known type/section values, an 8–100-character title and 20–1,000-character details |
-| GitHub URL length | Reject an encoded issue URL longer than 7,500 characters; this URL cap is for the optional public route |
-| Short cooldown | At least 60 seconds between feedback handoffs, shared across private/public routes |
-| Hourly limit | At most three handoffs within an hour, shared across routes |
-| Duplicate limit | Prevent the same normalized report from being handed off again through the same route within 24 hours |
+| Short cooldown | At least 60 seconds between feedback handoffs |
+| Hourly limit | At most three handoffs within an hour |
+| Duplicate limit | Prevent the same normalized report from being handed off again within 24 hours |
 
-The local limits count the explicit private handoff or public draft opening, even if the provider step is canceled, rejected or never completed. They cannot count confirmed inbox deliveries or issues. Duplicate fingerprints distinguish private and public routes so a failed private attempt does not block the same public report for 24 hours; the shared minute/hour limits still apply. Editing the report may produce a different fingerprint. Blank/unconfigured private handoff must not send a request or claim a successful delivery.
+The local limits count the explicit form handoff, even if the provider step is canceled, rejected or never completed. They cannot count confirmed inbox deliveries. Editing the report may produce a different fingerprint. Blank/unconfigured sending must not send a request or claim successful delivery. Existing limit metadata remains compatible with earlier versions; there is no public route in the current UI.
 
-These are browser-side friction, not server-side enforcement. Clearing site data, using a different browser/device, modifying the client or calling the public endpoint directly can bypass them. Memory fallback does not survive a page reload. Real spam filtering/CAPTCHA is performed by the configured Formspree service; its settings must be enabled and checked by the owner. No private-route spam protection or inbox delivery is verified while the endpoint is unconnected. The optional GitHub route relies on GitHub accounts and repository moderation.
+These are browser-side friction, not server-side enforcement. Clearing site data, using a different browser/device, modifying the client or calling the public endpoint directly can bypass them. Memory fallback does not survive a page reload. Real spam filtering/CAPTCHA is performed by the configured Formspree service; its settings must be enabled and checked by the owner. No service-side spam protection or inbox delivery is verified while the endpoint is unconnected.
 
-Maintainers can review [GitHub's moderation tools](https://docs.github.com/en/communities/moderating-comments-and-conversations). If abuse warrants it, repository admins can choose [temporary repository interaction limits](https://docs.github.com/en/communities/moderating-comments-and-conversations/limiting-interactions-in-your-repository), which may also prevent legitimate new visitors from opening feedback. This is an optional operational choice; the feedback feature does not activate or change GitHub restrictions.
+The repository's separate public issue tracker can still use [GitHub's moderation tools](https://docs.github.com/en/communities/moderating-comments-and-conversations) or [temporary interaction limits](https://docs.github.com/en/communities/moderating-comments-and-conversations/limiting-interactions-in-your-repository) if needed. The in-app feature does not activate or change repository restrictions.
+
+## Retained compatibility and history
+
+Earlier versions offered GitHub-only feedback and then a private/public destination selector. Both UI approaches were superseded by the user's single-form decision. `buildFeedbackIssueUrl` and its tests remain for compatibility/history, using the fixed repository target, encoded title/body and a 7,500-character URL cap; nothing in the current feedback UI calls it. The limit helper retains legacy GitHub fingerprints alongside the private namespace. These retained helpers are not a second sending option.
 
 ## Verification and remaining work
 
 The full suite passes **112 Node tests**, including 16 feedback tests, and the production `/PikApp/` build passes. Feedback checks cover allowed endpoints, the private POST field allowlist, bounded Unicode text without GitHub URL restrictions, separate private/public duplicate fingerprints with legacy GitHub compatibility, known fields/text boundaries, honeypot rejection, fixed/encoded GitHub URLs, URL length, cooldown/hour/day boundaries, persistent/memory fallback, metadata privacy and bounded corrupt/future/oversized-history recovery.
 
-On October 22, that public-route preview confirmed the initial three-second disabled review button, short-message rejection, selected type/section, prepared text/focus, GitHub sign-in handoff, cooldown after reload and Escape/focus return. Its 390px dialog and 1100px desktop-map header did not overflow/overlap. Issues was enabled. Recheck the updated private/public UI; prior layout results do not cover the new controls.
+Historical October 22 public-route checks confirmed the three-second review delay, short-message rejection, prepared text/focus, GitHub sign-in handoff, cooldown after reload and Escape/focus return. Its 390px dialog and 1100px desktop-map header fitted. Those results describe the retired public UI.
 
-The updated production-preview checks confirmed private feedback is selected by default and disabled with blank configuration, switching to the public route still allows explicit review, and Escape/reopen returns to private mode. A separate configured preview checked the private review fields and native form's POST action, new-tab target and `noopener` relationship. The browser console was clean. That form was not submitted to Formspree; provider processing or inbox delivery was not tested.
+Before selector removal, a configured preview checked the private fields and native POST/new-tab/`noopener` attributes with a clean console, without submitting to Formspree. After simplification, all 112 tests and the production build still passed. An isolated browser confirmed the **Feedback** dialog contains only type, section, title and details, has no destination selector or GitHub links, keeps sending disabled when unconfigured, and has a clean console. Screenshot: `outputs/pikapp-feedback-single-form.png`. No new submission or delivery verification was performed.
 
 No public test issue was created, no GitHub account was signed in, and no user progress or repository moderation setting was changed. The owner's Formspree endpoint, verified inbox, service-side spam/domain configuration, hosted CAPTCHA/error/cancel behavior and actual private delivery remain pending. Physical-phone layout/touch and authenticated final GitHub submission remain separate checks.
