@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fmtDate, fmtTime } from "../format.js";
+import AccountMenu from "../../features/auth/AccountMenu.jsx";
 
 export default function AppHeader() {
   const [now, setNow] = useState(() => new Date());
@@ -8,7 +9,8 @@ export default function AppHeader() {
     return () => clearInterval(timer);
   }, []);
   return (
-    <div style={{ padding: "18px 18px 0", textAlign: "center" }}>
+    <div style={{ padding: "18px 18px 0", textAlign: "center", position: "relative" }}>
+      <AccountMenu />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
         <img
           src={`${import.meta.env.BASE_URL}images/pikmin-bloom-icon.jpg`}

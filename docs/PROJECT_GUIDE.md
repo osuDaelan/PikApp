@@ -1,6 +1,6 @@
 # PikApp project guide
 
-Last reviewed: October 22, 2026, including public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
+Last reviewed: October 22, 2026, including Google sign-in groundwork, public hosting and neutral first-visit calculator defaults. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
 
 ## Purpose and current status
 
@@ -12,11 +12,12 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 | Decor checklist | 896 stable entries, regular/rare/event and numbered designs, local artwork, collection totals, bulk selection, rare unlock rules | Search/filters, real-device performance measurements, any future catalogue expansion |
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
-| Progress | Browser autosave for calculator and collection; private calculator file backup during localhost development | Collection file backup, portable export/import, account login, cloud sync |
+| Progress | Browser autosave for calculator and collection; private calculator file backup during localhost development | Collection file backup, portable export/import, cloud sync |
+| Sign-in | Shared account dialog, Firebase Google popup/session observer, sign-out, guest mode and error handling | Supply Firebase Web app configuration and verify real Google sign-in; progress remains browser-local |
 | Hosting | Public repository; HTTPS GitHub Pages configured with automatic test/build/deployment on pushes to `main` | Check the deployment workflow when publishing future changes |
 | Decor map | OSM discovery for 39 categories, place details, personal pins, local save and pin export/import | Address search provider, region rules, real-phone/dense-area profiling, cloud sync |
 
-The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. Runtime dependencies also include React and React DOM; Vite provides development and builds. Hash sections do not require a router dependency. There is no authentication SDK, cloud database or bundled location dataset. See [package.json](../package.json).
+The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. Runtime dependencies also include React, React DOM and Firebase (only its modular app/auth imports are used); Vite provides development and builds. Hash sections do not require a router dependency. Firebase Auth loads separately when configuration is complete. There is no cloud progress database or bundled location dataset. See [package.json](../package.json).
 
 ## Where to find project knowledge
 
@@ -27,6 +28,7 @@ The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geo
 | [TODO](../TODO.md) | Completed milestones and actionable remaining work |
 | [Decor map plan](DECOR_MAP_PLAN.md) | Proposed map boundary, decisions still needed, and implementation sequence |
 | [Decor map implementation](DECOR_MAP_IMPLEMENTATION.md) | Current controls, module ownership, providers, saved pin schema and verification |
+| [Google sign-in](GOOGLE_SIGN_IN.md) | Firebase setup, environment configuration, auth-only scope and pending live verification |
 | [OSM map reference](DECOR_MAP_REFERENCE.md) | Pixelpirate investigation plus Bekkan Spot Searcher's boundary/node pipeline, differences from PikApp and proposed area-highlight improvements |
 | [Image rollout](DECOR_IMAGE_ROLLOUT.md) | Artwork rollout, representative-image limitations, performance work and measurements |
 | [Celebrations](DECOR_CELEBRATIONS.md) | In-game reference observations and implemented particle/celebration behavior |
@@ -61,6 +63,7 @@ Paths below are relative to the project root.
 | `src/features/decor-map/` | Lazy map section, category adapter, Overpass client, GeoJSON/layers, separate pin/preferences storage; detailed ownership in the map implementation notes |
 | `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, desktop Overview, hash links and back/forward behavior |
 | `src/shared/components/` | Header/clock, navigation, inputs, rings, local backup status |
+| `src/features/auth/` | Account dialog, auth-only session controller, Firebase web config/adapter and session hook; never reads or writes app progress |
 | `src/shared/{hooks,styles}/`, `src/shared/format.js` | Persisted-state/window hooks, theme/layout helpers, formatting |
 | `src/storage/progressStore.js` / `createProgressStore` | Synchronous browser storage contract and guest/account cache namespaces |
 | `src/storage/{calculatorBackupData,localCalculatorBackup}.js` | Calculator backup schema, browser client and startup restoration |
@@ -135,7 +138,7 @@ All sizes use Nintendo Garden: day 6:00 AM–4:59 PM, evening 5:00 PM–9:59 PM,
 
 The development backup debounces applied calculator changes by 400ms, restores before mount, compares timestamps, validates an allowlist of fields, rejects stale writes, and atomically replaces the file. Its endpoint accepts same-origin loopback requests only; Vite denies static access to `.local/`. The endpoint, restore and status UI are development-only. See [README autosave details](../README.md#local-calculator-autosave) and `localCalculatorBackup.test.js`.
 
-Localhost, different ports/hostnames and a deployed site have separate browser storage. Google login alone would not save progress: authentication, a database, access rules, migration, conflict handling and recovery still need implementation. Do not put personal progress, precise locations, private notes or credentials into committed documentation or assets.
+Localhost, different ports/hostnames and a deployed site have separate browser storage. Google sign-in/session code is implemented, but live activation requires Firebase project setup. Authentication does not save gameplay progress: a database, access rules, migration, conflict handling and recovery remain separate work. Signing in/out or changing accounts leaves the current browser's guest progress in place; account cache namespaces are not selected automatically. Do not put personal progress, precise locations, private notes or credentials into committed documentation or assets.
 
 ## Development, validation and Git
 
@@ -151,9 +154,9 @@ npm.cmd test
 npm.cmd run build
 ```
 
-Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Node 22 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
+Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Use Node 24.12 or newer for the Firebase SDK; Node 24 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **53 passing Node tests** and a production build with the `/PikApp/` base, including zero-rate and partial-timeline calculator regressions, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
+The current baseline is **66 passing Node tests** and a production build with the `/PikApp/` base, including auth session restoration/cleanup, safe errors and configuration guards, zero-rate and partial-timeline calculator regressions, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import behavior. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage and development backup. Auth controller checks use controlled clients; real Google OAuth awaits Firebase setup. Manual map checks distinguish controlled responses from successful live public-service data. These are not comprehensive automated end-to-end coverage, physical-phone performance results, or proof of cloud isolation.
 
 For changes, run checks appropriate to the behavior changed; use browser checks for layout/interaction and production builds for import/asset/build changes. For documentation-only changes, check paths, links, consistency and the diff. Avoid writing tests that merely repeat the implementation.
 

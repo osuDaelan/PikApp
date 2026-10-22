@@ -1,12 +1,13 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Google sign-in and cloud progress saving remain planned.
+An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 896 existing entries, and an OSM decor map with locally saved personal pins. Google sign-in controls and session handling are implemented; live sign-in needs Firebase project configuration. Cloud progress saving remains planned.
 
 ## Project notes
 
 - [Project guide](docs/PROJECT_GUIDE.md): current features, code ownership, data flow, storage, accepted visual decisions, limitations and change workflow.
 - [Decor map plan](docs/DECOR_MAP_PLAN.md): third-section scope, proposed integration and open decisions.
 - [Decor map implementation](docs/DECOR_MAP_IMPLEMENTATION.md): current controls, code boundaries, providers, pin backups and verification.
+- [Google sign-in](docs/GOOGLE_SIGN_IN.md): Firebase setup, local/Pages configuration, session behavior and remaining live verification. Progress still saves in the browser.
 - [OSM map reference](docs/DECOR_MAP_REFERENCE.md): the selected discovery approach, traced through Pixelpirate's frontend, tag rules and optional data mirror.
 - [TODOs](TODO.md): completed milestones and remaining implementation tasks.
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
@@ -16,7 +17,7 @@ The existing **Pikmin Decor Visuals and Animations** reference-site investigatio
 
 ## Local development
 
-Use Node.js with npm and the built-in Node test runner (`node --test`).
+Use Node.js 24.12 or newer with npm and the built-in Node test runner (`node --test`); GitHub Pages builds use Node 24. The Firebase SDK requires this runtime for development/build tooling.
 
 ```powershell
 npm.cmd ci
@@ -30,6 +31,12 @@ npm.cmd test
 npm.cmd run build
 npm.cmd run preview
 ```
+
+## Google sign-in
+
+The header's account control supports Firebase Authentication with Google, session restoration, sign-out, loading/error feedback and guest mode. Follow [the setup guide](docs/GOOGLE_SIGN_IN.md) to supply the Firebase Web app config locally and through GitHub Actions repository variables. Missing or incomplete config leaves the Google button unavailable with a guest-mode explanation; Firebase is not initialized. The SDK loads in a separate chunk when configured.
+
+This phase authenticates a user only. Calculator stats, checklist progress and map pins continue using their current browser saves, including when a user signs in, signs out or switches Google accounts. Cloud storage, per-account progress selection and guest import are separate work; the account panel explains that cross-device saving is not ready. A real Firebase project and physical-phone OAuth checks are still required before declaring live sign-in verified.
 
 ## First-visit calculator defaults
 
@@ -57,7 +64,7 @@ The public website uses [GitHub Pages](https://osuDaelan.github.io/PikApp/). `.g
 
 On October 21, 2026, the user authorized making the repository public and publishing the app. GitHub Pages is configured to use **GitHub Actions**, with HTTPS enforced. Follow deployments in [Actions → Deploy PikApp to GitHub Pages](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml). A successful run publishes that commit; a local commit alone does not publish it. Future pushes to `main` automatically run the same checks and deployment.
 
-Once published, the site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in and cloud saving remain future work; GitHub Pages hosts the frontend rather than an account database.
+The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site, and devices do not sync. Google sign-in code awaits Firebase configuration; cloud saving remains future work. GitHub Pages hosts the frontend rather than an account database.
 
 To check the hosted path locally:
 

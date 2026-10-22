@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The first decor-map slice now covers location discovery and local personal pins; refinement and reliable account progress saving across devices remain.
 
-Last reviewed October 21, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in remains intended; authentication/database providers have not been selected. The map will use the user's chosen OSM/Overpass discovery approach; exact services remain open. The repository is now public and HTTPS GitHub Pages is configured through GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in/session controls now use Firebase Authentication; real sign-in awaits project configuration and verification. Cloud progress sync is not implemented. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -76,15 +76,16 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 
 Google sign-in establishes who the user is. A separate database/storage layer saves their progress.
 
-- [ ] Select an authentication and database provider after comparing deployment fit, cost, maintenance, and Google sign-in support.
+- [x] Select Firebase Authentication with Google for the sign-in foundation. Firestore is proposed for the separate cloud-sync phase.
 - [ ] Define which data belongs to an account: decor collection, player stats, daily averages, and lasting preferences.
 - [ ] Set up separate development and production configuration.
 - [ ] Configure Google sign-in and approved local/production callback URLs.
-- [ ] Add sign-in, sign-out, and account status controls in the shared app shell.
-- [ ] Handle cancelled sign-in, expired sessions, loading, and sign-in failures.
-- [ ] Restore the session when the user returns.
-- [ ] Keep guest use available without requiring an account.
-- [ ] Keep privileged server credentials out of the frontend and Git.
+- [x] Add sign-in, sign-out, and account status controls in the shared header, with guest mode when configuration is absent.
+- [x] Implement cancelled sign-in, expired-session/error messages and loading/retry handling; cover the session controller with controlled-client tests.
+- [x] Implement Firebase's session observer and cleanup for returning users.
+- [ ] Verify real Google sign-in, restoration, sign-out and mobile popup behavior after configuring Firebase. See [setup and verification](docs/GOOGLE_SIGN_IN.md).
+- [x] Keep guest use available without requiring an account.
+- [x] Keep privileged server credentials out of the frontend and Git; commit a blank Web-config template and ignore local env files.
 - [ ] Enforce per-user access in the database/backend so users can only read and change their own progress.
 - [ ] Explain what account data is saved and how users can delete it.
 
@@ -104,6 +105,8 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 - [ ] Decide whether to record when an item was collected, in addition to its collected/uncollected state.
 
 ### Cloud persistence
+
+- [ ] Recheck Firebase's unused Firestore/Node gRPC dependency advisories before adding database functionality; see the sign-in setup notes.
 
 - [ ] Load saved account progress after sign-in.
 - [ ] Automatically save collection changes and profile updates.
@@ -136,7 +139,7 @@ Google sign-in establishes who the user is. A separate database/storage layer sa
 2. Review the first map slice, including real public-service behavior and the local pin workflow.
 3. Refine discovery/regions, choose address search if wanted, and add features incrementally.
 4. Confirm deployment and measure real-device performance; optimize measured bottlenecks.
-5. Choose auth/database providers and implement Google sign-in with per-user access.
+5. Configure and verify Firebase Google sign-in, then implement cloud storage with per-user access.
 6. Implement explicit guest import, account autosave, cross-device conflicts and recovery.
 7. Verify account isolation, accessibility, location-data behavior and release configuration.
 
