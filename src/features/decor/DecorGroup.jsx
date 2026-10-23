@@ -122,9 +122,9 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
 // A location (or special-decor category) section: header + its costume rows
 export default function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor }) {
   const { total, done } = countDecorGroups([group], collected);
-  const groupIds = group.costumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(group.location, c.name, variant)));
-  const allCollected = done === total;
   const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(group, c, collected));
+  const groupIds = visibleCostumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(group.location, c.name, variant)));
+  const allCollected = groupIds.every(id => collected[id]);
   return (
     <div style={{ padding: "12px 0", borderTop: isFirst ? "none" : "1px solid #f0f8ec" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8, gap: 8 }}>

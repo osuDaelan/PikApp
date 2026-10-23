@@ -7,6 +7,7 @@ export default function useDecorCollection(store = guestProgressStore) {
   const [decorCollected, setDecorCollected] = useProgressState("decorCollected", {}, store);
   const [showAllDecor, setShowAllDecor] = useProgressState("showAllDecor", false, store);
   const [decorBulkMode, setDecorBulkMode] = useState(false);
+  const [decorSearchQuery, setDecorSearchQuery] = useState("");
   const { completion, dismissCompletion } = useSetCompletion(decorCollected);
 
   function toggleShowAllDecor() { setShowAllDecor(value => !value); }
@@ -21,5 +22,5 @@ export default function useDecorCollection(store = guestProgressStore) {
     });
   }
 
-  return { decorCollected, decorBulkMode, setDecorBulkMode, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion };
+  return { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion };
 }

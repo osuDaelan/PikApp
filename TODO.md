@@ -47,7 +47,7 @@ Images now cover all 975 current checklist entries, including regular, rare, spe
 - [x] Verify regular decor, rare decor, event decor, and numbered design variants.
 - [x] Verify narrow phone layouts, desktop split view, and bulk selection.
 - [x] Add a set-completion confetti blast and rare-only tile stars inspired by the in-game reference video, with reduced-motion support and no persistent particle loop.
-- [ ] Add search and filters for category, color, collected, and missing items as the catalogue grows.
+- [x] Add checklist search for species, category, costume/design text, collected/missing and regular/rare/event status. Support AND/OR/NOT, grouping, straight-quoted literals and exact fields, with syntax help/errors, live result counts and bulk actions scoped to visible variants. Search includes locked rare decor; clearing restores unlock rules. See [search behavior](docs/PROJECT_GUIDE.md#decor-checklist-search).
 
 ## 3. Decor map: initial slice and follow-ups
 
