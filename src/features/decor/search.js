@@ -2,6 +2,7 @@ import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "./cata
 import { decorId, isRareCostume } from "./collection.js";
 
 export const MAX_DECOR_SEARCH_LENGTH = 512;
+export const DECOR_SEARCH_GRACE_MS = 3000;
 const speciesNames = new Set(PIKMIN_COLORS.map(color => color.toLowerCase()));
 
 function normalize(value) {
@@ -103,17 +104,17 @@ export function compileDecorSearch(query) {
   }
 }
 
-function matches(expression, entry, collected) {
+function matches(expression, entry, isCollected) {
   switch (expression.type) {
-    case "and": return matches(expression.left, entry, collected) && matches(expression.right, entry, collected);
-    case "or": return matches(expression.left, entry, collected) || matches(expression.right, entry, collected);
-    case "not": return !matches(expression.child, entry, collected);
+    case "and": return matches(expression.left, entry, isCollected) && matches(expression.right, entry, isCollected);
+    case "or": return matches(expression.left, entry, isCollected) || matches(expression.right, entry, isCollected);
+    case "not": return !matches(expression.child, entry, isCollected);
     default: {
       const { value, literal, exact } = expression;
       if (!literal) {
         if (speciesNames.has(value)) return entry.species === value;
-        if (value === "collected") return !!collected[entry.id];
-        if (value === "missing") return !collected[entry.id];
+        if (value === "collected") return isCollected;
+        if (value === "missing") return !isCollected;
         if (value === "rare") return entry.rare;
         if (value === "regular") return entry.section === "regular";
         if (value === "event" || value === "special") return entry.section === "event";
@@ -123,22 +124,35 @@ function matches(expression, entry, collected) {
   }
 }
 
-function filterGroups(index, expression, collected) {
-  return index.flatMap(({ group, costumes }) => {
+function filterGroups(index, expression, collected, recentEdits) {
+  let retainedCount = 0;
+  const groups = index.flatMap(({ group, costumes }) => {
     const visibleCostumes = costumes.flatMap(({ costume, entries }) => {
-      const variants = entries.filter(entry => matches(expression, entry, collected)).map(entry => entry.variant);
+      const variants = entries.filter(entry => {
+        const isCollected = !!collected[entry.id];
+        if (matches(expression, entry, isCollected)) return true;
+        // Only relax collection status, never species/category or the rest of the query.
+        if (isCollected && recentEdits.has(entry.id) && matches(expression, entry, false)) {
+          retainedCount++;
+          return true;
+        }
+        return false;
+      }).map(entry => entry.variant);
       if (!variants.length) return [];
       return [{ ...costume, [costume.designs ? "designs" : "colors"]: variants }];
     });
     return visibleCostumes.length ? [{ ...group, costumes: visibleCostumes }] : [];
   });
+  return { groups, retainedCount };
 }
 
-export function searchDecorCatalog(search, collected) {
-  if (search.error) return { regular: [], special: [] };
-  if (!search.active) return { regular: DECOR_LOCATIONS, special: DECOR_SPECIAL_CATEGORIES };
+export function searchDecorCatalog(search, collected, recentEdits = new Set()) {
+  if (search.error) return { regular: [], special: [], retainedCount: 0 };
+  if (!search.active) return { regular: DECOR_LOCATIONS, special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
+  const regular = filterGroups(regularIndex, search.expression, collected, recentEdits);
+  const special = filterGroups(specialIndex, search.expression, collected, recentEdits);
   return {
-    regular: filterGroups(regularIndex, search.expression, collected),
-    special: filterGroups(specialIndex, search.expression, collected),
+    regular: regular.groups, special: special.groups,
+    retainedCount: regular.retainedCount + special.retainedCount,
   };
 }

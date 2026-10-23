@@ -4,13 +4,13 @@ import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "../src
 import { decorId, countDecorGroups } from "../src/features/decor/collection.js";
 import { compileDecorSearch, searchDecorCatalog, MAX_DECOR_SEARCH_LENGTH } from "../src/features/decor/search.js";
 
-function results(query, collected = {}) {
+function results(query, collected = {}, recentEdits) {
   const search = compileDecorSearch(query);
   assert.equal(search.error, null, `Valid search: ${query}`);
-  return searchDecorCatalog(search, collected);
+  return searchDecorCatalog(search, collected, recentEdits);
 }
-function ids(query, collected = {}) {
-  const { regular, special } = results(query, collected);
+function ids(query, collected = {}, recentEdits) {
+  const { regular, special } = results(query, collected, recentEdits);
   return [...regular, ...special].flatMap(group => group.costumes.flatMap(costume =>
     (costume.designs || costume.colors).map(variant => decorId(group.location, costume.name, variant))));
 }
@@ -114,8 +114,76 @@ test("invalid or incomplete expressions return a useful error and no bulk-action
     assert.equal(search.active, true, query);
     assert.equal(typeof search.error, "string", query);
     assert.ok(search.error.length > 0);
-    assert.deepEqual(searchDecorCatalog(search, {}), { regular: [], special: [] });
+    assert.deepEqual(searchDecorCatalog(search, {}), { regular: [], special: [], retainedCount: 0 });
   }
+});
+
+test("newly collected missing results stay in their original slots during the undo window", () => {
+  const saved = { [redChef]: true, [blueChef]: true };
+  const recent = new Set([redChef]);
+  const query = "missing =restaurant !rare";
+  const expected = ids("=restaurant !rare").filter(id => id !== blueChef);
+  assert.deepEqual(ids(query, saved, recent), expected);
+  assert.equal(results(query, saved, recent).retainedCount, 1);
+  assert.equal(ids(query, saved).includes(redChef), false);
+  assert.equal(results(query, saved).retainedCount, 0);
+  // The selected flag is real immediately, not a delayed edit or a falsified missing flag.
+  assert.deepEqual(ids("collected", saved), [redChef, blueChef]);
+});
+
+test("undoing selection restores a normal missing match, and a later selection gets a fresh window", () => {
+  const recent = new Set([redChef]);
+  for (const query of ["missing =restaurant red !rare", "!collected =restaurant red !rare", "!(collected|blue) =restaurant red !rare"]) {
+    assert.deepEqual(ids(query, { [redChef]: true }, recent), [redChef]);
+    assert.equal(results(query, { [redChef]: true }, recent).retainedCount, 1);
+    assert.deepEqual(ids(query, { [redChef]: false }, recent), [redChef]);
+    assert.equal(results(query, { [redChef]: false }, recent).retainedCount, 0);
+    assert.deepEqual(ids(query, { [redChef]: true }), []);
+    assert.deepEqual(ids(query, { [redChef]: true }, new Set([redChef])), [redChef]);
+  }
+});
+
+test("grace never bypasses other filters or treats quoted text as a missing keyword", () => {
+  const saved = { [redChef]: true };
+  const recent = new Set([redChef]);
+  for (const query of ["missing blue", "missing event", "missing rare", "missing battery", '"missing"', "missing collected", "!missing"]) {
+    assert.equal(results(query, saved, recent).retainedCount, 0, query);
+    assert.deepEqual(ids(query, saved, recent), ids(query, saved), query);
+  }
+  assert.equal(results("missing|red", saved, recent).retainedCount, 0); // Still a real match through red.
+  assert.equal(results("collected", saved, recent).retainedCount, 0);
+  assert.equal(results("", saved, recent).retainedCount, 0);
+  assert.deepEqual(searchDecorCatalog(compileDecorSearch("missing &"), saved, recent), { regular: [], special: [], retainedCount: 0 });
+});
+
+test("multiple collected entries expire independently and bulk undo affects only displayed IDs", () => {
+  const saved = { [redChef]: true, [blueChef]: true, [redRareChef]: true };
+  const query = "missing =restaurant (red|blue)";
+  assert.equal(results(query, saved, new Set([redChef, blueChef])).retainedCount, 2);
+  assert.equal(results(query, saved, new Set([blueChef])).retainedCount, 1);
+  assert.equal(ids(query, saved, new Set([blueChef])).includes(redChef), false);
+  assert.equal(ids(query, saved, new Set([blueChef])).includes(blueChef), true);
+  const targets = ids(query, saved, new Set([blueChef]));
+  const undone = { ...saved, ...Object.fromEntries(targets.map(id => [id, false])) };
+  assert.equal(undone[redChef], true);
+  assert.equal(undone[redRareChef], true);
+  assert.equal(undone[blueChef], false);
+  assert.equal(results(query, undone, new Set([blueChef])).retainedCount, 0);
+});
+
+test("grace also supports rare, event and numbered-design entries without mutating catalog or progress", () => {
+  const designId = "appliances_store__battery__2";
+  const eventEntry = ids('event blue "stained glass"')[0];
+  assert.ok(eventEntry);
+  const saved = { [redRareChef]: true, [eventEntry]: true, [designId]: true };
+  const before = JSON.stringify([DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, saved]);
+  const recent = new Map(Object.keys(saved).map(id => [id, 3000]));
+  for (const [query, id] of [["missing rare =restaurant red", redRareChef], ['missing event blue "stained glass"', eventEntry], ['missing yellow battery "design 2"', designId]]) {
+    assert.deepEqual(ids(query, saved, recent), [id]);
+    assert.equal(results(query, saved, recent).retainedCount, 1);
+    assert.deepEqual(ids(query, saved), []);
+  }
+  assert.equal(JSON.stringify([DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, saved]), before);
 });
 
 test("query limits prevent excessive nesting and oversized input from crashing the checklist", () => {

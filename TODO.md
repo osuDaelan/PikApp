@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and one private feedback form, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
-Last reviewed October 22, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 23, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -48,6 +48,8 @@ Images now cover all 975 current checklist entries, including regular, rare, spe
 - [x] Verify narrow phone layouts, desktop split view, and bulk selection.
 - [x] Add a set-completion confetti blast and rare-only tile stars inspired by the in-game reference video, with reduced-motion support and no persistent particle loop.
 - [x] Add checklist search for species, category, costume/design text, collected/missing and regular/rare/event status. Support AND/OR/NOT, grouping, straight-quoted literals and exact fields, with syntax help/errors, live result counts and bulk actions scoped to visible variants. Search includes locked rare decor; clearing restores unlock rules. See [search behavior](docs/PROJECT_GUIDE.md#decor-checklist-search).
+
+- [x] Keep newly collected missing-search results clickable for three seconds to undo mistakes, including `!collected` and bulk edits; save immediately, expire each tile independently and clear grace when the query changes.
 
 ## 3. Decor map: initial slice and follow-ups
 

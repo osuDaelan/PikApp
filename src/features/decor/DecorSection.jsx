@@ -51,16 +51,17 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
 
 
 export default function DecorSection({ decor, isWide, isSplit }) {
-  const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor } = decor;
+  const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor } = decor;
   const search = useMemo(() => compileDecorSearch(decorSearchQuery), [decorSearchQuery]);
-  const results = useMemo(() => searchDecorCatalog(search, decorCollected), [search, decorCollected]);
+  const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits), [search, decorCollected, recentDecorEdits]);
   const regularMatches = countDecorGroups(results.regular, decorCollected);
   const specialMatches = countDecorGroups(results.special, decorCollected);
   const regularStats = countDecorGroups(DECOR_LOCATIONS, decorCollected);
   const specialStats = countDecorGroups(DECOR_SPECIAL_CATEGORIES, decorCollected);
   return (
     <>
-      <DecorSearch query={decorSearchQuery} onQueryChange={setDecorSearchQuery} search={search} matchCount={regularMatches.total + specialMatches.total} />
+      <DecorSearch query={decorSearchQuery} onQueryChange={setDecorSearchQuery} search={search}
+        matchCount={regularMatches.total + specialMatches.total - results.retainedCount} retainedCount={results.retainedCount} />
       <div style={{ display: "flex", flexDirection: (isWide && !isSplit) ? "row" : "column", gap: 12, alignItems: (isWide && !isSplit) ? "flex-start" : "stretch" }}>
       <div style={{ flex: 1, width: "100%", ...cardStyle }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 2 }}>
@@ -70,7 +71,7 @@ export default function DecorSection({ decor, isWide, isSplit }) {
             <QuickSelectToggle decorBulkMode={decorBulkMode} setDecorBulkMode={setDecorBulkMode} />
           </div>
         </div>
-        <div style={{ fontSize: 11, color: "#aaa" }}>{regularStats.done}/{regularStats.total} collected{search.active ? ` overall · ${regularMatches.total} matching` : " · tap a color to toggle"}</div>
+        <div style={{ fontSize: 11, color: "#aaa" }}>{regularStats.done}/{regularStats.total} collected{search.active ? ` overall · ${regularMatches.total} shown` : " · tap a color to toggle"}</div>
         {search.active && !search.error && !results.regular.length && <p style={{ color: "#666", fontSize: 12 }}>No matching regular decor. Try another search or clear it.</p>}
         {results.regular.map((g, i) => (
           <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor || search.active} />
@@ -82,7 +83,7 @@ export default function DecorSection({ decor, isWide, isSplit }) {
           <div style={{ fontWeight: 800, color: DG, fontSize: 13 }}>✨ Special &amp; Event Decor</div>
           <QuickSelectToggle decorBulkMode={decorBulkMode} setDecorBulkMode={setDecorBulkMode} />
         </div>
-        <div style={{ fontSize: 11, color: "#aaa" }}>{specialStats.done}/{specialStats.total} collected{search.active ? ` overall · ${specialMatches.total} matching` : " · tap a color to toggle"}</div>
+        <div style={{ fontSize: 11, color: "#aaa" }}>{specialStats.done}/{specialStats.total} collected{search.active ? ` overall · ${specialMatches.total} shown` : " · tap a color to toggle"}</div>
         {search.active && !search.error && !results.special.length && <p style={{ color: "#666", fontSize: 12 }}>No matching special or event decor. Try another search or clear it.</p>}
         {results.special.map((g, i) => (
           <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor || search.active} />
