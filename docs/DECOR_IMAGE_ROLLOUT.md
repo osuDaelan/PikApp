@@ -38,3 +38,28 @@ All art is still the original PNG size. WebP conversion, reduced-resolution deri
 - If network/decode costs are high, generate small transparent derivatives at approximately 2× display size while retaining originals/provenance.
 - If rendering remains slow after image sizing, measure category-level content visibility or virtualization before adopting it.
 - Expand grouped designs only as a separate catalog task with explicit migration rules.
+
+## Catalog refresh: October 22, 2026
+
+Rechecked the current [regular](https://www.pikminwiki.com/Decor_Pikmin) and [special/event](https://www.pikminwiki.com/Special_Decor_Pikmin) galleries, species columns and release descriptions. Added **79 entries** with verified original PNGs: **53 regular/rare** and **26 event**, bringing the checklist to **975** (522 regular/rare, 453 event).
+
+| Category | Additions | Entries |
+| --- | --- | ---: |
+| Pharmacy | Ice Toothbrush and Ice Toothbrush (Rare) | 2 |
+| Forest | Stag Beetle (Rare) and Acorn (Rare), all eight species | 16 |
+| Airport | Luggage Tag, all eight species | 8 |
+| Station | Ticket (Rare), all eight species, plus Ice Ticket | 9 |
+| Bakery | Pastry, all eight species, plus Ice Baguette | 9 |
+| Stadium | Ball Keychain (Rare), all eight species, plus Ice Ball Keychain | 9 |
+| Halloween: Stained Glass | All eight species | 8 |
+| Balinese Carving | All eight species | 8 |
+| Wurst | All eight species | 8 |
+| Shaved Ice / Mooncake | Ice variant of each | 2 |
+
+Café Coffee Cup (Rare) and Bakery Baguette (Rare) still exclude Ice, matching the current galleries. Existing grouped/representative designs remain unchanged; this refresh does not split Chess Pieces, Hanafuda, Mahjong, Playing Cards, Theme Park Tickets or Leaf Hats into separate saved entries. The 36 representative entries are still marked. The checklist should not be described as every individual in-game design.
+
+All 896 original IDs and their relative order are preserved; the frozen fixture in `tests/fixtures/decor-legacy-ids.json` is checked against the original digest. New entries start uncollected. No progress-key or backup-version migration is required; tests cover old partial saves and new IDs through export/import and applied storage. Added base species may affect when an existing rare row unlocks under the unchanged base-completion rule; saved rare selections are retained and Show all still reveals them. Map category counts reuse the expanded catalog; no new map query categories were needed.
+
+The 79 new PNGs add **2,668,334 bytes**. All 975 originals total **31,009,162 bytes**, with a theoretical all-images-decoded RGBA footprint around **208 MiB**; actual retention is browser-dependent. Lazy loading, async decoding, memoized tiles and transient effects remain in place. No new library, model renderer, image conversion or persistent animation was introduced. New source records include retrieval date, original URLs, dimensions, bytes and SHA-256; old records/assets were preserved.
+
+Verification: all **114 tests** and the production `/PikApp/` build pass. Every current ID resolves to a distinct PNG with matching dimensions/checksum/source; original IDs remain compatible. An isolated browser rendered 975 tiles with Show all, reported no fallbacks or horizontal page overflow, loaded the new Forest/Luggage Tag/Halloween/Balinese/Wurst rows, and retained an original Red Chef Hat plus new Ice Luggage Tag, Ice rare Acorn and Red Stained Glass selections after reload. Console was clean; real user saves were untouched. Initial navigation had 254 images loaded out of 975 after targeted selections; this is a lazy-loading observation, not a cold-network or physical-phone benchmark. Real-phone profiling and separate tracking for older grouped designs remain follow-ups.

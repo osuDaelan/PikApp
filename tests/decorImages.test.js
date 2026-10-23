@@ -33,7 +33,7 @@ test("every existing checklist entry resolves to its own verified PNG and source
       }
     }
   }
-  assert.equal(entries, 896);
+  assert.equal(entries, 975);
   assert.equal(sources.size, entries);
   assert.equal(getDecorImage("unknown_decor"), null);
 });

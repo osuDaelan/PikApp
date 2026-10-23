@@ -1,5 +1,5 @@
-// Original Pikipedia artwork for the existing catalog. Sources: docs/decor-image-sources.json.
-// Generated on 2026-10-18; collection IDs are unchanged.
+// Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
+// Updated 2026-10-22; original saved collection IDs remain unchanged.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",
@@ -5412,5 +5412,479 @@ export default {
     "alt": "Yellow Pikmin with Golden Toy Airplane decor",
     "width": 249,
     "height": 255
+  },
+  "pharmacy__toothbrush__Ice": {
+    "file": "pharmacy-toothbrush-ice.png",
+    "alt": "Ice Pikmin with Toothbrush decor",
+    "width": 214,
+    "height": 320
+  },
+  "pharmacy__toothbrush_rare__Ice": {
+    "file": "pharmacy-toothbrush-rare-ice.png",
+    "alt": "Ice Pikmin with Toothbrush (Rare) decor",
+    "width": 188,
+    "height": 328
+  },
+  "forest__stag_beetle_rare__Red": {
+    "file": "forest-stag-beetle-rare-red.png",
+    "alt": "Red Pikmin with Stag Beetle (Rare) decor",
+    "width": 206,
+    "height": 310
+  },
+  "forest__stag_beetle_rare__Yellow": {
+    "file": "forest-stag-beetle-rare-yellow.png",
+    "alt": "Yellow Pikmin with Stag Beetle (Rare) decor",
+    "width": 204,
+    "height": 273
+  },
+  "forest__stag_beetle_rare__Blue": {
+    "file": "forest-stag-beetle-rare-blue.png",
+    "alt": "Blue Pikmin with Stag Beetle (Rare) decor",
+    "width": 172,
+    "height": 243
+  },
+  "forest__stag_beetle_rare__Purple": {
+    "file": "forest-stag-beetle-rare-purple.png",
+    "alt": "Purple Pikmin with Stag Beetle (Rare) decor",
+    "width": 208,
+    "height": 326
+  },
+  "forest__stag_beetle_rare__White": {
+    "file": "forest-stag-beetle-rare-white.png",
+    "alt": "White Pikmin with Stag Beetle (Rare) decor",
+    "width": 157,
+    "height": 198
+  },
+  "forest__stag_beetle_rare__Rock": {
+    "file": "forest-stag-beetle-rare-rock.png",
+    "alt": "Rock Pikmin with Stag Beetle (Rare) decor",
+    "width": 196,
+    "height": 346
+  },
+  "forest__stag_beetle_rare__Winged": {
+    "file": "forest-stag-beetle-rare-winged.png",
+    "alt": "Winged Pikmin with Stag Beetle (Rare) decor",
+    "width": 195,
+    "height": 219
+  },
+  "forest__stag_beetle_rare__Ice": {
+    "file": "forest-stag-beetle-rare-ice.png",
+    "alt": "Ice Pikmin with Stag Beetle (Rare) decor",
+    "width": 194,
+    "height": 366
+  },
+  "forest__acorn_rare__Red": {
+    "file": "forest-acorn-rare-red.png",
+    "alt": "Red Pikmin with Acorn (Rare) decor",
+    "width": 126,
+    "height": 245
+  },
+  "forest__acorn_rare__Yellow": {
+    "file": "forest-acorn-rare-yellow.png",
+    "alt": "Yellow Pikmin with Acorn (Rare) decor",
+    "width": 127,
+    "height": 228
+  },
+  "forest__acorn_rare__Blue": {
+    "file": "forest-acorn-rare-blue.png",
+    "alt": "Blue Pikmin with Acorn (Rare) decor",
+    "width": 126,
+    "height": 222
+  },
+  "forest__acorn_rare__Purple": {
+    "file": "forest-acorn-rare-purple.png",
+    "alt": "Purple Pikmin with Acorn (Rare) decor",
+    "width": 159,
+    "height": 250
+  },
+  "forest__acorn_rare__White": {
+    "file": "forest-acorn-rare-white.png",
+    "alt": "White Pikmin with Acorn (Rare) decor",
+    "width": 109,
+    "height": 205
+  },
+  "forest__acorn_rare__Rock": {
+    "file": "forest-acorn-rare-rock.png",
+    "alt": "Rock Pikmin with Acorn (Rare) decor",
+    "width": 188,
+    "height": 254
+  },
+  "forest__acorn_rare__Winged": {
+    "file": "forest-acorn-rare-winged.png",
+    "alt": "Winged Pikmin with Acorn (Rare) decor",
+    "width": 119,
+    "height": 234
+  },
+  "forest__acorn_rare__Ice": {
+    "file": "forest-acorn-rare-ice.png",
+    "alt": "Ice Pikmin with Acorn (Rare) decor",
+    "width": 174,
+    "height": 320
+  },
+  "airport__luggage_tag__Red": {
+    "file": "airport-luggage-tag-red.png",
+    "alt": "Red Pikmin with Luggage Tag decor",
+    "width": 145,
+    "height": 280
+  },
+  "airport__luggage_tag__Yellow": {
+    "file": "airport-luggage-tag-yellow.png",
+    "alt": "Yellow Pikmin with Luggage Tag decor",
+    "width": 178,
+    "height": 280
+  },
+  "airport__luggage_tag__Blue": {
+    "file": "airport-luggage-tag-blue.png",
+    "alt": "Blue Pikmin with Luggage Tag decor",
+    "width": 142,
+    "height": 280
+  },
+  "airport__luggage_tag__Purple": {
+    "file": "airport-luggage-tag-purple.png",
+    "alt": "Purple Pikmin with Luggage Tag decor",
+    "width": 187,
+    "height": 335
+  },
+  "airport__luggage_tag__White": {
+    "file": "airport-luggage-tag-white.png",
+    "alt": "White Pikmin with Luggage Tag decor",
+    "width": 138,
+    "height": 213
+  },
+  "airport__luggage_tag__Rock": {
+    "file": "airport-luggage-tag-rock.png",
+    "alt": "Rock Pikmin with Luggage Tag decor",
+    "width": 231,
+    "height": 314
+  },
+  "airport__luggage_tag__Winged": {
+    "file": "airport-luggage-tag-winged.png",
+    "alt": "Winged Pikmin with Luggage Tag decor",
+    "width": 192,
+    "height": 238
+  },
+  "airport__luggage_tag__Ice": {
+    "file": "airport-luggage-tag-ice.png",
+    "alt": "Ice Pikmin with Luggage Tag decor",
+    "width": 204,
+    "height": 318
+  },
+  "station__ticket__Ice": {
+    "file": "station-ticket-ice.png",
+    "alt": "Ice Pikmin with Ticket decor",
+    "width": 207,
+    "height": 308
+  },
+  "station__ticket_rare__Red": {
+    "file": "station-ticket-rare-red.png",
+    "alt": "Red Pikmin with Ticket (Rare) decor",
+    "width": 193,
+    "height": 258
+  },
+  "station__ticket_rare__Yellow": {
+    "file": "station-ticket-rare-yellow.png",
+    "alt": "Yellow Pikmin with Ticket (Rare) decor",
+    "width": 192,
+    "height": 258
+  },
+  "station__ticket_rare__Blue": {
+    "file": "station-ticket-rare-blue.png",
+    "alt": "Blue Pikmin with Ticket (Rare) decor",
+    "width": 194,
+    "height": 258
+  },
+  "station__ticket_rare__Purple": {
+    "file": "station-ticket-rare-purple.png",
+    "alt": "Purple Pikmin with Ticket (Rare) decor",
+    "width": 192,
+    "height": 321
+  },
+  "station__ticket_rare__White": {
+    "file": "station-ticket-rare-white.png",
+    "alt": "White Pikmin with Ticket (Rare) decor",
+    "width": 174,
+    "height": 212
+  },
+  "station__ticket_rare__Rock": {
+    "file": "station-ticket-rare-rock.png",
+    "alt": "Rock Pikmin with Ticket (Rare) decor",
+    "width": 229,
+    "height": 289
+  },
+  "station__ticket_rare__Winged": {
+    "file": "station-ticket-rare-winged.png",
+    "alt": "Winged Pikmin with Ticket (Rare) decor",
+    "width": 186,
+    "height": 238
+  },
+  "station__ticket_rare__Ice": {
+    "file": "station-ticket-rare-ice.png",
+    "alt": "Ice Pikmin with Ticket (Rare) decor",
+    "width": 207,
+    "height": 308
+  },
+  "bakery__baguette__Ice": {
+    "file": "bakery-baguette-ice.png",
+    "alt": "Ice Pikmin with Baguette decor",
+    "width": 249,
+    "height": 308
+  },
+  "bakery__pastry__Red": {
+    "file": "bakery-pastry-red.png",
+    "alt": "Red Pikmin with Pastry decor",
+    "width": 235,
+    "height": 273
+  },
+  "bakery__pastry__Yellow": {
+    "file": "bakery-pastry-yellow.png",
+    "alt": "Yellow Pikmin with Pastry decor",
+    "width": 231,
+    "height": 262
+  },
+  "bakery__pastry__Blue": {
+    "file": "bakery-pastry-blue.png",
+    "alt": "Blue Pikmin with Pastry decor",
+    "width": 254,
+    "height": 258
+  },
+  "bakery__pastry__Purple": {
+    "file": "bakery-pastry-purple.png",
+    "alt": "Purple Pikmin with Pastry decor",
+    "width": 212,
+    "height": 333
+  },
+  "bakery__pastry__White": {
+    "file": "bakery-pastry-white.png",
+    "alt": "White Pikmin with Pastry decor",
+    "width": 204,
+    "height": 213
+  },
+  "bakery__pastry__Rock": {
+    "file": "bakery-pastry-rock.png",
+    "alt": "Rock Pikmin with Pastry decor",
+    "width": 294,
+    "height": 289
+  },
+  "bakery__pastry__Winged": {
+    "file": "bakery-pastry-winged.png",
+    "alt": "Winged Pikmin with Pastry decor",
+    "width": 210,
+    "height": 270
+  },
+  "bakery__pastry__Ice": {
+    "file": "bakery-pastry-ice.png",
+    "alt": "Ice Pikmin with Pastry decor",
+    "width": 246,
+    "height": 304
+  },
+  "stadium__ball_keychain__Ice": {
+    "file": "stadium-ball-keychain-ice.png",
+    "alt": "Ice Pikmin with Ball Keychain decor",
+    "width": 158,
+    "height": 328
+  },
+  "stadium__ball_keychain_rare__Red": {
+    "file": "stadium-ball-keychain-rare-red.png",
+    "alt": "Red Pikmin with Ball Keychain (Rare) decor",
+    "width": 176,
+    "height": 258
+  },
+  "stadium__ball_keychain_rare__Yellow": {
+    "file": "stadium-ball-keychain-rare-yellow.png",
+    "alt": "Yellow Pikmin with Ball Keychain (Rare) decor",
+    "width": 186,
+    "height": 258
+  },
+  "stadium__ball_keychain_rare__Blue": {
+    "file": "stadium-ball-keychain-rare-blue.png",
+    "alt": "Blue Pikmin with Ball Keychain (Rare) decor",
+    "width": 178,
+    "height": 258
+  },
+  "stadium__ball_keychain_rare__Purple": {
+    "file": "stadium-ball-keychain-rare-purple.png",
+    "alt": "Purple Pikmin with Ball Keychain (Rare) decor",
+    "width": 249,
+    "height": 321
+  },
+  "stadium__ball_keychain_rare__White": {
+    "file": "stadium-ball-keychain-rare-white.png",
+    "alt": "White Pikmin with Ball Keychain (Rare) decor",
+    "width": 173,
+    "height": 212
+  },
+  "stadium__ball_keychain_rare__Rock": {
+    "file": "stadium-ball-keychain-rare-rock.png",
+    "alt": "Rock Pikmin with Ball Keychain (Rare) decor",
+    "width": 188,
+    "height": 303
+  },
+  "stadium__ball_keychain_rare__Winged": {
+    "file": "stadium-ball-keychain-rare-winged.png",
+    "alt": "Winged Pikmin with Ball Keychain (Rare) decor",
+    "width": 220,
+    "height": 253
+  },
+  "stadium__ball_keychain_rare__Ice": {
+    "file": "stadium-ball-keychain-rare-ice.png",
+    "alt": "Ice Pikmin with Ball Keychain (Rare) decor",
+    "width": 158,
+    "height": 328
+  },
+  "halloween_stained_glass__halloween_stained_glass__Red": {
+    "file": "halloween-stained-glass-halloween-stained-glass-red.png",
+    "alt": "Red Pikmin with Halloween: Stained Glass decor",
+    "width": 282,
+    "height": 273
+  },
+  "halloween_stained_glass__halloween_stained_glass__Yellow": {
+    "file": "halloween-stained-glass-halloween-stained-glass-yellow.png",
+    "alt": "Yellow Pikmin with Halloween: Stained Glass decor",
+    "width": 252,
+    "height": 282
+  },
+  "halloween_stained_glass__halloween_stained_glass__Blue": {
+    "file": "halloween-stained-glass-halloween-stained-glass-blue.png",
+    "alt": "Blue Pikmin with Halloween: Stained Glass decor",
+    "width": 224,
+    "height": 288
+  },
+  "halloween_stained_glass__halloween_stained_glass__Purple": {
+    "file": "halloween-stained-glass-halloween-stained-glass-purple.png",
+    "alt": "Purple Pikmin with Halloween: Stained Glass decor",
+    "width": 261,
+    "height": 324
+  },
+  "halloween_stained_glass__halloween_stained_glass__White": {
+    "file": "halloween-stained-glass-halloween-stained-glass-white.png",
+    "alt": "White Pikmin with Halloween: Stained Glass decor",
+    "width": 195,
+    "height": 227
+  },
+  "halloween_stained_glass__halloween_stained_glass__Rock": {
+    "file": "halloween-stained-glass-halloween-stained-glass-rock.png",
+    "alt": "Rock Pikmin with Halloween: Stained Glass decor",
+    "width": 198,
+    "height": 354
+  },
+  "halloween_stained_glass__halloween_stained_glass__Winged": {
+    "file": "halloween-stained-glass-halloween-stained-glass-winged.png",
+    "alt": "Winged Pikmin with Halloween: Stained Glass decor",
+    "width": 189,
+    "height": 326
+  },
+  "halloween_stained_glass__halloween_stained_glass__Ice": {
+    "file": "halloween-stained-glass-halloween-stained-glass-ice.png",
+    "alt": "Ice Pikmin with Halloween: Stained Glass decor",
+    "width": 232,
+    "height": 305
+  },
+  "shaved_ice__shaved_ice__Ice": {
+    "file": "shaved-ice-shaved-ice-ice.png",
+    "alt": "Ice Pikmin with Shaved Ice decor",
+    "width": 259,
+    "height": 328
+  },
+  "mooncake__mooncake__Ice": {
+    "file": "mooncake-mooncake-ice.png",
+    "alt": "Ice Pikmin with Mooncake decor",
+    "width": 244,
+    "height": 308
+  },
+  "balinese_carving__balinese_carving__Red": {
+    "file": "balinese-carving-balinese-carving-red.png",
+    "alt": "Red Pikmin with Balinese Carving decor",
+    "width": 228,
+    "height": 273
+  },
+  "balinese_carving__balinese_carving__Yellow": {
+    "file": "balinese-carving-balinese-carving-yellow.png",
+    "alt": "Yellow Pikmin with Balinese Carving decor",
+    "width": 222,
+    "height": 258
+  },
+  "balinese_carving__balinese_carving__Blue": {
+    "file": "balinese-carving-balinese-carving-blue.png",
+    "alt": "Blue Pikmin with Balinese Carving decor",
+    "width": 109,
+    "height": 300
+  },
+  "balinese_carving__balinese_carving__Purple": {
+    "file": "balinese-carving-balinese-carving-purple.png",
+    "alt": "Purple Pikmin with Balinese Carving decor",
+    "width": 239,
+    "height": 334
+  },
+  "balinese_carving__balinese_carving__White": {
+    "file": "balinese-carving-balinese-carving-white.png",
+    "alt": "White Pikmin with Balinese Carving decor",
+    "width": 120,
+    "height": 271
+  },
+  "balinese_carving__balinese_carving__Rock": {
+    "file": "balinese-carving-balinese-carving-rock.png",
+    "alt": "Rock Pikmin with Balinese Carving decor",
+    "width": 188,
+    "height": 339
+  },
+  "balinese_carving__balinese_carving__Winged": {
+    "file": "balinese-carving-balinese-carving-winged.png",
+    "alt": "Winged Pikmin with Balinese Carving decor",
+    "width": 173,
+    "height": 320
+  },
+  "balinese_carving__balinese_carving__Ice": {
+    "file": "balinese-carving-balinese-carving-ice.png",
+    "alt": "Ice Pikmin with Balinese Carving decor",
+    "width": 229,
+    "height": 320
+  },
+  "wurst__wurst__Red": {
+    "file": "wurst-wurst-red.png",
+    "alt": "Red Pikmin with Wurst decor",
+    "width": 204,
+    "height": 294
+  },
+  "wurst__wurst__Yellow": {
+    "file": "wurst-wurst-yellow.png",
+    "alt": "Yellow Pikmin with Wurst decor",
+    "width": 197,
+    "height": 282
+  },
+  "wurst__wurst__Blue": {
+    "file": "wurst-wurst-blue.png",
+    "alt": "Blue Pikmin with Wurst decor",
+    "width": 292,
+    "height": 298
+  },
+  "wurst__wurst__Purple": {
+    "file": "wurst-wurst-purple.png",
+    "alt": "Purple Pikmin with Wurst decor",
+    "width": 280,
+    "height": 321
+  },
+  "wurst__wurst__White": {
+    "file": "wurst-wurst-white.png",
+    "alt": "White Pikmin with Wurst decor",
+    "width": 116,
+    "height": 233
+  },
+  "wurst__wurst__Rock": {
+    "file": "wurst-wurst-rock.png",
+    "alt": "Rock Pikmin with Wurst decor",
+    "width": 303,
+    "height": 377
+  },
+  "wurst__wurst__Winged": {
+    "file": "wurst-wurst-winged.png",
+    "alt": "Winged Pikmin with Wurst decor",
+    "width": 318,
+    "height": 272
+  },
+  "wurst__wurst__Ice": {
+    "file": "wurst-wurst-ice.png",
+    "alt": "Ice Pikmin with Wurst decor",
+    "width": 291,
+    "height": 308
   }
 };

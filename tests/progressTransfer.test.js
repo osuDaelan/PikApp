@@ -53,6 +53,22 @@ test("full backups round-trip calculator, explicit decor removals, map settings 
   assert.equal(text.includes("accessToken"), false);
 });
 
+test("old partial collections and newly added decor round-trip without a save-format migration", () => {
+  const old = parseProgressBackup(createProgressBackup(snapshot(), date));
+  const added = ["airport__luggage_tag__Ice", "forest__acorn_rare__Red",
+    "halloween_stained_glass__halloween_stained_glass__Ice", "wurst__wurst__Blue"];
+  assert.ok(added.every(id => !Object.hasOwn(old.decor.collected, id)), "old backups do not invent new collected entries");
+  const updated = snapshot();
+  for (const id of added) updated.decor.collected[id] = true;
+  const backup = parseProgressBackup(createProgressBackup(updated, date));
+  assert.equal(backup.version, 1);
+  assert.equal(backup.decor.collected[blue], false, "explicit old removals remain removals");
+  for (const id of added) assert.equal(backup.decor.collected[id], true);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(backup, { getStorage: () => storage, current: snapshot(), now: () => Date.parse(date) });
+  assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")), updated.decor.collected);
+});
+
 test("unsupported, extra, unknown and malformed imported data is rejected completely", () => {
   const valid = parseProgressBackup(createProgressBackup(snapshot(), date));
   const changes = [

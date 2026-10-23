@@ -1,4 +1,4 @@
-// Collection data moved without changing names, ordering, or variants.
+// Catalog reviewed 2026-10-22. New variants are additive; original saved IDs remain unchanged.
 // Sources: pikminwiki.com/Decor_Pikmin and pikminwiki.com/Special_Decor_Pikmin.
 export const DECOR_LOCATIONS = [
   { location: "Restaurant", costumes: [
@@ -17,8 +17,8 @@ export const DECOR_LOCATIONS = [
     { name: "Popcorn Snack", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Pharmacy", costumes: [
-    { name: "Toothbrush", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
-    { name: "Toothbrush (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Toothbrush", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+    { name: "Toothbrush (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Zoo", costumes: [
     { name: "Dandelion", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -26,6 +26,8 @@ export const DECOR_LOCATIONS = [
   { location: "Forest", costumes: [
     { name: "Stag Beetle", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
     { name: "Acorn", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+    { name: "Stag Beetle (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+    { name: "Acorn (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Waterside", costumes: [
     { name: "Fishing Lure", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -39,11 +41,13 @@ export const DECOR_LOCATIONS = [
   ]},
   { location: "Airport", costumes: [
     { name: "Toy Airplane", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Luggage Tag", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Station", costumes: [
     { name: "Paper Train", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
-    { name: "Ticket", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Ticket", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
     { name: "Gold Ticket", colors: ["Red"] },
+    { name: "Ticket (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Beach", costumes: [
     { name: "Shell", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -61,8 +65,9 @@ export const DECOR_LOCATIONS = [
     { name: "Banana (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Bakery", costumes: [
-    { name: "Baguette", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Baguette", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
     { name: "Baguette (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Pastry", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Hair Salon", costumes: [
     { name: "Scissors", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -87,7 +92,8 @@ export const DECOR_LOCATIONS = [
     { name: "Mountain Pin Badge", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Stadium", costumes: [
-    { name: "Ball Keychain", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Ball Keychain", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+    { name: "Ball Keychain (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Theme Park", costumes: [
     { name: "Theme Park Ticket", colors: ["Red", "Yellow", "Blue"] },
@@ -182,6 +188,9 @@ export const DECOR_SPECIAL_CATEGORIES = [
   ]},
   { location: "Halloween Light", costumes: [
     { name: "Halloween Light", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+  ]},
+  { location: "Halloween: Stained Glass", costumes: [
+    { name: "Halloween: Stained Glass", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "First Anniversary Snack", costumes: [
     { name: "First Anniversary Snack", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -293,10 +302,10 @@ export const DECOR_SPECIAL_CATEGORIES = [
     { name: "Surfboard Keychain", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Shaved Ice", costumes: [
-    { name: "Shaved Ice", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Shaved Ice", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Mooncake", costumes: [
-    { name: "Mooncake", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Mooncake", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Photo Button Badge", costumes: [
     { name: "Photo Button Badge", colors: ["Red"] },
@@ -337,6 +346,12 @@ export const DECOR_SPECIAL_CATEGORIES = [
   { location: "Tiny Instrument: Orchestra", costumes: [
     { name: "Tiny Instrument: Orchestra", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
+  { location: "Balinese Carving", costumes: [
+    { name: "Balinese Carving", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+  ]},
+  { location: "Wurst", costumes: [
+    { name: "Wurst", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
+  ]},
   { location: "Golden Toy Airplane", costumes: [
     { name: "Golden Toy Airplane", colors: ["Yellow"] },
   ]},
@@ -360,7 +375,7 @@ export const DECOR_ICONS = {
   // DECOR_SPECIAL_CATEGORIES
   "Super Mario Keychain": "🍄", "Lunar New Year Ornament": "🧧", "Chess Piece": "♟️",
   "Fingerboard": "🛹", "Hanafuda Card": "🎴", "Jack-o'-Lantern": "🎃",
-  "Halloween Treat": "🍭", "Halloween Light": "🕯️", "First Anniversary Snack": "🎂",
+  "Halloween Treat": "🍭", "Halloween Light": "🕯️", "Halloween: Stained Glass": "🪟", "First Anniversary Snack": "🎂",
   "Koppaite Space Suit": "👽", "Mitten": "🧤", "2023 Glasses": "👓",
   "2024 Glasses": "🕶️", "Valentine Sticker": "💝", "Reverse Valentine's Day Sticker": "💌",
   "Present Sticker (Gold)": "🎁", "Easter Egg": "🥚", "Bunny Egg": "🐰",
@@ -376,7 +391,7 @@ export const DECOR_ICONS = {
   "4th Anniversary Flower Box": "💐", "4th Anniversary Snack": "🍪", "2025 Ornament": "🎄",
   "Pacifier": "🍼", "Osechi": "🍱", "2026 Chocolate": "🍫", "Color Powder": "🌈",
   "Klompen Keychain": "👞", "Game Pak": "💾", "Flower Crown": "🌼",
-  "Tiny Instrument: Orchestra": "🎻", "Golden Toy Airplane": "🛩️",
+  "Tiny Instrument: Orchestra": "🎻", "Balinese Carving": "🪵", "Wurst": "🌭", "Golden Toy Airplane": "🛩️",
 };
 
 export const PIKMIN_COLORS = ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"];

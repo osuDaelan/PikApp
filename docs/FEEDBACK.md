@@ -84,7 +84,7 @@ Earlier versions offered GitHub-only feedback and then a private/public destinat
 
 ## Verification and remaining work
 
-The full suite passes **112 Node tests**, including 16 feedback tests, and the production `/PikApp/` build passes. Feedback checks cover allowed endpoints, the private POST field allowlist, bounded Unicode text without GitHub URL restrictions, separate private/public duplicate fingerprints with legacy GitHub compatibility, known fields/text boundaries, honeypot rejection, fixed/encoded GitHub URLs, URL length, cooldown/hour/day boundaries, persistent/memory fallback, metadata privacy and bounded corrupt/future/oversized-history recovery.
+The full suite passes **114 Node tests**, including 16 feedback tests, and the production `/PikApp/` build passes. Feedback checks cover allowed endpoints, the private POST field allowlist, bounded Unicode text without GitHub URL restrictions, separate private/public duplicate fingerprints with legacy GitHub compatibility, known fields/text boundaries, honeypot rejection, fixed/encoded GitHub URLs, URL length, cooldown/hour/day boundaries, persistent/memory fallback, metadata privacy and bounded corrupt/future/oversized-history recovery.
 
 Historical October 22 public-route checks confirmed the three-second review delay, short-message rejection, prepared text/focus, GitHub sign-in handoff, cooldown after reload and Escape/focus return. Its 390px dialog and 1100px desktop-map header fitted. Those results describe the retired public UI.
 

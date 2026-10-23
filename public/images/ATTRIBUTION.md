@@ -53,3 +53,7 @@ Source: [Nintendo's official Pikmin Garden](https://www.nintendo.com/jp/characte
 | `garden-night.webp` | https://www.nintendo.com/jp/character/pikmin/assets/img/top/bg_body01_night.webp?imbypass=true |
 
 All rights remain with their respective owners. Source attribution does not grant a redistribution license. The three Garden images are the only wallpaper assets used on all screen sizes. Previously tested Bloom loading-screen images have been removed.
+
+## October 22, 2026 decor catalog refresh
+
+Added 79 original transparent PNGs from Pikipedia's [regular gallery](https://www.pikminwiki.com/Decor_Pikmin) and [special/event gallery](https://www.pikminwiki.com/Special_Decor_Pikmin), covering newer regular/rare and event variants. All 975 current entries have local mappings. Exact original URLs, file pages, dimensions, sizes, checksums and new-image retrieval dates are recorded in [the source inventory](../../docs/decor-image-sources.json). Existing artwork, not AI-generated. Nintendo retains artwork rights; attribution does not grant a redistribution license.

@@ -20,7 +20,12 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-Images now cover all 896 existing checklist entries, including regular, rare, special/event, and numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading, memoized rendering, and confetti only during interaction. Sources/checksums are recorded per asset; 36 grouped entries use a marked representative design. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining real-device performance checks. Existing IDs and saved progress are unchanged.
+Images now cover all 975 current checklist entries, including regular, rare, special/event, and numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading, memoized rendering, and confetti only during interaction. Sources/checksums are recorded per asset; 36 grouped entries use a marked representative design. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining real-device performance checks. Existing IDs and saved progress are unchanged.
+
+- [x] Recheck regular/event galleries on October 22 and add 79 missing entries with verified artwork: 975 total (522 regular/rare, 453 event).
+- [x] Preserve all 896 original IDs and test old/new full-progress backup compatibility. Full suite: 114 tests; production build and ordinary browser persistence checks pass.
+- [ ] Recheck species and rare rows as well as category names when new decor is released; do not infer availability solely from a filename elsewhere.
+- [ ] Track individual designs in older grouped categories only as a separate task with explicit save compatibility rules; keep representative flags until then.
 
 ### Asset preparation
 
@@ -136,7 +141,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Add a regression check for the original catalogue IDs and totals.
 - [ ] Continue checking ID compatibility for each future catalogue expansion or migration.
 - [ ] Check image loading, touch targets, keyboard navigation, and mobile performance.
-- [x] Establish the current test/build baseline: 112 Node tests and the production `/PikApp/` build pass after the October 22 audit. Earlier milestone counts remain historical.
+- [x] Establish the current test/build baseline: 114 Node tests and the production `/PikApp/` build pass after the October 22 catalog refresh (the earlier audit baseline was 112). Earlier milestone counts remain historical.
 - [x] Add focused map query, geometry, search lifecycle, pin storage and import checks. Add future account migration/merge tests when those behaviors exist.
 - [x] Document current local setup and prepared GitHub Pages workflow.
 - [x] Confirm public Pages hosting and successful deployment through repair commit `c942d52`; provider setup and pending auth/feedback work are documented. Check each later deployment separately.
