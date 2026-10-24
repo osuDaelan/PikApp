@@ -62,6 +62,7 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [x] Install Leaflet/converter and configure independent tile/Overpass providers with attribution. Use the working French source by default; keep manual alternatives.
 - [ ] Select a provider/design for address/city-name search. Current controls accept coordinates/map links; no public Nominatim autocomplete or restricted author mirror is used.
 - [x] Keep Now + Decor in desktop Overview, with dedicated Decor and Map views.
+- [x] Keep section navigation in the same bottom position on Map and every other section, including scrollbar-related centering. Reserve space below the desktop map so controls remain unobstructed; verify desktop and mobile switching.
 - [x] Make all three sections reachable at every width, with section hashes/back/forward and shareable map-view URLs.
 - [x] Implement the map separately from the shell/checklist, with source and category adapters.
 - [x] Test normalized tag matching, unique categories, source IDs and polygon/relation holes.

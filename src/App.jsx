@@ -92,7 +92,7 @@ function AppSession({ importComplete, onProgressImported }) {
 
       {/* Content */}
       <div style={{
-        flex: 1, minHeight: 0, padding: isDesktopMap ? "12px 14px 14px" : "12px 14px 90px",
+        flex: 1, minHeight: 0, padding: "12px 14px 90px",
         display: fillsViewport ? "flex" : "block", flexDirection: "column", overflow: fillsViewport ? "hidden" : "visible",
       }}>
 
@@ -128,7 +128,7 @@ function AppSession({ importComplete, onProgressImported }) {
       </div>
       </div>
 
-      <Navigation tab={tab} setTab={setTab} isWide={isWide} isDesktop={isDesktop} containerMax={containerMax} inHeader={isDesktopMap} />
+      <Navigation tab={tab} setTab={setTab} isWide={isWide} isDesktop={isDesktop} containerMax={containerMax} />
       <SetCompletionCelebration completion={decor.completion} onFinish={decor.dismissCompletion} />
     </div>
   );

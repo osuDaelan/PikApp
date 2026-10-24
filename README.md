@@ -14,7 +14,7 @@ An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
 - [Asset attribution](public/images/ATTRIBUTION.md) and [per-image inventory](docs/decor-image-sources.json): provenance and representative-design limitations.
 
-Current verification: **147 tests and the production `/PikApp/` build pass** after simplifying mushroom selection and adding copy controls to the comparison. The October 22 dependency audits reported zero findings; see [audit fixes and verification limits](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
+Current verification: **147 tests and the production `/PikApp/` build pass** after keeping navigation consistently at the bottom across sections. The October 22 dependency audits reported zero findings; see [audit fixes and verification limits](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
 
 The existing **Pikmin Decor Visuals and Animations** reference-site investigation remains below. Current implementation is summarized in the project guide; historical experiments are not current requirements.
 

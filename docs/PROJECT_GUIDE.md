@@ -103,13 +103,15 @@ Fresh calculator saves use level 1 and zero steps, flowers, daily averages and c
 ### Current section layout
 
 - Below 720px: section navigation spans the bottom of the screen.
-- From 720px: navigation floats and calculator cards can use a wider layout.
-- At 1100px and above: Overview renders Now + Decor side by side. Decor opens its own view. Map uses the full window width with 14px side/bottom gutters and navigation in the top-right header; its sidebar remains 300px while the map canvas expands.
+- From 720px: navigation floats at the bottom center in every section and calculator cards can use a wider layout. Wide navigation uses `50vw` so appearing/disappearing page scrollbars do not move it sideways.
+- At 1100px and above: Overview renders Now + Decor side by side. Decor opens its own view. Map uses the full window width with 14px side gutters and a 90px bottom allowance for the shared fixed navigation; its sidebar remains 300px while the map canvas expands. Opening Map no longer moves navigation into the header.
 - Active section follows `#now`, `#decor`, `#map`, or `#mushrooms` and browser history. Map view query parameters support a shareable viewport without including pins.
 - Map and Mushrooms hide calculator-specific controls; the calculator/collection hooks and development backup lifecycle remain mounted in the shell.
 - Mushrooms places both charts on the left and options on the right from 900px; below 900px options come first, followed by the full reference and comparison.
 
 The map and its libraries mount on entry and clean up on exit. See [the implementation notes](DECOR_MAP_IMPLEMENTATION.md) for details.
+
+October 24 navigation check: an isolated production preview measured identical navigation rectangles across Overview/Now, Decor, Mushrooms and Map: `(472, 647, 336, 57)` at 1280×720 and `(0, 781, 375, 63)` at a 390×844 browser viewport. The 1100×650 map also fit without page overflow; the card, zoom controls and attribution stayed above the navigation. The 147-test suite and `/PikApp/` build passed, with no browser warnings/errors. No Overpass search, geolocation or existing user-save edits were performed.
 
 ## Mushroom nectar reference and comparison
 

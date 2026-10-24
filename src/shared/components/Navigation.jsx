@@ -2,14 +2,14 @@ import React from "react";
 import { colors } from "../styles/theme.js";
 import { SECTIONS } from "../sections.js";
 
-export default function Navigation({ tab, setTab, isWide, isDesktop, containerMax, inHeader = false }) {
+export default function Navigation({ tab, setTab, isWide, isDesktop, containerMax }) {
   const { green: G, darkGreen: DG } = colors;
   const navMax = 360;
   return (
     <nav aria-label="Main sections" style={{
-      position: inHeader ? "absolute" : "fixed", top: inHeader ? 18 : undefined,
-      bottom: inHeader ? undefined : isWide ? 16 : 0, right: inHeader ? 18 : undefined,
-      left: inHeader ? undefined : "50%", transform: inHeader ? "none" : "translateX(-50%)",
+      position: "fixed", bottom: isWide ? 16 : 0,
+      // Viewport units prevent a sideways jump when a page scrollbar appears.
+      left: isWide ? "50vw" : "50%", transform: "translateX(-50%)",
       width: isWide ? "auto" : "100%", maxWidth: isWide ? navMax : containerMax, zIndex: 10000,
       background: "rgba(255,255,255,0.97)", borderTop: isWide ? "none" : "1px solid #e8f5e0",
       borderRadius: isWide ? 20 : 0, display: "flex", justifyContent: "center",
