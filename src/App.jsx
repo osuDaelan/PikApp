@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useCallback, useRef, useState } from "react";
 import CalculatorSection from "./features/calculator/CalculatorSection.jsx";
 import StatsEditor from "./features/calculator/StatsEditor.jsx";
 import LevelBadge from "./features/calculator/LevelBadge.jsx";
@@ -10,7 +10,7 @@ import SetCompletionCelebration from "./features/decor/SetCompletionCelebration.
 import AppHeader from "./shared/components/AppHeader.jsx";
 import Navigation from "./shared/components/Navigation.jsx";
 import useWindowWidth from "./shared/hooks/useWindowWidth.js";
-import { appStyle, scrollPaneStyle, cardStyle } from "./shared/styles/theme.js";
+import { appStyle, cardStyle } from "./shared/styles/theme.js";
 import useWallpaper from "./features/wallpapers/useWallpaper.js";
 import { wallpaperUrl } from "./features/wallpapers/catalog.js";
 import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
@@ -34,23 +34,12 @@ function AppSession({ importComplete, onProgressImported }) {
   const winWidth = useWindowWidth();
   const [tab, setTab] = useSectionNavigation();
   const [mushroomDraft, setMushroomDraft] = useState(null);
-  const showsCalculator = tab === "now" || tab === "decor";
-  const isWide = winWidth >= 720; // threshold for switching to the side-by-side card layout
-  const isDesktop = winWidth >= 1100;
-  const isSplit = isDesktop && tab === "now"; // Overview preserves the two-pane dashboard.
-  const isDesktopMap = isDesktop && tab === "map";
-  const fillsViewport = isSplit || isDesktopMap;
-  const viewportHeight = isDesktopMap ? "100dvh" : isSplit ? "100vh" : "auto";
-  const containerMax = tab === "map" ? undefined : isSplit ? 1360 : 1200;
-
-  // Defensively zero out any residual horizontal scroll on the split-view panes
-  // (can otherwise get stuck mid-scroll when toggling in/out of split view).
-  const nowPaneRef = useRef(null);
-  const decorPaneRef = useRef(null);
-  useEffect(() => {
-    if (nowPaneRef.current) nowPaneRef.current.scrollLeft = 0;
-    if (decorPaneRef.current) decorPaneRef.current.scrollLeft = 0;
-  }, [isSplit]);
+  const showsCalculator = tab === "calculator";
+  const isWide = winWidth >= 720;
+  const isDesktopMap = winWidth >= 1100 && tab === "map";
+  const fillsViewport = isDesktopMap;
+  const viewportHeight = isDesktopMap ? "100dvh" : "auto";
+  const containerMax = tab === "map" ? undefined : 1200;
 
   const wallpaper = useWallpaper();
 
@@ -77,8 +66,6 @@ function AppSession({ importComplete, onProgressImported }) {
     catch { /* Import is already saved; a blocked history update must not prevent restoration. */ }
     onProgressImported();
   }
-  const nowBody = <CalculatorSection calculator={calculator} />;
-  const decorBody = <DecorSection decor={decor} isWide={isWide} isSplit={isSplit} />;
 
   return (
     <div className={`pikapp-root${isDesktopMap ? " pikapp-root--desktop-map" : ""}`} data-wallpaper-id={wallpaper.id} style={{ ...appStyle, background: "#203e30", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible" }}>
@@ -98,37 +85,25 @@ function AppSession({ importComplete, onProgressImported }) {
 
         {showsCalculator && <StatsEditor calculator={calculator} />}
 
-        {/* ── NOW + DECOR — side by side once the window is wide enough, tabbed otherwise ── */}
-        {isSplit ? (
-          <div style={{ display: "flex", gap: 20, flex: 1, minHeight: 0 }}>
-            <div ref={nowPaneRef} style={scrollPaneStyle}>{nowBody}</div>
-            <div ref={decorPaneRef} style={scrollPaneStyle}>{decorBody}</div>
-          </div>
-        ) : (
-          <>
-            {tab === "now" && nowBody}
-            {tab === "decor" && decorBody}
-            {tab === "mushrooms" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading mushroom rewards…</div>}>
-              <MushroomsSection draft={mushroomDraft} setDraft={setMushroomDraft} />
-            </Suspense>}
-            {tab === "map" && <Suspense fallback={<div role="status" style={{ ...appStyle, minHeight: 250, borderRadius: 18, padding: 25 }}>Loading decor map…</div>}>
-              <DecorMapSection decorCollected={decor.decorCollected} onProgressSnapshot={captureMapProgress} />
-            </Suspense>}
-          </>
-        )}
+        {showsCalculator && <section aria-label="Level calculator"><CalculatorSection calculator={calculator} /></section>}
+        {tab === "decor" && <DecorSection decor={decor} isWide={isWide} />}
+        {tab === "mushrooms" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading mushroom rewards…</div>}>
+          <MushroomsSection draft={mushroomDraft} setDraft={setMushroomDraft} />
+        </Suspense>}
+        {tab === "map" && <Suspense fallback={<div role="status" style={{ ...appStyle, minHeight: 250, borderRadius: 18, padding: 25 }}>Loading decor map…</div>}>
+          <DecorMapSection decorCollected={decor.decorCollected} onProgressSnapshot={captureMapProgress} />
+        </Suspense>}
 
         {/* Pikipedia footnote */}
-        {showsCalculator && <div style={{ textAlign: "center", marginTop: 16, fontSize: 10, color: "#fff", textShadow: "0 1px 4px #000" }}>
-          {isSplit
-            ? `Data from pikminwiki.com/Level, Decor_Pikmin & Special_Decor_Pikmin · Lv ${MAX_KNOWN + 1}–130 not yet documented`
-            : tab === "decor"
-              ? "Data from pikminwiki.com/Decor_Pikmin & Special_Decor_Pikmin"
-              : `Data from pikminwiki.com/Level · Lv ${MAX_KNOWN + 1}–130 not yet documented`}
+        {(showsCalculator || tab === "decor") && <div style={{ textAlign: "center", marginTop: 16, fontSize: 10, color: "#fff", textShadow: "0 1px 4px #000" }}>
+          {tab === "decor"
+            ? "Data from pikminwiki.com/Decor_Pikmin & Special_Decor_Pikmin"
+            : `Data from pikminwiki.com/Level · Lv ${MAX_KNOWN + 1}–130 not yet documented`}
         </div>}
       </div>
       </div>
 
-      <Navigation tab={tab} setTab={setTab} isWide={isWide} isDesktop={isDesktop} containerMax={containerMax} />
+      <Navigation tab={tab} setTab={setTab} isWide={isWide} containerMax={containerMax} />
       <SetCompletionCelebration completion={decor.completion} onFinish={decor.dismissCompletion} />
     </div>
   );

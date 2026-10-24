@@ -138,7 +138,7 @@ tests/                          Calculation, collection, and storage regression 
 
 This tree shows the original feature extraction. The app also has `features/wallpapers/`, decor image/effect modules, development backup code in `dev/` and `src/storage/`, and the deployment workflow. See [the current source ownership table](docs/PROJECT_GUIDE.md#source-ownership) for the full module map.
 
-Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Navigation is available at every width. At 1100px and above, **Overview** preserves Now + Decor side by side; Decor and Map each have their own view. Hash navigation supports back/forward without a routing dependency. The lazy-loaded `features/decor-map/` feature owns its OSM queries, geometry and separate `pb_decorMap_v1` save; see its implementation notes above.
+Feature-specific layouts stay with each feature. Reusable controls, styles, and persistence belong in shared modules. Navigation is available at every width in this order: **Decor, Map, Mushroom, Calculator**. Decor opens by default; Calculator is its own page, replacing the former Overview dashboard. Its canonical link is `#calculator`; old `#now` links still work. Hash navigation supports back/forward without a routing dependency. The lazy-loaded `features/decor-map/` feature owns its OSM queries, geometry and separate `pb_decorMap_v1` save; see its implementation notes above.
 
 Calculator and decor state hooks currently mount in the shell so switching tabs or responsive layouts preserves in-memory state. The header owns its clock so its one-second updates do not rerender the whole tracker.
 

@@ -8,7 +8,7 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 
 | Area | Implemented now | Remaining work |
 | --- | --- | --- |
-| Now / calculator | Level requirements through 120, daily averages, step/flower forecasts, coin estimates, stats editor; new visitors start at level 1 with zeroed stats | Separate forecast correctness review; requirements above 120 are not in the dataset |
+| Calculator | Dedicated calculator page: level requirements through 120, daily averages, step/flower forecasts, coin estimates, stats editor; new visitors start at level 1 with zeroed stats | Separate forecast correctness review; requirements above 120 are not in the dataset |
 | Decor checklist | 975 entries (896 original IDs preserved), local artwork, collection totals, filtered bulk selection, rare unlock rules and expression-based search | Real-device performance measurements, individual older grouped designs, future catalogue expansion |
 | Decor effects | Regular pop/confetti, rare stars, three-second new-item sparkles, set-completion celebration | Further appearance changes only as needed; archive replaced experiments |
 | Appearance | Official app icon and three Nintendo Garden wallpapers selected by local time | No active wallpaper or particle debug controls |
@@ -48,7 +48,7 @@ Paths below are relative to the project root.
 | --- | --- |
 | `src/main.jsx` | Development backup restore before React mounts; production entry point |
 | `src/App.jsx` | App shell, feature state instances, active section, responsive layout, global celebration mounting and state remount after a full-progress import |
-| `src/shared/components/Navigation.jsx`, `src/shared/sections.js` / `SECTIONS` | Overview, Decor, Map and Mushrooms section buttons and hash validation |
+| `src/shared/components/Navigation.jsx`, `src/shared/sections.js` / `SECTIONS` | Decor, Map, Mushroom, Calculator buttons in that order, with hash validation and legacy calculator links |
 | `src/features/calculator/levelData.js` / `MAX_KNOWN` | Level requirements and current dataset limit |
 | `src/features/calculator/calculations.js` | Pure requirements, forecasts, and coin calculations |
 | `src/features/calculator/useCalculator.js` | Saved calculator values, editor drafts/actions, derived projections |
@@ -71,7 +71,7 @@ Paths below are relative to the project root.
 | `src/features/mushrooms/selection.js` | Stable type/size reference rows with all ratings, bounded plain-text/comma search and checked-row toggles |
 | `src/features/mushrooms/{MushroomImage.jsx,images.js}`, `public/images/mushrooms/`, `docs/mushroom-image-sources.json` | Local Pikipedia type icons, base-path-aware URLs, fixed-size lazy images and asset provenance |
 | `src/features/mushrooms/{MushroomsSection,MushroomReference,MushroomComparison,MushroomOptions}.jsx`, `mushrooms.css` | Lazy page, searchable reward table, selected-mushroom settings and ranked results with Add another controls |
-| `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, desktop Overview, hash links and back/forward behavior |
+| `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, dedicated feature pages, hash links and back/forward behavior |
 | `src/shared/components/` | Header/clock, navigation, inputs, rings, local backup status |
 | `src/shared/components/BrowserSaveStatus.jsx`, `browser-save.css` | Calculator/checklist browser-save badge, explanatory dialog and retry action; separate from map saving |
 | `src/shared/components/ProgressTransfer.jsx` | Full-progress JSON export/import controls, validated preview, explicit replacement and previous-save download inside Browser saves |
@@ -104,18 +104,21 @@ Fresh calculator saves use level 1 and zero steps, flowers, daily averages and c
 
 - Below 720px: section navigation spans the bottom of the screen.
 - From 720px: navigation floats at the bottom center in every section and calculator cards can use a wider layout. Wide navigation uses `50vw` so appearing/disappearing page scrollbars do not move it sideways.
-- At 1100px and above: Overview renders Now + Decor side by side. Decor opens its own view. Map uses the full window width with 14px side gutters and a 90px bottom allowance for the shared fixed navigation; its sidebar remains 300px while the map canvas expands. Opening Map no longer moves navigation into the header.
-- Active section follows `#now`, `#decor`, `#map`, or `#mushrooms` and browser history. Map view query parameters support a shareable viewport without including pins.
-- Map and Mushrooms hide calculator-specific controls; the calculator/collection hooks and development backup lifecycle remain mounted in the shell.
+- Navigation is **Decor → Map → Mushroom → Calculator** at every width. Decor is the default page. Calculator is a dedicated calculator-only view, replacing the former Overview/Now split dashboard; its stats editor and level badge appear only there. Decor keeps regular and special/event lists side by side from 720px, stacked below that.
+- At 1100px and above, Map uses the full window width with 14px side gutters and a 90px bottom allowance for the shared fixed navigation; its sidebar remains 300px while the map canvas expands. Opening Map keeps navigation at the bottom.
+- Active section follows `#decor`, `#map`, `#mushrooms`, or `#calculator` and browser history. Old `#now` links still open Calculator. Empty/unknown hashes open Decor. Map view query parameters support a shareable viewport without including pins.
+- The calculator/collection hooks and development backup lifecycle remain mounted in the shell across all sections. The former split-pane layout, styles and scroll-reset refs were removed. Feedback calls the former Overview section Calculator while retaining its existing internal feedback ID.
 - Mushrooms places both charts on the left and options on the right from 900px; below 900px options come first, followed by the full reference and comparison.
 
 The map and its libraries mount on entry and clean up on exit. See [the implementation notes](DECOR_MAP_IMPLEMENTATION.md) for details.
 
 October 24 navigation check: an isolated production preview measured identical navigation rectangles across Overview/Now, Decor, Mushrooms and Map: `(472, 647, 336, 57)` at 1280×720 and `(0, 781, 375, 63)` at a 390×844 browser viewport. The 1100×650 map also fit without page overflow; the card, zoom controls and attribution stayed above the navigation. The 147-test suite and `/PikApp/` build passed, with no browser warnings/errors. No Overpass search, geolocation or existing user-save edits were performed.
 
+October 24 dedicated-page revision: the approved order is now Decor, Map, Mushroom, Calculator. The 151-test suite and `/PikApp/` build passed; new navigation tests cover order/labels, default routing, canonical hashes and the legacy `#now` alias. An isolated browser preview checked all four pages at 1280×720 and 390×844 with identical bottom-navigation rectangles at each width and no horizontal overflow. Calculator contained no decor checklist; Decor contained no calculator controls or level badge. Test daily averages survived navigation, reload and an old `#now` link; Decor search survived navigation, and browser back/forward restored the correct pages. No console warnings/errors, Overpass requests, geolocation or changes to existing user saves occurred. This supersedes the former combined Overview layout described in the earlier dated check.
+
 ## Mushroom nectar reference and comparison
 
-The fourth section, `#mushrooms`, is lazy loaded and owns its UI/data/calculations under `src/features/mushrooms/`. It adds no dependency, chart library or runtime wiki request. At the user's request, the initial range-bar charts and add form were replaced with plain numeric tables and checkbox selection, closer to the text reference notes. Calculator, collection, map saves and full-progress transfer formats remain unchanged.
+The Mushroom section, `#mushrooms`, is lazy loaded and owns its UI/data/calculations under `src/features/mushrooms/`. It adds no dependency, chart library or runtime wiki request. At the user's request, the initial range-bar charts and add form were replaced with plain numeric tables and checkbox selection, closer to the text reference notes. Calculator, collection, map saves and full-progress transfer formats remain unchanged.
 
 The reward table is the single place to select from the **34** supported type/size combinations. It shows **1★, 2★, 3★, 4★ nectar ranges and four-star Special Nectar** together. Check a checkbox or click a row to select it. Search is directly above the table: terms match type/size in any order, commas join alternatives, and Ice Blue also accepts `ice-blue`/`iceblue`. It filters displayed rows while keeping existing selections and comparisons intact; Clear search restores all 34. No matches has an explicit empty row. Nectar preferences do not filter the table. A highlighted star cell identifies each rating used by a selected mushroom.
 
@@ -149,7 +152,7 @@ An isolated production preview confirmed exactly one search field above the rewa
 
 ### Decor checklist search
 
-Added October 23, 2026, using [Pikipedia's in-game search guide](https://www.pikminwiki.com/Pikmin_Bloom_interface#Pikmin) as a syntax reference. The search bar is shared across regular and special/event checklist results in both Overview and Decor. The query lives in `useDecorCollection` as transient UI state: section navigation keeps it; reload/import clears it. It is not saved in progress exports or sent to a server.
+Added October 23, 2026, using [Pikipedia's in-game search guide](https://www.pikminwiki.com/Pikmin_Bloom_interface#Pikmin) as a syntax reference. The search bar is shared across regular and special/event checklist results on Decor (formerly also in Overview, before its removal). The query lives in `useDecorCollection` as transient UI state: section navigation keeps it; reload/import clears it. It is not saved in progress exports or sent to a server.
 
 - Search the eight species, category/costume names, and numbered labels such as `yellow battery "design 2"`. Case and accents are normalized, so `cafe` finds Café. Bare species keywords filter species strictly; quoted terms are literal text. This avoids a search for `ice` returning every color in Ice Cream.
 - PikApp-specific filters are `collected`, `missing`, `rare`, `regular`, `event` and the alias `special`. Regular means the regular section, including rare costumes; use `regular & !rare` for base entries. Event and special both select the special/event section, including promotional entries. Collected/missing reads the current collection state on every change.
@@ -282,7 +285,7 @@ All 39 local transparent PNGs live in `public/images/decor-categories/`, at most
 ## Open questions and known limits
 
 - Map discovery and local pins are implemented using the chosen OSM approach. Public endpoints are configured; tag accuracy, address search, region-aware Fortune rules and physical-device performance remain follow-ups.
-- Map has its own desktop view; Overview retains the two-pane dashboard. Section URLs and map-view sharing exist; public pin sharing and community submissions do not.
+- Decor, Map, Mushroom and Calculator each have dedicated views. Section URLs and map-view sharing exist; public pin sharing and community submissions do not.
 - Location is requested only by Locate me. Pins/views remain local unless explicitly exported/copied; account sync and public sharing require separate implementation.
 - Artwork usage permission remains unresolved despite recorded attribution. Some images represent grouped designs, and source resolutions vary.
 - Real-phone image memory/scroll performance has not been measured for the complete catalogue. Browser-only decor progress can be lost if storage is cleared.

@@ -153,7 +153,7 @@ test("map coordinates and URL navigation validate inputs and preserve the deploy
   assert.equal(url.pathname, "/PikApp/");
   assert.equal(url.hash, "#map");
   assert.equal(sectionFromHash("#map"), "map");
-  assert.equal(sectionFromHash("#unknown"), "now");
+  assert.equal(sectionFromHash("#unknown"), "decor");
   assert.equal(searchAreaProblem(bounds, 16), "");
   assert.match(searchAreaProblem(bounds, 10), /Zoom in/);
 });

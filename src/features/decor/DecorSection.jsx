@@ -50,7 +50,7 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
 }
 
 
-export default function DecorSection({ decor, isWide, isSplit }) {
+export default function DecorSection({ decor, isWide }) {
   const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor } = decor;
   const search = useMemo(() => compileDecorSearch(decorSearchQuery), [decorSearchQuery]);
   const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits), [search, decorCollected, recentDecorEdits]);
@@ -62,7 +62,7 @@ export default function DecorSection({ decor, isWide, isSplit }) {
     <>
       <DecorSearch query={decorSearchQuery} onQueryChange={setDecorSearchQuery} search={search}
         matchCount={regularMatches.total + specialMatches.total - results.retainedCount} retainedCount={results.retainedCount} />
-      <div style={{ display: "flex", flexDirection: (isWide && !isSplit) ? "row" : "column", gap: 12, alignItems: (isWide && !isSplit) ? "flex-start" : "stretch" }}>
+      <div style={{ display: "flex", flexDirection: isWide ? "row" : "column", gap: 12, alignItems: isWide ? "flex-start" : "stretch" }}>
       <div style={{ flex: 1, width: "100%", ...cardStyle }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 2 }}>
           <div style={{ fontWeight: 800, color: DG, fontSize: 13 }}>🎀 Regular Decor</div>
