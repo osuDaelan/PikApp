@@ -1,5 +1,11 @@
 # Image sources
 
+## Mushroom type artwork
+
+Retrieved October 24, 2026 from the 13 type icons used in [Pikipedia's Mushroom battle tables](https://www.pikminwiki.com/Mushroom_battle). The local PNGs in `mushrooms/` use Pikipedia's thumbnails, up to 96 pixels on the longest edge, with original transparency. These are existing Pikmin Bloom game images, not AI-generated images. Each type icon is shared by its Small/Normal/Large entries; these are not size-specific illustrations.
+
+The [mushroom image inventory](../../docs/mushroom-image-sources.json) records every file page, original URL, downloaded thumbnail URL, actual dimensions, byte count and SHA-256 checksum. All 13 icons together are 197,315 bytes. Nintendo retains artwork rights; attribution does not grant a redistribution license.
+
 ## Complete existing decor catalog
 
 All 896 current checklist entries now have local PNG artwork, retrieved October 18, 2026 from the actual file references in [Pikipedia's regular gallery](https://www.pikminwiki.com/Decor_Pikmin#Gallery) and [special decor sections](https://www.pikminwiki.com/Special_Decor_Pikmin). Rare entries are included in this full rollout. The following pilot sections preserve the original rollout history.

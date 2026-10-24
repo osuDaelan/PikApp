@@ -1,0 +1,150 @@
+{
+  "retrieved": "2026-10-24",
+  "source": "https://www.pikminwiki.com/Mushroom_battle",
+  "note": "Existing Pikmin Bloom type icons from Pikipedia, shared across sizes; Nintendo artwork. No AI-generated or size-specific illustrations.",
+  "images": [
+    {
+      "id": "blue",
+      "file": "blue.png",
+      "width": 88,
+      "height": 95,
+      "bytes": 14432,
+      "sourcePage": "https://www.pikminwiki.com/File:Blue_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/8/81/Blue_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/8/81/Blue_mushroom_icon.png/88px-Blue_mushroom_icon.png",
+      "sha256": "8d5ffe2d65697087b18e7417709716660da121e5d3e6ed4fcb6704f2596469e9"
+    },
+    {
+      "id": "crystal",
+      "file": "crystal.png",
+      "width": 77,
+      "height": 96,
+      "bytes": 13409,
+      "sourcePage": "https://www.pikminwiki.com/File:Crystal_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/d/d0/Crystal_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/d/d0/Crystal_mushroom_icon.png/77px-Crystal_mushroom_icon.png",
+      "sha256": "21bfd7b09655cb4df50246c567c95ea93e571542ca4aaf4b195b6d7f6325e76c"
+    },
+    {
+      "id": "electric",
+      "file": "electric.png",
+      "width": 96,
+      "height": 87,
+      "bytes": 15786,
+      "sourcePage": "https://www.pikminwiki.com/File:Electric_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/4/48/Electric_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/4/48/Electric_mushroom_icon.png/96px-Electric_mushroom_icon.png",
+      "sha256": "20242c44fe4ad8666b43e624903270b925497feeec2b510b9f9cb24f2c6a9e91"
+    },
+    {
+      "id": "fire",
+      "file": "fire.png",
+      "width": 96,
+      "height": 92,
+      "bytes": 16884,
+      "sourcePage": "https://www.pikminwiki.com/File:Fire_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/d/d4/Fire_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/d/d4/Fire_mushroom_icon.png/96px-Fire_mushroom_icon.png",
+      "sha256": "82e0e32ef0ee80bb672b1100185b386e6c4d8e5a248e8b30781ba34466875156"
+    },
+    {
+      "id": "gray",
+      "file": "gray.png",
+      "width": 89,
+      "height": 96,
+      "bytes": 14558,
+      "sourcePage": "https://www.pikminwiki.com/File:Gray_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/4/45/Gray_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/4/45/Gray_mushroom_icon.png/89px-Gray_mushroom_icon.png",
+      "sha256": "8f77c323f441f1ece411d6d7f0122556b92334078bb18c80fd27926a025c3d43"
+    },
+    {
+      "id": "ice-blue",
+      "file": "ice-blue.png",
+      "width": 89,
+      "height": 96,
+      "bytes": 17146,
+      "sourcePage": "https://www.pikminwiki.com/File:Ice_Blue_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/1/19/Ice_Blue_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/1/19/Ice_Blue_mushroom_icon.png/89px-Ice_Blue_mushroom_icon.png",
+      "sha256": "ba45212cabd4aec52c769d8222e9b56ef235407f31ee4271aef7cdba2883c99d"
+    },
+    {
+      "id": "pink",
+      "file": "pink.png",
+      "width": 88,
+      "height": 96,
+      "bytes": 15913,
+      "sourcePage": "https://www.pikminwiki.com/File:Pink_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/6/62/Pink_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/6/62/Pink_mushroom_icon.png/88px-Pink_mushroom_icon.png",
+      "sha256": "62769d520c4bf107c0e4cc67ec4d02d27682f0d8f52a2330134490b13c464c9b"
+    },
+    {
+      "id": "poisonous",
+      "file": "poisonous.png",
+      "width": 95,
+      "height": 96,
+      "bytes": 17179,
+      "sourcePage": "https://www.pikminwiki.com/File:Poisonous_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/b/b7/Poisonous_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/b/b7/Poisonous_mushroom_icon.png/95px-Poisonous_mushroom_icon.png",
+      "sha256": "ab654bbb6c8e271fa5f8add2c25bce823738bd190fe288d6d2585c7e91baa2f2"
+    },
+    {
+      "id": "purple",
+      "file": "purple.png",
+      "width": 89,
+      "height": 96,
+      "bytes": 14554,
+      "sourcePage": "https://www.pikminwiki.com/File:Purple_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/f/f5/Purple_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/f/f5/Purple_mushroom_icon.png/89px-Purple_mushroom_icon.png",
+      "sha256": "a6ca40d03893d02109328257b586725d65f8ae4633b0e66f05452cda21587c3e"
+    },
+    {
+      "id": "red",
+      "file": "red.png",
+      "width": 88,
+      "height": 95,
+      "bytes": 14270,
+      "sourcePage": "https://www.pikminwiki.com/File:Red_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/9/9a/Red_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/9/9a/Red_mushroom_icon.png/88px-Red_mushroom_icon.png",
+      "sha256": "0c63fbcbffe3f0337ffb9a4cb69e53f2210d35cf523b83b9dc76fc41670993d9"
+    },
+    {
+      "id": "water",
+      "file": "water.png",
+      "width": 96,
+      "height": 88,
+      "bytes": 16139,
+      "sourcePage": "https://www.pikminwiki.com/File:Water_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/3/33/Water_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/3/33/Water_mushroom_icon.png/96px-Water_mushroom_icon.png",
+      "sha256": "f842d82a27c8682a20ae9eb13ad3fc6e14662d0ff861540b1a7a2f1da83cf4aa"
+    },
+    {
+      "id": "white",
+      "file": "white.png",
+      "width": 89,
+      "height": 96,
+      "bytes": 13483,
+      "sourcePage": "https://www.pikminwiki.com/File:White_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/9/91/White_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/9/91/White_mushroom_icon.png/89px-White_mushroom_icon.png",
+      "sha256": "bfe855d2f0903798045b14c1e5b711ae4204b250b60d68e20f8ef6a2caae0f11"
+    },
+    {
+      "id": "yellow",
+      "file": "yellow.png",
+      "width": 88,
+      "height": 95,
+      "bytes": 13562,
+      "sourcePage": "https://www.pikminwiki.com/File:Yellow_mushroom_icon.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/a/a5/Yellow_mushroom_icon.png",
+      "downloadUrl": "https://pikmin.wiki.gallery/images/thumb/a/a5/Yellow_mushroom_icon.png/88px-Yellow_mushroom_icon.png",
+      "sha256": "f9c6e2b66663e35bf3183c86985333eb03e4928d3b580fc272613130107d2164"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { NECTAR_COLORS, MAX_MUSHROOM_CHOICES } from "./data.js";
 import { addMushroomChoice, updateMushroomChoice } from "./calculations.js";
 import { filterMushrooms, MUSHROOM_REFERENCE_ROWS } from "./selection.js";
+import MushroomImage from "./MushroomImage.jsx";
 
 export default function MushroomOptions({ draft, onChange, onToggle }) {
   const [query, setQuery] = useState("");
@@ -28,6 +29,7 @@ export default function MushroomOptions({ draft, onChange, onToggle }) {
           const checked = draft.choices.some(choice => choice.typeId === row.type.id && choice.size === row.size);
           return <label key={row.key} className={`mushroom-picker-choice${checked ? " is-selected" : ""}`} style={{ "--nectar-color": row.color.hex }}>
             <input type="checkbox" aria-label={`Compare ${row.label}`} checked={checked} disabled={!checked && atLimit} onChange={() => onToggle(row)} />
+            <MushroomImage typeId={row.type.id} />
             <span><strong>{row.label}</strong><small><i className="mushroom-color-dot" aria-hidden="true" />{row.color.label} nectar</small></span>
           </label>;
         })}

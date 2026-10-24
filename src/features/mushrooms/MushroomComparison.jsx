@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { NECTAR_COLORS } from "./data.js";
 import { compareMushrooms, nectarRange } from "./calculations.js";
+import MushroomImage from "./MushroomImage.jsx";
 
 export default function MushroomComparison({ draft }) {
   const result = useMemo(() => compareMushrooms(draft.choices, draft.colors, draft.sortBy), [draft]);
@@ -21,7 +22,7 @@ export default function MushroomComparison({ draft }) {
           <table className="mushroom-data-table mushroom-results-table" role="table" aria-label="Selected mushroom comparison"><caption>Highest {metric} first · amounts are nectar</caption>
             <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Available mushroom</th><th scope="col" role="columnheader">Minimum</th><th scope="col" role="columnheader">Maximum</th><th scope="col" role="columnheader">Special</th></tr></thead>
             <tbody role="rowgroup">{result.rows.map(row => <tr role="row" key={row.id} data-comparison-row={row.id} className={result.bestIds.includes(row.id) ? "mushroom-result-best" : undefined}>
-              <th role="rowheader" scope="row"><strong>{row.label}</strong><span>{row.type.label} · {row.size} · {row.stars}★</span>{result.bestIds.includes(row.id) && <span className="mushroom-best-badge">Best {metric}{result.bestIds.length > 1 ? " · tie" : ""}</span>}</th>
+              <th role="rowheader" scope="row"><div className="mushroom-result-name"><MushroomImage typeId={row.type.id} /><div><strong>{row.label}</strong><span>{row.type.label} · {row.size} · {row.stars}★</span>{result.bestIds.includes(row.id) && <span className="mushroom-best-badge">Best {metric}{result.bestIds.length > 1 ? " · tie" : ""}</span>}</div></div></th>
               <td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Minimum</span>{row.selectedMin}</td><td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Maximum</span>{row.selectedMax}</td><td role="cell" className="mushroom-special-cell"><span className="mushroom-cell-label" aria-hidden="true">Special Nectar</span>{row.special}</td>
             </tr>)}</tbody>
           </table>

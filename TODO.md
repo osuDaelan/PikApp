@@ -172,6 +172,8 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Put charts left/options right on desktop and options first/charts below on mobile. Keep the draft across section navigation; clearly label that refresh/close resets it.
 - [x] Review reward/fruit source revisions, include fruit size/color alternatives and document differences from the older chart. Preserve the Normal Ice Blue recipe exception; add 11 focused tests (141 total passing) and pass the `/PikApp/` build.
 - [x] Verify checkbox selection/search, shared state, duplicate unchecking, limits and reference immutability with four additional tests (145 total); check desktop and compact mobile tables in the browser.
+- [x] Tighten the name/star spacing and desktop row padding; remove the reference table's internal scrollbar so its full contents use page scrolling.
+- [x] Add Pikipedia artwork for all 13 mushroom types to reference/search/results, with local lazy PNGs (about 193 KiB total), provenance/checksums and two asset tests (147 total passing). Verify image selection and 900px/390px layouts without clipped columns or page overflow.
 - [ ] Compare the calculated outer bounds with real in-game fruit rewards, especially small red and giant white alternatives; update sources/data when observations change.
 - [ ] Add Giant/event mushrooms only after reviewing their own recipes, color rules and current event behavior.
 - [ ] Consider saving comparison drafts if requested; they currently do not alter autosaves or the portable progress schema.
