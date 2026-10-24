@@ -7,7 +7,7 @@ import MushroomImage from "./MushroomImage.jsx";
 function MushroomReference({ choices, onToggle }) {
   const [query, setQuery] = useState("");
   const matches = useMemo(() => filterMushrooms(query), [query]);
-  return <section className="mushroom-card" aria-labelledby="mushroom-reference-title">
+  return <section className="mushroom-card mushroom-reference-card" aria-labelledby="mushroom-reference-title">
     <span className="mushroom-eyebrow">THE FULL REFERENCE</span><h2 id="mushroom-reference-title">Mushroom reward table</h2>
     <p className="mushroom-description">Check a mushroom you can join, or tap its row. Each cell shows lowest–highest nectar at that star rating.</p>
     <div role="search" aria-label="Search mushroom table" className="mushroom-search">

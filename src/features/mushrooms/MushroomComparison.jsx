@@ -24,13 +24,13 @@ export default function MushroomComparison({ draft, onDuplicate }) {
             <tbody role="rowgroup">{result.rows.map(row => {
               const copies = draft.choices.filter(value => value.typeId === row.type.id && value.size === row.size);
               return <tr role="row" key={row.id} data-comparison-row={row.id} className={result.bestIds.includes(row.id) ? "mushroom-result-best" : undefined}>
-              <th role="rowheader" scope="row"><div className="mushroom-result-name"><MushroomImage typeId={row.type.id} /><div><strong>{row.label}{copies.length > 1 ? ` (${copies.findIndex(value => value.id === row.id) + 1}/${copies.length})` : ""}</strong><span>{row.type.label} · {row.size} · {row.stars}★</span>{result.bestIds.includes(row.id) && <span className="mushroom-best-badge">Best {metric}{result.bestIds.length > 1 ? " · tie" : ""}</span>}</div></div>
-                <button className="mushroom-add-copy" type="button" disabled={draft.choices.length >= MAX_MUSHROOM_CHOICES} aria-label={`Add another ${row.label} (mushroom ${row.id})`} onClick={() => onDuplicate(row.id)}>＋ Add another</button></th>
+              <th role="rowheader" scope="row"><div className="mushroom-result-name"><MushroomImage typeId={row.type.id} /><div><strong>{row.label}{copies.length > 1 ? ` (${copies.findIndex(value => value.id === row.id) + 1}/${copies.length})` : ""}</strong><div className="mushroom-result-meta"><span>{row.type.label} · {row.size} · {row.stars}★</span>{result.bestIds.includes(row.id) && <span className="mushroom-best-badge">Best {metric}{result.bestIds.length > 1 ? " · tie" : ""}</span>}</div></div>
+                <button className="mushroom-add-copy" type="button" disabled={draft.choices.length >= MAX_MUSHROOM_CHOICES} aria-label={`Add another ${row.label} (mushroom ${row.id})`} title={`Add another ${row.label}`} onClick={() => onDuplicate(row.id)}><span aria-hidden="true">＋</span></button></div></th>
               <td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Minimum</span>{row.selectedMin}</td><td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Maximum</span>{row.selectedMax}</td><td role="cell" className="mushroom-special-cell"><span className="mushroom-cell-label" aria-hidden="true">Special Nectar</span>{row.special}</td>
             </tr>;
             })}</tbody>
           </table>
-          <p className="mushroom-caption">Each row is one available mushroom. Add another to compare multiple of the same type and size, with separate expected stars. Limit: {MAX_MUSHROOM_CHOICES} mushrooms.</p>
+          <p className="mushroom-caption">Each row is one available mushroom. Use ＋ to add another of the same type and size, with separate expected stars. Limit: {MAX_MUSHROOM_CHOICES} mushrooms.</p>
           <p className="mushroom-caption">Ranking compares documented bounds, not an average or a guaranteed outcome. Overlapping ranges can produce different results.</p>
           <details className="mushroom-details"><summary>Color breakdown and reward details</summary>
             {result.rows.map(row => <div className="mushroom-reward-detail" key={row.id}><h3>{row.label} · {row.stars}★</h3>

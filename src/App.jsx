@@ -39,7 +39,7 @@ function AppSession({ importComplete, onProgressImported }) {
   const isDesktopMap = winWidth >= 1100 && tab === "map";
   const fillsViewport = isDesktopMap;
   const viewportHeight = isDesktopMap ? "100dvh" : "auto";
-  const containerMax = tab === "map" ? undefined : 1200;
+  const containerMax = tab === "map" || tab === "mushrooms" ? undefined : 1200;
 
   const wallpaper = useWallpaper();
 
