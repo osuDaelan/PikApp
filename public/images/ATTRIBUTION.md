@@ -1,5 +1,11 @@
 # Image sources
 
+## Map decor-category icons
+
+Retrieved October 24, 2026 from the actual category symbols in [Pikipedia's Decor Pikmin table](https://www.pikminwiki.com/Decor_Pikmin#Decor_types). All 39 map categories have a local transparent PNG in `decor-categories/`, at most 64px on the longest edge. Together they total 43,247 bytes (about 42 KiB). These are existing Pikmin Bloom game symbols, not AI-generated artwork. Map markers always use these symbols; a temporary debug button compares them with the previous emoji in the sidebar only.
+
+The [category icon inventory](../../docs/map-category-icon-sources.json) records source file pages, original/download URLs, actual dimensions, byte counts and SHA-256 checksums. Nintendo retains artwork rights; attribution does not grant a redistribution license.
+
 ## Mushroom type artwork
 
 Retrieved October 24, 2026 from the 13 type icons used in [Pikipedia's Mushroom battle tables](https://www.pikminwiki.com/Mushroom_battle). The local PNGs in `mushrooms/` use Pikipedia's thumbnails, up to 96 pixels on the longest edge, with original transparency. These are existing Pikmin Bloom game images, not AI-generated images. Each type icon is shared by its Small/Normal/Large entries; these are not size-specific illustrations.

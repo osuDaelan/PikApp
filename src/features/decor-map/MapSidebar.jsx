@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { MAP_CATEGORIES, CATEGORY_BY_ID } from "./categories.js";
+import CategoryIcon from "./CategoryIcon.jsx";
 
-export function CategoryPanel({ selectedIds, stats, onToggle, onSelectAll, onClear, missingOnly, onMissingOnly, results, onPlace }) {
+export function CategoryPanel({ selectedIds, stats, onToggle, onSelectAll, onClear, missingOnly, onMissingOnly, results, onPlace, iconStyle }) {
   const [filter, setFilter] = useState("");
   const [shown, setShown] = useState(30);
   const categories = MAP_CATEGORIES.filter(category => category.label.toLowerCase().includes(filter.trim().toLowerCase()));
@@ -15,7 +16,7 @@ export function CategoryPanel({ selectedIds, stats, onToggle, onSelectAll, onCle
       {categories.map(category => {
         const count = stats.get(category.id);
         return <button type="button" key={category.id} aria-pressed={selectedIds.includes(category.id)} onClick={() => onToggle(category.id)}>
-          <span className="decor-map__category-icon" aria-hidden="true">{category.icon}</span>
+          <CategoryIcon categoryId={category.id} iconStyle={iconStyle} />
           <span className="decor-map__category-name">{category.label}<small>{count.done}/{count.total} collected</small></span>
           <span className="decor-map__category-check" aria-hidden="true">{selectedIds.includes(category.id) ? "✓" : ""}</span>
         </button>;
@@ -26,14 +27,14 @@ export function CategoryPanel({ selectedIds, stats, onToggle, onSelectAll, onCle
     {results.hasScan && <div className="decor-map__result-list">
       <h3>Places found · {results.places.length}</h3>
       {results.places.slice(0, shown).map(place => <button type="button" key={place.id} onClick={() => onPlace(place)}>
-        <span aria-hidden="true">{CATEGORY_BY_ID.get(place.categoryIds[0])?.icon}</span><span>{place.name}<small>{place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ")}</small></span>
+        <CategoryIcon categoryId={place.categoryIds[0]} iconStyle={iconStyle} /><span>{place.name}<small>{place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ")}</small></span>
       </button>)}
       {results.places.length > shown && <button type="button" onClick={() => setShown(value => value + 30)}>Show more places</button>}
     </div>}
   </>;
 }
 
-export function PlaceDetails({ place, stats, saved, onSave, onBack, onFocus }) {
+export function PlaceDetails({ place, stats, saved, onSave, onBack, onFocus, iconStyle }) {
   return <div className="decor-map__place-details">
     <button type="button" onClick={onBack}>← Categories</button>
     <p className="decor-map__eyebrow">CANDIDATE DECOR LOCATION</p>
@@ -41,7 +42,7 @@ export function PlaceDetails({ place, stats, saved, onSave, onBack, onFocus }) {
     <p className="decor-map__hint">{place.geometry.type === "Point" ? "Mapped place" : "Mapped area or path · pin location is approximate"}</p>
     <div className="decor-map__place-categories">{place.categoryIds.map(id => {
       const category = CATEGORY_BY_ID.get(id), count = stats.get(id);
-      return <div key={id}><span aria-hidden="true">{category.icon}</span><div><strong>{category.label}</strong><small>{count.done}/{count.total} collected in your checklist</small></div></div>;
+      return <div key={id}><CategoryIcon categoryId={id} iconStyle={iconStyle} /><div><strong>{category.label}</strong><small>{count.done}/{count.total} collected in your checklist</small></div></div>;
     })}</div>
     <p>OSM tags suggest these categories. Pikmin Bloom may show different results.</p>
     <button type="button" className="decor-map__primary" onClick={onSave}>{saved ? "Edit saved pin" : "Save this place"}</button>
@@ -51,7 +52,7 @@ export function PlaceDetails({ place, stats, saved, onSave, onBack, onFocus }) {
   </div>;
 }
 
-export function PinsPanel({ pins, onSelect, onExport, onImport, onAdd }) {
+export function PinsPanel({ pins, onSelect, onExport, onImport, onAdd, iconStyle }) {
   return <>
     <div className="decor-map__panel-heading"><h3>My pins</h3><span>{pins.length} saved</span></div>
     <p className="decor-map__hint">Private to this browser. Export a backup to keep a copy or move pins to another device.</p>
@@ -60,7 +61,7 @@ export function PinsPanel({ pins, onSelect, onExport, onImport, onAdd }) {
     <button type="button" className="decor-map__primary" onClick={onAdd}>Place a new pin</button>
     {!pins.length && <div className="decor-map__empty"><span aria-hidden="true">📍</span><h3>Your places, all together</h3><p>Save a discovered place, or tap the map to pin a spot you want to remember.</p></div>}
     <div className="decor-map__saved-list">{pins.map(pin => <button key={pin.id} type="button" onClick={() => onSelect(pin)}>
-      <span aria-hidden="true">{CATEGORY_BY_ID.get(pin.categoryIds[0])?.icon || "📍"}</span><span><strong>{pin.name}</strong>
+      <CategoryIcon categoryId={pin.categoryIds[0]} iconStyle={iconStyle} /><span><strong>{pin.name}</strong>
       <small>{pin.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ") || "Personal pin"}</small>
       {pin.notes && <small>{pin.notes.slice(0, 100)}</small>}</span></button>)}</div>
   </>;

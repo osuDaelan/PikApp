@@ -3,7 +3,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CATEGORY_BY_ID } from "./categories.js";
 import { MAP_TILES } from "./providers.js";
-import { featureStyle, markerColors, markerGlyph, placeCategory } from "./mapPresentation.js";
+import { featureStyle, markerColors, placeCategory } from "./mapPresentation.js";
+import { categoryImageUrl } from "./categoryImages.js";
 
 function markerIcon(categoryId, saved = false, selected = false) {
   const element = document.createElement("span");
@@ -11,7 +12,17 @@ function markerIcon(categoryId, saved = false, selected = false) {
   const colors = markerColors(categoryId, saved);
   element.style.setProperty("--marker-accent", colors.accent);
   element.style.setProperty("--marker-tint", colors.tint);
-  element.innerHTML = markerGlyph(categoryId);
+  const url = categoryImageUrl(categoryId, import.meta.env.BASE_URL);
+  if (url) {
+    const image = document.createElement("img");
+    image.src = url;
+    image.alt = "";
+    image.width = 22;
+    image.height = 22;
+    image.decoding = "async";
+    image.setAttribute("aria-hidden", "true");
+    element.append(image);
+  } else element.textContent = "📍";
   return L.divIcon({ html: element, className: "decor-map-marker-host", iconSize: [32, 32], iconAnchor: [16, 16] });
 }
 

@@ -34,6 +34,9 @@
 .decor-map__tabs span { background: #e9f1e3; border-radius: 20px; padding: 1px 6px; margin-left: 2px; }
 .decor-map__save-status { font-size: 10px; margin: 10px 0 15px; color: var(--map-muted); line-height: 1.5; }
 .decor-map__save-status--error, .decor-map__error { color: #a43a32; }
+.decor-map__icon-debug { margin: -4px 0 12px; }
+.decor-map__icon-debug button { width: 100%; padding: 7px 9px; border-style: dashed; font-size: 11px; }
+.decor-map__icon-debug small { font-size: 9px; text-align: center; }
 .decor-map__panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 12px 0; }
 .decor-map__panel-heading > span { font-size: 10px; color: var(--map-muted); }
 .decor-map__sidebar input:not([type=checkbox]):not([type=file]), .decor-map__sidebar textarea, .decor-map__sidebar select {
@@ -47,7 +50,9 @@
 .decor-map__category-list { display: flex; flex-direction: column; gap: 4px; max-height: 340px; overflow: auto; scrollbar-width: thin; padding: 3px; }
 .decor-map__category-list > button { display: flex; align-items: center; gap: 10px; padding: 9px; text-align: left; background: transparent; border-color: transparent; flex-shrink: 0; }
 .decor-map__category-list > button[aria-pressed=true] { background: #edf5e7; border-color: #bed4b4; }
-.decor-map__category-icon { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
+.decor-map__category-icon { display: inline-grid; place-items: center; font-size: 22px; width: 28px; height: 28px; text-align: center; flex-shrink: 0; }
+.decor-map__category-icon img { display: block; width: 24px; height: 24px; max-width: 100%; max-height: 100%; object-fit: contain; }
+.decor-map__pin-categories .decor-map__category-icon { width: 18px; height: 18px; font-size: 17px; }
 .decor-map__category-name { min-width: 0; flex: 1; }
 .decor-map small { display: block; font-weight: 500; font-size: 10px; color: var(--map-muted); margin-top: 3px; line-height: 1.5; }
 .decor-map__category-check { border: 1px solid #c2cfbc; background: #fff; width: 17px; height: 17px; border-radius: 6px; text-align: center; color: #fff; line-height: 15px; font-size: 11px; }
@@ -73,7 +78,7 @@
 .decor-map__footnote { padding: 7px 12px; color: var(--map-muted); font-size: 10px; text-align: center; border-top: 1px solid var(--map-line); flex-shrink: 0; }
 .decor-map-marker-host { background: none; border: none; display: grid; place-items: center; }
 .decor-map-marker { position: relative; width: 28px; height: 28px; display: grid; place-items: center; color: var(--marker-accent); background: var(--marker-tint); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 5px #243d4940; }
-.decor-map-marker svg { width: 17px; height: 17px; pointer-events: none; }
+.decor-map-marker img { width: 22px; height: 22px; object-fit: contain; pointer-events: none; }
 .decor-map-marker--selected { color: #fff; background: var(--marker-accent); box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--marker-accent); }
 .decor-map-marker--saved::after { content: ""; position: absolute; right: -2px; top: -2px; width: 7px; height: 7px; border: 1px solid #fff; background: #bc851e; border-radius: 2px; }
 .decor-map-marker-host:focus-visible { outline: 3px solid #dfaf38; border-radius: 50%; }

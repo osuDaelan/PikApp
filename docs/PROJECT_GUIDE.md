@@ -267,6 +267,10 @@ Limits: no physical-phone performance measurement, forced browser history reject
 
 ## Map feature boundaries
 
+October 24 icon decision: map markers always use original Pikmin Bloom decor-category symbols, replacing the first custom SVG drawings. The temporary **Debug icons: Pikmin Bloom / Emoji** button compares sidebar symbols with the previous emoji, including place details and pin editing; it defaults to the game symbols and resets when Map remounts. The debug state is separate from searches and persistence. Remove the button/state/prop plumbing after a sidebar style is approved; keep the shared image lookup used by markers.
+
+All 39 local transparent PNGs live in `public/images/decor-categories/`, at most 64px each and **43,247 bytes total (about 42 KiB)**. `categoryImages.js` respects the Pages base and `CategoryIcon.jsx` reserves space and uses lazy loading/async decoding. Browsers reuse images across markers and lists; no runtime wiki request is needed. Exact sources/checksums are in [the category icon inventory](map-category-icon-sources.json), with attribution in `public/images/ATTRIBUTION.md`. The 149-test suite/build and isolated desktop/390px checks passed; a 377-place real scan retained all map icon paths/labels when toggling. See [the map verification details](DECOR_MAP_IMPLEMENTATION.md#verification). Existing user saves were untouched.
+
 1. Keep map UI, map state and location-data adapters in `features/decor-map/`. Keep `App.jsx` responsible for wiring and layout.
 2. Keep one catalogue and one collection state owner. Reuse stable collection IDs and existing artwork lookup; add a category adapter rather than copying all decor data into the map.
 3. Distinguish a geographical place ID, a decor category and an individual collected Pikmin ID. One place may map to several candidate categories; a pin is not proof of an in-game result.

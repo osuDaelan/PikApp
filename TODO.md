@@ -70,8 +70,9 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [x] Add loading, empty, error, timeout, cancellation and retry states, with explicit Search this area requests.
 - [x] Retain the last scan while panning/zooming or replacing a search; include a bounded surrounding buffer and show its scanned-area outline.
 - [x] Implement approved green park/blue water fills and a stronger selected-area outline; reserve room for area results within bounded searches. See [approved visual direction](docs/DECOR_MAP_PLAN.md#approved-visual-direction--october-21-2026).
-- [x] Replace disliked pale, green-bordered emoji discovery pins with a first design of compact SVG category circles; keep the design isolated for revision.
-- [ ] Review the new circular map markers with the user; their final preferred style remains open.
+- [x] Replace disliked pale emoji discovery pins with original Pikmin Bloom category symbols in compact circles; this supersedes the first custom SVG design. Keep selected rings and saved-pin badges.
+- [x] Add a temporary sidebar debug button to compare original game category symbols with emoji; keep map markers on game symbols regardless of the comparison setting.
+- [ ] Choose the final sidebar icon style with the user, then remove the temporary comparison button/state/props. Map marker artwork is already chosen.
 - [x] Add selected-place details, category filtering and Missing only using the single existing collection state owner.
 - [x] Implement explicit one-shot Locate me and denied/unavailable fallbacks.
 - [x] Add versioned separate pin/preferences storage, protected unreadable saves, add/edit/confirmed delete, export and reviewed import/merge.
