@@ -35,8 +35,6 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
   const [editing, setEditing] = useState(null);
   const [addingPin, setAddingPin] = useState(false);
   const [missingOnly, setMissingOnly] = useState(false);
-  // Temporary comparison UI; deliberately excluded from saved map preferences.
-  const [sidebarIconStyle, setSidebarIconStyle] = useState("game");
   const [notice, setNotice] = useState("");
   const [importPreview, setImportPreview] = useState(null);
   const [copyUrl, setCopyUrl] = useState("");
@@ -159,13 +157,6 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
           <button type="button" aria-pressed={panel === "pins"} onClick={() => { setPanel("pins"); setEditing(null); }}>My pins <span>{state.pins.length}</span></button>
         </div>
         <p className={`decor-map__save-status${progress.saveError ? " decor-map__save-status--error" : ""}`} role="status">{progress.saveError || "Pins & map preferences save in this browser"}</p>
-        <div className="decor-map__icon-debug">
-          <button type="button" aria-pressed={sidebarIconStyle === "emoji"} aria-describedby="map-icon-debug-help"
-            onClick={() => setSidebarIconStyle(value => value === "game" ? "emoji" : "game")}>
-            Debug icons: {sidebarIconStyle === "game" ? "Pikmin Bloom" : "Emoji"}
-          </button>
-          <small id="map-icon-debug-help">Sidebar only · map uses Pikmin Bloom icons</small>
-        </div>
         {progress.recoveryRaw !== null && <button type="button" onClick={() => download(progress.recoveryRaw, "pikapp-map-recovery.json")}>Download recovery file</button>}
         {notice && <div className="decor-map__notice" role="status">{notice}<button type="button" aria-label="Dismiss map message" onClick={() => setNotice("")}>×</button></div>}
         {copyUrl && <input aria-label="Map view link" readOnly value={copyUrl} onFocus={event => event.target.select()} />}
@@ -174,13 +165,13 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
           <button type="button" onClick={confirmImport}>{progress.recoveryRaw !== null ? "Replace unreadable map data with import" : "Merge imported pins"}</button>
           <button type="button" onClick={() => setImportPreview(null)}>Cancel import</button>
         </div>}
-        {editing ? <PinEditor key={editing.id || editing.nonce} draft={editing} iconStyle={sidebarIconStyle} onSave={savePin} onCancel={() => setEditing(null)}
+        {editing ? <PinEditor key={editing.id || editing.nonce} draft={editing} onSave={savePin} onCancel={() => setEditing(null)}
           onDelete={id => { setState(previous => ({ ...previous, pins: previous.pins.filter(pin => pin.id !== id) })); setEditing(null); setNotice("Pin removed."); }} />
-          : panel === "pins" ? <PinsPanel pins={state.pins} iconStyle={sidebarIconStyle} onSelect={choosePin} onAdd={startPin} onImport={readImport}
+          : panel === "pins" ? <PinsPanel pins={state.pins} onSelect={choosePin} onAdd={startPin} onImport={readImport}
             onExport={() => download(pinBackup(state.pins), `pikapp-pins-${new Date().toISOString().slice(0, 10)}.json`)} />
-          : selectedPlace ? <PlaceDetails place={selectedPlace} iconStyle={sidebarIconStyle} stats={stats} saved={state.pins.some(pin => pin.osmId === selectedPlace.id)}
+          : selectedPlace ? <PlaceDetails place={selectedPlace} stats={stats} saved={state.pins.some(pin => pin.osmId === selectedPlace.id)}
             onSave={savePlace} onBack={() => setSelectedPlace(null)} onFocus={() => centerOn(selectedPlace)} />
-          : <CategoryPanel selectedIds={state.categoryIds} iconStyle={sidebarIconStyle} stats={stats} results={results} onPlace={place => { choosePlace(place); centerOn(place); }}
+          : <CategoryPanel selectedIds={state.categoryIds} stats={stats} results={results} onPlace={place => { choosePlace(place); centerOn(place); }}
             missingOnly={missingOnly} onMissingOnly={() => setMissingOnly(value => !value)}
             onToggle={id => setState(previous => ({ ...previous, categoryIds: previous.categoryIds.includes(id) ? previous.categoryIds.filter(value => value !== id) : [...previous.categoryIds, id] }))}
             onSelectAll={() => setState(previous => ({ ...previous, categoryIds: MAP_CATEGORIES.map(category => category.id) }))}

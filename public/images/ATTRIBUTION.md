@@ -2,7 +2,7 @@
 
 ## Map decor-category icons
 
-Retrieved October 24, 2026 from the actual category symbols in [Pikipedia's Decor Pikmin table](https://www.pikminwiki.com/Decor_Pikmin#Decor_types). All 39 map categories have a local transparent PNG in `decor-categories/`, at most 64px on the longest edge. Together they total 43,247 bytes (about 42 KiB). These are existing Pikmin Bloom game symbols, not AI-generated artwork. Map markers always use these symbols; a temporary debug button compares them with the previous emoji in the sidebar only.
+Retrieved October 24, 2026 from the actual category symbols in [Pikipedia's Decor Pikmin table](https://www.pikminwiki.com/Decor_Pikmin#Decor_types). All 39 map categories have a local transparent PNG in `decor-categories/`, at most 64px on the longest edge. Together they total 43,247 bytes (about 42 KiB). These are existing Pikmin Bloom game symbols, not AI-generated artwork. The map and sidebar use these original symbols; the temporary emoji comparison was removed after the user chose this style.
 
 The [category icon inventory](../../docs/map-category-icon-sources.json) records source file pages, original/download URLs, actual dimensions, byte counts and SHA-256 checksums. Nintendo retains artwork rights; attribution does not grant a redistribution license.
 

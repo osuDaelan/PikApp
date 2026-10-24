@@ -34,9 +34,6 @@
 .decor-map__tabs span { background: #e9f1e3; border-radius: 20px; padding: 1px 6px; margin-left: 2px; }
 .decor-map__save-status { font-size: 10px; margin: 10px 0 15px; color: var(--map-muted); line-height: 1.5; }
 .decor-map__save-status--error, .decor-map__error { color: #a43a32; }
-.decor-map__icon-debug { margin: -4px 0 12px; }
-.decor-map__icon-debug button { width: 100%; padding: 7px 9px; border-style: dashed; font-size: 11px; }
-.decor-map__icon-debug small { font-size: 9px; text-align: center; }
 .decor-map__panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 12px 0; }
 .decor-map__panel-heading > span { font-size: 10px; color: var(--map-muted); }
 .decor-map__sidebar input:not([type=checkbox]):not([type=file]), .decor-map__sidebar textarea, .decor-map__sidebar select {
@@ -78,8 +75,9 @@
 .decor-map__footnote { padding: 7px 12px; color: var(--map-muted); font-size: 10px; text-align: center; border-top: 1px solid var(--map-line); flex-shrink: 0; }
 .decor-map-marker-host { background: none; border: none; display: grid; place-items: center; }
 .decor-map-marker { position: relative; width: 28px; height: 28px; display: grid; place-items: center; color: var(--marker-accent); background: var(--marker-tint); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 5px #243d4940; }
-.decor-map-marker img { width: 22px; height: 22px; object-fit: contain; pointer-events: none; }
-.decor-map-marker--selected { color: #fff; background: var(--marker-accent); box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--marker-accent); }
+/* Override Leaflet's marker-pane width:auto without stretching non-square icons. */
+.decor-map__canvas .decor-map-marker-host .decor-map-marker img { display: block; width: 22px; height: 22px; object-fit: contain; pointer-events: none; }
+.decor-map-marker--selected { background: #fff; box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--marker-accent); }
 .decor-map-marker--saved::after { content: ""; position: absolute; right: -2px; top: -2px; width: 7px; height: 7px; border: 1px solid #fff; background: #bc851e; border-radius: 2px; }
 .decor-map-marker-host:focus-visible { outline: 3px solid #dfaf38; border-radius: 50%; }
 .decor-map__place-details { display: flex; flex-direction: column; gap: 12px; }
