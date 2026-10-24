@@ -1,24 +1,33 @@
-import React, { memo, useMemo, useState } from "react";
-import { referenceRewards, mushroomReward, nectarRange } from "./calculations.js";
-import MushroomRangeChart from "./MushroomRangeChart.jsx";
+import React, { memo } from "react";
+import { MAX_MUSHROOM_CHOICES } from "./data.js";
+import { nectarRange } from "./calculations.js";
+import { MUSHROOM_REFERENCE_ROWS } from "./selection.js";
 
-function MushroomReference() {
-  const [stars, setStars] = useState(4);
-  const rows = useMemo(() => referenceRewards(stars), [stars]);
+function MushroomReference({ choices, onToggle }) {
   return <section className="mushroom-card" aria-labelledby="mushroom-reference-title">
-    <div className="mushroom-card__heading"><div><span className="mushroom-eyebrow">THE FULL PICTURE</span><h2 id="mushroom-reference-title">Nectar reference</h2></div>
-      <label className="mushroom-inline-select">Reference stars<select value={stars} onChange={event => setStars(Number(event.target.value))}>{[1, 2, 3, 4].map(value => <option key={value} value={value}>{"★".repeat(value)} · {value} {value === 1 ? "star" : "stars"}</option>)}</select></label>
+    <span className="mushroom-eyebrow">THE FULL REFERENCE</span><h2 id="mushroom-reference-title">Mushroom reward table</h2>
+    <p className="mushroom-description">Check a mushroom you can join, or tap its row. Each cell shows lowest–highest nectar at that star rating. Your selections do not hide any rows.</p>
+    <div className="mushroom-reference-scroll" tabIndex={0} role="region" aria-label="Full mushroom reward table">
+      <table className="mushroom-data-table mushroom-reference-table" role="table">
+        <caption>All 34 type and size combinations · Special Nectar is awarded at four stars only.</caption>
+        <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Compare / mushroom</th>{[1, 2, 3, 4].map(stars => <th scope="col" role="columnheader" key={stars}>{stars}★ nectar</th>)}<th scope="col" role="columnheader">4★ Special</th></tr></thead>
+        <tbody role="rowgroup">{MUSHROOM_REFERENCE_ROWS.map(row => {
+          const selected = choices.filter(choice => choice.typeId === row.type.id && choice.size === row.size);
+          const disabled = !selected.length && choices.length >= MAX_MUSHROOM_CHOICES;
+          const checkboxId = `mushroom-reference-${row.type.id}-${row.size}`;
+          return <tr role="row" key={row.key} className={selected.length ? "mushroom-reference-row is-selected" : "mushroom-reference-row"} data-mushroom-row={row.key} aria-disabled={disabled || undefined}
+            onClick={event => { if (!disabled && !event.target.closest("input, label, button, a, select")) onToggle(row); }}>
+            <th scope="row" role="rowheader"><div className="mushroom-table-choice"><input id={checkboxId} type="checkbox" aria-label={`Compare ${row.label} from table`} checked={selected.length > 0} disabled={disabled} onChange={() => onToggle(row)} />
+              <label htmlFor={checkboxId}><strong>{row.label}</strong><span style={{ "--nectar-color": row.color.hex }}><i className="mushroom-color-dot" aria-hidden="true" />{row.color.label} nectar{selected.length > 1 ? ` · ${selected.length} selected` : ""}</span></label></div></th>
+            {row.rewards.map(reward => <td role="cell" key={reward.stars} className={selected.some(choice => choice.stars === reward.stars) ? "mushroom-used-rating" : undefined}>
+              <span className="mushroom-cell-label" aria-hidden="true">{reward.stars}★ nectar</span>{nectarRange(reward.min, reward.max)}
+            </td>)}
+            <td role="cell" className="mushroom-special-cell"><span className="mushroom-cell-label" aria-hidden="true">4★ Special Nectar</span>{row.rewards[3].special}</td>
+          </tr>;
+        })}</tbody>
+      </table>
     </div>
-    <p className="mushroom-description">All 34 mushroom and size combinations, ordered by maximum nectar. Your comparison options do not change this chart.</p>
-    <MushroomRangeChart rows={rows} label={`Full reference at ${stars} stars`} />
-    <details className="mushroom-details"><summary>View the complete 1–4 star table</summary>
-      <div className="mushroom-table-scroll" tabIndex={0} role="region" aria-label="Complete nectar reward table"><table><caption>Documented nectar ranges · Special column applies to four stars</caption><thead><tr><th scope="col">Mushroom</th><th scope="col">Size</th>{[1, 2, 3, 4].map(value => <th key={value} scope="col">{value}★</th>)}<th scope="col">Special</th></tr></thead><tbody>
-        {rows.map(row => <tr key={row.id}><th scope="row">{row.type.label}</th><td>{row.size}</td>{[1, 2, 3, 4].map(value => {
-          const reward = mushroomReward(row.type.id, row.size, value);
-          return <td key={value}>{nectarRange(reward.min, reward.max)}</td>;
-        })}<td>{mushroomReward(row.type.id, row.size, 4).special}</td></tr>)}
-      </tbody></table></div>
-    </details>
+    <p className="mushroom-caption">A highlighted star cell is used in your comparison. Change expected stars in your selected mushrooms.</p>
   </section>;
 }
 export default memo(MushroomReference);

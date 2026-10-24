@@ -34,11 +34,6 @@ export function mushroomReward(typeId, size, stars) {
     special: outcome.special, minPikmin: outcome.minPikmin, score: outcome.score };
 }
 
-export function referenceRewards(stars = 4) {
-  return REWARD_RECIPES.map(recipe => ({ id: `${recipe.typeId}/${recipe.size}`, ...mushroomReward(recipe.typeId, recipe.size, stars) }))
-    .sort((a, b) => a.max - b.max || a.min - b.min || a.id.localeCompare(b.id));
-}
-
 export function updateMushroomChoice(choice, patch) {
   const next = { ...choice, ...patch };
   const sizes = availableSizes(next.typeId);
@@ -62,7 +57,7 @@ export function compareMushrooms(choices, colors, sortBy = "min") {
   const other = sortBy === "min" ? "max" : "min";
   const rows = choices.map(choice => {
     const reward = mushroomReward(choice.typeId, choice.size, choice.stars);
-    return { ...reward, id: choice.id, label: choice.label.trim() || `${reward.type.label} · ${choice.size}`,
+    return { ...reward, id: choice.id, label: choice.label.trim() || `${choice.size[0].toUpperCase()}${choice.size.slice(1)} ${reward.type.label}`,
       selectedMin: selected.reduce((sum, color) => sum + reward.byColor[color].min, 0),
       selectedMax: selected.reduce((sum, color) => sum + reward.byColor[color].max, 0) };
   }).sort((a, b) => b[sortBy === "min" ? "selectedMin" : "selectedMax"] - a[sortBy === "min" ? "selectedMin" : "selectedMax"]

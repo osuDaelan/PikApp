@@ -2,9 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { MUSHROOM_TYPES, NECTAR_COLORS, FRUITS, MAX_MUSHROOM_CHOICES } from "../src/features/mushrooms/data.js";
 import { REWARD_RECIPES } from "../src/features/mushrooms/rewardRecipes.js";
-import { availableSizes, fruitPool, mushroomReward, referenceRewards, updateMushroomChoice,
+import { availableSizes, fruitPool, mushroomReward, updateMushroomChoice,
   addMushroomChoice, compareMushrooms, nectarRange } from "../src/features/mushrooms/calculations.js";
 import { sectionFromHash } from "../src/shared/sections.js";
+import { MUSHROOM_REFERENCE_ROWS, filterMushrooms, toggleMushroomSelection } from "../src/features/mushrooms/selection.js";
 
 const choice = (id, typeId, size = "normal", stars = 4, label = "") => ({ id, typeId, size, stars, label });
 const bounds = (type, size, stars = 4) => {
@@ -81,16 +82,16 @@ test("unsupported sizes, types and star ratings cannot produce plausible rewards
   }
 });
 
-test("the full reference is independent of comparison choices and covers every star rating", () => {
-  const original = referenceRewards();
-  for (const stars of [1, 2, 3, 4]) {
-    const rows = referenceRewards(stars);
-    assert.equal(rows.length, 34);
-    assert.ok(rows.every(row => row.stars === stars));
-    assert.ok(rows.every((row, index) => !index || row.max >= rows[index - 1].max));
-  }
+test("the full reference keeps type/size order, all star ratings and unchanged values after selection", () => {
+  const original = JSON.stringify(MUSHROOM_REFERENCE_ROWS);
+  assert.equal(MUSHROOM_REFERENCE_ROWS.length, 34);
+  assert.deepEqual(MUSHROOM_REFERENCE_ROWS.slice(0, 3).map(row => row.label), ["Small Red", "Normal Red", "Large Red"]);
+  assert.deepEqual(new Set(MUSHROOM_REFERENCE_ROWS.map(row => row.key)), new Set(REWARD_RECIPES.map(row => `${row.typeId}/${row.size}`)));
+  for (const row of MUSHROOM_REFERENCE_ROWS) assert.deepEqual(row.rewards.map(reward => reward.stars), [1, 2, 3, 4]);
   compareMushrooms([choice(1, "red")], ["red"], "max");
-  assert.deepEqual(referenceRewards(), original);
+  filterMushrooms("normal water");
+  toggleMushroomSelection([], "blue", "small");
+  assert.equal(JSON.stringify(MUSHROOM_REFERENCE_ROWS), original);
 });
 
 test("minimum and maximum ranking can recommend different available mushrooms", () => {
@@ -147,8 +148,52 @@ test("comparison inputs stay bounded and generated labels remain useful", () => 
   for (let index = 0; index < MAX_MUSHROOM_CHOICES + 5; index++) choices = addMushroomChoice(choices, choice(0, "blue"));
   assert.equal(choices.length, 20);
   assert.equal(new Set(choices.map(row => row.id)).size, 20);
-  assert.equal(compareMushrooms(choices, ["blue"]).rows[0].label, "Blue · normal");
+  assert.equal(compareMushrooms(choices, ["blue"]).rows[0].label, "Normal Blue");
   assert.equal(nectarRange(2, 2), "2");
   assert.equal(nectarRange(2, 8), "2–8");
   assert.equal(sectionFromHash("#mushrooms"), "mushrooms");
+});
+
+test("mushroom search supports unordered terms, comma alternatives, type aliases and no matches", () => {
+  assert.equal(filterMushrooms("  "), MUSHROOM_REFERENCE_ROWS);
+  assert.deepEqual(filterMushrooms("WATER NORMAL").map(row => row.key), ["water/normal"]);
+  assert.deepEqual(filterMushrooms("small blue, normal yellow, normal water").map(row => row.key), ["yellow/normal", "blue/small", "ice-blue/small", "water/normal"]);
+  assert.deepEqual(filterMushrooms("normal ice-blue").map(row => row.key), ["ice-blue/normal"]);
+  assert.deepEqual(filterMushrooms("iceblue normal").map(row => row.key), ["ice-blue/normal"]);
+  assert.equal(filterMushrooms("elemental").length, 10);
+  assert.deepEqual(filterMushrooms("small water"), []);
+  assert.equal(filterMushrooms(" ".repeat(160) + "missing").length, 34);
+});
+
+test("checkbox selection from either picker adds/removes the same type and size without mutating progress", () => {
+  const first = Object.freeze(toggleMushroomSelection([], "blue", "small", 3).map(Object.freeze));
+  const added = toggleMushroomSelection(first, "yellow", "normal", 2);
+  const three = toggleMushroomSelection(added, "water", "normal");
+  assert.deepEqual(three.map(row => [row.typeId, row.size, row.stars]), [["blue", "small", 3], ["yellow", "normal", 2], ["water", "normal", 4]]);
+  const removed = toggleMushroomSelection(three, "blue", "small");
+  assert.equal(removed.length, 2);
+  assert.equal(first[0].stars, 3);
+  assert.equal(compareMushrooms(three, ["blue"]).rows.length, 3);
+  assert.equal(filterMushrooms("fire").length, 2);
+  assert.equal(three.length, 3); // filtering has no effect on selected choices
+});
+
+test("unchecking removes all matching copies but individual removal can retain the checked type", () => {
+  let choices = toggleMushroomSelection([], "water", "normal");
+  choices = addMushroomChoice(choices, { ...choices[0], stars: 3 });
+  choices = toggleMushroomSelection(choices, "water", "large");
+  const individualRemoval = choices.filter(row => row.id !== 1);
+  assert.ok(individualRemoval.some(row => row.typeId === "water" && row.size === "normal"));
+  assert.deepEqual(toggleMushroomSelection(choices, "water", "normal").map(row => row.size), ["large"]);
+});
+
+test("checkbox limits still allow deselection and reject unavailable combinations", () => {
+  let choices = [];
+  for (const row of MUSHROOM_REFERENCE_ROWS.slice(0, MAX_MUSHROOM_CHOICES)) choices = toggleMushroomSelection(choices, row.type.id, row.size);
+  assert.equal(choices.length, MAX_MUSHROOM_CHOICES);
+  const next = MUSHROOM_REFERENCE_ROWS[MAX_MUSHROOM_CHOICES];
+  assert.equal(toggleMushroomSelection(choices, next.type.id, next.size), choices);
+  assert.equal(toggleMushroomSelection(choices, choices[0].typeId, choices[0].size).length, MAX_MUSHROOM_CHOICES - 1);
+  assert.throws(() => toggleMushroomSelection([], "fire", "small"));
+  assert.throws(() => toggleMushroomSelection([], "water", "normal", 5));
 });
