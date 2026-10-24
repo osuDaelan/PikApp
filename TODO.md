@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and one private feedback form, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
-Last reviewed October 23, 2026. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 24, 2026, after the Mushrooms page. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -161,6 +161,18 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [ ] Verify hosted CAPTCHA/errors/cancel flow and actual delivery to the intended inbox/dashboard after owner setup. Keep handoff wording distinct from delivery success.
 - [ ] Test physical-phone form layout/touch.
 - [ ] Monitor private inbox/spam/quota after release. Any moderation of direct repository issues is separate; this form does not enable repository restrictions.
+
+## 8. Mushroom nectar reference and comparison
+
+- [x] Add a separate, lazy-loaded `#mushrooms` section with isolated data, calculations and presentation; no new dependencies or runtime wiki downloads.
+- [x] Keep the main reference intact with all 34 Small–Large combinations and an independent 1–4-star selector, plus the complete numeric table.
+- [x] Add a second best-options chart for multiple available mushrooms (duplicates allowed), individual type/size/expected stars, optional labels and removal/editing.
+- [x] Filter comparisons by desired nectar colors, rank by highest minimum or maximum, retain ties, show per-color winners, and count Special Nectar separately.
+- [x] Put charts left/options right on desktop and options first/charts below on mobile. Keep the draft across section navigation; clearly label that refresh/close resets it.
+- [x] Review reward/fruit source revisions, include fruit size/color alternatives and document differences from the older chart. Preserve the Normal Ice Blue recipe exception; add 11 focused tests (141 total passing) and pass the `/PikApp/` build.
+- [ ] Compare the calculated outer bounds with real in-game fruit rewards, especially small red and giant white alternatives; update sources/data when observations change.
+- [ ] Add Giant/event mushrooms only after reviewing their own recipes, color rules and current event behavior.
+- [ ] Consider saving comparison drafts if requested; they currently do not alter autosaves or the portable progress schema.
 
 ## October 22 audit follow-ups
 

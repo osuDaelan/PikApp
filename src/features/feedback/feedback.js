@@ -9,6 +9,7 @@ export const FEEDBACK_SECTIONS = Object.freeze([
   { id: "now", label: "Overview" },
   { id: "decor", label: "Decor checklist" },
   { id: "map", label: "Decor map" },
+  { id: "mushrooms", label: "Mushroom rewards" },
 ].map(Object.freeze));
 
 export const MIN_REVIEW_MS = 3000;

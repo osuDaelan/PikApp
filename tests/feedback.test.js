@@ -20,7 +20,8 @@ test("feedback fields are trimmed, bounded and restricted to known choices", () 
   assert.deepEqual(normalizeFeedback({ ...draft(), title: "  A valid title  ", message: "  A clear description of this feedback.  " }),
     { type: "bug", section: "map", title: "A valid title", message: "A clear description of this feedback.", website: "" });
   assert.equal(FEEDBACK_TYPES.length, 3);
-  assert.equal(FEEDBACK_SECTIONS.length, 4);
+  assert.equal(FEEDBACK_SECTIONS.length, 5);
+  assert.equal(normalizeFeedback({ ...draft(), section: "mushrooms" }).section, "mushrooms");
   assert.equal(MIN_REVIEW_MS, 3000);
   for (const changes of [
     { type: "private" }, { section: "unknown" }, { title: "x".repeat(7) }, { title: "x".repeat(101) },

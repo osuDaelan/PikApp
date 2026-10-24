@@ -1,6 +1,6 @@
 # PikApp
 
-An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 975 current entries, and an OSM decor map with locally saved personal pins. Progress saves automatically in the browser without an account and can be moved manually using a full-progress JSON file. Google sign-in is hidden and cloud saving is deferred at the user's request.
+An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker with images for all 975 current entries, an OSM decor map with locally saved personal pins, and a mushroom nectar reference/comparison tool. Progress saves automatically in the browser without an account and can be moved manually using a full-progress JSON file. Mushroom comparison choices are temporary and reset on refresh. Google sign-in is hidden and cloud saving is deferred at the user's request.
 
 ## Project notes
 
@@ -14,7 +14,7 @@ An all-in-one Pikmin Bloom companion: level calculator, decor collection tracker
 - [Image rollout](docs/DECOR_IMAGE_ROLLOUT.md), [celebrations](docs/DECOR_CELEBRATIONS.md), and [animation experiments](docs/DECOR_ANIMATION_EXPERIMENTS.md): focused implementation/history notes.
 - [Asset attribution](public/images/ATTRIBUTION.md) and [per-image inventory](docs/decor-image-sources.json): provenance and representative-design limitations.
 
-Latest audit: **112 tests and the production build pass**, and full/production-only dependency audits report zero findings. See [audit fixes and verification limits](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
+Current verification: **141 tests and the production `/PikApp/` build pass** after adding the Mushrooms page. The October 22 dependency audits reported zero findings; see [audit fixes and verification limits](docs/PROJECT_GUIDE.md#october-22-rapid-audit-and-repair).
 
 The existing **Pikmin Decor Visuals and Animations** reference-site investigation remains below. Current implementation is summarized in the project guide; historical experiments are not current requirements.
 

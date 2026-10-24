@@ -1,6 +1,6 @@
 # PikApp project guide
 
-Last reviewed: October 23, 2026, after checklist search and its undo window, the catalog refresh and the rapid audit repairs. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
+Last reviewed: October 24, 2026, after the Mushrooms reference/comparison page, checklist search and its undo window, the catalog refresh and the rapid audit repairs. This is the current project overview; implementation details remain in the linked modules and focused notes. Proposed work is labeled separately from existing behavior.
 
 ## Purpose and current status
 
@@ -17,6 +17,7 @@ PikApp is an all-in-one Pikmin Bloom companion. Different tools belong in separa
 | Feedback | One header feedback form/review and local spam controls; configured Formspree POST, no destination selector or GitHub links in the app | Endpoint/inbox are not connected; configure/check provider CAPTCHA/domain/quota and verify delivery before claiming availability |
 | Hosting | Public repository; HTTPS GitHub Pages configured with automatic test/build/deployment on pushes to `main` | Check the deployment workflow when publishing future changes |
 | Decor map | OSM discovery for 39 categories, place details, personal pins, local save and pin export/import | Address search provider, region rules, real-phone/dense-area profiling, cloud sync |
+| Mushrooms | Full nectar reference for 34 type/size combinations at 1–4 stars, plus a separate comparison for up to 20 available mushrooms and desired nectar colors | Giant/event rewards, real-game checks of researched fruit bounds, optional saved comparison drafts |
 
 The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geolocation and public Overpass queries. React and React DOM render the app; Vite provides development and builds. Firebase remains installed for retained authentication groundwork, but its feature is not mounted, no Firebase initialization runs, and its auth SDK is excluded from the production app bundle. Hash sections do not require a router dependency. There is no cloud progress database or bundled location dataset. See [package.json](../package.json).
 
@@ -47,7 +48,7 @@ Paths below are relative to the project root.
 | --- | --- |
 | `src/main.jsx` | Development backup restore before React mounts; production entry point |
 | `src/App.jsx` | App shell, feature state instances, active section, responsive layout, global celebration mounting and state remount after a full-progress import |
-| `src/shared/components/Navigation.jsx` / `TABS` | Overview, Decor and Map section buttons |
+| `src/shared/components/Navigation.jsx`, `src/shared/sections.js` / `SECTIONS` | Overview, Decor, Map and Mushrooms section buttons and hash validation |
 | `src/features/calculator/levelData.js` / `MAX_KNOWN` | Level requirements and current dataset limit |
 | `src/features/calculator/calculations.js` | Pure requirements, forecasts, and coin calculations |
 | `src/features/calculator/useCalculator.js` | Saved calculator values, editor drafts/actions, derived projections |
@@ -65,6 +66,9 @@ Paths below are relative to the project root.
 | `src/features/wallpapers/` | Official image catalogue, local-time schedule, refresh on time/focus/visibility changes |
 | `src/features/decor-map/` | Lazy map section, category adapter, Overpass client, GeoJSON/layers, separate pin/preferences storage; detailed ownership in the map implementation notes |
 | `src/features/decor-map/osmId.js` | Lightweight saved-pin source-ID validation, shared without loading the geometry converter; `osm.js` re-exports the same symbol |
+| `src/features/mushrooms/{data,rewardRecipes}.js` | Reviewed fruit yields, types, source revisions and 136 reward recipes for 34 type/size combinations |
+| `src/features/mushrooms/calculations.js` | Fruit size/color pools, min–max nectar, separate Special Nectar, choice validation and desired-color rankings/ties |
+| `src/features/mushrooms/{MushroomsSection,MushroomReference,MushroomComparison,MushroomOptions,MushroomRangeChart}.jsx`, `mushrooms.css` | Lazy page, independent full reference, editable available mushrooms, comparison range chart and responsive layout |
 | `src/shared/sections.js`, `src/shared/hooks/useSectionNavigation.js` | All-width navigation, desktop Overview, hash links and back/forward behavior |
 | `src/shared/components/` | Header/clock, navigation, inputs, rings, local backup status |
 | `src/shared/components/BrowserSaveStatus.jsx`, `browser-save.css` | Calculator/checklist browser-save badge, explanatory dialog and retry action; separate from map saving |
@@ -99,10 +103,31 @@ Fresh calculator saves use level 1 and zero steps, flowers, daily averages and c
 - Below 720px: section navigation spans the bottom of the screen.
 - From 720px: navigation floats and calculator cards can use a wider layout.
 - At 1100px and above: Overview renders Now + Decor side by side. Decor opens its own view. Map uses the full window width with 14px side/bottom gutters and navigation in the top-right header; its sidebar remains 300px while the map canvas expands.
-- Active section follows `#now`, `#decor`, or `#map` and browser history. Map view query parameters support a shareable viewport without including pins.
-- Map hides calculator-specific controls; the calculator/collection hooks and development backup lifecycle remain mounted in the shell.
+- Active section follows `#now`, `#decor`, `#map`, or `#mushrooms` and browser history. Map view query parameters support a shareable viewport without including pins.
+- Map and Mushrooms hide calculator-specific controls; the calculator/collection hooks and development backup lifecycle remain mounted in the shell.
+- Mushrooms places both charts on the left and options on the right from 900px; below 900px options come first, followed by the full reference and comparison.
 
 The map and its libraries mount on entry and clean up on exit. See [the implementation notes](DECOR_MAP_IMPLEMENTATION.md) for details.
+
+## Mushroom nectar reference and comparison
+
+The fourth section, `#mushrooms`, is lazy loaded and owns its UI/data/calculations under `src/features/mushrooms/`. It adds no dependency, chart library, artwork download or runtime wiki request. The page uses CSS range bars with explicit numeric values and a keyboard-scrollable complete table. Calculator, collection, map saves and full-progress transfer formats remain unchanged.
+
+The full reference always includes all **34** supported type/size combinations and has its own 1–4-star selector (default four). Comparison controls never filter or replace it. A second chart compares up to 20 manually added mushrooms; duplicates, optional names, type, supported size and expected stars can be edited independently. Users select one or more desired nectar colors and rank by highest documented minimum (default) or maximum. Bars sum only those selected colors. Per-color winner cards retain ties and each option's own range; zero-yield options never receive a best badge. Special Nectar stays separate from nectar totals. Score thresholds and the minimum squad needed to carry all rewards are available under reward details. Expected stars are entered manually; there is no battle-score prediction.
+
+`AppSession` keeps the comparison draft while navigating between sections. It resets on refresh, closing the page, or full-progress import; the UI states the refresh/close limit. It is not autosaved or included in progress exports. The reference star selector resets to four when the section remounts. No personal stats or other private vault contents are bundled, and the Obsidian vault remains unchanged.
+
+### Reward sources and interpretation
+
+Reviewed October 24, 2026: [Mushroom battle revision 352625](https://www.pikminwiki.com/index.php?title=Mushroom_battle&oldid=352625#Rewards), [Fruit revision 355926](https://www.pikminwiki.com/index.php?title=Fruit_(Pikmin_Bloom)&oldid=355926), and [official reward rules](https://niantic.helpshift.com/hc/en/23-pikmin-bloom/faq/4045-rewards-for-clearing-mushrooms/). Eight regular types support Small/Normal/Large; five elemental types support Normal/Large. Giant and event mushrooms are deliberately outside this dataset.
+
+The reward table says its fruit icons indicate **size and color**, rather than a guaranteed specific fruit. `fruitPool()` therefore takes the lowest and highest researched yields among all fruits of that size/color. For example, giant white spans Muscat grapes and Melon (33–147), large yellow spans Lemon and Orange (14–53), and small red spans Cherry and Strawberry (1–7). Counts from the reward table multiply these bounds. These are outer researched bounds, not averages, probabilities or guarantees; their application to every size/color group follows the wiki rule and has not been independently verified in-game. Ranges include regular or seasonal nectar of a color and do not promise a particular flower species. They assume every reward is returned; rewards are not divided among participants, but insufficient carriers can reduce what is collected.
+
+Some ranges therefore differ from the older text chart: four-star Large White/Gray is 120–499 (was 120–302), Large Yellow 194–452 (was 194–435), Large Red/Pink 194–420 (was 194–412), and Small White/Gray 25–74 (was 25–72; Green Apple now has a documented maximum of 58). Normal Ice Blue four-star uses three Plums (24–63), whereas Normal Blue/Purple uses giant plus large blue fruit (45–104). Preserve that source exception. Special Nectar applies at four stars: regular Large gives one, elemental Normal one and elemental Large two; it does not inflate colored nectar totals.
+
+Eleven focused Node tests cover dataset completeness, all 136 outcomes and carry counts, fruit alternatives, representative independent numeric results, the Ice Blue exception, Special Nectar, invalid inputs, color-specific/combined rankings, ties, duplicate choices, limits and immutability. The full suite is **141 passing tests**, and the production `/PikApp/` build passes.
+
+An isolated production preview checked adding/duplicating/editing/removing mushrooms, Enter-key adding, switching minimum/maximum rankings, clearing colors, no matching color, elemental Special Nectar, independent reference-star selection, all 34 table rows, and retention after visiting Decor. The default four-star reference remained byte-for-byte unchanged after adding choices. At 1280px charts were left/options right; at 390px options preceded charts, controls and chart rows fit without horizontal overflow, and the console had no warnings/errors. These are browser viewport checks, not physical-phone measurements. Reference/comparison data are in a separate approximately 7 KB gzip JS chunk plus 2.3 KB gzip CSS; the main bundle does not eagerly load them. Existing user saves were untouched.
 
 ## Decor data and visual pipeline
 
@@ -201,7 +226,7 @@ npm.cmd run build
 
 Use `npm.cmd` in PowerShell to avoid the `npm.ps1` execution-policy issue. Use Node 24.12 or newer for the Firebase SDK; Node 24 is used by the deployment workflow. There is no separate lint, typecheck or browser-test command configured.
 
-The current baseline is **130 passing Node tests** and a production build with the `/PikApp/` base. The 16 feedback tests cover endpoint and POST-field validation, Unicode private text, separate-route duplicates with legacy compatibility, fixed/encoded GitHub URLs, text/URL limits, cooldown/hour/day boundaries, metadata privacy, persistent/memory fallback and bounded corrupt/future/oversized-history repair. Transfer tests cover strict format validation, UTF-8 limits, maximum pin collections, explicit unchecks/removals, readable and exact raw recovery, unchanged unrelated storage, recovery-write protection, rollback including absent keys, explicit rollback failures and supported timestamps. A development regression check preserves imported progress when the clock moves backwards; the file backup uses the effective monotonic timestamp. The browser-save tests cover stable status subscriptions, failures that remain visible despite unrelated successful writes, retrying the latest failed values, partial recovery and successful replacement without replaying stale values. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage, development backup, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import. Retained auth controller checks use controlled clients; real Google OAuth remains unverified and deferred.
+The current baseline is **141 passing Node tests** and a production build with the `/PikApp/` base. The 16 feedback tests cover endpoint and POST-field validation, Unicode private text, separate-route duplicates with legacy compatibility, fixed/encoded GitHub URLs, text/URL limits, cooldown/hour/day boundaries, metadata privacy, persistent/memory fallback and bounded corrupt/future/oversized-history repair. Transfer tests cover strict format validation, UTF-8 limits, maximum pin collections, explicit unchecks/removals, readable and exact raw recovery, unchanged unrelated storage, recovery-write protection, rollback including absent keys, explicit rollback failures and supported timestamps. A development regression check preserves imported progress when the clock moves backwards; the file backup uses the effective monotonic timestamp. The browser-save tests cover stable status subscriptions, failures that remain visible despite unrelated successful writes, retrying the latest failed values, partial recovery and successful replacement without replaying stale values. Existing tests cover calculator requirements/projections, legacy IDs/counts/rare rules, assets/base paths, celebrations, wallpaper boundaries, browser storage, development backup, map query/matching/geometry, retained-search lifecycle, presentation, URL validation and pin storage/import. Retained auth controller checks use controlled clients; real Google OAuth remains unverified and deferred.
 
 On October 22, a separate production-preview origin confirmed fresh level-1/zero defaults, applied calculator values and daily averages, a collected Red Chef Hat, and a public test pin with its category/notes surviving a complete tab close and reopen. Existing user saves were not changed. The browser-save dialog opened, Escape closed it and returned focus, and the badge fit a 390px viewport without horizontal overflow. The build excludes the unmounted authentication feature/SDK and retains lazy map loading. Storage failures/retry were checked with controlled storage in Node tests rather than a forced browser quota failure. These checks are not comprehensive automated end-to-end coverage, a full browser restart, physical-phone performance results, or proof of cloud isolation. Manual map checks distinguish controlled responses from successful live public-service data.
 

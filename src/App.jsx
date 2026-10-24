@@ -10,7 +10,7 @@ import SetCompletionCelebration from "./features/decor/SetCompletionCelebration.
 import AppHeader from "./shared/components/AppHeader.jsx";
 import Navigation from "./shared/components/Navigation.jsx";
 import useWindowWidth from "./shared/hooks/useWindowWidth.js";
-import { appStyle, scrollPaneStyle } from "./shared/styles/theme.js";
+import { appStyle, scrollPaneStyle, cardStyle } from "./shared/styles/theme.js";
 import useWallpaper from "./features/wallpapers/useWallpaper.js";
 import { wallpaperUrl } from "./features/wallpapers/catalog.js";
 import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
@@ -20,6 +20,7 @@ import { createMapStore } from "./features/decor-map/mapStorage.js";
 import { guestProgressStore } from "./storage/progressStore.js";
 
 const DecorMapSection = lazy(() => import("./features/decor-map/DecorMapSection.jsx"));
+const MushroomsSection = lazy(() => import("./features/mushrooms/MushroomsSection.jsx"));
 
 export default function App() {
   const [importRevision, setImportRevision] = useState(0);
@@ -32,6 +33,8 @@ export default function App() {
 function AppSession({ importComplete, onProgressImported }) {
   const winWidth = useWindowWidth();
   const [tab, setTab] = useSectionNavigation();
+  const [mushroomDraft, setMushroomDraft] = useState(null);
+  const showsCalculator = tab === "now" || tab === "decor";
   const isWide = winWidth >= 720; // threshold for switching to the side-by-side card layout
   const isDesktop = winWidth >= 1100;
   const isSplit = isDesktop && tab === "now"; // Overview preserves the two-pane dashboard.
@@ -84,8 +87,8 @@ function AppSession({ importComplete, onProgressImported }) {
     <div style={{ maxWidth: containerMax, margin: "0 auto", display: "flex", flexDirection: "column", minHeight: "100vh", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible", transition: "max-width 0.15s" }}>
 
       <AppHeader getProgressSnapshot={getProgressSnapshot} onProgressImported={finishImport} importComplete={importComplete} />
-      {tab !== "map" && <LevelBadge level={calculator.level} openEdit={calculator.openEdit} />}
-      {import.meta.env.DEV && <div style={tab === "map" ? { display: "none" } : undefined}><LocalCalculatorSave calculator={calculator} /></div>}
+      {showsCalculator && <LevelBadge level={calculator.level} openEdit={calculator.openEdit} />}
+      {import.meta.env.DEV && <div style={!showsCalculator ? { display: "none" } : undefined}><LocalCalculatorSave calculator={calculator} /></div>}
 
       {/* Content */}
       <div style={{
@@ -93,7 +96,7 @@ function AppSession({ importComplete, onProgressImported }) {
         display: fillsViewport ? "flex" : "block", flexDirection: "column", overflow: fillsViewport ? "hidden" : "visible",
       }}>
 
-        {tab !== "map" && <StatsEditor calculator={calculator} />}
+        {showsCalculator && <StatsEditor calculator={calculator} />}
 
         {/* ── NOW + DECOR — side by side once the window is wide enough, tabbed otherwise ── */}
         {isSplit ? (
@@ -105,6 +108,9 @@ function AppSession({ importComplete, onProgressImported }) {
           <>
             {tab === "now" && nowBody}
             {tab === "decor" && decorBody}
+            {tab === "mushrooms" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading mushroom rewards…</div>}>
+              <MushroomsSection draft={mushroomDraft} setDraft={setMushroomDraft} />
+            </Suspense>}
             {tab === "map" && <Suspense fallback={<div role="status" style={{ ...appStyle, minHeight: 250, borderRadius: 18, padding: 25 }}>Loading decor map…</div>}>
               <DecorMapSection decorCollected={decor.decorCollected} onProgressSnapshot={captureMapProgress} />
             </Suspense>}
@@ -112,7 +118,7 @@ function AppSession({ importComplete, onProgressImported }) {
         )}
 
         {/* Pikipedia footnote */}
-        {tab !== "map" && <div style={{ textAlign: "center", marginTop: 16, fontSize: 10, color: "#fff", textShadow: "0 1px 4px #000" }}>
+        {showsCalculator && <div style={{ textAlign: "center", marginTop: 16, fontSize: 10, color: "#fff", textShadow: "0 1px 4px #000" }}>
           {isSplit
             ? `Data from pikminwiki.com/Level, Decor_Pikmin & Special_Decor_Pikmin · Lv ${MAX_KNOWN + 1}–130 not yet documented`
             : tab === "decor"
