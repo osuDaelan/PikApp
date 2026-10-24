@@ -166,7 +166,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 
 - [x] Add a separate, lazy-loaded `#mushrooms` section with isolated data, calculations and presentation; no new dependencies or runtime wiki downloads.
 - [x] Keep the main reference intact with all 34 Small–Large combinations, every 1–4-star range and Special Nectar in a plain table like the text notes. Replace the initial range bars and star selector.
-- [x] Select mushrooms with synchronized checkboxes in searchable results or directly in the reference table. Search supports unordered terms and comma alternatives without clearing selections; table rows also toggle on click.
+- [x] Keep one selection catalog in the reward table, with search above it. Remove the duplicate sidebar search/checkbox list; retain selected-mushroom controls and nectar/ranking settings. Search supports unordered terms and comma alternatives without clearing selections; table rows also toggle on click.
 - [x] Add a separate best-options table with explicit minimum/maximum amounts; preserve per-mushroom expected stars, optional names, duplicates and removal. New-selection stars do not overwrite existing selections.
 - [x] Filter comparisons by desired nectar colors, rank by highest minimum or maximum, retain ties, show per-color winners, and count Special Nectar separately.
 - [x] Put charts left/options right on desktop and options first/charts below on mobile. Keep the draft across section navigation; clearly label that refresh/close resets it.
@@ -174,6 +174,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Verify checkbox selection/search, shared state, duplicate unchecking, limits and reference immutability with four additional tests (145 total); check desktop and compact mobile tables in the browser.
 - [x] Tighten the name/star spacing and desktop row padding; remove the reference table's internal scrollbar so its full contents use page scrolling.
 - [x] Add Pikipedia artwork for all 13 mushroom types to reference/search/results, with local lazy PNGs (about 193 KiB total), provenance/checksums and two asset tests (147 total passing). Verify image selection and 900px/390px layouts without clipped columns or page overflow.
+- [x] Put Add another on the comparison rows below the reference, allowing two or more of the same mushroom with independent expected stars. Label copies, preserve the 20-total limit and verify no-match search retention, Clear search, removal/re-enabling, keyboard use and mobile layout.
 - [ ] Compare the calculated outer bounds with real in-game fruit rewards, especially small red and giant white alternatives; update sources/data when observations change.
 - [ ] Add Giant/event mushrooms only after reviewing their own recipes, color rules and current event behavior.
 - [ ] Consider saving comparison drafts if requested; they currently do not alter autosaves or the portable progress schema.

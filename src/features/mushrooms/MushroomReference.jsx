@@ -1,19 +1,26 @@
-import React, { memo } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { MAX_MUSHROOM_CHOICES } from "./data.js";
 import { nectarRange } from "./calculations.js";
-import { MUSHROOM_REFERENCE_ROWS } from "./selection.js";
+import { filterMushrooms } from "./selection.js";
 import MushroomImage from "./MushroomImage.jsx";
 
 function MushroomReference({ choices, onToggle }) {
+  const [query, setQuery] = useState("");
+  const matches = useMemo(() => filterMushrooms(query), [query]);
   return <section className="mushroom-card" aria-labelledby="mushroom-reference-title">
     <span className="mushroom-eyebrow">THE FULL REFERENCE</span><h2 id="mushroom-reference-title">Mushroom reward table</h2>
-    <p className="mushroom-description">Check a mushroom you can join, or tap its row. Each cell shows lowest–highest nectar at that star rating. Your selections do not hide any rows.</p>
+    <p className="mushroom-description">Check a mushroom you can join, or tap its row. Each cell shows lowest–highest nectar at that star rating.</p>
+    <div role="search" aria-label="Search mushroom table" className="mushroom-search">
+      <label>Find a mushroom<input type="search" value={query} maxLength={160} placeholder="Small blue, normal yellow…" aria-controls="mushroom-reference-table" aria-describedby="mushroom-search-help" onChange={event => setQuery(event.target.value)} /></label>
+      <p id="mushroom-search-help" className="mushroom-caption">Search by type or size. Use commas for alternatives. Searching keeps your selections.</p>
+      <div className="mushroom-search-status"><span role="status">Showing {matches.length} of 34 combinations</span>{query && <button type="button" onClick={() => setQuery("")}>Clear search</button>}</div>
+    </div>
     <div className="mushroom-reference" role="region" aria-label="Full mushroom reward table">
-      <table className="mushroom-data-table mushroom-reference-table" role="table">
-        <caption>All 34 type and size combinations · Special Nectar is awarded at four stars only.</caption>
+      <table id="mushroom-reference-table" className="mushroom-data-table mushroom-reference-table" role="table">
+        <caption>Special Nectar is awarded at four stars only.</caption>
         <colgroup><col className="mushroom-name-column" /><col span={5} /></colgroup>
         <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Compare / mushroom</th>{[1, 2, 3, 4].map(stars => <th scope="col" role="columnheader" key={stars}>{stars}★ nectar</th>)}<th scope="col" role="columnheader">4★ Special</th></tr></thead>
-        <tbody role="rowgroup">{MUSHROOM_REFERENCE_ROWS.map(row => {
+        <tbody role="rowgroup">{matches.map(row => {
           const selected = choices.filter(choice => choice.typeId === row.type.id && choice.size === row.size);
           const disabled = !selected.length && choices.length >= MAX_MUSHROOM_CHOICES;
           const checkboxId = `mushroom-reference-${row.type.id}-${row.size}`;
@@ -26,7 +33,7 @@ function MushroomReference({ choices, onToggle }) {
             </td>)}
             <td role="cell" className="mushroom-special-cell"><span className="mushroom-cell-label" aria-hidden="true">4★ Special Nectar</span>{row.rewards[3].special}</td>
           </tr>;
-        })}</tbody>
+        })}{!matches.length && <tr role="row"><td role="cell" colSpan={6} className="mushroom-no-results">No mushrooms match. Try another type or size.</td></tr>}</tbody>
       </table>
     </div>
     <p className="mushroom-caption">A highlighted star cell is used in your comparison. Change expected stars in your selected mushrooms.</p>

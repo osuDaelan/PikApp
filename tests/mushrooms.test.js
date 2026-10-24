@@ -165,7 +165,7 @@ test("mushroom search supports unordered terms, comma alternatives, type aliases
   assert.equal(filterMushrooms(" ".repeat(160) + "missing").length, 34);
 });
 
-test("checkbox selection from either picker adds/removes the same type and size without mutating progress", () => {
+test("checkbox selection adds/removes the same type and size without mutating progress", () => {
   const first = Object.freeze(toggleMushroomSelection([], "blue", "small", 3).map(Object.freeze));
   const added = toggleMushroomSelection(first, "yellow", "normal", 2);
   const three = toggleMushroomSelection(added, "water", "normal");
