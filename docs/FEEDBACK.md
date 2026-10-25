@@ -1,8 +1,10 @@
 # PikApp feedback
 
-Last reviewed: October 22, 2026. The user wants **one in-app feedback form**, with no destination selector, GitHub links or public-report route in the app. The form uses a normal HTML POST to an owner-controlled Formspree endpoint. GitHub issues remain available directly on the repository, outside this UI. Google sign-in remains hidden; visitors need no PikApp or Google account.
+Last reviewed: October 25, 2026. The user wants **one in-app feedback form**, with no destination selector, GitHub links or public-report route in the app. The form uses a normal HTML POST to an owner-controlled Formspree endpoint. GitHub issues remain available directly on the repository, outside this UI. Google sign-in remains hidden; visitors need no PikApp or Google account.
 
-**Setup is pending.** No owner-provided Formspree endpoint/account or verified receiving inbox has been connected. With an empty or invalid `VITE_FEEDBACK_ENDPOINT`, sending is disabled and the form says **Feedback isn’t available yet. Please check back soon.** A prepared UI or passing build does not establish delivery; removing the selector does not connect the inbox.
+**Provider configured October 25.** Created the owner's **PikApp Feedback** form, verified its email action exists, left Formshield enabled, enabled reCAPTCHA and saved the project domain restriction `osudaelan.github.io`. The Pages workflow now uses the public endpoint `https://formspree.io/f/xqppeeel`, with an optional repository-variable override. No receiving email or credentials are committed. Actual hosted submission and email receipt still need verification; configured settings alone do not prove delivery.
+
+Local development remains disabled without `.env.local` configuration. With an empty or invalid built `VITE_FEEDBACK_ENDPOINT`, sending is disabled and the form says **Feedback isn’t available yet. Please check back soon.** For Pages, a blank repository variable uses the configured default; set the variable to `disabled` to explicitly disable the production form and rebuild.
 
 ## Visitor flow
 
@@ -31,7 +33,7 @@ Private handoff accepts only the configured `https://formspree.io/f/{owned-form-
 
 The endpoint is not taken from visitor input or the current page URL. No GitHub API, access token or GitHub authentication client is involved in sending this form.
 
-`FEEDBACK_TYPES` allows Bug report, Suggestion and Question. `FEEDBACK_SECTIONS` allows General, Overview, Decor checklist and Decor map. Trimmed titles must contain 8–100 characters and details 20–1,000 characters; both the form and helper enforce these bounds. The helper rejects unexpected input fields as well as unsupported type/section values.
+`FEEDBACK_TYPES` allows Bug report, Suggestion and Question. `FEEDBACK_SECTIONS` allows General, Calculator, Decor checklist, Decor map and Mushroom rewards. Trimmed titles must contain 8–100 characters and details 20–1,000 characters; both the form and helper enforce these bounds. The helper rejects unexpected input fields as well as unsupported type/section values.
 
 ## Owner setup before enabling private feedback
 
@@ -39,7 +41,7 @@ The endpoint is not taken from visitor input or the current page URL. No GitHub 
 2. Select the receiving inbox and complete the account/email verification requested by Formspree. Confirm its email action points to that verified address; see [receiving-email settings](https://help.formspree.io/articles/form-and-project-settings/changing-a-form-email-address/).
 3. Keep provider-side spam protection and hosted CAPTCHA enabled in the actual form settings. Review [reCAPTCHA settings](https://help.formspree.io/articles/form-and-project-settings/recaptcha-settings) rather than assuming a newly created form has the desired configuration. The hosted CAPTCHA is separate from Google account sign-in; visitors do not need Google login for PikApp.
 4. Set the project's **Restrict to Domain** to `osudaelan.github.io`, without a scheme or `/PikApp/` path. Check the provider's [domain-restriction instructions](https://help.formspree.io/articles/form-and-project-settings/restrict-to-domain/). This uses the browser's origin/referrer and filters unauthorized origins into spam; it is not visitor authentication. A localhost test will not match that production domain, so use a deliberately configured test form for local delivery tests.
-5. Add the repository **Actions variable** `VITE_FEEDBACK_ENDPOINT` with the owned endpoint under GitHub Settings → Secrets and variables → Actions → Variables. The Pages build consumes it. Rebuild/redeploy after changing it; an already published static bundle does not read new repository variables at runtime.
+5. The Pages workflow contains the owned public endpoint as its default. Optionally override it using the repository **Actions variable** `VITE_FEEDBACK_ENDPOINT` under GitHub Settings → Secrets and variables → Actions → Variables. Set `disabled` to turn off sending; a blank value restores the workflow default. Rebuild/redeploy after changing it; an already published static bundle does not read new repository variables at runtime.
 6. For localhost, put the equivalent value in the Git-ignored `.env.local` file and restart Vite:
 
    ```dotenv
@@ -90,4 +92,4 @@ Historical October 22 public-route checks confirmed the three-second review dela
 
 Before selector removal, a configured preview checked the private fields and native POST/new-tab/`noopener` attributes with a clean console, without submitting to Formspree. After simplification, all 112 tests and the production build still passed. An isolated browser confirmed the **Feedback** dialog contains only type, section, title and details, has no destination selector or GitHub links, keeps sending disabled when unconfigured, and has a clean console. Screenshot: `outputs/pikapp-feedback-single-form.png`. No new submission or delivery verification was performed.
 
-No public test issue was created, no GitHub account was signed in, and no user progress or repository moderation setting was changed. The owner's Formspree endpoint, verified inbox, service-side spam/domain configuration, hosted CAPTCHA/error/cancel behavior and actual private delivery remain pending. Physical-phone layout/touch and authenticated final GitHub submission remain separate checks.
+No public test issue was created, no GitHub account was signed in, and no user progress or repository moderation setting was changed during those historical checks. The October 25 setup supersedes the unconnected-provider status: the owner form, email action, spam filter, CAPTCHA and production domain restriction are configured. All 163 tests and a production `/PikApp/` build with the real endpoint pass. Hosted CAPTCHA/error/cancel behavior, dashboard receipt, actual email delivery and physical-phone layout/touch remain to be verified. Local browser limits can be bypassed and are not a substitute for the provider settings.

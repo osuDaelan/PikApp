@@ -159,7 +159,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 - [x] Preserve historical GitHub-only verification: 97 tests/build, validation/review/navigation, cooldown after reload, Escape/focus and 390px/1100px layouts. No public issue was submitted; this does not verify private delivery.
 - [x] Preserve the earlier selector-version checks: 101 tests passed; blank private configuration was disabled, public review worked, and a configured preview had reviewed allowlisted fields and native POST/new-tab/`noopener` attributes. No provider submission was sent; this is historical verification.
 - [x] Verify the simplified form has only type/section/title/details, no selector or GitHub links, sending disabled when unconfigured and a clean browser console; all 112 tests and the production build pass. No provider submission was sent.
-- [ ] Connect the owner's Formspree endpoint and verified receiving inbox. Enable/check actual provider spam/CAPTCHA and domain settings; configure `VITE_FEEDBACK_ENDPOINT` for local development and the Pages build.
+- [x] Create the owner's PikApp Feedback form, connect its public endpoint to the Pages workflow, verify an email delivery action exists and enable/check Formshield, CAPTCHA and the production domain restriction. Local sending stays disabled unless deliberately configured; actual inbox receipt remains the next check.
 - [ ] Verify hosted CAPTCHA/errors/cancel flow and actual delivery to the intended inbox/dashboard after owner setup. Keep handoff wording distinct from delivery success.
 - [ ] Test physical-phone form layout/touch.
 - [ ] Monitor private inbox/spam/quota after release. Any moderation of direct repository issues is separate; this form does not enable repository restrictions.
@@ -198,7 +198,7 @@ On October 22 the user chose to hide sign-in entirely and focus on browser autos
 ## Suggested implementation order
 
 1. Confirm flower-task reset semantics in-game and correct the forecast if needed; avoid guessing about progress calculations.
-2. Connect the owner's Formspree inbox and verify delivery/CAPTCHA for the single in-app form. Keep Google hidden; repository issues stay outside the app's feedback UI.
+2. Verify hosted CAPTCHA and actual delivery for the now-configured owner Formspree inbox. Keep Google hidden; repository issues stay outside the app's feedback UI.
 3. Add the targeted browser regressions above and improve unreadable-save recovery before expanding persistence behavior.
 4. Measure physical-phone checklist/map performance, touch and accessibility; optimize the measured bottlenecks.
 5. Refine map discovery/regions or add address search when wanted, preserving existing feature/storage boundaries.
