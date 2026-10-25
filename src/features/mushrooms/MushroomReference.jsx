@@ -4,14 +4,15 @@ import { nectarRange } from "./calculations.js";
 import { filterMushrooms } from "./selection.js";
 import MushroomImage from "./MushroomImage.jsx";
 
-function MushroomReference({ choices, onToggle }) {
+function MushroomReference({ choices, onToggle, newStars, onNewStars }) {
   const [query, setQuery] = useState("");
   const matches = useMemo(() => filterMushrooms(query), [query]);
   return <section className="mushroom-card mushroom-reference-card" aria-labelledby="mushroom-reference-title">
-    <span className="mushroom-eyebrow">THE FULL REFERENCE</span><h2 id="mushroom-reference-title">Mushroom reward table</h2>
-    <p className="mushroom-description">Check a mushroom you can join, or tap its row. Each cell shows lowest–highest nectar at that star rating.</p>
+    <h2 id="mushroom-reference-title">Mushroom reward table</h2>
+    <p className="mushroom-description">Nectar per mushroom at each star rating. Check a row to add it to your comparison.</p>
     <div role="search" aria-label="Search mushroom table" className="mushroom-search">
-      <label>Find a mushroom<input type="search" value={query} maxLength={160} placeholder="Small blue, normal yellow…" aria-controls="mushroom-reference-table" aria-describedby="mushroom-search-help" onChange={event => setQuery(event.target.value)} /></label>
+      <div className="mushroom-reference-controls"><label>Find a mushroom<input type="search" value={query} maxLength={160} placeholder="Small blue, normal yellow…" aria-controls="mushroom-reference-table" aria-describedby="mushroom-search-help" onChange={event => setQuery(event.target.value)} /></label>
+      <label>Stars for new selections<select value={newStars} onChange={event => onNewStars(Number(event.target.value))}>{[1, 2, 3, 4].map(stars => <option key={stars} value={stars}>{stars}★</option>)}</select></label></div>
       <p id="mushroom-search-help" className="mushroom-caption">Search by type or size. Use commas for alternatives. Searching keeps your selections.</p>
       <div className="mushroom-search-status"><span role="status">Showing {matches.length} of 34 combinations</span>{query && <button type="button" onClick={() => setQuery("")}>Clear search</button>}</div>
     </div>
@@ -36,7 +37,7 @@ function MushroomReference({ choices, onToggle }) {
         })}{!matches.length && <tr role="row"><td role="cell" colSpan={6} className="mushroom-no-results">No mushrooms match. Try another type or size.</td></tr>}</tbody>
       </table>
     </div>
-    <p className="mushroom-caption">A highlighted star cell is used in your comparison. Change expected stars in your selected mushrooms.</p>
+    <p className="mushroom-caption">Highlighted star cells are in your comparison. Unchecking a row removes all its copies.</p>
   </section>;
 }
 export default memo(MushroomReference);
