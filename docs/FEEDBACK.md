@@ -33,7 +33,7 @@ Private handoff accepts only the configured `https://formspree.io/f/{owned-form-
 
 The endpoint is not taken from visitor input or the current page URL. No GitHub API, access token or GitHub authentication client is involved in sending this form.
 
-`FEEDBACK_TYPES` allows Bug report, Suggestion and Question. `FEEDBACK_SECTIONS` follows the app navigation after General: Decor checklist, Decor map, Mushroom rewards, Calculator. Existing section IDs remain unchanged. Review is available immediately, without an opening countdown; the submission cooldown, duplicate/hourly limits, validation, honeypot and provider spam protection remain. Trimmed titles must contain 8–100 characters and details 20–1,000 characters; both the form and helper enforce these bounds. The helper rejects unexpected input fields as well as unsupported type/section values.
+`FEEDBACK_TYPES` allows Bug report, Suggestion and Question. `FEEDBACK_SECTIONS` follows the app navigation after General: Decor checklist, Decor map, Mushroom rewards, Calculator. Existing section IDs remain unchanged. Review is available immediately, without an opening countdown; the submission cooldown, duplicate/hourly limits, validation, honeypot and provider spam protection remain. Trimmed titles must contain 3–100 characters (short titles such as “Bug” are accepted) and details 20–1,000 characters; both the form and helper enforce these bounds. The helper rejects unexpected input fields as well as unsupported type/section values.
 
 October 25 interaction update: removed the opening three-second review delay and reordered section choices to match navigation. All 163 tests and the configured production build pass. An isolated preview showed Review enabled within 293ms of opening and confirmed the five choices in the intended order. No additional provider submission or player-progress edit was made during this check.
 
@@ -71,7 +71,7 @@ Draft text is kept in the form's memory rather than browser progress storage. Lo
 | --- | --- |
 | Review | Available immediately on opening the configured form; no countdown or minimum wait. Validation and submission limits still apply. |
 | Honeypot | Reject a filled hidden bot-trap field |
-| Validation | Allow only known type/section values, an 8–100-character title and 20–1,000-character details |
+| Validation | Allow only known type/section values, a 3–100-character title and 20–1,000-character details |
 | Short cooldown | At least 60 seconds between feedback handoffs |
 | Hourly limit | At most three handoffs within an hour |
 | Duplicate limit | Prevent the same normalized report from being handed off again within 24 hours |

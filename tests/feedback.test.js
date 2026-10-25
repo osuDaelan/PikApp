@@ -23,11 +23,11 @@ test("feedback fields are trimmed, bounded and restricted to known choices", () 
   assert.equal(FEEDBACK_SECTIONS.length, 5);
   assert.equal(normalizeFeedback({ ...draft(), section: "mushrooms" }).section, "mushrooms");
   for (const changes of [
-    { type: "private" }, { section: "unknown" }, { title: "x".repeat(7) }, { title: "x".repeat(101) },
+    { type: "private" }, { section: "unknown" }, { title: "xx" }, { title: "  x  " }, { title: "x".repeat(101) },
     { message: "x".repeat(19) }, { message: "x".repeat(1001) }, { title: null }, { message: 42 },
     { website: "https://bot.example" }, { website: null }, { currentUrl: "should not be included" },
   ]) assert.throws(() => normalizeFeedback({ ...draft(), ...changes }));
-  assert.equal(normalizeFeedback({ ...draft(), title: "x".repeat(8), message: "x".repeat(20) }).title.length, 8);
+  assert.equal(normalizeFeedback({ ...draft(), title: "  Bug  ", message: "x".repeat(20) }).title, "Bug");
   assert.equal(normalizeFeedback({ ...draft(), title: "x".repeat(100), message: "x".repeat(1000), website: " " }).message.length, 1000);
 });
 
@@ -214,7 +214,7 @@ test("large invalid history is repaired with a bounded cooldown and unrelated sa
 test("invalid drafts and honeypot responses consume no opening allowance", () => {
   const f = fixture(), guard = f.guard();
   assert.equal(guard.claim({ ...draft(), website: "spam" }).ok, false);
-  assert.equal(guard.claim({ ...draft(), title: "tiny" }).ok, false);
+  assert.equal(guard.claim({ ...draft(), title: "xx" }).ok, false);
   assert.equal(f.values.size, 0);
   assert.equal(guard.claim(draft()).ok, true);
 });

@@ -92,7 +92,7 @@ function FeedbackButton() {
           <label>Feedback type<select value={type} onChange={event => setType(event.target.value)}>{FEEDBACK_TYPES.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
           <label>App section<select value={section} onChange={event => setSection(event.target.value)}>{FEEDBACK_SECTIONS.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
         </div>
-        <label>Short title<input value={title} onChange={event => setTitle(event.target.value)} required minLength={8} maxLength={100} placeholder="What would you like us to look at?" /></label>
+        <label>Short title<input value={title} onChange={event => setTitle(event.target.value)} required minLength={3} maxLength={100} placeholder="What would you like us to look at?" /></label>
         <label>Details<textarea value={message} onChange={event => setMessage(event.target.value)} required minLength={20} maxLength={1000} rows={5} placeholder="Describe what happened or what you’d like to see. For bugs, include what you expected." /></label>
         <p className="feedback-dialog__hint">{message.length}/1,000 characters</p>
         <div className="feedback-dialog__honeypot" aria-hidden="true"><label>Website<input name="website" value={website} onChange={event => setWebsite(event.target.value)} tabIndex={-1} autoComplete="off" /></label></div>

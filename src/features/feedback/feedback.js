@@ -31,7 +31,7 @@ export function normalizeFeedback(value) {
   }
   if (typeof value.title !== "string" || typeof value.message !== "string") throw new Error("Enter a title and message.");
   const title = value.title.trim(), message = value.message.trim();
-  if (title.length < 8 || title.length > 100) throw new Error("Use a title between 8 and 100 characters.");
+  if (title.length < 3 || title.length > 100) throw new Error("Use a title between 3 and 100 characters.");
   if (message.length < 20 || message.length > 1000) throw new Error("Use a message between 20 and 1,000 characters.");
   return { type: value.type, section: value.section, title, message, website: "" };
 }
