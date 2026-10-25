@@ -31,7 +31,7 @@ Verified with 30 tests and a production build. Browser checks confirmed an edite
 
 ## Commit workflow
 
-Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Follow `CLAUDE.md`: automatically commit major cohesive changes and push to `origin main` without asking again. A successful Pages deployment publishes the pushed commit.
+Starting October 19, 2026, create a descriptive local Git commit after each major, cohesive change and its appropriate checks. Keep unrelated changes in separate commits. The initial checkpoint captures the already accepted app work; subsequent changes get their own checkpoints. Per the owner's standing instruction, automatically commit major cohesive changes and push to `origin main` without asking again. A successful Pages deployment publishes the pushed commit.
 
 ## GitHub Pages hosting
 
