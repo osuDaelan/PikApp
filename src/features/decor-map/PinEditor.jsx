@@ -38,7 +38,7 @@ export default function PinEditor({ draft, onSave, onCancel, onDelete }) {
     {error && <p role="alert" className="decor-map__error">{error}</p>}
     <div className="decor-map__pin-form-actions">
       <button className="decor-map__primary" type="submit">Save pin</button>
-      {draft.id && <button className="decor-map__danger" type="button" onClick={() => setConfirmDelete(true)}>Delete pin…</button>}
+      {draft.id && <button className="decor-map__danger" type="button" onClick={() => setConfirmDelete(true)}>Delete</button>}
     </div>
     {draft.id && confirmDelete && <div className="decor-map__delete-confirm" role="group" aria-label="Confirm pin deletion">
       <p>Delete “{name}”?</p><button type="button" onClick={() => onDelete(draft.id)}>Delete pin</button>
