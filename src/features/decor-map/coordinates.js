@@ -1,6 +1,6 @@
 // A public example city, never a stored personal location. Returning visitors
 // use their saved viewport; pasted map links can choose any supported area.
-export const DEFAULT_VIEWPORT = { lat: 42.36, lng: -71.06, zoom: 14 };
+export const DEFAULT_VIEWPORT = { lat: 42.36, lng: -71.06, zoom: 12 };
 export const MIN_SEARCH_ZOOM = 13;
 export const MAX_SEARCH_AREA_KM2 = 200;
 

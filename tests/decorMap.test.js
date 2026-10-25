@@ -199,6 +199,22 @@ test("place client handles busy servers, cancellation and a client-side deadline
   await assert.rejects(pending, { name: "AbortError" });
 });
 
+test("new maps select every category while saved subsets and cleared selections are preserved", () => {
+  const ids = MAP_CATEGORIES.map(category => category.id);
+  const values = new Map();
+  const getStorage = () => ({ getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) });
+  assert.deepEqual(createMapStore({ getStorage }).read().state.categoryIds, ids);
+  assert.deepEqual(createMapStore({ getStorage }).read().state.viewport, { lat: 42.36, lng: -71.06, zoom: 12 });
+  for (const categoryIds of [["restaurant", "cafe", "park", "waterside"], []]) {
+    const state = { ...defaultMapState(), categoryIds, viewport: { lat: 42.35, lng: -71.07, zoom: 17 }, pins: [savedPin()] };
+    assert.equal(createMapStore({ getStorage }).write(state).ok, true);
+    const restored = createMapStore({ getStorage }).read().state;
+    assert.deepEqual(restored.categoryIds, categoryIds);
+    assert.deepEqual(restored.viewport, state.viewport);
+    assert.deepEqual(restored.pins, state.pins);
+  }
+});
+
 test("map storage round-trips pins separately from existing calculator and collection keys", () => {
   const values = new Map([["pb_level", "104"], ["pb_decorCollected", '{"legacy-id":true}']]);
   const getStorage = () => ({ getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) });

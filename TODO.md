@@ -65,6 +65,7 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [x] Keep section navigation in the same bottom position on Map and every other section, including scrollbar-related centering. Reserve space below the desktop map so controls remain unobstructed; verify desktop and mobile switching.
 - [x] Make all four sections reachable at every width, with section hashes/back/forward and shareable map-view URLs.
 - [x] Implement the map separately from the shell/checklist, with source and category adapters.
+- [x] Fix Add pin replacing Leaflet's layout classes; verify placing, canceling, saving, editing, reload and confirmed deletion in an isolated desktop/mobile preview. New visitors start in Boston at zoom 12 with all 39 categories selected; saved preferences and shared views remain respected.
 - [x] Test normalized tag matching, unique categories, source IDs and polygon/relation holes.
 - [ ] Implement actual regional validation before adding country-dependent Fortune rules; weather/event outcomes remain outside OSM discovery.
 - [x] Add loading, empty, error, timeout, cancellation and retry states, with explicit Search this area requests.

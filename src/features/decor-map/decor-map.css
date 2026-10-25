@@ -61,7 +61,7 @@
 .decor-map__options input, .decor-map__options select, .decor-map__pin-form input:not([type=checkbox]), .decor-map__pin-form textarea { margin-top: 5px; }
 .decor-map__map-area { position: relative; min-width: 0; min-height: 360px; background: #e9efdf; isolation: isolate; }
 .decor-map__canvas { position: absolute; inset: 0; height: 100%; width: 100%; z-index: 0; font-family: inherit; background: #e9efdf; }
-.decor-map__canvas--adding, .decor-map__canvas--adding .leaflet-interactive { cursor: crosshair; }
+.decor-map__canvas[data-adding-pin], .decor-map__canvas[data-adding-pin] .leaflet-interactive { cursor: crosshair; }
 .decor-map__canvas .leaflet-control-attribution { font-size: 10px; max-width: 100%; background: #fffffff0; }
 .decor-map__map-tools { display: flex; flex-wrap: wrap; gap: 7px; position: absolute; top: 12px; left: 12px; right: 12px; z-index: 1; pointer-events: none; }
 .decor-map__map-tools button { pointer-events: auto; box-shadow: 0 2px 8px #1e412b20; min-height: 38px; background: #fffef9; }

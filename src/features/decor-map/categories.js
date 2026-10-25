@@ -50,7 +50,7 @@ export const MAP_CATEGORIES = definitions.map(([id, label, rules]) => {
   return { id, label, icon: DECOR_ICONS[label], rules, group };
 });
 export const CATEGORY_BY_ID = new Map(MAP_CATEGORIES.map(category => [category.id, category]));
-export const DEFAULT_CATEGORY_IDS = ["restaurant", "cafe", "park", "waterside"];
+export const DEFAULT_CATEGORY_IDS = MAP_CATEGORIES.map(category => category.id);
 
 export function cleanCategoryIds(ids) {
   return Array.isArray(ids) ? [...new Set(ids.filter(id => CATEGORY_BY_ID.has(id)))] : [];

@@ -155,7 +155,8 @@ export default function MapCanvas({ initialViewport, places, scannedBounds, pins
   }, [focus]);
 
   return <>
-    <div ref={element} className={`decor-map__canvas${addingPin ? " decor-map__canvas--adding" : ""}`}
+    {/* Keep className stable: Leaflet adds its own layout classes to this node. */}
+    <div ref={element} className="decor-map__canvas" data-adding-pin={addingPin || undefined}
       role="region" aria-label="Interactive decor map" />
     {tileError && <div className="decor-map__tile-error" role="status">Background tiles could not load. Check your connection.</div>}
   </>;
