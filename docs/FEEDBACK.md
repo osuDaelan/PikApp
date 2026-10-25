@@ -26,7 +26,7 @@ Paths are relative to the project root.
 | `src/shared/components/AppHeader.jsx` | Mounts the feedback control next to browser-save status; no feedback state belongs in calculator, checklist or map stores |
 | `src/shared/components/app-header.css` | Groups header controls without overlapping the logo or desktop map navigation; places controls below the clock on smaller screens |
 | `tests/feedback.test.js` | Pure-helper validation, endpoint/encoded URL and local-limit regression checks |
-| `.env.example`, `.github/workflows/deploy.yml` | Document local public endpoint configuration and pass the repository variable into the Pages build |
+| `.github/workflows/deploy.yml`, this guide | Configure the Pages public endpoint and document optional untracked `.env.local` setup |
 | `index.html` | Origin-only cross-origin referrer policy for private provider domain checks, excluding map URLs and query strings |
 
 Private handoff accepts only the configured `https://formspree.io/f/{owned-form-id}` endpoint. The form uses `method="POST"` and `target="_blank"`, sending `title`, `message`, `type`, `section` and an empty Formspree `_gotcha` honeypot field. There is no AJAX client, added dependency, embedded secret or PikApp backend. The Formspree form ID is a public client identifier, not a secret or proof of access control. Never put account credentials, service keys or a personal access token into a `VITE_*` variable.

@@ -35,7 +35,7 @@ Use the Web app's supplied `authDomain`, normally `PROJECT_ID.firebaseapp.com`. 
 
 Use Node.js 24.12 or newer. The pinned Firebase 13.1.0 SDK's app/auth packages require that runtime; the GitHub Pages workflow uses Node 24 as well.
 
-Create `.env.local` in the repository root by copying [`.env.example`](../.env.example), then fill in these four values from the chosen development Web app:
+Create an untracked `.env.local` file in the repository root and add these four variables using values from the chosen development Web app:
 
 | Vite environment variable | Firebase config property |
 | --- | --- |
@@ -46,7 +46,7 @@ Create `.env.local` in the repository root by copying [`.env.example`](../.env.e
 
 Use values from the same Web app/project. Restart `npm.cmd run dev` after changing environment files; an already running Vite server does not pick up new configuration automatically. Open `http://localhost:5173/` for the authorized local hostname.
 
-`.env`, `.env.local` and other `.env.*` files are ignored; only the blank `.env.example` template is committed. These are client configuration fields and become visible in the built website. Firebase-specific Web API keys identify the project; they do not authorize access to private data. Use Firebase's supplied key and its applicable API restrictions. Never place service-account JSON, private keys, Admin SDK credentials or OAuth client secrets in any `VITE_*` variable. See Firebase's [API key explanation](https://firebase.google.com/docs/projects/api-keys).
+All `.env` and `.env.*` files are ignored; no environment-file template is kept in the current tree. The removed template contained blank values only. These are client configuration fields and become visible in the built website. Firebase-specific Web API keys identify the project; they do not authorize access to private data. Use Firebase's supplied key and its applicable API restrictions. Never place service-account JSON, private keys, Admin SDK credentials or OAuth client secrets in any `VITE_*` variable. See Firebase's [API key explanation](https://firebase.google.com/docs/projects/api-keys).
 
 ## Future GitHub Pages configuration
 
