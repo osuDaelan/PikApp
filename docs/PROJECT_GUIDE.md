@@ -25,7 +25,9 @@ The map uses Leaflet and an OSM-to-GeoJSON converter, with explicit one-shot geo
 
 | Document | Responsibility |
 | --- | --- |
-| [README](../README.md) | Setup commands, storage compatibility reference, hosting instructions, and the existing reference-site investigation |
+| [README](../README.md) | User guide: what PikApp does, its four pages, browser saving, manual transfer and feedback |
+| [Development reference](DEVELOPMENT.md) | Local setup, development calculator backup, deployment and saved-progress compatibility |
+| [Decor visual reference](DECOR_VISUAL_REFERENCE.md) | Preserved Pikmin Decor Visuals and Animations investigation of the reference tracker |
 | This guide | Current architecture, decisions, ownership, limitations, and change workflow |
 | [TODO](../TODO.md) | Completed milestones and actionable remaining work |
 | [Decor map plan](DECOR_MAP_PLAN.md) | Proposed map boundary, decisions still needed, and implementation sequence |
@@ -179,7 +181,7 @@ Undo-window verification: five additional Node tests cover retained slots/counts
 
 The 975 entries comprise 522 regular/rare and 453 special/event entries. They have 975 local transparent PNG mappings in `decorImageData.js`. Files total 31,009,162 bytes (about 29.6 MiB). The October 22 source review added 53 regular/rare and 26 event entries, including newer Ice variants, without renaming or removing the original 896 saved IDs. See [the catalog refresh record](DECOR_IMAGE_ROLLOUT.md#catalog-refresh-october-22-2026). Thirty-six catalogue entries group multiple in-game designs and deliberately use representative artwork; this does not mean all possible in-game designs have separate checklist entries. Provenance and flags live in the asset inventory.
 
-Pikmin and decor are already combined in each image. PikApp has no 3D models, skeletons, bone attachments, or animation clips. React displays an image; CSS moves the image and decorative elements; SVG draws tile stars; canvas draws the set-completion burst. The external tracker was investigated for reference, not copied as an implementation template. See the existing [Pikmin Decor Visuals and Animations research](../README.md#pikmin-decor-visuals-and-animations).
+Pikmin and decor are already combined in each image. PikApp has no 3D models, skeletons, bone attachments, or animation clips. React displays an image; CSS moves the image and decorative elements; SVG draws tile stars; canvas draws the set-completion burst. The external tracker was investigated for reference, not copied as an implementation template. See the preserved [Pikmin Decor Visuals and Animations research](DECOR_VISUAL_REFERENCE.md).
 
 ### Accepted visual decisions
 
@@ -217,7 +219,7 @@ All sizes use Nintendo Garden: day 6:00 AM–4:59 PM, evening 5:00 PM–9:59 PM,
 
 An invalid or failed initial read marks that field unreadable. Mount autosave and retry cannot overwrite its original raw value with the fallback. `useProgressState` distinguishes explicit setters, including unchanged-value saves, and only those may replace the affected field through `allowUnreadable`. This replaces that field; it does not reconstruct the unreadable collection. `assertReadable()` blocks full-progress snapshots while an unreadable field remains, so an empty fallback cannot be exported as complete progress. Restore storage access and reload before editing when recovery of the original matters. Missing keys are normal first-visit defaults, not unreadable saves.
 
-The development backup debounces applied calculator changes by 400ms, restores before mount, compares timestamps, validates an allowlist of fields, rejects stale writes, and atomically replaces the file. Its endpoint accepts same-origin loopback requests only; Vite denies static access to `.local/`. The endpoint, restore and status UI are development-only. See [README autosave details](../README.md#local-calculator-autosave) and `localCalculatorBackup.test.js`.
+The development backup debounces applied calculator changes by 400ms, restores before mount, compares timestamps, validates an allowlist of fields, rejects stale writes, and atomically replaces the file. Its endpoint accepts same-origin loopback requests only; Vite denies static access to `.local/`. The endpoint, restore and status UI are development-only. See [development autosave details](DEVELOPMENT.md#local-calculator-autosave) and `localCalculatorBackup.test.js`.
 
 Startup restoration now snapshots the calculator keys and freshness marker, verifies replacement, and rolls back partial writes. A failed restore keeps the file protected and reports incomplete rollback explicitly. `assertLocalCalculatorRestoreVerified()` / `RESTORE_UNVERIFIED` block file POSTs until startup restoration succeeds. `LocalCalculatorSave` pauses instead of retrying an unverified startup: the initial fallback must not advance its freshness marker, while later user edits still mark browser freshness. Restore the service/storage and reload to retry startup restoration. Ordinary file-write failures after a verified startup retain their retry behavior.
 

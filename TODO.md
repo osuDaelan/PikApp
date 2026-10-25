@@ -13,7 +13,7 @@ Last reviewed October 24, 2026, after the Mushrooms page. Checked tasks are comp
 - [x] Keep the current calculator and existing saved collections working during the changes.
 - [x] Preserve existing collection IDs when moving data. Add a migration if any IDs must change.
 
-Completed: feature modules, shared controls/styles, and a storage interface with legacy guest keys and isolated local account caches. No ID migration was needed. Account authentication and cloud synchronization remain in steps 4–5. See `docs/PROJECT_GUIDE.md` for the current folder map and `README.md` for the storage contract.
+Completed: feature modules, shared controls/styles, and a storage interface with legacy guest keys and isolated local account caches. No ID migration was needed. Account authentication and cloud synchronization remain in steps 4–5. See `docs/PROJECT_GUIDE.md` for the current folder map and `docs/DEVELOPMENT.md` for the storage contract.
 
 - [x] Audit and document the current project before starting the third section.
 - [x] Separate current behavior, historical experiments, remaining tasks and map planning notes.

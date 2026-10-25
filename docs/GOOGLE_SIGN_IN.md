@@ -6,7 +6,7 @@ The instructions below are a future reactivation reference, not a pending reques
 
 ## Current browser saving
 
-Calculator values, daily averages, decor checklist selections and saved map pins/preferences persist locally and restore when returning to the same site in the same browser/profile on the same device. No account is needed. Calculator/checklist saves have success/error feedback and retry; map saving retains its separate error/recovery/export flow. Closing and reopening a normal tab does not intentionally clear progress. Localhost and GitHub Pages are separate storage areas; other browsers/devices do not share saves. Clearing site data or private-browsing limits can discard saves. See [browser autosave](../README.md#browser-autosave) and [the persistence guide](PROJECT_GUIDE.md#persistence-and-privacy-boundaries).
+Calculator values, daily averages, decor checklist selections and saved map pins/preferences persist locally and restore when returning to the same site in the same browser/profile on the same device. No account is needed. Calculator/checklist saves have success/error feedback and retry; map saving retains its separate error/recovery/export flow. Closing and reopening a normal tab does not intentionally clear progress. Localhost and GitHub Pages are separate storage areas; other browsers/devices do not share saves. Clearing site data or private-browsing limits can discard saves. See [browser saving and manual transfer](../README.md#saving-and-moving-your-progress) and [the persistence guide](PROJECT_GUIDE.md#persistence-and-privacy-boundaries).
 
 ## Retained authentication scope
 
