@@ -36,11 +36,14 @@ export default function PinEditor({ draft, onSave, onCancel, onDelete }) {
     </div></fieldset>
     {draft.osmId && <a href={`https://www.openstreetmap.org/${draft.osmId}`} target="_blank" rel="noopener noreferrer">Original OSM place ↗</a>}
     {error && <p role="alert" className="decor-map__error">{error}</p>}
-    <button className="decor-map__primary" type="submit">Save pin</button>
-    <p className="decor-map__hint">Saved in this browser. Export pins for a backup or to move them to another device.</p>
-    {draft.id && (confirmDelete ? <div className="decor-map__delete-confirm" role="group" aria-label="Confirm pin deletion">
+    <div className="decor-map__pin-form-actions">
+      <button className="decor-map__primary" type="submit">Save pin</button>
+      {draft.id && <button className="decor-map__danger" type="button" onClick={() => setConfirmDelete(true)}>Delete pin…</button>}
+    </div>
+    {draft.id && confirmDelete && <div className="decor-map__delete-confirm" role="group" aria-label="Confirm pin deletion">
       <p>Delete “{name}”?</p><button type="button" onClick={() => onDelete(draft.id)}>Delete pin</button>
       <button type="button" onClick={() => setConfirmDelete(false)}>Keep pin</button>
-    </div> : <button className="decor-map__danger" type="button" onClick={() => setConfirmDelete(true)}>Delete pin…</button>)}
+    </div>}
+    <p className="decor-map__hint">Saved in this browser. Export pins for a backup or to move them to another device.</p>
   </form>;
 }

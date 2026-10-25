@@ -105,8 +105,9 @@
 .decor-map__pin-categories { max-height: 160px; overflow: auto; }
 .decor-map__pin-categories > label { display: flex; gap: 7px; align-items: center; font-size: 11px; padding: 5px 0; }
 .decor-map__pin-categories > label > input { flex-shrink: 0; }
-.decor-map__pin-form > button[type=submit] { width: 100%; margin-top: 12px; }
-.decor-map .decor-map__danger { color: #a4453b; margin-top: 8px; }
+.decor-map__pin-form-actions { display: flex; gap: 8px; margin-top: 12px; }
+.decor-map__pin-form-actions > button { flex: 1; min-width: 0; }
+.decor-map .decor-map__danger { color: #a4453b; }
 .decor-map__delete-confirm { padding: 12px; background: #fff0e8; border-radius: 10px; margin-top: 12px; }
 .decor-map__delete-confirm p { font-size: 12px; margin: 0 0 10px; overflow-wrap: anywhere; }
 .decor-map__delete-confirm > button { margin-right: 6px; }
