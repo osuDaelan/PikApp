@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useId, useRef, useState } from "react";
-import { buildPrivateFeedbackFields, createFeedbackGuard, FEEDBACK_SECTIONS, FEEDBACK_TYPES, getPrivateFeedbackEndpoint, MIN_REVIEW_MS, normalizeFeedback } from "./feedback.js";
+import { buildPrivateFeedbackFields, createFeedbackGuard, FEEDBACK_SECTIONS, FEEDBACK_TYPES, getPrivateFeedbackEndpoint, normalizeFeedback } from "./feedback.js";
 import "./feedback.css";
 
 const privateEndpoint = getPrivateFeedbackEndpoint(import.meta.env.VITE_FEEDBACK_ENDPOINT);
@@ -23,15 +23,12 @@ function FeedbackButton() {
   const [, setTick] = useState(0);
   const dialog = useRef(null);
   const reviewHeading = useRef(null);
-  const openedAt = useRef(0);
   const titleId = useId();
   const infoId = useId();
   const status = open ? guard.getStatus() : { allowed: true, retryAfterMs: 0 };
-  const reviewWait = open ? Math.max(0, MIN_REVIEW_MS - (performance.now() - openedAt.current)) : 0;
   const available = Boolean(privateEndpoint);
 
   function show() {
-    openedAt.current = performance.now();
     setPrepared(null); setError(""); setNotice(""); setWebsite(""); setOpen(true);
   }
   function close() { setOpen(false); setPrepared(null); setError(""); setNotice(""); }
@@ -49,7 +46,6 @@ function FeedbackButton() {
     setError(""); setNotice("");
     try {
       if (!available) throw new Error("The private feedback inbox is not connected yet. Please check back soon.");
-      if (performance.now() - openedAt.current < MIN_REVIEW_MS) throw new Error("Take a moment to review your feedback, then try again.");
       const opening = guard.getStatus();
       if (!opening.allowed) throw new Error(opening.reason);
       const draft = normalizeFeedback({ type, section, title, message, website });
@@ -100,7 +96,7 @@ function FeedbackButton() {
         <label>Details<textarea value={message} onChange={event => setMessage(event.target.value)} required minLength={20} maxLength={1000} rows={5} placeholder="Describe what happened or what you’d like to see. For bugs, include what you expected." /></label>
         <p className="feedback-dialog__hint">{message.length}/1,000 characters</p>
         <div className="feedback-dialog__honeypot" aria-hidden="true"><label>Website<input name="website" value={website} onChange={event => setWebsite(event.target.value)} tabIndex={-1} autoComplete="off" /></label></div>
-        <button type="submit" className="feedback-dialog__primary" disabled={!available || reviewWait > 0 || !status.allowed}>{!available ? "Feedback unavailable" : reviewWait > 0 ? `Review in ${Math.ceil(reviewWait / 1000)}s` : "Review feedback"}</button>
+        <button type="submit" className="feedback-dialog__primary" disabled={!available || !status.allowed}>{!available ? "Feedback unavailable" : "Review feedback"}</button>
       </form>)}
       {!status.allowed && <p role="status" className="feedback-dialog__hint">{status.reason} Available in {waitText(status.retryAfterMs)}.</p>}
       {error && <p role="alert" className="feedback-dialog__error">{error}</p>}

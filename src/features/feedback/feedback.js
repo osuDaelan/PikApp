@@ -6,13 +6,12 @@ export const FEEDBACK_TYPES = Object.freeze([
 
 export const FEEDBACK_SECTIONS = Object.freeze([
   { id: "general", label: "General" },
-  { id: "now", label: "Calculator" },
   { id: "decor", label: "Decor checklist" },
   { id: "map", label: "Decor map" },
   { id: "mushrooms", label: "Mushroom rewards" },
+  { id: "now", label: "Calculator" },
 ].map(Object.freeze));
 
-export const MIN_REVIEW_MS = 3000;
 export const FEEDBACK_STORAGE_KEY = "pb_feedback_v1";
 export const MAX_FEEDBACK_URL_LENGTH = 7500;
 const ISSUE_URL = "https://github.com/osuDaelan/PikApp/issues/new";

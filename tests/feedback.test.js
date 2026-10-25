@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { normalizeFeedback, buildFeedbackIssueUrl, createFeedbackGuard, FEEDBACK_TYPES, FEEDBACK_SECTIONS,
-  FEEDBACK_STORAGE_KEY, MAX_FEEDBACK_URL_LENGTH, MIN_REVIEW_MS, getPrivateFeedbackEndpoint,
+  FEEDBACK_STORAGE_KEY, MAX_FEEDBACK_URL_LENGTH, getPrivateFeedbackEndpoint,
   buildPrivateFeedbackFields } from "../src/features/feedback/feedback.js";
 
 const MINUTE = 60_000, HOUR = 3_600_000, DAY = 86_400_000;
@@ -22,7 +22,6 @@ test("feedback fields are trimmed, bounded and restricted to known choices", () 
   assert.equal(FEEDBACK_TYPES.length, 3);
   assert.equal(FEEDBACK_SECTIONS.length, 5);
   assert.equal(normalizeFeedback({ ...draft(), section: "mushrooms" }).section, "mushrooms");
-  assert.equal(MIN_REVIEW_MS, 3000);
   for (const changes of [
     { type: "private" }, { section: "unknown" }, { title: "x".repeat(7) }, { title: "x".repeat(101) },
     { message: "x".repeat(19) }, { message: "x".repeat(1001) }, { title: null }, { message: 42 },
