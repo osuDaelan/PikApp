@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { createMapStore, mergePins } from "./mapStorage.js";
 import { mapViewUrl, viewportFromParams } from "./coordinates.js";
+import { sectionFromHash } from "../../shared/sections.js";
 
 export default function useMapProgress() {
   const [store] = useState(() => createMapStore());
@@ -15,6 +16,8 @@ export default function useMapProgress() {
     setSaveError(result.error);
   }, [store, state]);
   useEffect(() => {
+    // A pending map update must not put coordinates back after leaving Map.
+    if (sectionFromHash(window.location.hash) !== "map") return;
     // Replace the current map view rather than adding history for every pan.
     // Re-entering a shared link now restores the latest view, not stale params.
     try { window.history.replaceState({}, "", mapViewUrl(window.location.href, state.viewport)); }

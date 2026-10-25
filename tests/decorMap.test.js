@@ -158,6 +158,15 @@ test("map coordinates and URL navigation validate inputs and preserve the deploy
   assert.match(searchAreaProblem(bounds, 10), /Zoom in/);
 });
 
+test("shared map URLs replace legacy coordinate aliases with the current viewport", () => {
+  const url = new URL(mapViewUrl("https://example.github.io/PikApp/?lat=1&lng=2&zoom=3&release=test#map", { lat: 42.36, lng: -71.06, zoom: 16 }));
+  assert.equal(url.pathname, "/PikApp/");
+  assert.equal(url.hash, "#map");
+  assert.equal(url.searchParams.get("release"), "test");
+  for (const key of ["lat", "lng", "zoom"]) assert.equal(url.searchParams.has(key), false);
+  assert.deepEqual(parseMapLocation(url.href), { lat: 42.36, lng: -71.06, zoom: 16 });
+});
+
 test("place client caches equivalent searches and limits repeated public requests", async () => {
   let time = 0, requests = 0;
   const client = createPlaceClient({ now: () => time, fetcher: async (url, options) => {

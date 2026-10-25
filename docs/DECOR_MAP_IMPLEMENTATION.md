@@ -16,7 +16,7 @@ Initial working slice: October 21, 2026. This describes PikApp's implementation;
 - **Add pin** / **Place a new pin** enters placement mode; tap the map, then set a name, notes, optional categories and coordinates. **My pins** supports editing and confirmed deletion.
 - **Export pins** downloads a versioned JSON backup. **Import pins** validates the whole file, previews the merge, then imports only on confirmation. Matching pin IDs keep the newer edit; different IDs remain separate pins.
 - **Locate me** requests a one-time browser position only after a click. Denial/unavailability has a manual-location fallback; no continuing position watch is created.
-- **Copy map link** shares the viewport, not pins/notes. Hash sections and view query parameters work under the GitHub Pages project path without a routing library. View changes replace history; switching sections adds a history entry.
+- **Copy map link** shares the viewport, not pins/notes. Hash sections and view query parameters work under the GitHub Pages project path without a routing library. View changes replace history; switching sections adds a history entry. Only Map URLs contain coordinates: section navigation and startup/history cleanup strip canonical and legacy map parameters from other pages, preserving unrelated parameters. Re-entering Map restores the saved viewport. `mapViewUrl` canonicalizes legacy coordinate aliases; `useMapProgress` checks the active hash before writing so a pending map update cannot reopen Map after navigation.
 
 ## Code boundaries
 

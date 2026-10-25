@@ -77,5 +77,6 @@ export function mapViewUrl(href, viewport) {
   url.searchParams.set("mapLat", viewport.lat.toFixed(6));
   url.searchParams.set("mapLng", viewport.lng.toFixed(6));
   url.searchParams.set("mapZoom", String(viewport.zoom));
+  for (const key of ["lat", "lng", "zoom"]) url.searchParams.delete(key);
   return url.href;
 }
