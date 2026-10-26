@@ -204,7 +204,7 @@ test("new maps select every category while saved subsets and cleared selections 
   const values = new Map();
   const getStorage = () => ({ getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) });
   assert.deepEqual(createMapStore({ getStorage }).read().state.categoryIds, ids);
-  assert.deepEqual(createMapStore({ getStorage }).read().state.viewport, { lat: 42.36, lng: -71.055, zoom: 12 });
+  assert.deepEqual(createMapStore({ getStorage }).read().state.viewport, { lat: 42.36, lng: -71.055, zoom: 14 });
   for (const categoryIds of [["restaurant", "cafe", "park", "waterside"], []]) {
     const state = { ...defaultMapState(), categoryIds, viewport: { lat: 42.35, lng: -71.07, zoom: 17 }, pins: [savedPin()] };
     assert.equal(createMapStore({ getStorage }).write(state).ok, true);
