@@ -22,7 +22,7 @@ test("empty searches preserve the original catalog references, order and stable 
   const { regular, special } = results("  \u3000 ");
   assert.equal(regular, DECOR_LOCATIONS);
   assert.equal(special, DECOR_SPECIAL_CATEGORIES);
-  assert.equal(ids("").length, 1044);
+  assert.equal(ids("").length, 1053);
   assert.deepEqual(ids("!not-an-existing-costume"), ids(""));
 });
 
@@ -56,6 +56,29 @@ test("individual card designs support species, volume, design and ownership sear
   assert.equal(ids("missing playing card", { ...legacy, [exact]: true }).length, 26);
 });
 
+test("Rainy Day searches find exact designs without treating an old Blue mark as ownership", () => {
+  const old = { weather__rainy_day_leaf_hat__Blue: true };
+  assert.equal(ids("rainy").length, 3);
+  assert.equal(ids("rainy blue").length, 3);
+  assert.equal(ids("rainy red").length, 0);
+  assert.deepEqual(ids('rainy "design 2"'), ["weather__rainy_day_leaf_hat__2"]);
+  assert.deepEqual(ids("collected rainy", old), []);
+  const saved = { ...old, weather__rainy_day_leaf_hat__2: true };
+  assert.deepEqual(ids("collected rainy", saved), ["weather__rainy_day_leaf_hat__2"]);
+  assert.equal(ids("missing rainy", saved).length, 2);
+});
+
+test("Chess searches distinguish piece sides from Pikmin species and preserve filtered action targets", () => {
+  assert.equal(ids("chess").length, 14);
+  assert.equal(ids('"Chess Piece: White"').length, 7);
+  assert.equal(ids('"Chess Piece: Black"').length, 7);
+  assert.equal(ids("chess white").length, 2); // Unquoted white means the White Pikmin species.
+  assert.deepEqual(ids("chess black blue"), ["chess_piece__chess_piece_black__Blue"]);
+  const saved = { chess_piece__chess_piece__Blue: true, chess_piece__chess_piece_black__Blue: true };
+  assert.deepEqual(ids("collected chess", saved), ["chess_piece__chess_piece_black__Blue"]);
+  assert.equal(ids("missing chess", saved).length, 13);
+});
+
 test("text searches cover categories, partial costume names, species labels, accents and phrases", () => {
   assert.equal(ids("ReStAuRaNt").length, 66); // Includes all restaurant categories.
   assert.deepEqual(ids("cafe"), ids("CAFÉ"));
@@ -70,7 +93,7 @@ test("collected and missing reflect live progress and do not modify it", () => {
   const saved = { [redChef]: true, [blueChef]: false, [redRareChef]: true, unrelated: true };
   const before = structuredClone(saved);
   assert.deepEqual(ids("collected", saved), [redChef, redRareChef]);
-  assert.equal(ids("missing", saved).length, 1042);
+  assert.equal(ids("missing", saved).length, 1051);
   assert.ok(ids("missing", saved).includes(blueChef));
   assert.deepEqual(saved, before);
   assert.deepEqual(ids("collected restaurant !rare", { ...saved, [blueChef]: true }), [redChef, blueChef]);
@@ -78,10 +101,10 @@ test("collected and missing reflect live progress and do not modify it", () => {
 
 test("rare, regular and event/special filters use catalog metadata, not names", () => {
   assert.equal(ids("rare").length, 107);
-  assert.equal(ids("regular").length, 522);
-  assert.equal(ids("event").length, 522);
+  assert.equal(ids("regular").length, 524);
+  assert.equal(ids("event").length, 529);
   assert.deepEqual(ids("special"), ids("event"));
-  assert.equal(ids("regular !rare").length, 415);
+  assert.equal(ids("regular !rare").length, 417);
   assert.equal(ids("event rare").length, 0);
   assert.equal(ids("event golden").length, 1);
   assert.equal(ids("event golden rare").length, 0);

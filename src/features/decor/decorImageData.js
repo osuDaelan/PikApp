@@ -1,5 +1,5 @@
 // Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
-// Card designs expanded 2026-10-27; legacy grouped selections are retained for review.
+// Individual card, Leaf Hat and Chess designs expanded 2026-10-27; older grouped marks are retained for review.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",
@@ -2584,13 +2584,6 @@ export default {
     "width": 207,
     "height": 308
   },
-  "weather__rainy_day_leaf_hat__Blue": {
-    "file": "weather-rainy-day-leaf-hat-blue.png",
-    "alt": "Blue Pikmin with Rainy Day: Leaf Hat decor (representative design)",
-    "width": 184,
-    "height": 291,
-    "representative": true
-  },
   "weather__snowy_day_snow__Blue": {
     "file": "weather-snowy-day-snow-blue.png",
     "alt": "Blue Pikmin with Snowy Day: Snow decor",
@@ -2926,55 +2919,6 @@ export default {
     "alt": "Winged Pikmin with Lunar New Year Ornament: Gold decor",
     "width": 198,
     "height": 298
-  },
-  "chess_piece__chess_piece__Red": {
-    "file": "chess-piece-chess-piece-red.png",
-    "alt": "Red Pikmin with Chess Piece decor (representative design)",
-    "width": 90,
-    "height": 368,
-    "representative": true
-  },
-  "chess_piece__chess_piece__Yellow": {
-    "file": "chess-piece-chess-piece-yellow.png",
-    "alt": "Yellow Pikmin with Chess Piece decor (representative design)",
-    "width": 121,
-    "height": 328,
-    "representative": true
-  },
-  "chess_piece__chess_piece__Blue": {
-    "file": "chess-piece-chess-piece-blue.png",
-    "alt": "Blue Pikmin with Chess Piece decor (representative design)",
-    "width": 92,
-    "height": 358,
-    "representative": true
-  },
-  "chess_piece__chess_piece__Purple": {
-    "file": "chess-piece-chess-piece-purple.png",
-    "alt": "Purple Pikmin with Chess Piece decor (representative design)",
-    "width": 126,
-    "height": 346,
-    "representative": true
-  },
-  "chess_piece__chess_piece__White": {
-    "file": "chess-piece-chess-piece-white.png",
-    "alt": "White Pikmin with Chess Piece decor (representative design)",
-    "width": 75,
-    "height": 299,
-    "representative": true
-  },
-  "chess_piece__chess_piece__Rock": {
-    "file": "chess-piece-chess-piece-rock.png",
-    "alt": "Rock Pikmin with Chess Piece decor (representative design)",
-    "width": 188,
-    "height": 319,
-    "representative": true
-  },
-  "chess_piece__chess_piece__Winged": {
-    "file": "chess-piece-chess-piece-winged.png",
-    "alt": "Winged Pikmin with Chess Piece decor (representative design)",
-    "width": 111,
-    "height": 309,
-    "representative": true
   },
   "fingerboard__fingerboard__Red": {
     "file": "fingerboard-fingerboard-red.png",
@@ -6369,5 +6313,124 @@ export default {
     "height": 321,
     "alt": "Purple Pikmin with Playing Card decor, design 2",
     "representative": false
+  },
+  "weather__rainy_day_leaf_hat__1": {
+    "file": "weather-rainy-day-leaf-hat-blue.png",
+    "width": 184,
+    "height": 291,
+    "representative": false,
+    "alt": "Blue Pikmin with Rainy Day: Leaf Hat decor, design 1"
+  },
+  "weather__rainy_day_leaf_hat__2": {
+    "file": "weather-rainy-day-leaf-hat-blue-2.png",
+    "width": 186,
+    "height": 299,
+    "representative": false,
+    "alt": "Blue Pikmin with Rainy Day: Leaf Hat decor, design 2"
+  },
+  "weather__rainy_day_leaf_hat__3": {
+    "file": "weather-rainy-day-leaf-hat-blue-3.png",
+    "width": 193,
+    "height": 276,
+    "representative": false,
+    "alt": "Blue Pikmin with Rainy Day: Leaf Hat decor, design 3"
+  },
+  "chess_piece__chess_piece_white__Blue": {
+    "file": "chess-piece-chess-piece-blue.png",
+    "width": 92,
+    "height": 358,
+    "representative": false,
+    "alt": "Blue Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Blue": {
+    "file": "chess-piece-black-blue.png",
+    "width": 92,
+    "height": 358,
+    "representative": false,
+    "alt": "Blue Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__Purple": {
+    "file": "chess-piece-chess-piece-purple.png",
+    "width": 126,
+    "height": 346,
+    "representative": false,
+    "alt": "Purple Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Purple": {
+    "file": "chess-piece-black-purple.png",
+    "width": 126,
+    "height": 434,
+    "representative": false,
+    "alt": "Purple Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__Red": {
+    "file": "chess-piece-chess-piece-red.png",
+    "width": 90,
+    "height": 368,
+    "representative": false,
+    "alt": "Red Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Red": {
+    "file": "chess-piece-black-red.png",
+    "width": 90,
+    "height": 368,
+    "representative": false,
+    "alt": "Red Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__Rock": {
+    "file": "chess-piece-chess-piece-rock.png",
+    "width": 188,
+    "height": 319,
+    "representative": false,
+    "alt": "Rock Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Rock": {
+    "file": "chess-piece-black-rock.png",
+    "width": 188,
+    "height": 319,
+    "representative": false,
+    "alt": "Rock Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__White": {
+    "file": "chess-piece-chess-piece-white.png",
+    "width": 75,
+    "height": 299,
+    "representative": false,
+    "alt": "White Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__White": {
+    "file": "chess-piece-black-white.png",
+    "width": 92,
+    "height": 280,
+    "representative": false,
+    "alt": "White Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__Winged": {
+    "file": "chess-piece-chess-piece-winged.png",
+    "width": 111,
+    "height": 309,
+    "representative": false,
+    "alt": "Winged Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Winged": {
+    "file": "chess-piece-black-winged.png",
+    "width": 111,
+    "height": 309,
+    "representative": false,
+    "alt": "Winged Pikmin with black Chess Piece decor"
+  },
+  "chess_piece__chess_piece_white__Yellow": {
+    "file": "chess-piece-chess-piece-yellow.png",
+    "width": 121,
+    "height": 328,
+    "representative": false,
+    "alt": "Yellow Pikmin with white Chess Piece decor"
+  },
+  "chess_piece__chess_piece_black__Yellow": {
+    "file": "chess-piece-black-yellow.png",
+    "width": 121,
+    "height": 358,
+    "representative": false,
+    "alt": "Yellow Pikmin with black Chess Piece decor"
   }
 };

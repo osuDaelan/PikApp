@@ -20,13 +20,15 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-Images cover all 1,044 current checklist entries, including regular, rare, special/event and numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; 11 remaining grouped entries use representative designs. The October 27 card expansion retains old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
+Images cover all 1,053 current checklist entries (524 regular/rare, 529 special/event), including numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; three remaining grouped Theme Park entries use representative designs. The October 27 card, Leaf Hat and Chess expansions retain old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
 
 - [x] Recheck regular/event galleries on October 22 and add 79 missing entries with verified artwork: 975 total (522 regular/rare, 453 event).
 - [x] Preserve all 896 original IDs and test old/new full-progress backup compatibility. Full suite: 114 tests; production build and ordinary browser persistence checks pass.
 - [ ] Recheck species and rare rows as well as category names when new decor is released; do not infer availability solely from a filename elsewhere.
 - [x] Expand Hanafuda (24 + 16), Playing Card (27) and Mahjong (27) into individual pictured designs. Preserve the 25 older grouped marks for explicit review and keep old/new progress backups compatible.
-- [ ] Expand remaining grouped Theme Park tickets, Rainy Day Leaf Hats and Chess Pieces with explicit save compatibility rules; keep their representative flags until then.
+- [x] Expand Rainy Day into three pictured Blue Leaf Hat designs; retain the previous grouped mark for explicit review and backup compatibility.
+- [x] Separate Chess Pieces into white and black sets of seven, with local artwork and safe review of older species-level marks.
+- [ ] Expand remaining grouped Theme Park tickets with explicit save compatibility rules; keep their representative flags until then.
 
 ### Asset preparation
 

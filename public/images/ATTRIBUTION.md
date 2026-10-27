@@ -1,6 +1,12 @@
 # Image sources
 
+## Rainy Day Leaf Hats — October 27, 2026
+
+Three Blue Leaf Hat PNGs come from the three separate Rainy Day rows in [Pikipedia's regular decor gallery](https://www.pikminwiki.com/Decor_Pikmin#Gallery). The existing design-1 image is reused; designs 2 and 3 were retrieved October 27. The [inventory](../../docs/decor-image-sources.json) records original URLs, file pages, dimensions and checksums. The former grouped source record is preserved under `legacyGroupedImages`. These are Nintendo game images, not AI-generated artwork; attribution does not grant redistribution permission.
+
 ## Individual card designs — October 27, 2026
+
+The [Chess Piece gallery](https://www.pikminwiki.com/Special_Decor_Pikmin#Chess_Piece) supplies seven white pieces (`_1.png`, reused) and seven black pieces (`_2.png`, retrieved October 27). Each now maps to its own side/species checkbox. Original file URLs, dimensions and checksums are recorded in the inventory; former grouped mappings remain under `legacyGroupedImages`.
 
 Hanafuda (24 Volume 1 and 16 Volume 2), Playing Card (27) and Mahjong Tile (27) now use separate local transparent PNGs for all 94 designs referenced in [Pikipedia's actual special-decor image tables](https://www.pikminwiki.com/Special_Decor_Pikmin). Twenty-five previously used representative files were reused for their matching exact designs and 69 missing PNGs were downloaded. The [inventory](../../docs/decor-image-sources.json) records per-design file pages, original URLs, dimensions, byte sizes and SHA-256 checksums, with the former grouped records archived under `legacyCardImages`. Artwork belongs to Nintendo; these are existing game images, not AI-generated images. Attribution does not grant redistribution permission.
 

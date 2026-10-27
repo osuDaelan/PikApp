@@ -13,7 +13,7 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 
 Some older designs are grouped together and use a representative picture.
 
-Hanafuda, Playing Cards and Mahjong tiles have individual design checkboxes. If you tracked them before this update, a review reminder keeps your older color-level selections available while you choose the exact designs you own.
+Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats and both white/black Chess Piece sets have individual checkboxes. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
 
 ## Decor map
 

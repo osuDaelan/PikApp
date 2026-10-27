@@ -4,19 +4,19 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "../src/features/decor/catalog.js";
 import { decorId, countDecorGroups, isRareLocked, isRareCostume } from "../src/features/decor/collection.js";
-import { LEGACY_CARD_ENTRIES, pendingLegacyCards } from "../src/features/decor/legacyCards.js";
+import { LEGACY_GROUPED_ENTRIES, pendingLegacyDecor } from "../src/features/decor/legacyDecor.js";
 
-test("original IDs stay stable, with grouped card IDs retained separately for review", () => {
+test("original IDs stay stable, with grouped design IDs retained separately for review", () => {
   const ids = [...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES].flatMap(group =>
     group.costumes.flatMap(costume => (costume.designs || costume.colors).map(variant =>
       decorId(group.location, costume.name, variant))));
   const legacy = JSON.parse(readFileSync(new URL("./fixtures/decor-legacy-ids.json", import.meta.url), "utf8"));
   const legacySet = new Set(legacy);
-  assert.equal(ids.length, 1044);
-  assert.equal(new Set(ids).size, 1044);
+  assert.equal(ids.length, 1053);
+  assert.equal(new Set(ids).size, 1053);
   assert.equal(legacy.length, 896);
-  const retired = new Set(LEGACY_CARD_ENTRIES.map(entry => entry.id));
-  assert.equal(retired.size, 25);
+  const retired = new Set(LEGACY_GROUPED_ENTRIES.map(entry => entry.id));
+  assert.equal(retired.size, 33);
   assert.deepEqual(ids.filter(id => legacySet.has(id)), legacy.filter(id => !retired.has(id)));
   assert(legacy.every(id => ids.includes(id) || retired.has(id)));
   // Baseline from the original App.jsx before extraction. Review intentionally when adding data.
@@ -24,10 +24,37 @@ test("original IDs stay stable, with grouped card IDs retained separately for re
     "0fe9bd95e1a91e9d235c44f188d419441c49f99041f9a1978a973309747ba11d");
 });
 
+test("Rainy Day has three independent Blue Leaf Hats and preserves the old grouped mark for review", () => {
+  const weather = DECOR_LOCATIONS.find(group => group.location === "Weather");
+  const rain = weather.costumes.find(costume => costume.name === "Rainy Day: Leaf Hat");
+  assert.deepEqual(rain.designs, ["1", "2", "3"]);
+  assert.equal(rain.color, "Blue");
+  assert.deepEqual(rain.colors, ["Blue"]);
+  const old = "weather__rainy_day_leaf_hat__Blue";
+  const exact = decorId("Weather", rain.name, "2");
+  const saved = { [old]: true, [exact]: true, [LEGACY_GROUPED_ENTRIES[0].id]: true };
+  const before = structuredClone(saved);
+  assert.deepEqual(countDecorGroups([{ ...weather, costumes: [rain] }], saved), { total: 3, done: 1 });
+  assert.deepEqual(pendingLegacyDecor(saved, "regular").map(entry => entry.id), [old]);
+  assert.equal(pendingLegacyDecor(saved, "special").length, 1);
+  assert.equal(pendingLegacyDecor(saved).length, 2);
+  assert.deepEqual(saved, before);
+});
+
+test("Chess has separate seven-species white and black sets without guessed ownership", () => {
+  const chess = DECOR_SPECIAL_CATEGORIES.find(group => group.location === "Chess Piece");
+  assert.deepEqual(chess.costumes.map(costume => costume.name), ["Chess Piece: White", "Chess Piece: Black"]);
+  for (const costume of chess.costumes) assert.deepEqual(costume.colors, PIKMIN_COLORS.filter(color => color !== "Ice"));
+  const saved = { chess_piece__chess_piece__Red: true, chess_piece__chess_piece_black__Blue: true };
+  assert.deepEqual(countDecorGroups([chess], saved), { total: 14, done: 1 });
+  assert.equal(pendingLegacyDecor(saved, "special").length, 1);
+  assert.equal(pendingLegacyDecor(saved, "regular").length, 0);
+});
+
 test("legacy selected/unselected entries retain progress with the expanded collection totals", () => {
   const saved = { restaurant__chef_hat__Red: true, restaurant__chef_hat__Blue: false };
-  assert.deepEqual(countDecorGroups(DECOR_LOCATIONS, saved), { total: 522, done: 1 });
-  assert.deepEqual(countDecorGroups(DECOR_SPECIAL_CATEGORIES, saved), { total: 522, done: 0 });
+  assert.deepEqual(countDecorGroups(DECOR_LOCATIONS, saved), { total: 524, done: 1 });
+  assert.deepEqual(countDecorGroups(DECOR_SPECIAL_CATEGORIES, saved), { total: 529, done: 0 });
 });
 
 test("card sets track every verified design without inferring species or sibling ownership", () => {
@@ -40,10 +67,10 @@ test("card sets track every verified design without inferring species or sibling
   assert.equal(countDecorGroups([{ ...hanafuda, costumes: hanafuda.costumes.filter(c => c.name.includes("Volume 2")) }], {}).total, 16);
   const mahjongRed = find("Mahjong Tile").costumes.find(c => c.color === "Red");
   assert.deepEqual(mahjongRed.designs, ["1", "2"]);
-  const old = LEGACY_CARD_ENTRIES[0];
-  const saved = { [old.id]: true, [LEGACY_CARD_ENTRIES[1].id]: false, restaurant__chef_hat__Red: true };
+  const old = LEGACY_GROUPED_ENTRIES[0];
+  const saved = { [old.id]: true, [LEGACY_GROUPED_ENTRIES[1].id]: false, restaurant__chef_hat__Red: true };
   const before = structuredClone(saved);
-  assert.deepEqual(pendingLegacyCards(saved), [old]);
+  assert.deepEqual(pendingLegacyDecor(saved), [old]);
   assert.deepEqual(countDecorGroups([hanafuda], saved), { total: 40, done: 0 });
   const costume = hanafuda.costumes[0], first = decorId(hanafuda.location, costume.name, costume.designs[0]);
   saved[first] = true;

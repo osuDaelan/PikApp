@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { CALCULATOR_FIELDS } from "../src/storage/calculatorBackupData.js";
 import { defaultMapState, MAP_STORAGE_KEY } from "../src/features/decor-map/mapStorage.js";
-import { LEGACY_CARD_ENTRIES, pendingLegacyCards } from "../src/features/decor/legacyCards.js";
+import { LEGACY_GROUPED_ENTRIES, pendingLegacyDecor } from "../src/features/decor/legacyDecor.js";
 import { createProgressBackup, parseProgressBackup, summarizeProgressBackup, applyProgressBackup,
   readProgressRecovery, PROGRESS_RECOVERY_KEY, MAX_PROGRESS_BACKUP_BYTES } from "../src/storage/progressTransfer.js";
 
@@ -46,20 +46,54 @@ function rawSnapshot(value) {
 
 test("old grouped card marks and new designs survive transfer without guessing ownership", () => {
   const source = snapshot();
-  const old = LEGACY_CARD_ENTRIES[0].id;
+  const old = LEGACY_GROUPED_ENTRIES[0].id;
   const card = "hanafuda_card__hanafuda_card_volume_1_red__1";
   source.decor.collected[old] = true;
-  source.decor.collected[LEGACY_CARD_ENTRIES[1].id] = false;
+  source.decor.collected[LEGACY_GROUPED_ENTRIES[1].id] = false;
   source.decor.collected[card] = true;
   const parsed = parseProgressBackup(createProgressBackup(source, date));
   assert.deepEqual(parsed.decor, source.decor);
-  assert.equal(pendingLegacyCards(parsed.decor.collected).length, 1);
+  assert.equal(pendingLegacyDecor(parsed.decor.collected).length, 1);
   assert.equal(summarizeProgressBackup(parsed).collected, 2); // Chef + exact card, not the old grouped mark.
-  assert.equal(summarizeProgressBackup(parsed).pendingCardReviews, 1);
+  assert.equal(summarizeProgressBackup(parsed).pendingDecorReviews, 1);
   const storage = memoryStorage(rawSnapshot(snapshot()));
   applyProgressBackup(parsed, { current: snapshot(), getStorage: () => storage, now: () => Date.parse(date) });
   assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")), source.decor.collected);
   assert.equal(JSON.parse(storage.getItem("pb_decorCollected"))["hanafuda_card__hanafuda_card_volume_1_red__2"], undefined);
+});
+
+test("grouped Rainy Day and exact Leaf Hat marks round-trip without guessing ownership", () => {
+  const source = snapshot();
+  source.decor.collected.weather__rainy_day_leaf_hat__Blue = true;
+  source.decor.collected.weather__rainy_day_leaf_hat__2 = true;
+  source.decor.collected.weather__rainy_day_leaf_hat__3 = false;
+  const parsed = parseProgressBackup(createProgressBackup(source, date));
+  assert.deepEqual(parsed.decor, source.decor);
+  assert.equal(summarizeProgressBackup(parsed).collected, 2);
+  assert.equal(summarizeProgressBackup(parsed).pendingDecorReviews, 1);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(parsed, { current: snapshot(), getStorage: () => storage, now: () => Date.parse(date) });
+  assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")), source.decor.collected);
+  assert.equal(parsed.decor.collected.weather__rainy_day_leaf_hat__1, undefined);
+});
+
+test("old Chess marks and exact white/black choices survive export, import and review", () => {
+  const source = snapshot();
+  source.decor.collected.chess_piece__chess_piece__Red = true;
+  source.decor.collected.chess_piece__chess_piece_white__Blue = true;
+  source.decor.collected.chess_piece__chess_piece_black__Blue = false;
+  const parsed = parseProgressBackup(createProgressBackup(source, date));
+  assert.deepEqual(parsed.decor, source.decor);
+  assert.equal(summarizeProgressBackup(parsed).collected, 2);
+  assert.equal(summarizeProgressBackup(parsed).pendingDecorReviews, 1);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(parsed, { current: snapshot(), getStorage: () => storage, now: () => Date.parse(date) });
+  const saved = JSON.parse(storage.getItem("pb_decorCollected"));
+  assert.deepEqual(saved, source.decor.collected);
+  for (const entry of pendingLegacyDecor(saved, "special")) saved[entry.id] = false;
+  assert.equal(saved.chess_piece__chess_piece_white__Blue, true);
+  assert.equal(saved.chess_piece__chess_piece_black__Blue, false);
+  assert.equal(saved.chess_piece__chess_piece_white__Red, undefined);
 });
 
 test("full backups round-trip calculator, explicit decor removals, map settings and private notes", () => {
@@ -68,7 +102,7 @@ test("full backups round-trip calculator, explicit decor removals, map settings 
   const parsed = parseProgressBackup(text);
   assert.deepEqual(parsed, { format: "pikapp-progress", version: 1, exportedAt: date, ...source });
   assert.equal(parsed.decor.collected[blue], false);
-  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingCardReviews: 0, pins: 1, exportedAt: date });
+  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingDecorReviews: 0, pins: 1, exportedAt: date });
   assert.equal(text.includes("accessToken"), false);
 });
 

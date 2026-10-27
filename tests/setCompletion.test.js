@@ -35,7 +35,9 @@ test("numbered and single-species sets use their actual requirements", () => {
   const rain = findSet("Weather", "Rainy Day: Leaf Hat");
   assert.equal(battery.ids.length, 6);
   assert.equal(lights.ids.length, 2);
-  assert.equal(rain.ids.length, 1);
+  assert.equal(rain.ids.length, 3);
+  assert.deepEqual(newlyCompletedSets({}, collected(rain.ids.slice(0, 1))), []);
+  assert.deepEqual(newlyCompletedSets({ weather__rainy_day_leaf_hat__Blue: true }, collected(rain.ids.slice(0, 2))), []);
   assert.deepEqual(newlyCompletedSets(collected(battery.ids.slice(0, 5)), collected(battery.ids)), [battery]);
   assert.deepEqual(newlyCompletedSets({}, collected([...lights.ids, ...rain.ids])), [lights, rain]);
 });
@@ -47,4 +49,14 @@ test("uncollecting and genuinely completing the set again produces a new transit
   assert.deepEqual(newlyCompletedSets(complete, incomplete), []);
   assert.deepEqual(newlyCompletedSets(incomplete, complete), [chef]);
   assert.equal(new Set(DECOR_SETS.map(set => set.id)).size, DECOR_SETS.length);
+});
+
+test("white and black Chess rows complete separately, ignoring retired grouped marks", () => {
+  const white = findSet("Chess Piece", "Chess Piece: White");
+  const black = findSet("Chess Piece", "Chess Piece: Black");
+  assert.equal(white.ids.length, 7);
+  assert.equal(black.ids.length, 7);
+  const old = { chess_piece__chess_piece__Red: true };
+  assert.deepEqual(newlyCompletedSets(old, { ...old, ...collected(black.ids) }), [black]);
+  assert.deepEqual(newlyCompletedSets(collected(white.ids), collected([...white.ids, ...black.ids])), [black]);
 });

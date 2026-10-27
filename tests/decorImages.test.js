@@ -33,7 +33,7 @@ test("every existing checklist entry resolves to its own verified PNG and source
       }
     }
   }
-  assert.equal(entries, 1044);
+  assert.equal(entries, 1053);
   assert.equal(sources.size, entries);
   assert.equal(getDecorImage("unknown_decor"), null);
 });
@@ -47,6 +47,12 @@ test("rare, numbered, and representative event mappings stay distinct and respec
   const hanafuda = getDecorImage(decorId("Hanafuda Card", "Hanafuda Card (Volume 1): Red", "1"));
   assert.equal(hanafuda.representative, false);
   assert.notEqual(hanafuda.file, getDecorImage(decorId("Hanafuda Card", "Hanafuda Card (Volume 1): Red", "2")).file);
-  assert.equal(getDecorImage(decorId("Weather", "Rainy Day: Leaf Hat", "Blue")).representative, true);
+  assert.equal(getDecorImage(decorId("Weather", "Rainy Day: Leaf Hat", "3")).representative, false);
+  const whiteChess = getDecorImage(decorId("Chess Piece", "Chess Piece: White", "Blue"));
+  const blackChess = getDecorImage(decorId("Chess Piece", "Chess Piece: Black", "Blue"));
+  assert.notEqual(whiteChess.file, blackChess.file);
+  assert.match(whiteChess.alt, /white Chess/);
+  assert.match(blackChess.alt, /black Chess/);
+  assert.equal(blackChess.representative, false);
   assert.equal(decorImageUrl(base, "/PikApp/"), `/PikApp/images/decor/${base.file}`);
 });

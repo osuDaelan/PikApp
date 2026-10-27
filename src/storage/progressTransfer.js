@@ -1,7 +1,7 @@
 import { CALCULATOR_FIELDS, calculatorSnapshot, validCalculatorSnapshot } from "./calculatorBackupData.js";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "../features/decor/catalog.js";
 import { decorId } from "../features/decor/collection.js";
-import { LEGACY_CARD_ENTRIES, pendingLegacyCards } from "../features/decor/legacyCards.js";
+import { LEGACY_GROUPED_ENTRIES, pendingLegacyDecor } from "../features/decor/legacyDecor.js";
 import { CATEGORY_BY_ID } from "../features/decor-map/categories.js";
 import { validViewport } from "../features/decor-map/coordinates.js";
 import { DATA_SOURCES } from "../features/decor-map/providers.js";
@@ -13,7 +13,7 @@ const UPDATED_KEY = "pb_localCalculatorUpdatedAt";
 const RAW_KEYS = [...CALCULATOR_FIELDS.map(field => `pb_${field}`), "pb_decorCollected", "pb_showAllDecor", MAP_STORAGE_KEY, UPDATED_KEY];
 const ACTIVE_DECOR_IDS = new Set([...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES].flatMap(group =>
   group.costumes.flatMap(costume => (costume.designs || costume.colors).map(variant => decorId(group.location, costume.name, variant)))));
-const KNOWN_DECOR_IDS = new Set([...ACTIVE_DECOR_IDS, ...LEGACY_CARD_ENTRIES.map(entry => entry.id)]);
+const KNOWN_DECOR_IDS = new Set([...ACTIVE_DECOR_IDS, ...LEGACY_GROUPED_ENTRIES.map(entry => entry.id)]);
 const PIN_FIELDS = ["id", "name", "notes", "lat", "lng", "categoryIds", "osmId", "createdAt", "updatedAt"];
 
 function failure(message, code = "invalid-backup", flags = {}) {
@@ -96,7 +96,7 @@ export function parseProgressBackup(text) {
 export function summarizeProgressBackup(value) {
   const backup = normalizedBackup(value);
   return { level: backup.calculator.level, collected: Object.entries(backup.decor.collected).filter(([id, checked]) => checked && ACTIVE_DECOR_IDS.has(id)).length,
-    pendingCardReviews: pendingLegacyCards(backup.decor.collected).length,
+    pendingDecorReviews: pendingLegacyDecor(backup.decor.collected).length,
     pins: backup.map.pins.length, exportedAt: backup.exportedAt };
 }
 

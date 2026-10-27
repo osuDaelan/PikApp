@@ -152,7 +152,7 @@ export const DECOR_LOCATIONS = [
     { name: "Coin (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Weather", costumes: [
-    { name: "Rainy Day: Leaf Hat", colors: ["Blue"] },
+    { name: "Rainy Day: Leaf Hat", color: "Blue", colors: ["Blue"], designs: ["1", "2", "3"] },
     { name: "Snowy Day: Snow", colors: ["Blue", "White", "Ice"] },
   ]},
   { location: "Fortune", costumes: [
@@ -173,7 +173,8 @@ export const DECOR_SPECIAL_CATEGORIES = [
     { name: "Lunar New Year Ornament: Gold", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Chess Piece", costumes: [
-    { name: "Chess Piece", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Chess Piece: White", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    { name: "Chess Piece: Black", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Fingerboard", costumes: [
     { name: "Fingerboard", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
