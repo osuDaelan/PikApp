@@ -1,5 +1,5 @@
 // Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
-// Updated 2026-10-22; original saved collection IDs remain unchanged.
+// Card designs expanded 2026-10-27; legacy grouped selections are retained for review.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",
@@ -3018,83 +3018,6 @@ export default {
     "width": 248,
     "height": 284
   },
-  "hanafuda_card__hanafuda_card_volume_1__Red": {
-    "file": "hanafuda-card-hanafuda-card-volume-1-red.png",
-    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor (representative design)",
-    "width": 203,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_1__Yellow": {
-    "file": "hanafuda-card-hanafuda-card-volume-1-yellow.png",
-    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor (representative design)",
-    "width": 203,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_1__Blue": {
-    "file": "hanafuda-card-hanafuda-card-volume-1-blue.png",
-    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor (representative design)",
-    "width": 212,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_1__Purple": {
-    "file": "hanafuda-card-hanafuda-card-volume-1-purple.png",
-    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor (representative design)",
-    "width": 216,
-    "height": 321,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Red": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-red.png",
-    "alt": "Red Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 203,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Yellow": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-yellow.png",
-    "alt": "Yellow Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 203,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Blue": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-blue.png",
-    "alt": "Blue Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 212,
-    "height": 258,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Purple": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-purple.png",
-    "alt": "Purple Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 216,
-    "height": 321,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__White": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-white.png",
-    "alt": "White Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 184,
-    "height": 212,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Rock": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-rock.png",
-    "alt": "Rock Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 229,
-    "height": 289,
-    "representative": true
-  },
-  "hanafuda_card__hanafuda_card_volume_2__Winged": {
-    "file": "hanafuda-card-hanafuda-card-volume-2-winged.png",
-    "alt": "Winged Pikmin with Hanafuda Card (Volume 2) decor (representative design)",
-    "width": 205,
-    "height": 286,
-    "representative": true
-  },
   "jack_o_lantern__jack_o_lantern__Red": {
     "file": "jack-o-lantern-jack-o-lantern-red.png",
     "alt": "Red Pikmin with Jack-o'-Lantern decor",
@@ -3749,55 +3672,6 @@ export default {
     "width": 251,
     "height": 308
   },
-  "mahjong_tile__mahjong_tile__Red": {
-    "file": "mahjong-tile-mahjong-tile-red.png",
-    "alt": "Red Pikmin with Mahjong Tile decor (representative design)",
-    "width": 170,
-    "height": 258,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__Yellow": {
-    "file": "mahjong-tile-mahjong-tile-yellow.png",
-    "alt": "Yellow Pikmin with Mahjong Tile decor (representative design)",
-    "width": 186,
-    "height": 258,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__Blue": {
-    "file": "mahjong-tile-mahjong-tile-blue.png",
-    "alt": "Blue Pikmin with Mahjong Tile decor (representative design)",
-    "width": 173,
-    "height": 258,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__Purple": {
-    "file": "mahjong-tile-mahjong-tile-purple.png",
-    "alt": "Purple Pikmin with Mahjong Tile decor (representative design)",
-    "width": 192,
-    "height": 321,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__White": {
-    "file": "mahjong-tile-mahjong-tile-white.png",
-    "alt": "White Pikmin with Mahjong Tile decor (representative design)",
-    "width": 136,
-    "height": 212,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__Rock": {
-    "file": "mahjong-tile-mahjong-tile-rock.png",
-    "alt": "Rock Pikmin with Mahjong Tile decor (representative design)",
-    "width": 229,
-    "height": 289,
-    "representative": true
-  },
-  "mahjong_tile__mahjong_tile__Winged": {
-    "file": "mahjong-tile-mahjong-tile-winged.png",
-    "alt": "Winged Pikmin with Mahjong Tile decor (representative design)",
-    "width": 185,
-    "height": 270,
-    "representative": true
-  },
   "ice_cream__ice_cream_classic__Red": {
     "file": "ice-cream-ice-cream-classic-red.png",
     "alt": "Red Pikmin with Ice Cream: Classic decor",
@@ -4223,55 +4097,6 @@ export default {
     "alt": "Winged Pikmin with Winter Sticker decor",
     "width": 173,
     "height": 232
-  },
-  "playing_card__playing_card__Red": {
-    "file": "playing-card-playing-card-red.png",
-    "alt": "Red Pikmin with Playing Card decor (representative design)",
-    "width": 188,
-    "height": 265,
-    "representative": true
-  },
-  "playing_card__playing_card__Yellow": {
-    "file": "playing-card-playing-card-yellow.png",
-    "alt": "Yellow Pikmin with Playing Card decor (representative design)",
-    "width": 174,
-    "height": 265,
-    "representative": true
-  },
-  "playing_card__playing_card__Blue": {
-    "file": "playing-card-playing-card-blue.png",
-    "alt": "Blue Pikmin with Playing Card decor (representative design)",
-    "width": 187,
-    "height": 265,
-    "representative": true
-  },
-  "playing_card__playing_card__Purple": {
-    "file": "playing-card-playing-card-purple.png",
-    "alt": "Purple Pikmin with Playing Card decor (representative design)",
-    "width": 214,
-    "height": 321,
-    "representative": true
-  },
-  "playing_card__playing_card__White": {
-    "file": "playing-card-playing-card-white.png",
-    "alt": "White Pikmin with Playing Card decor (representative design)",
-    "width": 189,
-    "height": 217,
-    "representative": true
-  },
-  "playing_card__playing_card__Rock": {
-    "file": "playing-card-playing-card-rock.png",
-    "alt": "Rock Pikmin with Playing Card decor (representative design)",
-    "width": 229,
-    "height": 289,
-    "representative": true
-  },
-  "playing_card__playing_card__Winged": {
-    "file": "playing-card-playing-card-winged.png",
-    "alt": "Winged Pikmin with Playing Card decor (representative design)",
-    "width": 212,
-    "height": 250,
-    "representative": true
   },
   "cheese__cheese__Red": {
     "file": "cheese-cheese-red.png",
@@ -5886,5 +5711,663 @@ export default {
     "alt": "Ice Pikmin with Wurst decor",
     "width": 291,
     "height": 308
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__6": {
+    "file": "hanafuda-card-volume-1-red-6.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 6",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__5": {
+    "file": "hanafuda-card-volume-1-red-5.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 5",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-1-yellow.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-1-blue.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-1-purple.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__2": {
+    "file": "hanafuda-card-volume-1-purple-2.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-1-red.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__2": {
+    "file": "hanafuda-card-volume-1-red-2.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__2": {
+    "file": "hanafuda-card-volume-1-yellow-2.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__2": {
+    "file": "hanafuda-card-volume-1-blue-2.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__3": {
+    "file": "hanafuda-card-volume-1-red-3.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 3",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__3": {
+    "file": "hanafuda-card-volume-1-yellow-3.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 3",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__3": {
+    "file": "hanafuda-card-volume-1-blue-3.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 3",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__3": {
+    "file": "hanafuda-card-volume-1-purple-3.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 3",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_red__4": {
+    "file": "hanafuda-card-volume-1-red-4.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 1) decor, design 4",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__4": {
+    "file": "hanafuda-card-volume-1-yellow-4.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 4",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__4": {
+    "file": "hanafuda-card-volume-1-blue-4.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 4",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__4": {
+    "file": "hanafuda-card-volume-1-purple-4.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 4",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__5": {
+    "file": "hanafuda-card-volume-1-yellow-5.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 5",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__5": {
+    "file": "hanafuda-card-volume-1-blue-5.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 5",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__5": {
+    "file": "hanafuda-card-volume-1-purple-5.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 5",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_yellow__6": {
+    "file": "hanafuda-card-volume-1-yellow-6.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 1) decor, design 6",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_blue__6": {
+    "file": "hanafuda-card-volume-1-blue-6.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 1) decor, design 6",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_1_purple__6": {
+    "file": "hanafuda-card-volume-1-purple-6.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 1) decor, design 6",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_red__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-red.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_yellow__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-yellow.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_blue__2": {
+    "file": "hanafuda-card-volume-2-blue-2.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_rock__3": {
+    "file": "hanafuda-card-volume-2-rock-3.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Hanafuda Card (Volume 2) decor, design 3",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_rock__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-rock.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_winged__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-winged.png",
+    "width": 205,
+    "height": 286,
+    "alt": "Winged Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_blue__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-blue.png",
+    "width": 212,
+    "height": 258,
+    "alt": "Blue Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_purple__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-purple.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_white__1": {
+    "file": "hanafuda-card-hanafuda-card-volume-2-white.png",
+    "width": 184,
+    "height": 212,
+    "alt": "White Pikmin with Hanafuda Card (Volume 2) decor, design 1",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_red__2": {
+    "file": "hanafuda-card-volume-2-red-2.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Red Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_yellow__2": {
+    "file": "hanafuda-card-volume-2-yellow-2.png",
+    "width": 203,
+    "height": 258,
+    "alt": "Yellow Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_purple__2": {
+    "file": "hanafuda-card-volume-2-purple-2.png",
+    "width": 216,
+    "height": 321,
+    "alt": "Purple Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_white__2": {
+    "file": "hanafuda-card-volume-2-white-2.png",
+    "width": 184,
+    "height": 212,
+    "alt": "White Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_winged__2": {
+    "file": "hanafuda-card-volume-2-winged-2.png",
+    "width": 205,
+    "height": 286,
+    "alt": "Winged Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_rock__2": {
+    "file": "hanafuda-card-volume-2-rock-2.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Hanafuda Card (Volume 2) decor, design 2",
+    "representative": false
+  },
+  "hanafuda_card__hanafuda_card_volume_2_winged__3": {
+    "file": "hanafuda-card-volume-2-winged-3.png",
+    "width": 205,
+    "height": 286,
+    "alt": "Winged Pikmin with Hanafuda Card (Volume 2) decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_red__2": {
+    "file": "mahjong-tile-red-2.png",
+    "width": 170,
+    "height": 258,
+    "alt": "Red Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_yellow__2": {
+    "file": "mahjong-tile-yellow-2.png",
+    "width": 186,
+    "height": 258,
+    "alt": "Yellow Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_blue__2": {
+    "file": "mahjong-tile-blue-2.png",
+    "width": 173,
+    "height": 258,
+    "alt": "Blue Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_white__1": {
+    "file": "mahjong-tile-mahjong-tile-white.png",
+    "width": 136,
+    "height": 212,
+    "alt": "White Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_yellow__3": {
+    "file": "mahjong-tile-yellow-3.png",
+    "width": 186,
+    "height": 258,
+    "alt": "Yellow Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_blue__3": {
+    "file": "mahjong-tile-blue-3.png",
+    "width": 173,
+    "height": 258,
+    "alt": "Blue Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_white__3": {
+    "file": "mahjong-tile-white-3.png",
+    "width": 136,
+    "height": 212,
+    "alt": "White Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_purple__3": {
+    "file": "mahjong-tile-purple-3.png",
+    "width": 192,
+    "height": 321,
+    "alt": "Purple Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_rock__3": {
+    "file": "mahjong-tile-rock-3.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_winged__3": {
+    "file": "mahjong-tile-winged-3.png",
+    "width": 185,
+    "height": 270,
+    "alt": "Winged Pikmin with Mahjong Tile decor, design 3",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_red__1": {
+    "file": "mahjong-tile-mahjong-tile-red.png",
+    "width": 170,
+    "height": 258,
+    "alt": "Red Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_yellow__1": {
+    "file": "mahjong-tile-mahjong-tile-yellow.png",
+    "width": 186,
+    "height": 258,
+    "alt": "Yellow Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_blue__1": {
+    "file": "mahjong-tile-mahjong-tile-blue.png",
+    "width": 173,
+    "height": 258,
+    "alt": "Blue Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_purple__1": {
+    "file": "mahjong-tile-mahjong-tile-purple.png",
+    "width": 192,
+    "height": 321,
+    "alt": "Purple Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_winged__1": {
+    "file": "mahjong-tile-mahjong-tile-winged.png",
+    "width": 185,
+    "height": 270,
+    "alt": "Winged Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_rock__1": {
+    "file": "mahjong-tile-mahjong-tile-rock.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Mahjong Tile decor, design 1",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_purple__2": {
+    "file": "mahjong-tile-purple-2.png",
+    "width": 192,
+    "height": 321,
+    "alt": "Purple Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_white__2": {
+    "file": "mahjong-tile-white-2.png",
+    "width": 136,
+    "height": 212,
+    "alt": "White Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_winged__2": {
+    "file": "mahjong-tile-winged-2.png",
+    "width": 185,
+    "height": 270,
+    "alt": "Winged Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_rock__2": {
+    "file": "mahjong-tile-rock-2.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Mahjong Tile decor, design 2",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_yellow__4": {
+    "file": "mahjong-tile-yellow-4.png",
+    "width": 186,
+    "height": 258,
+    "alt": "Yellow Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_blue__4": {
+    "file": "mahjong-tile-blue-4.png",
+    "width": 173,
+    "height": 258,
+    "alt": "Blue Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_purple__4": {
+    "file": "mahjong-tile-purple-4.png",
+    "width": 192,
+    "height": 321,
+    "alt": "Purple Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_white__4": {
+    "file": "mahjong-tile-white-4.png",
+    "width": 136,
+    "height": 212,
+    "alt": "White Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_winged__4": {
+    "file": "mahjong-tile-winged-4.png",
+    "width": 185,
+    "height": 270,
+    "alt": "Winged Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_rock__4": {
+    "file": "mahjong-tile-rock-4.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Mahjong Tile decor, design 4",
+    "representative": false
+  },
+  "mahjong_tile__mahjong_tile_white__5": {
+    "file": "mahjong-tile-white-5.png",
+    "width": 136,
+    "height": 212,
+    "alt": "White Pikmin with Mahjong Tile decor, design 5",
+    "representative": false
+  },
+  "playing_card__playing_card_red__3": {
+    "file": "playing-card-red-3.png",
+    "width": 188,
+    "height": 265,
+    "alt": "Red Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_yellow__3": {
+    "file": "playing-card-yellow-3.png",
+    "width": 174,
+    "height": 265,
+    "alt": "Yellow Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_blue__3": {
+    "file": "playing-card-blue-3.png",
+    "width": 187,
+    "height": 265,
+    "alt": "Blue Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_purple__3": {
+    "file": "playing-card-purple-3.png",
+    "width": 214,
+    "height": 321,
+    "alt": "Purple Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_white__3": {
+    "file": "playing-card-white-3.png",
+    "width": 189,
+    "height": 217,
+    "alt": "White Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_winged__3": {
+    "file": "playing-card-winged-3.png",
+    "width": 212,
+    "height": 250,
+    "alt": "Winged Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_rock__3": {
+    "file": "playing-card-rock-3.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Playing Card decor, design 3",
+    "representative": false
+  },
+  "playing_card__playing_card_red__4": {
+    "file": "playing-card-red-4.png",
+    "width": 188,
+    "height": 265,
+    "alt": "Red Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_yellow__4": {
+    "file": "playing-card-yellow-4.png",
+    "width": 174,
+    "height": 265,
+    "alt": "Yellow Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_blue__4": {
+    "file": "playing-card-blue-4.png",
+    "width": 187,
+    "height": 265,
+    "alt": "Blue Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_purple__4": {
+    "file": "playing-card-purple-4.png",
+    "width": 214,
+    "height": 321,
+    "alt": "Purple Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_winged__4": {
+    "file": "playing-card-winged-4.png",
+    "width": 212,
+    "height": 250,
+    "alt": "Winged Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_rock__4": {
+    "file": "playing-card-rock-4.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Playing Card decor, design 4",
+    "representative": false
+  },
+  "playing_card__playing_card_red__1": {
+    "file": "playing-card-playing-card-red.png",
+    "width": 188,
+    "height": 265,
+    "alt": "Red Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_yellow__1": {
+    "file": "playing-card-playing-card-yellow.png",
+    "width": 174,
+    "height": 265,
+    "alt": "Yellow Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_blue__1": {
+    "file": "playing-card-playing-card-blue.png",
+    "width": 187,
+    "height": 265,
+    "alt": "Blue Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_purple__1": {
+    "file": "playing-card-playing-card-purple.png",
+    "width": 214,
+    "height": 321,
+    "alt": "Purple Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_white__1": {
+    "file": "playing-card-playing-card-white.png",
+    "width": 189,
+    "height": 217,
+    "alt": "White Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_winged__1": {
+    "file": "playing-card-playing-card-winged.png",
+    "width": 212,
+    "height": 250,
+    "alt": "Winged Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_rock__1": {
+    "file": "playing-card-playing-card-rock.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Playing Card decor, design 1",
+    "representative": false
+  },
+  "playing_card__playing_card_red__2": {
+    "file": "playing-card-red-2.png",
+    "width": 188,
+    "height": 265,
+    "alt": "Red Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_yellow__2": {
+    "file": "playing-card-yellow-2.png",
+    "width": 174,
+    "height": 265,
+    "alt": "Yellow Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_blue__2": {
+    "file": "playing-card-blue-2.png",
+    "width": 187,
+    "height": 265,
+    "alt": "Blue Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_white__2": {
+    "file": "playing-card-white-2.png",
+    "width": 189,
+    "height": 217,
+    "alt": "White Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_winged__2": {
+    "file": "playing-card-winged-2.png",
+    "width": 212,
+    "height": 250,
+    "alt": "Winged Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_rock__2": {
+    "file": "playing-card-rock-2.png",
+    "width": 229,
+    "height": 289,
+    "alt": "Rock Pikmin with Playing Card decor, design 2",
+    "representative": false
+  },
+  "playing_card__playing_card_purple__2": {
+    "file": "playing-card-purple-2.png",
+    "width": 214,
+    "height": 321,
+    "alt": "Purple Pikmin with Playing Card decor, design 2",
+    "representative": false
   }
 };

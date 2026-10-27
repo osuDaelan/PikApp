@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and one private feedback form, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
-Last reviewed October 24, 2026, after the Mushrooms page. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 27, 2026, after the individual card-design expansion. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -20,12 +20,13 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-Images now cover all 975 current checklist entries, including regular, rare, special/event, and numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading, memoized rendering, and confetti only during interaction. Sources/checksums are recorded per asset; 36 grouped entries use a marked representative design. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining real-device performance checks. Existing IDs and saved progress are unchanged.
+Images cover all 1,044 current checklist entries, including regular, rare, special/event and numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; 11 remaining grouped entries use representative designs. The October 27 card expansion retains old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
 
 - [x] Recheck regular/event galleries on October 22 and add 79 missing entries with verified artwork: 975 total (522 regular/rare, 453 event).
 - [x] Preserve all 896 original IDs and test old/new full-progress backup compatibility. Full suite: 114 tests; production build and ordinary browser persistence checks pass.
 - [ ] Recheck species and rare rows as well as category names when new decor is released; do not infer availability solely from a filename elsewhere.
-- [ ] Track individual designs in older grouped categories only as a separate task with explicit save compatibility rules; keep representative flags until then.
+- [x] Expand Hanafuda (24 + 16), Playing Card (27) and Mahjong (27) into individual pictured designs. Preserve the 25 older grouped marks for explicit review and keep old/new progress backups compatible.
+- [ ] Expand remaining grouped Theme Park tickets, Rainy Day Leaf Hats and Chess Pieces with explicit save compatibility rules; keep their representative flags until then.
 
 ### Asset preparation
 

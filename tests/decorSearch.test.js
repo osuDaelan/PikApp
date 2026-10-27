@@ -22,7 +22,7 @@ test("empty searches preserve the original catalog references, order and stable 
   const { regular, special } = results("  \u3000 ");
   assert.equal(regular, DECOR_LOCATIONS);
   assert.equal(special, DECOR_SPECIAL_CATEGORIES);
-  assert.equal(ids("").length, 975);
+  assert.equal(ids("").length, 1044);
   assert.deepEqual(ids("!not-an-existing-costume"), ids(""));
 });
 
@@ -42,6 +42,20 @@ test("all eight species filter individual tiles, including the species of number
   assert.ok(ids('"ice"').length > ids("ice").length);
 });
 
+test("individual card designs support species, volume, design and ownership searches", () => {
+  assert.equal(ids("hanafuda").length, 40);
+  assert.equal(ids("mahjong").length, 27);
+  assert.equal(ids("playing card").length, 27);
+  assert.equal(ids("red hanafuda").length, 8);
+  assert.deepEqual(ids('red "Hanafuda Card (Volume 1)" "design 6"'), ["hanafuda_card__hanafuda_card_volume_1_red__6"]);
+  assert.equal(ids('red mahjong "design 3"').length, 0);
+  const legacy = { playing_card__playing_card__Red: true };
+  assert.deepEqual(ids("collected playing card", legacy), []);
+  const exact = "playing_card__playing_card_red__1";
+  assert.deepEqual(ids("collected playing card", { ...legacy, [exact]: true }), [exact]);
+  assert.equal(ids("missing playing card", { ...legacy, [exact]: true }).length, 26);
+});
+
 test("text searches cover categories, partial costume names, species labels, accents and phrases", () => {
   assert.equal(ids("ReStAuRaNt").length, 66); // Includes all restaurant categories.
   assert.deepEqual(ids("cafe"), ids("CAFÉ"));
@@ -56,7 +70,7 @@ test("collected and missing reflect live progress and do not modify it", () => {
   const saved = { [redChef]: true, [blueChef]: false, [redRareChef]: true, unrelated: true };
   const before = structuredClone(saved);
   assert.deepEqual(ids("collected", saved), [redChef, redRareChef]);
-  assert.equal(ids("missing", saved).length, 973);
+  assert.equal(ids("missing", saved).length, 1042);
   assert.ok(ids("missing", saved).includes(blueChef));
   assert.deepEqual(saved, before);
   assert.deepEqual(ids("collected restaurant !rare", { ...saved, [blueChef]: true }), [redChef, blueChef]);
@@ -65,7 +79,7 @@ test("collected and missing reflect live progress and do not modify it", () => {
 test("rare, regular and event/special filters use catalog metadata, not names", () => {
   assert.equal(ids("rare").length, 107);
   assert.equal(ids("regular").length, 522);
-  assert.equal(ids("event").length, 453);
+  assert.equal(ids("event").length, 522);
   assert.deepEqual(ids("special"), ids("event"));
   assert.equal(ids("regular !rare").length, 415);
   assert.equal(ids("event rare").length, 0);

@@ -72,7 +72,7 @@ Guest fields keep the original keys and formats:
 | showAllDecor | `pb_showAllDecor` | `true` / `false` string |
 | totalStepsMode | `pb_totalStepsMode` | `true` / `false` string |
 
-Collection names, variants, and ID generation remain unchanged, so existing valid saves need no migration. Tests verify the original 896 IDs. Browser saves remain tied to the origin: changing hostname or port creates a separate browser storage area.
+Unaffected collection names, variants and ID generation remain unchanged. The October 27 card expansion retires 25 ambiguous color-level card IDs from the active checklist while retaining them in `legacyCards.js` for browser-save and version-1 backup compatibility. A checked old card mark requires explicit user review; it does not select any exact design. The other 871 original IDs remain active. Tests cover this boundary, exact-design toggles, pending-review counts and transfer of old/new marks. Browser saves remain tied to the origin: changing hostname or port creates a separate browser storage area.
 
 `createProgressStore({ accountId })` provides a separate local cache namespace for a future account. It never automatically imports guest data. This is an organizational boundary, **not authentication or access control**. Future cloud sync must authenticate users, enforce server-side per-user access, handle conflicts/retries, and explicitly import guest progress. Mount fresh state hooks when changing stores/accounts to avoid carrying one session's in-memory state into another. Inject `getStorage` when testing.
 

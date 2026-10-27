@@ -13,6 +13,8 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 
 Some older designs are grouped together and use a representative picture.
 
+Hanafuda, Playing Cards and Mahjong tiles have individual design checkboxes. If you tracked them before this update, a review reminder keeps your older color-level selections available while you choose the exact designs you own.
+
 ## Decor map
 
 - Choose decor categories, zoom into an area, then select **Search this area**. Results stay visible while you move the map; search again to load another area.

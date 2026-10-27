@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import DecorGroup from "./DecorGroup.jsx";
 import DecorSearch from "./DecorSearch.jsx";
+import LegacyCardReview from "./LegacyCardReview.jsx";
 import { compileDecorSearch, searchDecorCatalog } from "./search.js";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "./catalog.js";
 import { countDecorGroups } from "./collection.js";
@@ -84,6 +85,7 @@ export default function DecorSection({ decor, isWide }) {
           <QuickSelectToggle decorBulkMode={decorBulkMode} setDecorBulkMode={setDecorBulkMode} />
         </div>
         <div style={{ fontSize: 11, color: "#aaa" }}>{specialStats.done}/{specialStats.total} collected{search.active ? ` overall · ${specialMatches.total} shown` : " · tap a color to toggle"}</div>
+        <LegacyCardReview collected={decorCollected} onReviewed={ids => bulkSetDecor(ids, false)} />
         {search.active && !search.error && !results.special.length && <p style={{ color: "#666", fontSize: 12 }}>No matching special or event decor. Try another search or clear it.</p>}
         {results.special.map((g, i) => (
           <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor || search.active} />

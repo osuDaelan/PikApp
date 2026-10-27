@@ -1,4 +1,6 @@
-// Catalog reviewed 2026-10-22. New variants are additive; original saved IDs remain unchanged.
+import { CARD_COSTUMES } from "./cardCatalog.js";
+
+// Card designs expanded 2026-10-27. Older grouped card IDs remain readable for review.
 // Sources: pikminwiki.com/Decor_Pikmin and pikminwiki.com/Special_Decor_Pikmin.
 export const DECOR_LOCATIONS = [
   { location: "Restaurant", costumes: [
@@ -177,8 +179,7 @@ export const DECOR_SPECIAL_CATEGORIES = [
     { name: "Fingerboard", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Hanafuda Card", costumes: [
-    { name: "Hanafuda Card (Volume 1)", colors: ["Red", "Yellow", "Blue", "Purple"] },
-    { name: "Hanafuda Card (Volume 2)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    ...CARD_COSTUMES["Hanafuda Card"],
   ]},
   { location: "Jack-o'-Lantern", costumes: [
     { name: "Jack-o'-Lantern", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -232,7 +233,7 @@ export const DECOR_SPECIAL_CATEGORIES = [
     { name: "Pikmin 4 Toy", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged", "Ice"] },
   ]},
   { location: "Mahjong Tile", costumes: [
-    { name: "Mahjong Tile", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    ...CARD_COSTUMES["Mahjong Tile"],
   ]},
   { location: "Ice Cream", costumes: [
     { name: "Ice Cream: Classic", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
@@ -258,7 +259,7 @@ export const DECOR_SPECIAL_CATEGORIES = [
     { name: "Winter Sticker", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
   ]},
   { location: "Playing Card", costumes: [
-    { name: "Playing Card", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },
+    ...CARD_COSTUMES["Playing Card"],
   ]},
   { location: "Cheese", costumes: [
     { name: "Cheese", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Rock", "Winged"] },

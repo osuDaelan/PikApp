@@ -1,5 +1,9 @@
 # Image sources
 
+## Individual card designs — October 27, 2026
+
+Hanafuda (24 Volume 1 and 16 Volume 2), Playing Card (27) and Mahjong Tile (27) now use separate local transparent PNGs for all 94 designs referenced in [Pikipedia's actual special-decor image tables](https://www.pikminwiki.com/Special_Decor_Pikmin). Twenty-five previously used representative files were reused for their matching exact designs and 69 missing PNGs were downloaded. The [inventory](../../docs/decor-image-sources.json) records per-design file pages, original URLs, dimensions, byte sizes and SHA-256 checksums, with the former grouped records archived under `legacyCardImages`. Artwork belongs to Nintendo; these are existing game images, not AI-generated images. Attribution does not grant redistribution permission.
+
 ## Map decor-category icons
 
 Retrieved October 24, 2026 from the actual category symbols in [Pikipedia's Decor Pikmin table](https://www.pikminwiki.com/Decor_Pikmin#Decor_types). All 39 map categories have a local transparent PNG in `decor-categories/`, at most 64px on the longest edge. Together they total 43,247 bytes (about 42 KiB). These are existing Pikmin Bloom game symbols, not AI-generated artwork. The map and sidebar use these original symbols; the temporary emoji comparison was removed after the user chose this style.

@@ -92,6 +92,8 @@ export default function ProgressTransfer({ getSnapshot, onImported, importComple
         <tbody>
           <tr><th scope="row">Level</th><td>{preview.current.level}</td><td>{preview.incoming.level}</td></tr>
           <tr><th scope="row">Collected</th><td>{preview.current.collected}</td><td>{preview.incoming.collected}</td></tr>
+          {(preview.current.pendingCardReviews > 0 || preview.incoming.pendingCardReviews > 0) &&
+            <tr><th scope="row">Older card selections to review</th><td>{preview.current.pendingCardReviews}</td><td>{preview.incoming.pendingCardReviews}</td></tr>}
           <tr><th scope="row">Map pins</th><td>{preview.current.pins}</td><td>{preview.incoming.pins}</td></tr>
         </tbody>
       </table>
