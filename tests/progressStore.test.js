@@ -28,6 +28,18 @@ test("existing guest saves load with their original keys and types", () => {
   });
 });
 
+test("Shrine display preference defaults off and persists without removing collection data", () => {
+  const saved = { fortune__kichi__Rock: true };
+  const storage = memoryStorage({pb_decorCollected: JSON.stringify(saved)});
+  const store = createProgressStore({getStorage: () => storage});
+  assert.equal(store.read("showShrineDecor", false), false);
+  assert.equal(store.write("showShrineDecor", true), true);
+  assert.equal(createProgressStore({getStorage: () => storage}).read("showShrineDecor", false), true);
+  assert.equal(store.write("showShrineDecor", false), true);
+  assert.deepEqual(store.read("decorCollected", {}), saved);
+  assert.equal(storage.getItem("pb_decorCollected"), JSON.stringify(saved));
+});
+
 test("updates remain readable after creating a fresh store", () => {
   const storage = memoryStorage();
   const store = createProgressStore({ getStorage: () => storage });

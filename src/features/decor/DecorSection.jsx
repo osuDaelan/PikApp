@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import DecorGroup from "./DecorGroup.jsx";
 import DecorSearch from "./DecorSearch.jsx";
 import LegacyDecorReview from "./LegacyDecorReview.jsx";
-import { compileDecorSearch, searchDecorCatalog } from "./search.js";
-import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "./catalog.js";
+import { compileDecorSearch, searchDecorCatalog, regularDecorGroups } from "./search.js";
+import { DECOR_SPECIAL_CATEGORIES } from "./catalog.js";
 import { countDecorGroups } from "./collection.js";
 import { colors, cardStyle } from "../../shared/styles/theme.js";
 const { orange: O, darkGreen: DG } = colors;
@@ -52,12 +52,12 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
 
 
 export default function DecorSection({ decor, isWide }) {
-  const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, toggleDecor, bulkSetDecor } = decor;
+  const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor } = decor;
   const search = useMemo(() => compileDecorSearch(decorSearchQuery), [decorSearchQuery]);
-  const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits), [search, decorCollected, recentDecorEdits]);
+  const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits, { showShrineDecor }), [search, decorCollected, recentDecorEdits, showShrineDecor]);
   const regularMatches = countDecorGroups(results.regular, decorCollected);
   const specialMatches = countDecorGroups(results.special, decorCollected);
-  const regularStats = countDecorGroups(DECOR_LOCATIONS, decorCollected);
+  const regularStats = countDecorGroups(regularDecorGroups(showShrineDecor), decorCollected);
   const specialStats = countDecorGroups(DECOR_SPECIAL_CATEGORIES, decorCollected);
   return (
     <>
@@ -73,6 +73,10 @@ export default function DecorSection({ decor, isWide }) {
           </div>
         </div>
         <div style={{ fontSize: 11, color: "#aaa" }}>{regularStats.done}/{regularStats.total} collected{search.active ? ` overall · ${regularMatches.total} shown` : " · tap a color to toggle"}</div>
+        <label style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: DG, cursor: "pointer" }}>
+          <input type="checkbox" checked={showShrineDecor} onChange={event => setShowShrineDecor(event.target.checked)} />
+          Shrine &amp; Temple <span style={{ color: "#777" }}>(Japan)</span>
+        </label>
         <LegacyDecorReview collected={decorCollected} section="regular" onReviewed={ids => bulkSetDecor(ids, false)} />
         {search.active && !search.error && !results.regular.length && <p style={{ color: "#666", fontSize: 12 }}>No matching regular decor. Try another search or clear it.</p>}
         {results.regular.map((g, i) => (

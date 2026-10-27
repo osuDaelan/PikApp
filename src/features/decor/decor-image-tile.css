@@ -15,6 +15,8 @@
 .decor-image-tile__art img { display: block; max-width: 100%; width: auto; height: 88px; object-fit: contain; opacity: .58; filter: saturate(.65); }
 .decor-image-tile[aria-pressed="true"] img { opacity: 1; filter: none; }
 .decor-image-tile__label { font-size: 10px; line-height: 12px; font-weight: 800; }
+.decor-image-tile--named { height: 136px; }
+.decor-image-tile--named .decor-image-tile__label { width: 100%; min-height: 24px; text-align: center; overflow-wrap: anywhere; }
 .decor-image-tile__status {
   position: absolute; top: 4px; right: 4px; width: 17px; height: 17px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;

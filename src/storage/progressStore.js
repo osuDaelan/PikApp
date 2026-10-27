@@ -11,6 +11,7 @@ const fields = {
   coinsNow: "number",
   decorCollected: "collection",
   showAllDecor: "boolean",
+  showShrineDecor: "boolean",
   totalStepsMode: "boolean",
 };
 

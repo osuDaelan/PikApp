@@ -12301,7 +12301,9 @@
       "width": 203,
       "height": 258,
       "bytes": 32349,
-      "sha256": "b839a81b81b7d25fe963a37cf1c0b9afef1dea058ab23a1b18fcb7795cee2fba"
+      "sha256": "b839a81b81b7d25fe963a37cf1c0b9afef1dea058ab23a1b18fcb7795cee2fba",
+      "displayLabel": "December Hanafuda card 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_red__5",
@@ -12314,7 +12316,9 @@
       "width": 203,
       "height": 258,
       "bytes": 30099,
-      "sha256": "1d2344fffa3b2e6b01e3540ab45a5e6d2b506f83c8857db4a5fe143ef95bcf37"
+      "sha256": "1d2344fffa3b2e6b01e3540ab45a5e6d2b506f83c8857db4a5fe143ef95bcf37",
+      "displayLabel": "December Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__1",
@@ -12327,7 +12331,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28136,
-      "sha256": "13fdac530823d7536e0ae24e775191ff93e5af0a92e1fc7d5253e1b5ee2947a9"
+      "sha256": "13fdac530823d7536e0ae24e775191ff93e5af0a92e1fc7d5253e1b5ee2947a9",
+      "displayLabel": "January Hanafuda card 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__1",
@@ -12340,7 +12346,9 @@
       "width": 212,
       "height": 258,
       "bytes": 27189,
-      "sha256": "171cd1d0e036fe6ed932ac83b8c5f5399088bad29706458635f2253e01617adf"
+      "sha256": "171cd1d0e036fe6ed932ac83b8c5f5399088bad29706458635f2253e01617adf",
+      "displayLabel": "February Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__1",
@@ -12353,7 +12361,9 @@
       "width": 216,
       "height": 321,
       "bytes": 33502,
-      "sha256": "6183493b1211ea6b5822afeb86a81093205549594759587d2228bb019fccaba7"
+      "sha256": "6183493b1211ea6b5822afeb86a81093205549594759587d2228bb019fccaba7",
+      "displayLabel": "January Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__2",
@@ -12366,7 +12376,9 @@
       "width": 216,
       "height": 321,
       "bytes": 39785,
-      "sha256": "62d0fe04c92b1137806aab59f4b68216271d3571eddad9987e8062afbdb69db2"
+      "sha256": "62d0fe04c92b1137806aab59f4b68216271d3571eddad9987e8062afbdb69db2",
+      "displayLabel": "February Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_red__1",
@@ -12379,7 +12391,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28450,
-      "sha256": "802e8d82f477a4fa583af25e68f517fe2a627d414b49f41dba80a9235fd65aa8"
+      "sha256": "802e8d82f477a4fa583af25e68f517fe2a627d414b49f41dba80a9235fd65aa8",
+      "displayLabel": "April Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_red__2",
@@ -12392,7 +12406,9 @@
       "width": 203,
       "height": 258,
       "bytes": 27409,
-      "sha256": "dd0d36f2333dde27cad6f2908eb4e7f30d39c6c0c30524446b60151e80fba4af"
+      "sha256": "dd0d36f2333dde27cad6f2908eb4e7f30d39c6c0c30524446b60151e80fba4af",
+      "displayLabel": "April Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__2",
@@ -12405,7 +12421,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28439,
-      "sha256": "70dc479e6d15f6035b7380d65cf39533e88d4ac89a2b4170752985467542168b"
+      "sha256": "70dc479e6d15f6035b7380d65cf39533e88d4ac89a2b4170752985467542168b",
+      "displayLabel": "March Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__2",
@@ -12418,7 +12436,9 @@
       "width": 212,
       "height": 258,
       "bytes": 27689,
-      "sha256": "4873b0535ead38e904c47357514fbf7f3b629187cc68b3826b131a990798d925"
+      "sha256": "4873b0535ead38e904c47357514fbf7f3b629187cc68b3826b131a990798d925",
+      "displayLabel": "March Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_red__3",
@@ -12431,7 +12451,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28882,
-      "sha256": "94197e6ec18d5f44eecfcb3f71e3117afeb1a550ccf88f4c75a234875d732951"
+      "sha256": "94197e6ec18d5f44eecfcb3f71e3117afeb1a550ccf88f4c75a234875d732951",
+      "displayLabel": "July Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__3",
@@ -12444,7 +12466,9 @@
       "width": 203,
       "height": 258,
       "bytes": 32537,
-      "sha256": "20aadce4be6f90bf5242817b12186897ce318cf3b45bc0f37dd1f9928d09f4e2"
+      "sha256": "20aadce4be6f90bf5242817b12186897ce318cf3b45bc0f37dd1f9928d09f4e2",
+      "displayLabel": "May Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__3",
@@ -12457,7 +12481,9 @@
       "width": 212,
       "height": 258,
       "bytes": 27259,
-      "sha256": "e593ed7ce347140796254ffdf15b737baf1a57c4b3a318025f36cf9cf0b9cfc1"
+      "sha256": "e593ed7ce347140796254ffdf15b737baf1a57c4b3a318025f36cf9cf0b9cfc1",
+      "displayLabel": "May Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__3",
@@ -12470,7 +12496,9 @@
       "width": 216,
       "height": 321,
       "bytes": 33746,
-      "sha256": "5403d64a2c8968655e4f5490100e7c2d4fbadba0da66d9fb51a17b2097479278"
+      "sha256": "5403d64a2c8968655e4f5490100e7c2d4fbadba0da66d9fb51a17b2097479278",
+      "displayLabel": "June Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_red__4",
@@ -12483,7 +12511,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28046,
-      "sha256": "23f71225748d9d98d93d707964a74f1e83dee794502f561f6eb90aebba284794"
+      "sha256": "23f71225748d9d98d93d707964a74f1e83dee794502f561f6eb90aebba284794",
+      "displayLabel": "September Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__4",
@@ -12496,7 +12526,9 @@
       "width": 203,
       "height": 258,
       "bytes": 30983,
-      "sha256": "6c34cb4ebd70d2d1dd8813932abb87f6717be8fc741493ec1ce8af8d7727815d"
+      "sha256": "6c34cb4ebd70d2d1dd8813932abb87f6717be8fc741493ec1ce8af8d7727815d",
+      "displayLabel": "August Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__4",
@@ -12509,7 +12541,9 @@
       "width": 212,
       "height": 258,
       "bytes": 32950,
-      "sha256": "e23352150571a86b9fd41e8e40d67a71cf75121e545278ada1cf986bd91a6bec"
+      "sha256": "e23352150571a86b9fd41e8e40d67a71cf75121e545278ada1cf986bd91a6bec",
+      "displayLabel": "June Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__4",
@@ -12522,7 +12556,9 @@
       "width": 216,
       "height": 321,
       "bytes": 32979,
-      "sha256": "b58c1e1baa63f8c65ed418d86616dacea9a61dc53b5277067bfde00e0b1eabf3"
+      "sha256": "b58c1e1baa63f8c65ed418d86616dacea9a61dc53b5277067bfde00e0b1eabf3",
+      "displayLabel": "August Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__5",
@@ -12535,7 +12571,9 @@
       "width": 203,
       "height": 258,
       "bytes": 29584,
-      "sha256": "e9b8dd9ebe41c4629fd7a69e3cb051d0d19e1f324b79115ebaa23940bec3182f"
+      "sha256": "e9b8dd9ebe41c4629fd7a69e3cb051d0d19e1f324b79115ebaa23940bec3182f",
+      "displayLabel": "October Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__5",
@@ -12548,7 +12586,9 @@
       "width": 212,
       "height": 258,
       "bytes": 32350,
-      "sha256": "8ff8920c37aa072aeb16837262c0331cff0073ecbbcfaab1fb795c0d7933be5f"
+      "sha256": "8ff8920c37aa072aeb16837262c0331cff0073ecbbcfaab1fb795c0d7933be5f",
+      "displayLabel": "July Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__5",
@@ -12561,7 +12601,9 @@
       "width": 216,
       "height": 321,
       "bytes": 33787,
-      "sha256": "318d981214d97fd0bf0560f378e536e18ce1243b1dd2a411af2e72b166925c85"
+      "sha256": "318d981214d97fd0bf0560f378e536e18ce1243b1dd2a411af2e72b166925c85",
+      "displayLabel": "September Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_yellow__6",
@@ -12574,7 +12616,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28572,
-      "sha256": "7b3f1806a9e46a5a81ed27c1eed7e39a1f255b75147d462bb52d802f2919c44a"
+      "sha256": "7b3f1806a9e46a5a81ed27c1eed7e39a1f255b75147d462bb52d802f2919c44a",
+      "displayLabel": "November Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_blue__6",
@@ -12587,7 +12631,9 @@
       "width": 212,
       "height": 258,
       "bytes": 26937,
-      "sha256": "78230996a3b3ed2a3b857794d0d0699231ea1c97c6bb1afb4b0cd1ee65b3ffc9"
+      "sha256": "78230996a3b3ed2a3b857794d0d0699231ea1c97c6bb1afb4b0cd1ee65b3ffc9",
+      "displayLabel": "November Hanafuda card 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_1_purple__6",
@@ -12600,7 +12646,9 @@
       "width": 216,
       "height": 321,
       "bytes": 39874,
-      "sha256": "b0d79b0ed2111cb0d3d42320e579c4cd13ac0310eaba59dbd9477439a6bc9740"
+      "sha256": "b0d79b0ed2111cb0d3d42320e579c4cd13ac0310eaba59dbd9477439a6bc9740",
+      "displayLabel": "October Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_red__1",
@@ -12613,7 +12661,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28525,
-      "sha256": "35bd292d799c96e093c01008b68b1e48908b45704b67ef03d8fe95e2e3dc74b6"
+      "sha256": "35bd292d799c96e093c01008b68b1e48908b45704b67ef03d8fe95e2e3dc74b6",
+      "displayLabel": "January Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_yellow__1",
@@ -12626,7 +12676,9 @@
       "width": 203,
       "height": 258,
       "bytes": 28597,
-      "sha256": "61f347db598de7c9f3e5f70ae428203128f6a43f06d4d89a5f8bebbbaac75cd2"
+      "sha256": "61f347db598de7c9f3e5f70ae428203128f6a43f06d4d89a5f8bebbbaac75cd2",
+      "displayLabel": "February Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_blue__2",
@@ -12639,7 +12691,9 @@
       "width": 212,
       "height": 258,
       "bytes": 27131,
-      "sha256": "c5113b46aaeed6867254a43dd64c5d2c0d5eff15cfdc4b67b85ce82156693f35"
+      "sha256": "c5113b46aaeed6867254a43dd64c5d2c0d5eff15cfdc4b67b85ce82156693f35",
+      "displayLabel": "December Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_rock__3",
@@ -12652,7 +12706,9 @@
       "width": 229,
       "height": 289,
       "bytes": 35410,
-      "sha256": "3e996244176dc07d7dd9a7fcd0ef327feff36762567aac719387b7b9e21a800e"
+      "sha256": "3e996244176dc07d7dd9a7fcd0ef327feff36762567aac719387b7b9e21a800e",
+      "displayLabel": "December Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_rock__1",
@@ -12665,7 +12721,9 @@
       "width": 229,
       "height": 289,
       "bytes": 32720,
-      "sha256": "ee821dbac9dc202460ea1cc47f3d282e4946038bc29a30e66cc5d2de87cefe7f"
+      "sha256": "ee821dbac9dc202460ea1cc47f3d282e4946038bc29a30e66cc5d2de87cefe7f",
+      "displayLabel": "January Hanafuda card 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_winged__1",
@@ -12678,7 +12736,9 @@
       "width": 205,
       "height": 286,
       "bytes": 31700,
-      "sha256": "769460be49141bd6541db8ece695c4f0a59b1fc99b373f87a1056fb41818259d"
+      "sha256": "769460be49141bd6541db8ece695c4f0a59b1fc99b373f87a1056fb41818259d",
+      "displayLabel": "February Hanafuda card 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_blue__1",
@@ -12691,7 +12751,9 @@
       "width": 212,
       "height": 258,
       "bytes": 28660,
-      "sha256": "bb32db39cbf1651558bb6bcf70ad95f7aec4c3870b5a306f09400a270d0a5bc4"
+      "sha256": "bb32db39cbf1651558bb6bcf70ad95f7aec4c3870b5a306f09400a270d0a5bc4",
+      "displayLabel": "November Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_purple__1",
@@ -12704,7 +12766,9 @@
       "width": 216,
       "height": 321,
       "bytes": 33816,
-      "sha256": "dd43be45d97f2a9fdd2f445bf83b8910ba6075a94615939e90f34c32bfd162ac"
+      "sha256": "dd43be45d97f2a9fdd2f445bf83b8910ba6075a94615939e90f34c32bfd162ac",
+      "displayLabel": "March Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_white__1",
@@ -12717,7 +12781,9 @@
       "width": 184,
       "height": 212,
       "bytes": 24874,
-      "sha256": "d22db7bc107dfbfb4ecc0d14ee519221b6dcf3865e4ea8900b5e4984e5544ef3"
+      "sha256": "d22db7bc107dfbfb4ecc0d14ee519221b6dcf3865e4ea8900b5e4984e5544ef3",
+      "displayLabel": "September Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_red__2",
@@ -12730,7 +12796,9 @@
       "width": 203,
       "height": 258,
       "bytes": 29571,
-      "sha256": "66bb98ce20df1b49826af03bd9903acf75da262156db9887141e2c984aee1910"
+      "sha256": "66bb98ce20df1b49826af03bd9903acf75da262156db9887141e2c984aee1910",
+      "displayLabel": "May Hanafuda card 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_yellow__2",
@@ -12743,7 +12811,9 @@
       "width": 203,
       "height": 258,
       "bytes": 32444,
-      "sha256": "02a5d4503df75366506e96ce9b0567c851a9504fad21eb3e2cabb604d5622f55"
+      "sha256": "02a5d4503df75366506e96ce9b0567c851a9504fad21eb3e2cabb604d5622f55",
+      "displayLabel": "July Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_purple__2",
@@ -12756,7 +12826,9 @@
       "width": 216,
       "height": 321,
       "bytes": 33546,
-      "sha256": "3e8f432b9c4d996f32a35306fbea471e08f8649d91a5094d355e9f53c4771312"
+      "sha256": "3e8f432b9c4d996f32a35306fbea471e08f8649d91a5094d355e9f53c4771312",
+      "displayLabel": "April Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_white__2",
@@ -12769,7 +12841,9 @@
       "width": 184,
       "height": 212,
       "bytes": 24032,
-      "sha256": "9745dd5e7b9bcb0f45321563b5b72c49a23f27584fa562edbe781eaa1bbbe4af"
+      "sha256": "9745dd5e7b9bcb0f45321563b5b72c49a23f27584fa562edbe781eaa1bbbe4af",
+      "displayLabel": "November Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_winged__2",
@@ -12782,7 +12856,9 @@
       "width": 205,
       "height": 286,
       "bytes": 37567,
-      "sha256": "24d5df101049fdf7df26f326aeb4a7173d806ebca7f949de817f41356359ed28"
+      "sha256": "24d5df101049fdf7df26f326aeb4a7173d806ebca7f949de817f41356359ed28",
+      "displayLabel": "August Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_rock__2",
@@ -12795,7 +12871,9 @@
       "width": 229,
       "height": 289,
       "bytes": 35219,
-      "sha256": "a3b5869f40d736b6603e637bd93c228cb3ec7c851c76c8e8bb9381c8938edd4e"
+      "sha256": "a3b5869f40d736b6603e637bd93c228cb3ec7c851c76c8e8bb9381c8938edd4e",
+      "displayLabel": "June Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "hanafuda_card__hanafuda_card_volume_2_winged__3",
@@ -12808,7 +12886,9 @@
       "width": 205,
       "height": 286,
       "bytes": 31473,
-      "sha256": "3f5bebd917a91ec17fc5c432e37cae03c8f6ae6c229bf928833d61457dfac25f"
+      "sha256": "3f5bebd917a91ec17fc5c432e37cae03c8f6ae6c229bf928833d61457dfac25f",
+      "displayLabel": "October Hanafuda card 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Hanafuda_Card"
     },
     {
       "id": "mahjong_tile__mahjong_tile_red__2",
@@ -12821,7 +12901,9 @@
       "width": 170,
       "height": 258,
       "bytes": 18860,
-      "sha256": "3c8f711556b582039ea66354fc0e5292e2e89d283c3d2d10cc3e404301097995"
+      "sha256": "3c8f711556b582039ea66354fc0e5292e2e89d283c3d2d10cc3e404301097995",
+      "displayLabel": "Green Dragon · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_yellow__2",
@@ -12834,7 +12916,9 @@
       "width": 186,
       "height": 258,
       "bytes": 18186,
-      "sha256": "086639fdba2ac46284ae330c202e647ec06a187347954467c17b5fb9a33018a9"
+      "sha256": "086639fdba2ac46284ae330c202e647ec06a187347954467c17b5fb9a33018a9",
+      "displayLabel": "White Dragon · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_blue__2",
@@ -12847,7 +12931,9 @@
       "width": 173,
       "height": 258,
       "bytes": 21945,
-      "sha256": "d33be206e198b179f82165c36ff5f292975f3763947986a44f3846da211f415e"
+      "sha256": "d33be206e198b179f82165c36ff5f292975f3763947986a44f3846da211f415e",
+      "displayLabel": "Red Dragon · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_white__1",
@@ -12860,7 +12946,9 @@
       "width": 136,
       "height": 212,
       "bytes": 15565,
-      "sha256": "ee0fdb62573f3bd013055b5733a534d66031229779edfc305c6b2475369afb97"
+      "sha256": "ee0fdb62573f3bd013055b5733a534d66031229779edfc305c6b2475369afb97",
+      "displayLabel": "Characters 5 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_yellow__3",
@@ -12873,7 +12961,9 @@
       "width": 186,
       "height": 258,
       "bytes": 24272,
-      "sha256": "5e7496dd2f02059b192add41530a361f5598c45689f0f18a7075dff2f4373fc0"
+      "sha256": "5e7496dd2f02059b192add41530a361f5598c45689f0f18a7075dff2f4373fc0",
+      "displayLabel": "Characters 3 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_blue__3",
@@ -12886,7 +12976,9 @@
       "width": 173,
       "height": 258,
       "bytes": 22605,
-      "sha256": "5f13e9f1b6b35bece1864a6b287e9fb141bd8b252fbe6d6581ceacc32a8417c8"
+      "sha256": "5f13e9f1b6b35bece1864a6b287e9fb141bd8b252fbe6d6581ceacc32a8417c8",
+      "displayLabel": "Characters 4 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_white__3",
@@ -12899,7 +12991,9 @@
       "width": 136,
       "height": 212,
       "bytes": 15115,
-      "sha256": "17da334f895ba8f3ce3247c1e23a515ba55882cbdf0a23769e1a23baaacabb1d"
+      "sha256": "17da334f895ba8f3ce3247c1e23a515ba55882cbdf0a23769e1a23baaacabb1d",
+      "displayLabel": "Characters 2 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_purple__3",
@@ -12912,7 +13006,9 @@
       "width": 192,
       "height": 321,
       "bytes": 29182,
-      "sha256": "12bbc1e55810b534488b369f12165ef38de1cf7e717c5880f1e55cb460b76ba9"
+      "sha256": "12bbc1e55810b534488b369f12165ef38de1cf7e717c5880f1e55cb460b76ba9",
+      "displayLabel": "Characters 6 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_rock__3",
@@ -12925,7 +13021,9 @@
       "width": 229,
       "height": 289,
       "bytes": 35961,
-      "sha256": "d460a02591588cd28e1685681a090bdcdb7ee7dd9d231f0f1e85151d763820d0"
+      "sha256": "d460a02591588cd28e1685681a090bdcdb7ee7dd9d231f0f1e85151d763820d0",
+      "displayLabel": "Characters 7 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_winged__3",
@@ -12938,7 +13036,9 @@
       "width": 185,
       "height": 270,
       "bytes": 20460,
-      "sha256": "052681d84fbd9f7f76a9f020649a4219cf8fbda99c8f3230bc3277b5baccf623"
+      "sha256": "052681d84fbd9f7f76a9f020649a4219cf8fbda99c8f3230bc3277b5baccf623",
+      "displayLabel": "Characters 8 · Tile Set 3",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_red__1",
@@ -12951,7 +13051,9 @@
       "width": 170,
       "height": 258,
       "bytes": 18938,
-      "sha256": "cf88d1898c0f61129c3c68e95309b2cfb39f9d48fa5299bc036f0b7fe5469a53"
+      "sha256": "cf88d1898c0f61129c3c68e95309b2cfb39f9d48fa5299bc036f0b7fe5469a53",
+      "displayLabel": "Characters 1 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_yellow__1",
@@ -12964,7 +13066,9 @@
       "width": 186,
       "height": 258,
       "bytes": 21830,
-      "sha256": "03379b815d0eefff2471decf5ac6350a1e86e8157f6affd1d9bb8cfffe98bcd0"
+      "sha256": "03379b815d0eefff2471decf5ac6350a1e86e8157f6affd1d9bb8cfffe98bcd0",
+      "displayLabel": "Bamboo 1 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_blue__1",
@@ -12977,7 +13081,9 @@
       "width": 173,
       "height": 258,
       "bytes": 19762,
-      "sha256": "56ba16bc9586f164e4083c2b1cc240926eacb051ac3605c9756a929cba7dfe14"
+      "sha256": "56ba16bc9586f164e4083c2b1cc240926eacb051ac3605c9756a929cba7dfe14",
+      "displayLabel": "Circle 1 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_purple__1",
@@ -12990,7 +13096,9 @@
       "width": 192,
       "height": 321,
       "bytes": 29056,
-      "sha256": "b7b970c76bf13eba41ac3fa3ce2f2e539c62132f45de354d77c6a30623d0390a"
+      "sha256": "b7b970c76bf13eba41ac3fa3ce2f2e539c62132f45de354d77c6a30623d0390a",
+      "displayLabel": "Characters 9 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_winged__1",
@@ -13003,7 +13111,9 @@
       "width": 185,
       "height": 270,
       "bytes": 22452,
-      "sha256": "4dc0a954e6d17fee20b62690294b2b3c6a7e6af3754fee61dea54757dd0e0fc4"
+      "sha256": "4dc0a954e6d17fee20b62690294b2b3c6a7e6af3754fee61dea54757dd0e0fc4",
+      "displayLabel": "Circle 9 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_rock__1",
@@ -13016,7 +13126,9 @@
       "width": 229,
       "height": 289,
       "bytes": 31522,
-      "sha256": "f0d85f57586af47ab34bf70574d788d4e363428d4e03ebe1ea1cfee586c95dcb"
+      "sha256": "f0d85f57586af47ab34bf70574d788d4e363428d4e03ebe1ea1cfee586c95dcb",
+      "displayLabel": "Bamboo 9 · Tile Set 1",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_purple__2",
@@ -13029,7 +13141,9 @@
       "width": 192,
       "height": 321,
       "bytes": 28396,
-      "sha256": "99e30078d77b752281ed97889a016527805418cbe4eaccce9abc54dce58ccad3"
+      "sha256": "99e30078d77b752281ed97889a016527805418cbe4eaccce9abc54dce58ccad3",
+      "displayLabel": "East Wind · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_white__2",
@@ -13042,7 +13156,9 @@
       "width": 136,
       "height": 212,
       "bytes": 14369,
-      "sha256": "36d43d1b89211acced0c84de261e5da7bb2b41ccb6b1fd4b569d3d8442956100"
+      "sha256": "36d43d1b89211acced0c84de261e5da7bb2b41ccb6b1fd4b569d3d8442956100",
+      "displayLabel": "West Wind · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_winged__2",
@@ -13055,7 +13171,9 @@
       "width": 185,
       "height": 270,
       "bytes": 23987,
-      "sha256": "887aa0c370d8951045a4e5098bb2dcba2978f38e6133e052db21e86cfa3a9140"
+      "sha256": "887aa0c370d8951045a4e5098bb2dcba2978f38e6133e052db21e86cfa3a9140",
+      "displayLabel": "South Wind · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_rock__2",
@@ -13068,7 +13186,9 @@
       "width": 229,
       "height": 289,
       "bytes": 35078,
-      "sha256": "540a3f877f8a6502dd82c9f902f5cb544a81d55fad962b9159cc991c868918e1"
+      "sha256": "540a3f877f8a6502dd82c9f902f5cb544a81d55fad962b9159cc991c868918e1",
+      "displayLabel": "North Wind · Tile Set 2",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_yellow__4",
@@ -13081,7 +13201,9 @@
       "width": 186,
       "height": 258,
       "bytes": 23582,
-      "sha256": "46f8a6540fb0004c78915c000c62c399ab03bf4b459667cfbf3555a0f2bd2414"
+      "sha256": "46f8a6540fb0004c78915c000c62c399ab03bf4b459667cfbf3555a0f2bd2414",
+      "displayLabel": "Bamboo 3 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_blue__4",
@@ -13094,7 +13216,9 @@
       "width": 173,
       "height": 258,
       "bytes": 21993,
-      "sha256": "3c9cd7bd0cbcfbb32899eb5a88fbcade1fee64a41062df7dd6d2c0e60a4b8522"
+      "sha256": "3c9cd7bd0cbcfbb32899eb5a88fbcade1fee64a41062df7dd6d2c0e60a4b8522",
+      "displayLabel": "Bamboo 4 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_purple__4",
@@ -13107,7 +13231,9 @@
       "width": 192,
       "height": 321,
       "bytes": 34862,
-      "sha256": "845a50f102e77c610a7a2ca56fb2b2c9ee3b7cb8b669728bf32fd71575c2a56c"
+      "sha256": "845a50f102e77c610a7a2ca56fb2b2c9ee3b7cb8b669728bf32fd71575c2a56c",
+      "displayLabel": "Bamboo 6 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_white__4",
@@ -13120,7 +13246,9 @@
       "width": 136,
       "height": 212,
       "bytes": 16467,
-      "sha256": "6b8964299fb23fe41d5391c10def56268e2d7ca5e09d50e775037fd75a237e68"
+      "sha256": "6b8964299fb23fe41d5391c10def56268e2d7ca5e09d50e775037fd75a237e68",
+      "displayLabel": "Bamboo 2 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_winged__4",
@@ -13133,7 +13261,9 @@
       "width": 185,
       "height": 270,
       "bytes": 21062,
-      "sha256": "7c147eb9f0849fe42dba218bd250d3e24de97c5b6e2115f3ef523c46fee45410"
+      "sha256": "7c147eb9f0849fe42dba218bd250d3e24de97c5b6e2115f3ef523c46fee45410",
+      "displayLabel": "Bamboo 8 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_rock__4",
@@ -13146,7 +13276,9 @@
       "width": 229,
       "height": 289,
       "bytes": 30291,
-      "sha256": "addf7129966836d5e93da814a67fbc61540867c6357900dfc924e34a0260f22b"
+      "sha256": "addf7129966836d5e93da814a67fbc61540867c6357900dfc924e34a0260f22b",
+      "displayLabel": "Bamboo 7 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "mahjong_tile__mahjong_tile_white__5",
@@ -13159,7 +13291,9 @@
       "width": 136,
       "height": 212,
       "bytes": 17965,
-      "sha256": "b5f2d04a4c5a0ed82b768323291bfadbdf14a81a130834b291070d72214e5175"
+      "sha256": "b5f2d04a4c5a0ed82b768323291bfadbdf14a81a130834b291070d72214e5175",
+      "displayLabel": "Bamboo 5 · Tile Set 4",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Mahjong_Tile"
     },
     {
       "id": "playing_card__playing_card_red__3",
@@ -13172,7 +13306,9 @@
       "width": 188,
       "height": 265,
       "bytes": 24578,
-      "sha256": "a0f2c27c78ecd124b30dbb39e0f234a539b9d88d6aab903cbf0e9fbb57cd07bf"
+      "sha256": "a0f2c27c78ecd124b30dbb39e0f234a539b9d88d6aab903cbf0e9fbb57cd07bf",
+      "displayLabel": "3 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_yellow__3",
@@ -13185,7 +13321,9 @@
       "width": 174,
       "height": 265,
       "bytes": 26125,
-      "sha256": "82c5ff23766dd675ff05ce92a51d2dad29b3c1a444f1389344d1605245a5a5a3"
+      "sha256": "82c5ff23766dd675ff05ce92a51d2dad29b3c1a444f1389344d1605245a5a5a3",
+      "displayLabel": "4 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_blue__3",
@@ -13198,7 +13336,9 @@
       "width": 187,
       "height": 265,
       "bytes": 27523,
-      "sha256": "1a0ba2b2c88e2255853eacc6ba50e509862a8fdd982066dd76d907c1870b6e0f"
+      "sha256": "1a0ba2b2c88e2255853eacc6ba50e509862a8fdd982066dd76d907c1870b6e0f",
+      "displayLabel": "Ace of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_purple__3",
@@ -13211,7 +13351,9 @@
       "width": 214,
       "height": 321,
       "bytes": 30873,
-      "sha256": "b938f1a0937b4464a2cc4baddc07e466ca6f8317697b2b4a24e75a68bf717542"
+      "sha256": "b938f1a0937b4464a2cc4baddc07e466ca6f8317697b2b4a24e75a68bf717542",
+      "displayLabel": "9 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_white__3",
@@ -13224,7 +13366,9 @@
       "width": 189,
       "height": 217,
       "bytes": 34561,
-      "sha256": "bade34e79c969ef3a3736f1dada428b14160b79c799c8f75c3d8c9101f857425"
+      "sha256": "bade34e79c969ef3a3736f1dada428b14160b79c799c8f75c3d8c9101f857425",
+      "displayLabel": "Queen of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_winged__3",
@@ -13237,7 +13381,9 @@
       "width": 212,
       "height": 250,
       "bytes": 20350,
-      "sha256": "9fd397a3e6f6d0df7603601486af8a02818b4d13c733de15f6f160ca86231b91"
+      "sha256": "9fd397a3e6f6d0df7603601486af8a02818b4d13c733de15f6f160ca86231b91",
+      "displayLabel": "2 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_rock__3",
@@ -13250,7 +13396,9 @@
       "width": 229,
       "height": 289,
       "bytes": 24557,
-      "sha256": "b4ac2122b03b6d8cce3706c08850ba313918140789fd61f9b8faa903d885f6c9"
+      "sha256": "b4ac2122b03b6d8cce3706c08850ba313918140789fd61f9b8faa903d885f6c9",
+      "displayLabel": "6 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_red__4",
@@ -13263,7 +13411,9 @@
       "width": 188,
       "height": 265,
       "bytes": 29674,
-      "sha256": "356a813359fe031e9a7ab238400d7d9a7708827dd88517edaa1ccb293a1b4c46"
+      "sha256": "356a813359fe031e9a7ab238400d7d9a7708827dd88517edaa1ccb293a1b4c46",
+      "displayLabel": "5 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_yellow__4",
@@ -13276,7 +13426,9 @@
       "width": 174,
       "height": 265,
       "bytes": 35051,
-      "sha256": "7b99b57afc6ae95bab966d6052cc174567b3d26b6fc86ae97fed914aa5e01c9b"
+      "sha256": "7b99b57afc6ae95bab966d6052cc174567b3d26b6fc86ae97fed914aa5e01c9b",
+      "displayLabel": "Jack of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_blue__4",
@@ -13289,7 +13441,9 @@
       "width": 187,
       "height": 265,
       "bytes": 28814,
-      "sha256": "e20cee157601509450e7de81ea99ff0f3b9f420360fb1e907212460975ff8160"
+      "sha256": "e20cee157601509450e7de81ea99ff0f3b9f420360fb1e907212460975ff8160",
+      "displayLabel": "8 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_purple__4",
@@ -13302,7 +13456,9 @@
       "width": 214,
       "height": 321,
       "bytes": 31544,
-      "sha256": "3fe3006afc71b85388722f08b1305b1b13a7405e44d20902318481e31bc509bb"
+      "sha256": "3fe3006afc71b85388722f08b1305b1b13a7405e44d20902318481e31bc509bb",
+      "displayLabel": "King of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_winged__4",
@@ -13315,7 +13471,9 @@
       "width": 212,
       "height": 250,
       "bytes": 21730,
-      "sha256": "059cc796ba37af9f56442cd41b9571c6e1d605db2ff548ac19f365ed9c734b99"
+      "sha256": "059cc796ba37af9f56442cd41b9571c6e1d605db2ff548ac19f365ed9c734b99",
+      "displayLabel": "7 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_rock__4",
@@ -13328,7 +13486,9 @@
       "width": 229,
       "height": 289,
       "bytes": 26234,
-      "sha256": "402e4098384bd286ae174695830f5db1a111589fcaaa1da3d7f067a0eaa32a0a"
+      "sha256": "402e4098384bd286ae174695830f5db1a111589fcaaa1da3d7f067a0eaa32a0a",
+      "displayLabel": "10 of Clubs",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_red__1",
@@ -13341,7 +13501,9 @@
       "width": 188,
       "height": 265,
       "bytes": 24347,
-      "sha256": "bb29a23fe04dc747ab98aa1ea37bbd09586d9c3e3976c14fb7956a73fec2189d"
+      "sha256": "bb29a23fe04dc747ab98aa1ea37bbd09586d9c3e3976c14fb7956a73fec2189d",
+      "displayLabel": "Ace of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_yellow__1",
@@ -13354,7 +13516,9 @@
       "width": 174,
       "height": 265,
       "bytes": 24860,
-      "sha256": "f5f3052755930e6ebb320eb100f19633b40c8e38602c29f980b59574a9c5a70b"
+      "sha256": "f5f3052755930e6ebb320eb100f19633b40c8e38602c29f980b59574a9c5a70b",
+      "displayLabel": "2 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_blue__1",
@@ -13367,7 +13531,9 @@
       "width": 187,
       "height": 265,
       "bytes": 23511,
-      "sha256": "26465a95c33a8510924dabe609b990d8c07f4dd8114126d20bd5d2a22b7a1561"
+      "sha256": "26465a95c33a8510924dabe609b990d8c07f4dd8114126d20bd5d2a22b7a1561",
+      "displayLabel": "3 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_purple__1",
@@ -13380,7 +13546,9 @@
       "width": 214,
       "height": 321,
       "bytes": 30598,
-      "sha256": "32e4081fc77385e446d492b1905996c8dbed19ff498a4121f6a7e74ccd430f3c"
+      "sha256": "32e4081fc77385e446d492b1905996c8dbed19ff498a4121f6a7e74ccd430f3c",
+      "displayLabel": "6 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_white__1",
@@ -13393,7 +13561,9 @@
       "width": 189,
       "height": 217,
       "bytes": 20489,
-      "sha256": "cc343e4d672126e511204acc3e7defebc718b35ed96a32fc42d7fbd4e2f0363f"
+      "sha256": "cc343e4d672126e511204acc3e7defebc718b35ed96a32fc42d7fbd4e2f0363f",
+      "displayLabel": "4 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_winged__1",
@@ -13406,7 +13576,9 @@
       "width": 212,
       "height": 250,
       "bytes": 21271,
-      "sha256": "a2691913934c6986a7d01875a88157486740b0d8fecd0392d02331e14d274948"
+      "sha256": "a2691913934c6986a7d01875a88157486740b0d8fecd0392d02331e14d274948",
+      "displayLabel": "5 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_rock__1",
@@ -13419,7 +13591,9 @@
       "width": 229,
       "height": 289,
       "bytes": 24698,
-      "sha256": "a2148198b17edbc595bcbc377271622ec0ea459de8684fd926347792ad2afefc"
+      "sha256": "a2148198b17edbc595bcbc377271622ec0ea459de8684fd926347792ad2afefc",
+      "displayLabel": "7 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_red__2",
@@ -13432,7 +13606,9 @@
       "width": 188,
       "height": 265,
       "bytes": 25114,
-      "sha256": "7a7233a104ed3fcb35b491a36fb97ef61e4694ef445fba79e6fb09718a7d4a04"
+      "sha256": "7a7233a104ed3fcb35b491a36fb97ef61e4694ef445fba79e6fb09718a7d4a04",
+      "displayLabel": "8 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_yellow__2",
@@ -13445,7 +13621,9 @@
       "width": 174,
       "height": 265,
       "bytes": 26507,
-      "sha256": "b1067ffb157877c3d581cd1cae801293ec5199bdaa30bd6d05c2f0b7a5510c4a"
+      "sha256": "b1067ffb157877c3d581cd1cae801293ec5199bdaa30bd6d05c2f0b7a5510c4a",
+      "displayLabel": "9 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_blue__2",
@@ -13458,7 +13636,9 @@
       "width": 187,
       "height": 265,
       "bytes": 25186,
-      "sha256": "02aca91f6aa350a5e9da40ac4fee34affec903151a143942f060c7d4e4824b5d"
+      "sha256": "02aca91f6aa350a5e9da40ac4fee34affec903151a143942f060c7d4e4824b5d",
+      "displayLabel": "10 of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_white__2",
@@ -13471,7 +13651,9 @@
       "width": 189,
       "height": 217,
       "bytes": 34921,
-      "sha256": "a10d0a88a368626163dfbf174818d1f8fbf3e327a49f54d27c7ee5a62d5c8aea"
+      "sha256": "a10d0a88a368626163dfbf174818d1f8fbf3e327a49f54d27c7ee5a62d5c8aea",
+      "displayLabel": "Jack of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_winged__2",
@@ -13484,7 +13666,9 @@
       "width": 212,
       "height": 250,
       "bytes": 35768,
-      "sha256": "c53a1078e89c70f5be458662340ef1f1c37bf93ad7e71f3715ce378b962045c6"
+      "sha256": "c53a1078e89c70f5be458662340ef1f1c37bf93ad7e71f3715ce378b962045c6",
+      "displayLabel": "Queen of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_rock__2",
@@ -13497,7 +13681,9 @@
       "width": 229,
       "height": 289,
       "bytes": 34284,
-      "sha256": "980585119f494112810ad22104bb03fe50b2b4f457f256a11e497fd41acc532a"
+      "sha256": "980585119f494112810ad22104bb03fe50b2b4f457f256a11e497fd41acc532a",
+      "displayLabel": "King of Diamonds",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "playing_card__playing_card_purple__2",
@@ -13510,7 +13696,9 @@
       "width": 214,
       "height": 321,
       "bytes": 36496,
-      "sha256": "69ce9542369a4797408f41696841fc1d727fc8e0116684b36bd42f9977c51f9e"
+      "sha256": "69ce9542369a4797408f41696841fc1d727fc8e0116684b36bd42f9977c51f9e",
+      "displayLabel": "Joker",
+      "labelSource": "https://www.pikminwiki.com/Special_Decor_Pikmin#Playing_Card"
     },
     {
       "id": "weather__rainy_day_leaf_hat__1",
@@ -14320,5 +14508,10 @@
     "source": "https://www.pikminwiki.com/Decor_Pikmin#Gallery",
     "designs": 6,
     "compatibility": "Three old grouped marks remain available for review without inferring either ticket design. Other saved IDs are unchanged by display reordering."
+  },
+  "cardLabelReview": {
+    "date": "2026-10-27",
+    "count": 94,
+    "verification": "Playing Card suits/ranks, Hanafuda month/texture associations and Mahjong tile faces checked against wiki tables and original PNGs. Numbered IDs unchanged."
   }
 }

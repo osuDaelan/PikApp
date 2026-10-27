@@ -8,12 +8,13 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 
 - Tap a Pikmin to mark it collected; tap again to uncheck it.
 - Rare decor unlocks when its corresponding regular set is complete. Use **Show all** to view locked rare decor too.
-- Search by species, decor category, costume or collection status, such as `blue`, `restaurant`, `rare` or `missing`. Open **Search tips** for more options.
+- Search by species, decor category, card label or collection status, such as `blue`, `ice cream`, `joker` or `missing`. Decor names work without quotation marks. Open **Search tips** for more options.
+- **Shrine & Temple** is optional and off by default. Enable its checkbox in Regular Decor to include the Japan-exclusive set; hiding it preserves your selections.
 - When using a missing-items search, newly collected Pikmin remain visible for three seconds so you can undo a misclick.
 
 Regular decor follows the in-game gallery order, with a separate picture and checkbox for each listed design.
 
-Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Chess Piece sets and Theme Park tickets have individual checkboxes. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
+Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Chess Piece sets and Theme Park tickets have individual checkboxes. Card tiles show months, suits/ranks or Mahjong tile names. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
 
 ## Decor map
 

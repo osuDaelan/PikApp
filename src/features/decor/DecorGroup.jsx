@@ -84,9 +84,10 @@ function CostumeRow({ groupLocation, storageLocation, costume, collected, onTogg
           ? costume.designs.map(design => {
               const id = decorId(storageLocation, costume.name, design);
               const image = getDecorImage(id);
+              const details = costume.designLabels?.[design];
               if (image) return (
-                <DecorImageTile key={design} id={id} image={image} rare={rare} color={`${costume.color} ${design}`}
-                  label={`${groupLocation} · ${costume.name} · ${costume.color} Pikmin · design ${design}`}
+                <DecorImageTile key={design} id={id} image={image} rare={rare} color={`${costume.color} ${design}`} caption={details?.label}
+                  label={`${groupLocation} · ${costume.name} · ${costume.color} Pikmin · ${details ? `${details.name} · ` : ""}design ${design}`}
                   collected={!!collected[id]} onToggle={onToggleColor} />
               );
               return <DesignTile

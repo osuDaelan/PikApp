@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "../src/features/decor/catalog.js";
 import { decorId, decorStorageLocation, countDecorGroups } from "../src/features/decor/collection.js";
-import { compileDecorSearch, searchDecorCatalog, MAX_DECOR_SEARCH_LENGTH } from "../src/features/decor/search.js";
+import { compileDecorSearch, searchDecorCatalog, regularDecorGroups, MAX_DECOR_SEARCH_LENGTH } from "../src/features/decor/search.js";
 
 function results(query, collected = {}, recentEdits) {
   const search = compileDecorSearch(query);
@@ -54,6 +54,49 @@ test("individual card designs support species, volume, design and ownership sear
   const exact = "playing_card__playing_card_red__1";
   assert.deepEqual(ids("collected playing card", { ...legacy, [exact]: true }), [exact]);
   assert.equal(ids("missing playing card", { ...legacy, [exact]: true }).length, 26);
+});
+
+test("decor names containing a species word work without quotation marks", () => {
+  assert.equal(ids("ice cream").length, 15);
+  assert.deepEqual(ids("ICE   CREAM"), ids('"ice cream"'));
+  assert.equal(ids("blue ice cream").length, 2);
+  assert.deepEqual(ids("ice cream ice"), ["ice_cream__ice_cream_extra_flavor__Ice"]);
+  assert.equal(ids("shaved ice").length, 8);
+  assert.equal(ids("blue shaved ice").length, 1);
+  assert.deepEqual(ids("ice & cream"), ["ice_cream__ice_cream_extra_flavor__Ice"]);
+  assert.equal(ids("ice cream | shaved ice").length, 23);
+  assert.equal(ids("regular ice cream").length, 0);
+  const saved = { ice_cream__ice_cream_classic__Blue: true };
+  assert.equal(ids("missing ice cream", saved).length, 14);
+  assert.deepEqual(ids("collected ice cream", saved), ["ice_cream__ice_cream_classic__Blue"]);
+  assert.equal(ids("!ice cream").length, 1041);
+  assert.deepEqual(ids("ice"), ids("ice !ice cream !shaved ice | ice ice cream | ice shaved ice"));
+});
+
+test("card descriptions are searchable without changing species or design selectors", () => {
+  assert.equal(ids("playing club").length, 13);
+  assert.equal(ids("playing diamond").length, 13);
+  assert.deepEqual(ids("joker"), ["playing_card__playing_card_purple__2"]);
+  assert.deepEqual(ids("ace diamonds"), ["playing_card__playing_card_red__1"]);
+  assert.equal(ids("hanafuda january").length, 4);
+  assert.deepEqual(ids("mahjong white dragon"), ["mahjong_tile__mahjong_tile_yellow__2"]);
+  assert.deepEqual(ids("mahjong red dragon"), ["mahjong_tile__mahjong_tile_blue__2"]);
+  assert.equal(ids("mahjong bamboo").length, 9);
+});
+
+test("Shrine visibility controls totals, results and bulk targets while preserving saved marks", () => {
+  const saved = { fortune__kichi__Rock: true, restaurant__chef_hat__Blue: true };
+  const before = structuredClone(saved);
+  assert.equal(countDecorGroups(regularDecorGroups(), saved).total, 492);
+  assert.deepEqual(countDecorGroups(regularDecorGroups(), saved), { total: 492, done: 1 });
+  assert.deepEqual(countDecorGroups(regularDecorGroups(true), saved), { total: 527, done: 2 });
+  for (const query of ["", "shrine", "fortune", "collected", "missing | collected"]) {
+    const hidden = searchDecorCatalog(compileDecorSearch(query), saved, new Set(["fortune__kichi__Rock"]), {showShrineDecor:false});
+    assert.equal(hidden.regular.some(group => group.location === "Shrine & Temple"), false);
+  }
+  const shown = searchDecorCatalog(compileDecorSearch("collected shrine"), saved, new Set(), {showShrineDecor:true});
+  assert.deepEqual(countDecorGroups(shown.regular, saved), { total: 1, done: 1 });
+  assert.deepEqual(saved, before);
 });
 
 test("Rainy Day searches find exact designs without treating an old Blue mark as ownership", () => {

@@ -9,16 +9,42 @@ function normalize(value) {
   return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/\s+/gu, " ").trim();
 }
 
+// A species word inside a known decor name belongs to the name. Standalone
+// species and explicitly separated terms keep their normal filter behavior.
+const catalogPhrases = [...new Set([...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES]
+  .flatMap(group => [group.location, ...group.costumes.flatMap(costume => [costume.name,
+    ...Object.values(costume.designLabels || {}).flatMap(details => [details.label, details.name])])]).map(normalize))]
+  .map(name => name.split(" "))
+  .filter(words => words.length > 1 && words.some(word => speciesNames.has(word)))
+  .sort((a, b) => b.length - a.length);
+
+function recognizeCatalogPhrases(tokens) {
+  const result = [];
+  for (let index = 0; index < tokens.length;) {
+    const phrase = catalogPhrases.find(words => words.every((word, offset) => {
+      const token = tokens[index + offset];
+      return token?.type === "term" && !token.literal && token.value === word;
+    }));
+    if (phrase) {
+      result.push({ type: "term", value: phrase.join(" "), literal: true });
+      index += phrase.length;
+    } else result.push(tokens[index++]);
+  }
+  return result;
+}
+
 // Index immutable catalog fields once; collection status is always read live.
 function indexGroups(groups, section) {
   return groups.map(group => ({ group, costumes: group.costumes.map(costume => ({
     costume,
     entries: (costume.designs || costume.colors).map(variant => {
       const species = costume.designs ? costume.color : variant;
+      const details = costume.designLabels?.[variant];
       return {
         id: decorId(decorStorageLocation(group), costume.name, variant), variant, section,
         species: normalize(species), rare: isRareCostume(costume),
         fields: [group.location, decorStorageLocation(group), costume.name, species, `${species} Pikmin`,
+          ...(details ? [details.label, details.name, ...details.terms] : []),
           ...(costume.designs ? [`design ${variant}`] : [])].map(normalize),
       };
     }),
@@ -62,7 +88,7 @@ export function compileDecorSearch(query) {
   if (!active) return { active: false, expression: null, error: null };
   try {
     if (query.length > MAX_DECOR_SEARCH_LENGTH) throw new Error(`Keep searches under ${MAX_DECOR_SEARCH_LENGTH + 1} characters.`);
-    const tokens = tokenize(query);
+    const tokens = recognizeCatalogPhrases(tokenize(query));
     let position = 0;
     const at = (...types) => types.includes(tokens[position]?.type);
     function unary(depth) {
@@ -146,10 +172,14 @@ function filterGroups(index, expression, collected, recentEdits) {
   return { groups, retainedCount };
 }
 
-export function searchDecorCatalog(search, collected, recentEdits = new Set()) {
+export function regularDecorGroups(showShrineDecor = false) {
+  return showShrineDecor ? DECOR_LOCATIONS : DECOR_LOCATIONS.filter(group => group.location !== "Shrine & Temple");
+}
+
+export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true } = {}) {
   if (search.error) return { regular: [], special: [], retainedCount: 0 };
-  if (!search.active) return { regular: DECOR_LOCATIONS, special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
-  const regular = filterGroups(regularIndex, search.expression, collected, recentEdits);
+  if (!search.active) return { regular: regularDecorGroups(showShrineDecor), special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
+  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits);
   const special = filterGroups(specialIndex, search.expression, collected, recentEdits);
   return {
     regular: regular.groups, special: special.groups,
