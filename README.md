@@ -14,7 +14,7 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 
 Regular decor follows the in-game gallery order, with a separate picture and checkbox for each listed design.
 
-Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Chess Piece sets and Theme Park tickets have individual checkboxes. Card tiles show months, suits/ranks or Mahjong tile names. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
+Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Chess Piece sets and Theme Park tickets have individual checkboxes. Playing Cards show suits/ranks; Hanafuda and Mahjong use species and numbered labels such as Red 1. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
 
 ## Decor map
 

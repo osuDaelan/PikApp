@@ -78,10 +78,11 @@ test("card descriptions are searchable without changing species or design select
   assert.equal(ids("playing diamond").length, 13);
   assert.deepEqual(ids("joker"), ["playing_card__playing_card_purple__2"]);
   assert.deepEqual(ids("ace diamonds"), ["playing_card__playing_card_red__1"]);
-  assert.equal(ids("hanafuda january").length, 4);
-  assert.deepEqual(ids("mahjong white dragon"), ["mahjong_tile__mahjong_tile_yellow__2"]);
-  assert.deepEqual(ids("mahjong red dragon"), ["mahjong_tile__mahjong_tile_blue__2"]);
-  assert.equal(ids("mahjong bamboo").length, 9);
+  for (const query of ["hanafuda january", "mahjong white dragon", "mahjong red dragon", "mahjong bamboo"]) {
+    assert.equal(ids(query).length, 0, "Unverified labels must not remain hidden search aliases");
+  }
+  assert.deepEqual(ids('red hanafuda "Volume 1" "design 2"'), ["hanafuda_card__hanafuda_card_volume_1_red__2"]);
+  assert.deepEqual(ids('white mahjong "design 5"'), ["mahjong_tile__mahjong_tile_white__5"]);
 });
 
 test("Shrine visibility controls totals, results and bulk targets while preserving saved marks", () => {

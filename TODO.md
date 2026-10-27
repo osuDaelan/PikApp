@@ -20,8 +20,9 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-- [x] Add verified, searchable labels for all 94 card designs: Hanafuda months, Playing Card ranks/suits and Mahjong tile names; keep numbered save IDs stable.
-- [x] Recognize decor names containing species words without quotes, including Ice Cream, Shaved Ice and White/Red Dragon.
+- [x] Add searchable ranks/suits for all 27 Playing Cards without changing saved IDs.
+- [ ] Verify Hanafuda month names and Mahjong tile names before restoring descriptive labels. At owner request these 67 tiles use species + number for now; draft names are preserved in commit `7e77844`.
+- [x] Recognize decor names containing species words without quotes, including Ice Cream and Shaved Ice.
 - [x] Make Shrine & Temple a browser-persisted option, off by default, excluded from hidden results/totals/bulk actions while preserving saved marks.
 
 Images cover all 1,056 current checklist entries (527 regular/rare, 529 special/event), including numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; all active entries use exact design artwork. The October 27 card, Leaf Hat, Chess and Theme Park expansions retain old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
