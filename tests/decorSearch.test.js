@@ -7,7 +7,9 @@ import { compileDecorSearch, searchDecorCatalog, regularDecorGroups, MAX_DECOR_S
 function results(query, collected = {}, recentEdits) {
   const search = compileDecorSearch(query);
   assert.equal(search.error, null, `Valid search: ${query}`);
-  return searchDecorCatalog(search, collected, recentEdits);
+  // Parser/catalogue coverage explicitly previews every row. Default visibility
+  // and complete-source unlock decisions are covered by regression tests below.
+  return searchDecorCatalog(search, collected, recentEdits, {showAllDecor:true});
 }
 function ids(query, collected = {}, recentEdits) {
   const { regular, special } = results(query, collected, recentEdits);
@@ -17,6 +19,56 @@ function ids(query, collected = {}, recentEdits) {
 const redChef = "restaurant__chef_hat__Red";
 const blueChef = "restaurant__chef_hat__Blue";
 const redRareChef = "restaurant__chef_hat_rare__Red";
+
+test("default Stadium searches exclude locked rares from results, counts and bulk targets", () => {
+  const query = value => searchDecorCatalog(compileDecorSearch(value), {});
+  const found = query("stadium");
+  assert.deepEqual(found.regular.map(group => group.costumes.map(costume => costume.name)), [["Ball Keychain"]]);
+  assert.deepEqual(countDecorGroups(found.regular, {}), { total: 8, done: 0 });
+  assert.deepEqual(query("rare stadium").regular, []);
+  assert.deepEqual(query("blue stadium").regular[0].costumes.map(costume => costume.name), ["Ball Keychain"]);
+});
+
+test("search checks every required base color before filtering by species or status", () => {
+  const saved = { stadium__ball_keychain__Red: true, stadium__ball_keychain_rare__Red: true };
+  const run = query => searchDecorCatalog(compileDecorSearch(query), saved);
+  assert.deepEqual(run("collected red stadium").regular[0].costumes.map(costume => costume.name), ["Ball Keychain"]);
+  for (const color of PIKMIN_COLORS.filter(color => color !== "Ice")) saved[decorId("Stadium", "Ball Keychain", color)] = true;
+  saved.stadium__ball_keychain__Ice = false;
+  assert.deepEqual(run("rare blue stadium").regular[0].costumes.map(costume => costume.name), ["Ball Keychain (Rare)"]);
+  saved.stadium__ball_keychain__White = false;
+  assert.deepEqual(run("rare blue stadium").regular, []);
+});
+
+for (const [location, names, required] of [
+  ["Park", ["Clover", "Four-Leaf Clover"], PIKMIN_COLORS.filter(color => color !== "Ice")],
+  ["Forest", ["Stag Beetle", "Acorn"], PIKMIN_COLORS],
+]) {
+  test(`${location} searches reveal both rare rows only when both full required base sets are complete`, () => {
+    const saved = {};
+    const run = () => searchDecorCatalog(compileDecorSearch(`rare blue ${location}`), saved);
+    for (const color of required) saved[decorId(location, names[0], color)] = true;
+    assert.deepEqual(run().regular, []);
+    for (const color of required) saved[decorId(location, names[1], color)] = true;
+    assert.deepEqual(run().regular[0].costumes.map(costume => costume.name), names.map(name => `${name} (Rare)`));
+    saved[decorId(location, names[0], "Red")] = false;
+    assert.deepEqual(run().regular, []);
+  });
+}
+
+test("only explicit Show all previews locked search results; undo grace cannot bypass unlocks", () => {
+  const id = "stadium__ball_keychain_rare__Red";
+  const saved = { [id]: true }, recent = new Set([id]);
+  const before = structuredClone(saved);
+  const search = compileDecorSearch("missing rare red stadium");
+  const hidden = searchDecorCatalog(search, saved, recent);
+  assert.deepEqual(hidden, { regular: [], special: [], retainedCount: 0 });
+  const preview = searchDecorCatalog(search, saved, recent, { showAllDecor: true });
+  assert.equal(preview.retainedCount, 1);
+  assert.deepEqual(countDecorGroups(preview.regular, saved), { total: 1, done: 1 });
+  assert.deepEqual(searchDecorCatalog(search, saved, recent, { showAllDecor: false }), hidden);
+  assert.deepEqual(saved, before);
+});
 
 test("empty searches preserve the original catalog references, order and stable saved IDs", () => {
   const { regular, special } = results("  \u3000 ");

@@ -7,7 +7,7 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 ## Decor checklist
 
 - Tap a Pikmin to mark it collected; tap again to uncheck it.
-- Rare decor appears after collecting its matching base set. Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover require the original seven base colors. Ice remains trackable but is not required to reveal their rare rows. Use **Show all** or search to preview locked rare decor.
+- Rare decor appears after collecting its matching base set. Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover require the original seven base colors. Ice remains trackable but is not required to reveal their rare rows. Forest requires both Stag Beetle and Acorn base sets; Park requires both Clover and Four-Leaf Clover base sets before either rare row appears. Search respects these unlock rules. Use **Show all** to preview locked rare decor.
 - Search by species, decor category, card label or collection status, such as `blue`, `ice cream`, `joker` or `missing`. Decor names work without quotation marks. Open **Search tips** for more options.
 - **Shrine & Temple** is optional and off by default. Enable its checkbox in Regular Decor to include the Japan-exclusive set; hiding it preserves your selections.
 - When using a missing-items search, newly collected Pikmin remain visible for three seconds so you can undo a misclick.

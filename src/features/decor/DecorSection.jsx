@@ -35,7 +35,7 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
   return (
     <button
       onClick={toggleShowAllDecor}
-      title="Rare decor unlocks when its matching base set is collected. Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover require the original seven colors, excluding Ice. Toggle to view everything."
+      title="Rare decor unlocks after its required base sets are collected. Forest requires both Stag Beetle and Acorn; Park requires both Clover and Four-Leaf Clover. Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain and both clovers exclude Ice from their requirements. Toggle to view everything."
       style={{
         display: "flex", alignItems: "center", gap: 5, flexShrink: 0,
         background: showAllDecor ? "#fde9e7" : "#f5f5f5", border: `1px solid ${showAllDecor ? "#e0453c" : "transparent"}`,
@@ -54,7 +54,7 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
 export default function DecorSection({ decor, isWide }) {
   const { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor } = decor;
   const search = useMemo(() => compileDecorSearch(decorSearchQuery), [decorSearchQuery]);
-  const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits, { showShrineDecor }), [search, decorCollected, recentDecorEdits, showShrineDecor]);
+  const results = useMemo(() => searchDecorCatalog(search, decorCollected, recentDecorEdits, { showShrineDecor, showAllDecor }), [search, decorCollected, recentDecorEdits, showShrineDecor, showAllDecor]);
   const regularMatches = countDecorGroups(results.regular, decorCollected);
   const specialMatches = countDecorGroups(results.special, decorCollected);
   const regularStats = countDecorGroups(regularDecorGroups(showShrineDecor), decorCollected);
@@ -68,7 +68,7 @@ export default function DecorSection({ decor, isWide }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 2 }}>
           <div style={{ fontWeight: 800, color: DG, fontSize: 13 }}>🎀 Regular Decor</div>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            {!search.active && <ShowAllToggle showAllDecor={showAllDecor} toggleShowAllDecor={toggleShowAllDecor} />}
+            <ShowAllToggle showAllDecor={showAllDecor} toggleShowAllDecor={toggleShowAllDecor} />
             <QuickSelectToggle decorBulkMode={decorBulkMode} setDecorBulkMode={setDecorBulkMode} />
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function DecorSection({ decor, isWide }) {
         <LegacyDecorReview collected={decorCollected} section="regular" onReviewed={ids => bulkSetDecor(ids, false)} />
         {search.active && !search.error && !results.regular.length && <p style={{ color: "#666", fontSize: 12 }}>No matching regular decor. Try another search or clear it.</p>}
         {results.regular.map((g, i) => (
-          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor || search.active} />
+          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor} />
         ))}
       </div>
 
@@ -93,7 +93,7 @@ export default function DecorSection({ decor, isWide }) {
         <LegacyDecorReview collected={decorCollected} section="special" onReviewed={ids => bulkSetDecor(ids, false)} />
         {search.active && !search.error && !results.special.length && <p style={{ color: "#666", fontSize: 12 }}>No matching special or event decor. Try another search or clear it.</p>}
         {results.special.map((g, i) => (
-          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor || search.active} />
+          <DecorGroup key={g.location} group={g} collected={decorCollected} onToggleColor={toggleDecor} isFirst={i === 0} bulkMode={decorBulkMode} onBulkSet={bulkSetDecor} showAllDecor={showAllDecor} />
         ))}
       </div>
       </div>

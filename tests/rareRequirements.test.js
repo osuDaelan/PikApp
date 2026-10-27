@@ -46,6 +46,8 @@ test("Café still tracks eight base and seven rare Coffee Cups without changing 
 });
 
 for (const [location, name] of addedSevenColorSets) {
+  // Park's two seven-color requirements are tested together below.
+  if (location === "Park") continue;
   test(`${location}: rare ${name} unlocks with seven base colors and no Ice, but every original color is required`, () => {
     const group = DECOR_LOCATIONS.find(group => group.location === location);
     const base = group.costumes.find(costume => costume.name === name);
@@ -71,18 +73,41 @@ for (const [location, name] of addedSevenColorSets) {
   });
 }
 
-test("Park clover rows unlock independently using their corresponding seven-color base sets", () => {
-  const park = DECOR_LOCATIONS.find(group => group.location === "Park");
-  for (const name of ["Clover", "Four-Leaf Clover"]) {
-    const saved = Object.fromEntries(originalSeven.map(color => [decorId("Park", name, color), true]));
-    for (const rare of park.costumes.filter(isRareCostume)) {
-      assert.equal(isRareLocked(park, rare, saved), rare.name !== `${name} (Rare)`);
+for (const [location, names, colors] of [
+  ["Park", ["Clover", "Four-Leaf Clover"], originalSeven],
+  ["Forest", ["Stag Beetle", "Acorn"], [...originalSeven, "Ice"]],
+]) {
+  test(`${location}: neither rare row unlocks with only one complete base set, even with rare progress`, () => {
+    const group = DECOR_LOCATIONS.find(group => group.location === location);
+    const rares = group.costumes.filter(isRareCostume);
+    for (const completedName of names) {
+      const saved = Object.fromEntries(colors.map(color => [decorId(location, completedName, color), true]));
+      for (const rare of rares) saved[decorId(location, rare.name, "Red")] = true;
+      for (const rare of rares) assert.equal(isRareLocked(group, rare, saved), true, completedName);
     }
-  }
-});
+  });
+
+  test(`${location}: both rare rows unlock together and hide again if any required base Pikmin is unchecked`, () => {
+    const group = DECOR_LOCATIONS.find(group => group.location === location);
+    const rares = group.costumes.filter(isRareCostume);
+    const saved = Object.fromEntries(names.flatMap(name => colors.map(color => [decorId(location, name, color), true])));
+    if (location === "Park") for (const name of names) saved[decorId(location, name, "Ice")] = false;
+    const originalSave = structuredClone(saved), originalGroup = structuredClone(group);
+    for (const rare of rares) assert.equal(isRareLocked(group, rare, saved), false);
+    assert.deepEqual(saved, originalSave);
+    assert.deepEqual(group, originalGroup);
+    for (const name of names) {
+      for (const color of colors) {
+        const incomplete = { ...saved, [decorId(location, name, color)]: false };
+        for (const rare of rares) incomplete[decorId(location, rare.name, "Red")] = true;
+        for (const rare of rares) assert.equal(isRareLocked(group, rare, incomplete), true, `${name}: ${color}`);
+      }
+    }
+  });
+}
 
 test("unlisted rare costumes keep their full matching base requirement, including Ice where available", () => {
-  for (const group of DECOR_LOCATIONS.filter(group => group !== cafe)) {
+  for (const group of DECOR_LOCATIONS.filter(group => group !== cafe && group.location !== "Forest" && group.location !== "Park")) {
     for (const rare of group.costumes.filter(isRareCostume)) {
       const base = group.costumes.find(costume => costume.name === rare.name.replace(/ \(Rare\)$/, ""));
       if (addedSevenColorSets.some(([location, name]) => group.location === location && base.name === name)) continue;

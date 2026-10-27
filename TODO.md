@@ -20,7 +20,7 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-- [x] Keep collection-based rare unlocks, with Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover requiring only their original seven base colors (Ice excluded). Removed the per-category Auto / Show / Hide experiment at the owner’s request; old progress backups remain importable.
+- [x] Keep collection-based rare unlocks, with Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover requiring only their original seven base colors (Ice excluded). Forest requires both complete Stag Beetle and Acorn sets, and Park requires both seven-color Clover and Four-Leaf Clover sets, before revealing either rare row. Removed the per-category Auto / Show / Hide experiment at the owner’s request; old progress backups remain importable. Search respects unlock rules and hides locked rare matches/counts/bulk targets unless Show all is explicitly enabled.
 
 - [x] Add searchable ranks/suits for all 27 Playing Cards without changing saved IDs.
 - [ ] Verify Hanafuda month names and Mahjong tile names before restoring descriptive labels. At owner request these 67 tiles use species + number for now; draft names are preserved in commit `7e77844`.
@@ -58,7 +58,7 @@ Images cover all 1,056 current checklist entries (527 regular/rare, 529 special/
 - [x] Verify regular decor, rare decor, event decor, and numbered design variants.
 - [x] Verify narrow phone layouts, desktop split view, and bulk selection.
 - [x] Add a set-completion confetti blast and rare-only tile stars inspired by the in-game reference video, with reduced-motion support and no persistent particle loop.
-- [x] Add checklist search for species, category, costume/design text, collected/missing and regular/rare/event status. Support AND/OR/NOT, grouping, straight-quoted literals and exact fields, with syntax help/errors, live result counts and bulk actions scoped to visible variants. Search includes locked rare decor; clearing restores unlock rules. See [search behavior](docs/PROJECT_GUIDE.md#decor-checklist-search).
+- [x] Add checklist search for species, category, costume/design text, collected/missing and regular/rare/event status. Support AND/OR/NOT, grouping, straight-quoted literals and exact fields, with syntax help/errors, live result counts and bulk actions scoped to visible variants. Search respects rare unlock rules; only Show all previews locked rare decor. See [search behavior](docs/PROJECT_GUIDE.md#decor-checklist-search).
 
 - [x] Keep newly collected missing-search results clickable for three seconds to undo mistakes, including `!collected` and bulk edits; save immediately, expire each tile independently and clear grace when the query changes.
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, PIKMIN_COLOR_ABBR, DECOR_ICONS } from "./catalog.js";
+import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, PIKMIN_COLOR_ABBR, DECOR_ICONS, DECOR_LOCATIONS } from "./catalog.js";
 import { decorId, decorStorageLocation, countDecorGroups, isRareLocked, isRareCostume } from "./collection.js";
 import { colors } from "../../shared/styles/theme.js";
 import DecorImageTile from "./DecorImageTile.jsx";
@@ -123,7 +123,9 @@ function CostumeRow({ groupLocation, storageLocation, costume, collected, onTogg
 // A location (or special-decor category) section: header + its costume rows
 export default function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor }) {
   const { total, done } = countDecorGroups([group], collected);
-  const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(group, c, collected));
+  // Search may omit required base rows or colors; always check the full category.
+  const unlockGroup = DECOR_LOCATIONS.find(source => source.location === group.location) || group;
+  const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(unlockGroup, c, collected));
   const groupIds = visibleCostumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(decorStorageLocation(group), c.name, variant)));
   const allCollected = groupIds.every(id => collected[id]);
   return (

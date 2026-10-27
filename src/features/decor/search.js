@@ -1,5 +1,5 @@
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "./catalog.js";
-import { decorId, decorStorageLocation, isRareCostume } from "./collection.js";
+import { decorId, decorStorageLocation, isRareCostume, isRareLocked } from "./collection.js";
 
 export const MAX_DECOR_SEARCH_LENGTH = 512;
 export const DECOR_SEARCH_GRACE_MS = 3000;
@@ -150,10 +150,12 @@ function matches(expression, entry, isCollected) {
   }
 }
 
-function filterGroups(index, expression, collected, recentEdits) {
+function filterGroups(index, expression, collected, recentEdits, showAllDecor) {
   let retainedCount = 0;
   const groups = index.flatMap(({ group, costumes }) => {
     const visibleCostumes = costumes.flatMap(({ costume, entries }) => {
+      // Use the complete source group before species/status filters trim it.
+      if (!showAllDecor && isRareLocked(group, costume, collected)) return [];
       const variants = entries.filter(entry => {
         const isCollected = !!collected[entry.id];
         if (matches(expression, entry, isCollected)) return true;
@@ -176,11 +178,11 @@ export function regularDecorGroups(showShrineDecor = false) {
   return showShrineDecor ? DECOR_LOCATIONS : DECOR_LOCATIONS.filter(group => group.location !== "Shrine & Temple");
 }
 
-export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true } = {}) {
+export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true, showAllDecor = false } = {}) {
   if (search.error) return { regular: [], special: [], retainedCount: 0 };
   if (!search.active) return { regular: regularDecorGroups(showShrineDecor), special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
-  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits);
-  const special = filterGroups(specialIndex, search.expression, collected, recentEdits);
+  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits, showAllDecor);
+  const special = filterGroups(specialIndex, search.expression, collected, recentEdits, showAllDecor);
   return {
     regular: regular.groups, special: special.groups,
     retainedCount: regular.retainedCount + special.retainedCount,

@@ -44,13 +44,24 @@ const ORIGINAL_SEVEN_RARE_BASES = new Map([
   ["Park", ["Clover", "Four-Leaf Clover"]],
 ]);
 
+// Both base sets must be complete before either rare row is revealed.
+const SHARED_RARE_REQUIREMENTS = new Map([
+  ["Forest", ["Stag Beetle", "Acorn"]],
+  ["Park", ["Clover", "Four-Leaf Clover"]],
+]);
+
 export function isRareLocked(group, costume, collected) {
   const m = costume.name.match(/^(.+) \(Rare\)$/);
   if (!m) return false;
-  const base = group.costumes.find(c => c.name === m[1]);
-  if (!base) return false;
-  const requiredBase = ORIGINAL_SEVEN_RARE_BASES.get(group.location)?.includes(base.name)
-    ? { ...base, colors: base.colors.filter(color => color !== "Ice") }
-    : base;
-  return !isFullyCollected(decorStorageLocation(group), requiredBase, collected);
+  const shared = SHARED_RARE_REQUIREMENTS.get(group.location);
+  const requiredNames = shared || [m[1]];
+  return requiredNames.some(name => {
+    const base = group.costumes.find(c => c.name === name);
+    // A shared unlock cannot be inferred from only one of its required rows.
+    if (!base) return !!shared;
+    const requiredBase = ORIGINAL_SEVEN_RARE_BASES.get(group.location)?.includes(base.name)
+      ? { ...base, colors: base.colors.filter(color => color !== "Ice") }
+      : base;
+    return !isFullyCollected(decorStorageLocation(group), requiredBase, collected);
+  });
 }
