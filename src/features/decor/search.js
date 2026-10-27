@@ -1,6 +1,5 @@
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "./catalog.js";
 import { decorId, decorStorageLocation, isRareCostume } from "./collection.js";
-import { isDecorCostumeVisible } from "./rareVisibility.js";
 
 export const MAX_DECOR_SEARCH_LENGTH = 512;
 export const DECOR_SEARCH_GRACE_MS = 3000;
@@ -151,31 +150,24 @@ function matches(expression, entry, isCollected) {
   }
 }
 
-function filterGroups(index, expression, collected, recentEdits, rareVisibility, showAllDecor) {
+function filterGroups(index, expression, collected, recentEdits) {
   let retainedCount = 0;
   const groups = index.flatMap(({ group, costumes }) => {
-    let rareHidden = false;
     const visibleCostumes = costumes.flatMap(({ costume, entries }) => {
-      let retainedInCostume = 0;
       const variants = entries.filter(entry => {
         const isCollected = !!collected[entry.id];
         if (matches(expression, entry, isCollected)) return true;
         // Only relax collection status, never species/category or the rest of the query.
         if (isCollected && recentEdits.has(entry.id) && matches(expression, entry, false)) {
-          retainedInCostume++;
+          retainedCount++;
           return true;
         }
         return false;
       }).map(entry => entry.variant);
       if (!variants.length) return [];
-      if (!isDecorCostumeVisible(group, costume, collected, rareVisibility, showAllDecor)) {
-        rareHidden = true;
-        return [];
-      }
-      retainedCount += retainedInCostume;
       return [{ ...costume, [costume.designs ? "designs" : "colors"]: variants }];
     });
-    return visibleCostumes.length || rareHidden ? [{ ...group, costumes: visibleCostumes, ...(rareHidden ? { rareHidden: true } : {}) }] : [];
+    return visibleCostumes.length ? [{ ...group, costumes: visibleCostumes }] : [];
   });
   return { groups, retainedCount };
 }
@@ -184,12 +176,11 @@ export function regularDecorGroups(showShrineDecor = false) {
   return showShrineDecor ? DECOR_LOCATIONS : DECOR_LOCATIONS.filter(group => group.location !== "Shrine & Temple");
 }
 
-// Pure catalogue queries include locked entries; the UI passes its actual view options.
-export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true, rareVisibility = {}, showAllDecor = true } = {}) {
+export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true } = {}) {
   if (search.error) return { regular: [], special: [], retainedCount: 0 };
   if (!search.active) return { regular: regularDecorGroups(showShrineDecor), special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
-  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits, rareVisibility, showAllDecor);
-  const special = filterGroups(specialIndex, search.expression, collected, recentEdits, rareVisibility, showAllDecor);
+  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits);
+  const special = filterGroups(specialIndex, search.expression, collected, recentEdits);
   return {
     regular: regular.groups, special: special.groups,
     retainedCount: regular.retainedCount + special.retainedCount,

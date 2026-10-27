@@ -70,7 +70,6 @@ Guest fields keep the original keys and formats:
 | coinsNow | `pb_coinsNow` | Integer string |
 | decorCollected | `pb_decorCollected` | JSON object of collection IDs to booleans |
 | showAllDecor | `pb_showAllDecor` | `true` / `false` string |
-| rareVisibility | `pb_rareVisibility` | JSON map of known category keys to `auto`, `show` or `hide`; absent means Auto |
 | showShrineDecor | `pb_showShrineDecor` | `true` / `false` string; browser display preference, default `false` |
 | totalStepsMode | `pb_totalStepsMode` | `true` / `false` string |
 
@@ -80,6 +79,8 @@ Unaffected collection names, variants and ID generation remain unchanged. The Oc
 
 Writes return a success flag. `getSaveStatus()` and `subscribeSaveStatus()` expose successful/failed browser writes to the calculator/checklist status UI; failed values remain retryable through `retryFailedWrites()` without clearing other saved fields. `src/storage/progressTransfer.js` owns the separate versioned full-progress format, validation, previous-save recovery and replacement/rollback path; `src/shared/components/ProgressTransfer.jsx` owns its dialog controls. After a successful import, the app remounts its progress owners to read the imported values. The development calculator freshness marker is updated so an older development file cannot replace the imported calculator save. The development calculator file backup has a separate saving/saved/retry indicator, described above, and map saving has its own error/recovery flow. Remote sync remains deferred. Invalid stored collection shapes fall back to an empty collection instead of crashing the app.
 
-## Rare visibility transfer compatibility
+## Rare unlock and transfer compatibility
 
-Version-1 progress files may include `decor.rareVisibility`; old files with only `collected` and `showAll` still validate. Importing an old file restores Auto defaults. The optional map is strictly validated against current rare category keys and the three modes. Raw recovery captures `pb_rareVisibility` for exact rollback; recovery reading accepts both the earlier raw-key schema and the extended one. Browser-specific Shrine display preference remains separate.
+`src/features/decor/collection.js:isRareLocked` requires the matching base costume to be complete. Only Café / Coffee Cup excludes Ice from its required colors, preserving the original seven-color unlock. Ice remains in the collection and totals. Unchecking any required color hides the rare row again; existing rare marks remain saved. Global Show all and active searches continue to preview locked rare rows.
+
+The per-category Auto / Show / Hide experiment was retired at the owner’s request. Its `pb_rareVisibility` browser key is no longer read by the app or written by imports. Version-1 backups containing optional `decor.rareVisibility` still validate, but normalization discards the retired options while preserving all collected flags. Current exports omit the options. Raw recovery retains the legacy browser key for exact recovery; both old and expanded recovery schemas remain readable. The Shrine display preference remains separate.

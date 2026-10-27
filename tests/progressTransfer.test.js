@@ -116,7 +116,7 @@ test("full backups round-trip calculator, explicit decor removals, map settings 
   const parsed = parseProgressBackup(text);
   assert.deepEqual(parsed, { format: "pikapp-progress", version: 1, exportedAt: date, ...source });
   assert.equal(parsed.decor.collected[blue], false);
-  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingDecorReviews: 0, rareVisibilityOverrides: 0, pins: 1, exportedAt: date });
+  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingDecorReviews: 0, pins: 1, exportedAt: date });
   assert.equal(text.includes("accessToken"), false);
 });
 
@@ -326,24 +326,26 @@ test("unadvanceable timestamps prevent stale backup restoration without making w
   assert.deepEqual([...storage.entries], before);
 });
 
-test("rare visibility overrides round-trip and import together with unchanged collected flags", () => {
+test("retired rare visibility overrides are discarded without losing collected flags", () => {
   const source = snapshot();
   source.decor.rareVisibility = {caf__rare__visibility:"hide",restaurant__rare__visibility:"show"};
-  const parsed = parseProgressBackup(createProgressBackup(source,date));
-  assert.deepEqual(parsed.decor,source.decor);
-  assert.equal(summarizeProgressBackup(parsed).rareVisibilityOverrides,2);
+  const legacy = {format:"pikapp-progress",version:1,exportedAt:date,...source};
+  const parsed = parseProgressBackup(JSON.stringify(legacy));
+  assert.deepEqual(parsed.decor,{collected:source.decor.collected,showAll:source.decor.showAll});
+  assert.equal(Object.hasOwn(JSON.parse(createProgressBackup(source,date)).decor,"rareVisibility"),false);
   const storage = memoryStorage(rawSnapshot(snapshot()));
   applyProgressBackup(parsed,{current:snapshot(),getStorage:()=>storage});
-  assert.deepEqual(JSON.parse(storage.getItem("pb_rareVisibility")),source.decor.rareVisibility);
+  assert.equal(storage.getItem("pb_rareVisibility"),null);
   assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")),source.decor.collected);
 });
 
-test("old backups default to Auto and recovery files from before the new key remain readable", () => {
+test("old backups and both recovery schemas remain readable while retired preferences stay unused", () => {
   const storage = memoryStorage({...rawSnapshot(snapshot()),pb_rareVisibility:'{"caf__rare__visibility":"hide"}'});
   applyProgressBackup(incoming(),{current:snapshot(),getStorage:()=>storage});
-  assert.deepEqual(JSON.parse(storage.getItem("pb_rareVisibility")),{});
+  assert.equal(storage.getItem("pb_rareVisibility"),'{"caf__rare__visibility":"hide"}');
   const recovery = JSON.parse(storage.getItem(PROGRESS_RECOVERY_KEY));
   assert.equal(recovery.raw.pb_rareVisibility,'{"caf__rare__visibility":"hide"}');
+  assert.equal(parseProgressBackup(readProgressRecovery({getStorage:()=>storage}).backupText).calculator.level,50);
   delete recovery.raw.pb_rareVisibility;
   storage.setItem(PROGRESS_RECOVERY_KEY,JSON.stringify(recovery));
   assert.equal(parseProgressBackup(readProgressRecovery({getStorage:()=>storage}).backupText).calculator.level,50);
@@ -370,5 +372,5 @@ test("a late import failure restores the previous rare visibility map exactly", 
   assert.throws(()=>applyProgressBackup(incoming(),{current,getStorage:()=>blocked}),error=>error.code==="import-failed" && !error.rollbackFailed);
   assert.equal(storage.getItem("pb_rareVisibility"),original.pb_rareVisibility);
   const recovery=readProgressRecovery({getStorage:()=>storage});
-  assert.deepEqual(parseProgressBackup(recovery.backupText).decor.rareVisibility,current.decor.rareVisibility);
+  assert.deepEqual(parseProgressBackup(recovery.backupText).decor,{collected:current.decor.collected,showAll:current.decor.showAll});
 });

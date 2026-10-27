@@ -32,12 +32,15 @@ export function isRareCostume(costume) {
   return / \(Rare\)$/.test(costume.name);
 }
 
-// Base-pair completion used by Auto. Existing rare progress and manual overrides
-// are handled separately in rareVisibility.js.
+// Café keeps its original seven-color unlock requirement after Ice was added.
+// Other rare costumes still require their entire corresponding base set.
 export function isRareLocked(group, costume, collected) {
   const m = costume.name.match(/^(.+) \(Rare\)$/);
   if (!m) return false;
   const base = group.costumes.find(c => c.name === m[1]);
   if (!base) return false;
-  return !isFullyCollected(decorStorageLocation(group), base, collected);
+  const requiredBase = group.location === "Café" && base.name === "Coffee Cup"
+    ? { ...base, colors: base.colors.filter(color => color !== "Ice") }
+    : base;
+  return !isFullyCollected(decorStorageLocation(group), requiredBase, collected);
 }

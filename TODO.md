@@ -20,7 +20,7 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-- [x] Add reversible per-category Auto / Show / Hide rare visibility, preserve existing rare progress when new base species are missing, and transfer choices in backups. Search and bulk selection honor visibility; Hide overrides Show all.
+- [x] Keep collection-based rare unlocks, with Café requiring only the original seven Coffee Cup colors (Ice excluded). Removed the per-category Auto / Show / Hide experiment at the owner’s request; old progress backups remain importable.
 
 - [x] Add searchable ranks/suits for all 27 Playing Cards without changing saved IDs.
 - [ ] Verify Hanafuda month names and Mahjong tile names before restoring descriptive labels. At owner request these 67 tiles use species + number for now; draft names are preserved in commit `7e77844`.

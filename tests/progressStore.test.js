@@ -53,25 +53,6 @@ test("updates remain readable after creating a fresh store", () => {
   assert.deepEqual(reloaded.read("decorCollected", {}), { restaurant__chef_hat__Red: true });
 });
 
-test("rare visibility choices persist as their own map without editing collected Pikmin", () => {
-  const storage = memoryStorage({pb_decorCollected:'{"caf__coffee_cup_rare__Red":true}'});
-  const store = createProgressStore({getStorage:()=>storage});
-  assert.deepEqual(store.read("rareVisibility",{}),{});
-  assert.equal(store.write("rareVisibility",{caf__rare__visibility:"hide",restaurant__rare__visibility:"show"}),true);
-  const reloaded = createProgressStore({getStorage:()=>storage});
-  assert.deepEqual(reloaded.read("rareVisibility",{}),{caf__rare__visibility:"hide",restaurant__rare__visibility:"show"});
-  assert.equal(storage.getItem("pb_decorCollected"),'{"caf__coffee_cup_rare__Red":true}');
-});
-
-test("malformed rare settings remain protected rather than overwritten on startup", () => {
-  const raw = '{"caf__rare__visibility":"invalid"}';
-  const storage = memoryStorage({pb_rareVisibility:raw});
-  const store = createProgressStore({getStorage:()=>storage});
-  assert.deepEqual(store.read("rareVisibility",{}),{});
-  assert.equal(store.write("rareVisibility",{}),false);
-  assert.equal(storage.getItem("pb_rareVisibility"),raw);
-});
-
 test("local account caches cannot overwrite guest or other account progress", () => {
   const storage = memoryStorage({ pb_level: "101" });
   const options = { getStorage: () => storage };
