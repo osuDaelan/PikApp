@@ -3,6 +3,7 @@ import MapCanvas from "./MapCanvas.jsx";
 import PinEditor from "./PinEditor.jsx";
 import { CategoryPanel, PinsPanel, PlaceDetails } from "./MapSidebar.jsx";
 import { MAP_CATEGORIES } from "./categories.js";
+import { isCategoryComplete } from "./mapPresentation.js";
 import { countDecorGroups } from "../decor/collection.js";
 import { parseMapLocation, mapViewUrl, searchAreaProblem, validPoint, bufferedSearchBounds, boundsContain } from "./coordinates.js";
 import { DATA_SOURCES } from "./placeClient.js";
@@ -45,6 +46,7 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
   const importRequest = useRef(0);
   useEffect(() => { alive.current = true; return () => { alive.current = false; locateRequest.current++; importRequest.current++; }; }, []);
   const stats = useMemo(() => new Map(MAP_CATEGORIES.map(category => [category.id, countDecorGroups([category.group], decorCollected)])), [decorCollected]);
+  const completedCategoryIds = useMemo(() => new Set([...stats].filter(([, count]) => isCategoryComplete(count)).map(([id]) => id)), [stats]);
   const effectiveIds = useMemo(() => state.categoryIds.filter(id => !missingOnly || stats.get(id).done < stats.get(id).total), [state.categoryIds, stats, missingOnly]);
   const searchBounds = useMemo(() => bufferedSearchBounds(bounds), [bounds]);
   const results = usePlaceSearch({ bounds: searchBounds, categoryIds: effectiveIds, sourceId: state.sourceId });
@@ -165,13 +167,13 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
           <button type="button" onClick={confirmImport}>{progress.recoveryRaw !== null ? "Replace unreadable map data with import" : "Merge imported pins"}</button>
           <button type="button" onClick={() => setImportPreview(null)}>Cancel import</button>
         </div>}
-        {editing ? <PinEditor key={editing.id || editing.nonce} draft={editing} onSave={savePin} onCancel={() => setEditing(null)}
+        {editing ? <PinEditor key={editing.id || editing.nonce} draft={editing} completedCategoryIds={completedCategoryIds} onSave={savePin} onCancel={() => setEditing(null)}
           onDelete={id => { setState(previous => ({ ...previous, pins: previous.pins.filter(pin => pin.id !== id) })); setEditing(null); setNotice("Pin removed."); }} />
-          : panel === "pins" ? <PinsPanel pins={state.pins} onSelect={choosePin} onAdd={startPin} onImport={readImport}
+          : panel === "pins" ? <PinsPanel pins={state.pins} completedCategoryIds={completedCategoryIds} onSelect={choosePin} onAdd={startPin} onImport={readImport}
             onExport={() => download(pinBackup(state.pins), `pikapp-pins-${new Date().toISOString().slice(0, 10)}.json`)} />
-          : selectedPlace ? <PlaceDetails place={selectedPlace} stats={stats} saved={state.pins.some(pin => pin.osmId === selectedPlace.id)}
+          : selectedPlace ? <PlaceDetails place={selectedPlace} stats={stats} completedCategoryIds={completedCategoryIds} saved={state.pins.some(pin => pin.osmId === selectedPlace.id)}
             onSave={savePlace} onBack={() => setSelectedPlace(null)} onFocus={() => centerOn(selectedPlace)} />
-          : <CategoryPanel selectedIds={state.categoryIds} stats={stats} results={results} onPlace={place => { choosePlace(place); centerOn(place); }}
+          : <CategoryPanel selectedIds={state.categoryIds} stats={stats} completedCategoryIds={completedCategoryIds} results={results} onPlace={place => { choosePlace(place); centerOn(place); }}
             missingOnly={missingOnly} onMissingOnly={() => setMissingOnly(value => !value)}
             onToggle={id => setState(previous => ({ ...previous, categoryIds: previous.categoryIds.includes(id) ? previous.categoryIds.filter(value => value !== id) : [...previous.categoryIds, id] }))}
             onSelectAll={() => setState(previous => ({ ...previous, categoryIds: MAP_CATEGORIES.map(category => category.id) }))}
@@ -184,7 +186,7 @@ export default function DecorMapSection({ decorCollected, onProgressSnapshot }) 
         </details>
       </aside>
       <div className="decor-map__map-area">
-        <MapCanvas initialViewport={initialViewport} places={results.places} scannedBounds={results.scannedBounds} pins={state.pins} selectedCategoryIds={effectiveIds}
+        <MapCanvas initialViewport={initialViewport} places={results.places} scannedBounds={results.scannedBounds} pins={state.pins} selectedCategoryIds={effectiveIds} completedCategoryIds={completedCategoryIds}
           selectedPlaceId={panel === "discover" && !editing ? selectedPlace?.id : null}
           focus={focus} addingPin={addingPin} onViewport={onViewport} onPlace={choosePlace} onPin={choosePin} onNewPin={newPin} />
         <div className="decor-map__map-tools">

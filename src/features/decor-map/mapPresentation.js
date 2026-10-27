@@ -1,4 +1,8 @@
 // Map colors and geometry styling are independent of the category image assets.
+export function isCategoryComplete(count) {
+  return Number.isSafeInteger(count?.total) && count.total > 0 && count.done === count.total;
+}
+
 export function placeCategory(place, selectedIds) {
   const matches = place.categoryIds.filter(id => selectedIds.includes(id));
   return ["waterside", "park", "forest"].find(id => matches.includes(id)) || matches[0] || place.categoryIds[0];
