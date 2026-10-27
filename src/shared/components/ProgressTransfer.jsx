@@ -92,6 +92,8 @@ export default function ProgressTransfer({ getSnapshot, onImported, importComple
         <tbody>
           <tr><th scope="row">Level</th><td>{preview.current.level}</td><td>{preview.incoming.level}</td></tr>
           <tr><th scope="row">Collected</th><td>{preview.current.collected}</td><td>{preview.incoming.collected}</td></tr>
+          {(preview.current.rareVisibilityOverrides > 0 || preview.incoming.rareVisibilityOverrides > 0) &&
+            <tr><th scope="row">Rare visibility settings</th><td>{preview.current.rareVisibilityOverrides}</td><td>{preview.incoming.rareVisibilityOverrides}</td></tr>}
           {(preview.current.pendingDecorReviews > 0 || preview.incoming.pendingDecorReviews > 0) &&
             <tr><th scope="row">Older decor selections to review</th><td>{preview.current.pendingDecorReviews}</td><td>{preview.incoming.pendingDecorReviews}</td></tr>}
           <tr><th scope="row">Map pins</th><td>{preview.current.pins}</td><td>{preview.incoming.pins}</td></tr>

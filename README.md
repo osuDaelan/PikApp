@@ -7,7 +7,7 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 ## Decor checklist
 
 - Tap a Pikmin to mark it collected; tap again to uncheck it.
-- Rare decor unlocks when its corresponding regular set is complete. Use **Show all** to view locked rare decor too.
+- Each rare category has an **Auto / Show / Hide** setting. Auto follows base-set completion or existing rare progress; Show keeps rares visible; Hide conceals them without clearing collected Pikmin. Choices save in this browser and progress backups. **Show all** previews locked Auto categories, while Hide stays hidden.
 - Search by species, decor category, card label or collection status, such as `blue`, `ice cream`, `joker` or `missing`. Decor names work without quotation marks. Open **Search tips** for more options.
 - **Shrine & Temple** is optional and off by default. Enable its checkbox in Regular Decor to include the Japan-exclusive set; hiding it preserves your selections.
 - When using a missing-items search, newly collected Pikmin remain visible for three seconds so you can undo a misclick.

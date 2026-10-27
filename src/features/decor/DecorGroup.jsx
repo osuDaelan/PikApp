@@ -1,10 +1,11 @@
 import React from "react";
 import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, PIKMIN_COLOR_ABBR, DECOR_ICONS } from "./catalog.js";
-import { decorId, decorStorageLocation, countDecorGroups, isRareLocked, isRareCostume } from "./collection.js";
+import { decorId, decorStorageLocation, countDecorGroups, isRareCostume } from "./collection.js";
 import { colors } from "../../shared/styles/theme.js";
 import DecorImageTile from "./DecorImageTile.jsx";
 import { getDecorImage } from "./decorImages.js";
 import { decorSetId } from "./setCompletion.js";
+import { rareCategory, rareVisibilityMode, isDecorCostumeVisible } from "./rareVisibility.js";
 const { green: G, orange: O, darkGreen: DG } = colors;
 
 // Color-coded fallback for an available entry without artwork.
@@ -121,9 +122,9 @@ function CostumeRow({ groupLocation, storageLocation, costume, collected, onTogg
 }
 
 // A location (or special-decor category) section: header + its costume rows
-export default function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor }) {
+export default function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor, rareVisibility, onRareVisibilityChange }) {
   const { total, done } = countDecorGroups([group], collected);
-  const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(group, c, collected));
+  const visibleCostumes = group.costumes.filter(c => isDecorCostumeVisible(group, c, collected, rareVisibility, showAllDecor));
   const groupIds = visibleCostumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(decorStorageLocation(group), c.name, variant)));
   const allCollected = groupIds.every(id => collected[id]);
   return (
@@ -131,7 +132,7 @@ export default function DecorGroup({ group, collected, onToggleColor, isFirst, b
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8, gap: 8 }}>
         <span style={{ fontWeight: 800, fontSize: 13, color: DG, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{DECOR_ICONS[group.location] || "🎀"} {group.location}</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexShrink: 0 }}>
-          {bulkMode && (
+          {bulkMode && groupIds.length > 0 && (
             <button
               onClick={() => onBulkSet(groupIds, !allCollected)}
               style={{ fontSize: 11, fontWeight: 800, color: allCollected ? "#bbb" : G, background: "none", border: "none", cursor: "pointer", fontFamily: "inherit", padding: 0, whiteSpace: "nowrap" }}
@@ -139,9 +140,21 @@ export default function DecorGroup({ group, collected, onToggleColor, isFirst, b
               {allCollected ? "Clear all" : "Select all"}
             </button>
           )}
-          <span style={{ fontSize: 10, color: "#bbb", whiteSpace: "nowrap" }}>{done}/{total}</span>
+          {total > 0 && <span style={{ fontSize: 10, color: "#bbb", whiteSpace: "nowrap" }}>{done}/{total}</span>}
         </div>
       </div>
+      {rareCategory(group) && <label style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9, fontSize: 11, color: "#555" }}>
+        Rare decor
+        <select aria-label={`Rare decor for ${group.location}`} value={rareVisibilityMode(group, rareVisibility)}
+          onChange={event => onRareVisibilityChange(group, event.target.value)}
+          title="Auto follows base completion or existing rare progress. Show and Hide override Auto without changing collected Pikmin."
+          style={{ font: "inherit", color: DG, background: "#fff", border: "1px solid #d5dfca", borderRadius: 6, padding: "3px 6px" }}>
+          <option value="auto">Auto</option><option value="show">Show</option><option value="hide">Hide</option>
+        </select>
+      </label>}
+      {!visibleCostumes.length && group.rareHidden && <p style={{ fontSize: 11, color: "#777" }}>
+        {rareVisibilityMode(group, rareVisibility) === "hide" ? "Rare decor hidden. Choose Auto or Show to display it." : "Rare decor is locked in Auto. Choose Show if you already unlocked it."}
+      </p>}
       {visibleCostumes.map(c => (
         <CostumeRow key={c.name} groupLocation={group.location} storageLocation={decorStorageLocation(group)} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
       ))}

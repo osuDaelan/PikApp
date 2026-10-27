@@ -2,6 +2,7 @@ import { CALCULATOR_FIELDS, calculatorSnapshot, validCalculatorSnapshot } from "
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "../features/decor/catalog.js";
 import { decorId, decorStorageLocation } from "../features/decor/collection.js";
 import { LEGACY_GROUPED_ENTRIES, pendingLegacyDecor } from "../features/decor/legacyDecor.js";
+import { validateRareVisibility } from "../features/decor/rareVisibility.js";
 import { CATEGORY_BY_ID } from "../features/decor-map/categories.js";
 import { validViewport } from "../features/decor-map/coordinates.js";
 import { DATA_SOURCES } from "../features/decor-map/providers.js";
@@ -10,7 +11,8 @@ import { MAP_STORAGE_KEY, normalizeMapState } from "../features/decor-map/mapSto
 export const MAX_PROGRESS_BACKUP_BYTES = 20 * 1024 * 1024;
 export const PROGRESS_RECOVERY_KEY = "pb_progressRecovery_v1";
 const UPDATED_KEY = "pb_localCalculatorUpdatedAt";
-const RAW_KEYS = [...CALCULATOR_FIELDS.map(field => `pb_${field}`), "pb_decorCollected", "pb_showAllDecor", MAP_STORAGE_KEY, UPDATED_KEY];
+const LEGACY_RAW_KEYS = [...CALCULATOR_FIELDS.map(field => `pb_${field}`), "pb_decorCollected", "pb_showAllDecor", MAP_STORAGE_KEY, UPDATED_KEY];
+const RAW_KEYS = [...LEGACY_RAW_KEYS, "pb_rareVisibility"];
 const ACTIVE_DECOR_IDS = new Set([...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES].flatMap(group =>
   group.costumes.flatMap(costume => (costume.designs || costume.colors).map(variant => decorId(decorStorageLocation(group), costume.name, variant)))));
 const KNOWN_DECOR_IDS = new Set([...ACTIVE_DECOR_IDS, ...LEGACY_GROUPED_ENTRIES.map(entry => entry.id)]);
@@ -46,10 +48,15 @@ function normalizedBackup(value) {
   if (!exactKeys(value.calculator, CALCULATOR_FIELDS) || !validCalculatorSnapshot(value.calculator)) {
     throw failure("The backup has invalid calculator values. No saved data was changed.");
   }
-  if (!exactKeys(value.decor, ["collected", "showAll"]) || typeof value.decor.showAll !== "boolean"
+  if (!(exactKeys(value.decor, ["collected", "showAll"]) || exactKeys(value.decor, ["collected", "showAll", "rareVisibility"])) || typeof value.decor.showAll !== "boolean"
       || !record(value.decor.collected) || Object.entries(value.decor.collected).some(([id, collected]) =>
         !KNOWN_DECOR_IDS.has(id) || typeof collected !== "boolean")) {
     throw failure("The backup has invalid or unknown decor entries. No saved data was changed.");
+  }
+  let rareVisibility;
+  if (Object.hasOwn(value.decor, "rareVisibility")) {
+    try { rareVisibility = validateRareVisibility(value.decor.rareVisibility); }
+    catch { throw failure("The backup has invalid rare decor visibility settings. No saved data was changed."); }
   }
   const map = value.map;
   if (!exactKeys(map, ["version", "viewport", "categoryIds", "sourceId", "pins"]) || map.version !== 1
@@ -64,7 +71,8 @@ function normalizedBackup(value) {
   catch { throw failure("The backup has invalid map settings or pins. No saved data was changed."); }
   return { format: "pikapp-progress", version: 1, exportedAt: isoDate(value.exportedAt),
     calculator: calculatorSnapshot(value.calculator),
-    decor: { collected: Object.fromEntries(Object.entries(value.decor.collected)), showAll: value.decor.showAll },
+    decor: { collected: Object.fromEntries(Object.entries(value.decor.collected)), showAll: value.decor.showAll,
+      ...(rareVisibility === undefined ? {} : { rareVisibility }) },
     map: { ...normalizedMap, viewport: { ...normalizedMap.viewport } } };
 }
 
@@ -97,6 +105,7 @@ export function summarizeProgressBackup(value) {
   const backup = normalizedBackup(value);
   return { level: backup.calculator.level, collected: Object.entries(backup.decor.collected).filter(([id, checked]) => checked && ACTIVE_DECOR_IDS.has(id)).length,
     pendingDecorReviews: pendingLegacyDecor(backup.decor.collected).length,
+    rareVisibilityOverrides: Object.values(backup.decor.rareVisibility || {}).filter(mode => mode !== "auto").length,
     pins: backup.map.pins.length, exportedAt: backup.exportedAt };
 }
 
@@ -149,6 +158,7 @@ export function applyProgressBackup(value, { current, getStorage = () => window.
   const replacement = {
     ...Object.fromEntries(CALCULATOR_FIELDS.map(field => [`pb_${field}`, String(backup.calculator[field])])),
     pb_decorCollected: JSON.stringify(backup.decor.collected), pb_showAllDecor: String(backup.decor.showAll),
+    pb_rareVisibility: JSON.stringify(backup.decor.rareVisibility || {}),
     [MAP_STORAGE_KEY]: JSON.stringify(backup.map), [UPDATED_KEY]: String(importedAt),
   };
   const applied = [];
@@ -182,7 +192,7 @@ export function readProgressRecovery({ getStorage = () => window.localStorage } 
     recovery = JSON.parse(text);
     if (!exactKeys(recovery, ["format", "version", "createdAt", "backup", "raw"])
         || recovery.format !== "pikapp-progress-recovery" || recovery.version !== 1
-        || !exactKeys(recovery.raw, RAW_KEYS)
+        || !(exactKeys(recovery.raw, RAW_KEYS) || exactKeys(recovery.raw, LEGACY_RAW_KEYS))
         || Object.values(recovery.raw).some(value => value !== null && typeof value !== "string")) throw new Error();
     recovery.createdAt = isoDate(recovery.createdAt);
   } catch { throw failure("The recovery copy is unreadable. Its stored contents have not been changed.", "recovery-unreadable"); }

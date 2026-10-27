@@ -3,10 +3,12 @@ import useProgressState from "../../shared/hooks/useProgressState.js";
 import { guestProgressStore } from "../../storage/progressStore.js";
 import useSetCompletion from "./useSetCompletion.js";
 import { DECOR_SEARCH_GRACE_MS } from "./search.js";
+import { rareVisibilityKey } from "./rareVisibility.js";
 
 export default function useDecorCollection(store = guestProgressStore) {
   const [decorCollected, setDecorCollected] = useProgressState("decorCollected", {}, store);
   const [showAllDecor, setShowAllDecor] = useProgressState("showAllDecor", false, store);
+  const [rareVisibility, setRareVisibility] = useProgressState("rareVisibility", {}, store);
   const [showShrineDecor, setShowShrineDecor] = useProgressState("showShrineDecor", false, store);
   const [decorBulkMode, setDecorBulkMode] = useState(false);
   const [decorSearchQuery, updateDecorSearchQuery] = useState("");
@@ -38,6 +40,15 @@ export default function useDecorCollection(store = guestProgressStore) {
   }, [recentDecorEdits]);
 
   function toggleShowAllDecor() { setShowAllDecor(value => !value); }
+  const setRareVisibilityMode = useCallback((group, mode) => {
+    const key = rareVisibilityKey(group);
+    setRareVisibility(previous => {
+      const next = { ...previous };
+      if (mode === "auto") delete next[key];
+      else next[key] = mode;
+      return next;
+    });
+  }, [setRareVisibility]);
   const toggleDecor = useCallback(id => {
     if (decorSearchQuery.trim()) recordSearchEdits([id]);
     setDecorCollected(previous => ({ ...previous, [id]: !previous[id] }));
@@ -51,5 +62,5 @@ export default function useDecorCollection(store = guestProgressStore) {
     });
   }
 
-  return { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion };
+  return { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, rareVisibility, setRareVisibilityMode, showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion };
 }

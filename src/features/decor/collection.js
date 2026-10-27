@@ -32,8 +32,8 @@ export function isRareCostume(costume) {
   return / \(Rare\)$/.test(costume.name);
 }
 
-// Rare decor only shows up once its base costume is fully collected — mirrors how
-// Rare Decor Pikmin actually unlock in-game. Pass showAll to bypass this filter.
+// Base-pair completion used by Auto. Existing rare progress and manual overrides
+// are handled separately in rareVisibility.js.
 export function isRareLocked(group, costume, collected) {
   const m = costume.name.match(/^(.+) \(Rare\)$/);
   if (!m) return false;

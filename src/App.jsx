@@ -56,7 +56,7 @@ function AppSession({ importComplete, onProgressImported }) {
       map = store.getTransferState(store.read().state);
     }
     return { calculator: calculatorSnapshot(calculator),
-      decor: { collected: decor.decorCollected, showAll: decor.showAllDecor }, map };
+      decor: { collected: decor.decorCollected, showAll: decor.showAllDecor, rareVisibility: decor.rareVisibility }, map };
   }
   function finishImport() {
     // A shared map URL must not override the viewport from the imported save.

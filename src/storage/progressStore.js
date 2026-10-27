@@ -1,5 +1,6 @@
 import { MAX_KNOWN } from "../features/calculator/levelData.js";
 import { MAX_NUMERIC_INPUT } from "../shared/numericInput.js";
+import { validateRareVisibility } from "../features/decor/rareVisibility.js";
 
 // Guest keys deliberately match the original app. Do not rename without a migration.
 const fields = {
@@ -11,12 +12,14 @@ const fields = {
   coinsNow: "number",
   decorCollected: "collection",
   showAllDecor: "boolean",
+  rareVisibility: "rareVisibility",
   showShrineDecor: "boolean",
   totalStepsMode: "boolean",
 };
 
 function decode(raw, type, fallback, field) {
   if (raw === null) return fallback;
+  if (type === "rareVisibility") return validateRareVisibility(JSON.parse(raw));
   if (type === "number") {
     if (typeof raw !== "string" || !/^\d+$/.test(raw.trim())) throw new Error("Invalid saved number");
     const number = Number(raw);
@@ -88,7 +91,8 @@ export function createProgressStore({
       return false;
     }
     let serialized;
-    try { serialized = type === "collection" ? JSON.stringify(value) : String(value); }
+    try { serialized = type === "rareVisibility" ? JSON.stringify(validateRareVisibility(value))
+      : type === "collection" ? JSON.stringify(value) : String(value); }
     catch {
       // Serialization failures also remain retryable without changing saved data.
       failedWrites.set(field, { value });

@@ -116,7 +116,7 @@ test("full backups round-trip calculator, explicit decor removals, map settings 
   const parsed = parseProgressBackup(text);
   assert.deepEqual(parsed, { format: "pikapp-progress", version: 1, exportedAt: date, ...source });
   assert.equal(parsed.decor.collected[blue], false);
-  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingDecorReviews: 0, pins: 1, exportedAt: date });
+  assert.deepEqual(summarizeProgressBackup(parsed), { level: 50, collected: 1, pendingDecorReviews: 0, rareVisibilityOverrides: 0, pins: 1, exportedAt: date });
   assert.equal(text.includes("accessToken"), false);
 });
 
@@ -217,7 +217,7 @@ test("confirmed replacement preserves live and exact raw recovery without touchi
   const recovery = readProgressRecovery({ getStorage: () => storage });
   assert.deepEqual(parseProgressBackup(recovery.backupText), { format: "pikapp-progress", version: 1,
     exportedAt: JSON.parse(recovery.backupText).exportedAt, ...current });
-  assert.deepEqual(JSON.parse(recovery.rawText).raw, original);
+  assert.deepEqual(JSON.parse(recovery.rawText).raw, {...original,pb_rareVisibility:null});
   assert.equal(JSON.parse(recovery.rawText).raw.unrelated, undefined);
   assert.throws(() => parseProgressBackup(recovery.rawText), /supported PikApp/);
 });
@@ -324,4 +324,51 @@ test("unadvanceable timestamps prevent stale backup restoration without making w
   assert.throws(() => applyProgressBackup(incoming(), { current: snapshot(), getStorage: () => storage,
     now: () => 8_640_000_000_000_001 }), error => error.code === "invalid-save-time");
   assert.deepEqual([...storage.entries], before);
+});
+
+test("rare visibility overrides round-trip and import together with unchanged collected flags", () => {
+  const source = snapshot();
+  source.decor.rareVisibility = {caf__rare__visibility:"hide",restaurant__rare__visibility:"show"};
+  const parsed = parseProgressBackup(createProgressBackup(source,date));
+  assert.deepEqual(parsed.decor,source.decor);
+  assert.equal(summarizeProgressBackup(parsed).rareVisibilityOverrides,2);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(parsed,{current:snapshot(),getStorage:()=>storage});
+  assert.deepEqual(JSON.parse(storage.getItem("pb_rareVisibility")),source.decor.rareVisibility);
+  assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")),source.decor.collected);
+});
+
+test("old backups default to Auto and recovery files from before the new key remain readable", () => {
+  const storage = memoryStorage({...rawSnapshot(snapshot()),pb_rareVisibility:'{"caf__rare__visibility":"hide"}'});
+  applyProgressBackup(incoming(),{current:snapshot(),getStorage:()=>storage});
+  assert.deepEqual(JSON.parse(storage.getItem("pb_rareVisibility")),{});
+  const recovery = JSON.parse(storage.getItem(PROGRESS_RECOVERY_KEY));
+  assert.equal(recovery.raw.pb_rareVisibility,'{"caf__rare__visibility":"hide"}');
+  delete recovery.raw.pb_rareVisibility;
+  storage.setItem(PROGRESS_RECOVERY_KEY,JSON.stringify(recovery));
+  assert.equal(parseProgressBackup(readProgressRecovery({getStorage:()=>storage}).backupText).calculator.level,50);
+});
+
+test("invalid visibility settings are rejected before importing any progress", () => {
+  for (const rareVisibility of [null,[],{unknown:"show"},{caf__rare__visibility:"unlock"}]) {
+    const value = incoming();
+    value.decor.rareVisibility = rareVisibility;
+    assert.throws(()=>parseProgressBackup(JSON.stringify(value)),/rare decor visibility/);
+  }
+});
+
+test("a late import failure restores the previous rare visibility map exactly", () => {
+  const current = snapshot();
+  current.decor.rareVisibility = {caf__rare__visibility:"hide"};
+  const original = {...rawSnapshot(current),pb_rareVisibility:'{ "caf__rare__visibility": "hide" }'};
+  const storage = memoryStorage(original);
+  let failed=false;
+  const blocked = {...storage,setItem(key,value) {
+    if (key===UPDATED_KEY && !failed) {failed=true;throw new Error("late failure");}
+    storage.setItem(key,value);
+  }};
+  assert.throws(()=>applyProgressBackup(incoming(),{current,getStorage:()=>blocked}),error=>error.code==="import-failed" && !error.rollbackFailed);
+  assert.equal(storage.getItem("pb_rareVisibility"),original.pb_rareVisibility);
+  const recovery=readProgressRecovery({getStorage:()=>storage});
+  assert.deepEqual(parseProgressBackup(recovery.backupText).decor.rareVisibility,current.decor.rareVisibility);
 });
