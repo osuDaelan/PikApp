@@ -20,7 +20,7 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-- [x] Keep collection-based rare unlocks, with Café requiring only the original seven Coffee Cup colors (Ice excluded). Removed the per-category Auto / Show / Hide experiment at the owner’s request; old progress backups remain importable.
+- [x] Keep collection-based rare unlocks, with Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover requiring only their original seven base colors (Ice excluded). Removed the per-category Auto / Show / Hide experiment at the owner’s request; old progress backups remain importable.
 
 - [x] Add searchable ranks/suits for all 27 Playing Cards without changing saved IDs.
 - [ ] Verify Hanafuda month names and Mahjong tile names before restoring descriptive labels. At owner request these 67 tiles use species + number for now; draft names are preserved in commit `7e77844`.

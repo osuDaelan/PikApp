@@ -109,7 +109,7 @@ test("card sets track every verified design without inferring species or sibling
   assert.equal(saved[decorId(hanafuda.location, costume.name, "2")], undefined);
 });
 
-test("rare costumes unlock after all base variants are collected", () => {
+test("rare Chef Hats require the original seven base colors, excluding Ice", () => {
   const restaurant = DECOR_LOCATIONS.find(group => group.location === "Restaurant");
   const base = restaurant.costumes.find(costume => costume.name === "Chef Hat");
   const rare = restaurant.costumes.find(isRareCostume);
@@ -117,6 +117,8 @@ test("rare costumes unlock after all base variants are collected", () => {
   assert.equal(isRareLocked(restaurant, rare, {}), true);
   assert.equal(isRareLocked(restaurant, rare, saved), false);
   saved[decorId(restaurant.location, base.name, "Ice")] = false;
+  assert.equal(isRareLocked(restaurant, rare, saved), false);
+  saved[decorId(restaurant.location, base.name, "Blue")] = false;
   assert.equal(isRareLocked(restaurant, rare, saved), true);
 });
 

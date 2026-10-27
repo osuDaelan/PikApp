@@ -35,7 +35,7 @@ function ShowAllToggle({ showAllDecor, toggleShowAllDecor }) {
   return (
     <button
       onClick={toggleShowAllDecor}
-      title="Rare decor unlocks when its base set is collected. Café requires the original seven colors, excluding Ice. Toggle to view everything."
+      title="Rare decor unlocks when its matching base set is collected. Coffee Cup, Chef Hat, Toothbrush, Ticket, Ball Keychain, Clover and Four-Leaf Clover require the original seven colors, excluding Ice. Toggle to view everything."
       style={{
         display: "flex", alignItems: "center", gap: 5, flexShrink: 0,
         background: showAllDecor ? "#fde9e7" : "#f5f5f5", border: `1px solid ${showAllDecor ? "#e0453c" : "transparent"}`,

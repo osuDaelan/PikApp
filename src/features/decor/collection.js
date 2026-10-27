@@ -32,14 +32,24 @@ export function isRareCostume(costume) {
   return / \(Rare\)$/.test(costume.name);
 }
 
-// Café keeps its original seven-color unlock requirement after Ice was added.
-// Other rare costumes still require their entire corresponding base set.
+// These sets retain their original seven-color unlock after Ice was added.
+// Keep the exceptions scoped to the matching base costume; Ice still counts
+// toward collection totals and remains available in both base and rare rows.
+const ORIGINAL_SEVEN_RARE_BASES = new Map([
+  ["Café", ["Coffee Cup"]],
+  ["Restaurant", ["Chef Hat"]],
+  ["Pharmacy", ["Toothbrush"]],
+  ["Station", ["Ticket"]],
+  ["Stadium", ["Ball Keychain"]],
+  ["Park", ["Clover", "Four-Leaf Clover"]],
+]);
+
 export function isRareLocked(group, costume, collected) {
   const m = costume.name.match(/^(.+) \(Rare\)$/);
   if (!m) return false;
   const base = group.costumes.find(c => c.name === m[1]);
   if (!base) return false;
-  const requiredBase = group.location === "Café" && base.name === "Coffee Cup"
+  const requiredBase = ORIGINAL_SEVEN_RARE_BASES.get(group.location)?.includes(base.name)
     ? { ...base, colors: base.colors.filter(color => color !== "Ice") }
     : base;
   return !isFullyCollected(decorStorageLocation(group), requiredBase, collected);
