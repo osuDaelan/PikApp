@@ -1,5 +1,5 @@
 // Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
-// Individual card, Leaf Hat and Chess designs expanded 2026-10-27; older grouped marks are retained for review.
+// All current catalogue entries have exact design artwork; older grouped marks remain readable for review.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",
@@ -1698,27 +1698,6 @@ export default {
     "alt": "Winged Pikmin with Ball Keychain decor",
     "width": 220,
     "height": 253
-  },
-  "theme_park__theme_park_ticket__Red": {
-    "file": "theme-park-theme-park-ticket-red.png",
-    "alt": "Red Pikmin with Theme Park Ticket decor (representative design)",
-    "width": 248,
-    "height": 258,
-    "representative": true
-  },
-  "theme_park__theme_park_ticket__Yellow": {
-    "file": "theme-park-theme-park-ticket-yellow.png",
-    "alt": "Yellow Pikmin with Theme Park Ticket decor (representative design)",
-    "width": 237,
-    "height": 258,
-    "representative": true
-  },
-  "theme_park__theme_park_ticket__Blue": {
-    "file": "theme-park-theme-park-ticket-blue.png",
-    "alt": "Blue Pikmin with Theme Park Ticket decor (representative design)",
-    "width": 245,
-    "height": 258,
-    "representative": true
   },
   "bus_stop__bus_papercraft__Red": {
     "file": "bus-stop-bus-papercraft-red.png",
@@ -6432,5 +6411,47 @@ export default {
     "height": 358,
     "representative": false,
     "alt": "Yellow Pikmin with black Chess Piece decor"
+  },
+  "theme_park__theme_park_ticket_design_1__Blue": {
+    "file": "theme-park-theme-park-ticket-blue.png",
+    "width": 245,
+    "height": 258,
+    "representative": false,
+    "alt": "Blue Pikmin with Theme Park Ticket decor, design 1"
+  },
+  "theme_park__theme_park_ticket_design_2__Blue": {
+    "file": "theme-park-ticket-design-2-blue.png",
+    "width": 255,
+    "height": 258,
+    "representative": false,
+    "alt": "Blue Pikmin with Theme Park Ticket decor, design 2"
+  },
+  "theme_park__theme_park_ticket_design_1__Red": {
+    "file": "theme-park-theme-park-ticket-red.png",
+    "width": 248,
+    "height": 258,
+    "representative": false,
+    "alt": "Red Pikmin with Theme Park Ticket decor, design 1"
+  },
+  "theme_park__theme_park_ticket_design_2__Red": {
+    "file": "theme-park-ticket-design-2-red.png",
+    "width": 251,
+    "height": 258,
+    "representative": false,
+    "alt": "Red Pikmin with Theme Park Ticket decor, design 2"
+  },
+  "theme_park__theme_park_ticket_design_1__Yellow": {
+    "file": "theme-park-theme-park-ticket-yellow.png",
+    "width": 237,
+    "height": 258,
+    "representative": false,
+    "alt": "Yellow Pikmin with Theme Park Ticket decor, design 1"
+  },
+  "theme_park__theme_park_ticket_design_2__Yellow": {
+    "file": "theme-park-ticket-design-2-yellow.png",
+    "width": 255,
+    "height": 258,
+    "representative": false,
+    "alt": "Yellow Pikmin with Theme Park Ticket decor, design 2"
   }
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, PIKMIN_COLOR_ABBR, DECOR_ICONS } from "./catalog.js";
-import { decorId, countDecorGroups, isRareLocked, isRareCostume } from "./collection.js";
+import { decorId, decorStorageLocation, countDecorGroups, isRareLocked, isRareCostume } from "./collection.js";
 import { colors } from "../../shared/styles/theme.js";
 import DecorImageTile from "./DecorImageTile.jsx";
 import { getDecorImage } from "./decorImages.js";
@@ -56,15 +56,15 @@ function DesignTile({ label, color, collected, onToggle }) {
 }
 
 // One costume variant's row of toggles — either up to 8 color toggles, or numbered design toggles
-function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode, onBulkSet }) {
+function CostumeRow({ groupLocation, storageLocation, costume, collected, onToggleColor, bulkMode, onBulkSet }) {
   const isDesignBased = !!costume.designs;
   const rare = isRareCostume(costume);
   const availSet = new Set(costume.colors);
-  const ids = (costume.designs || costume.colors).map(v => decorId(groupLocation, costume.name, v));
+  const ids = (costume.designs || costume.colors).map(v => decorId(storageLocation, costume.name, v));
   const collectedCount = ids.filter(id => collected[id]).length;
   const allCollected = collectedCount === ids.length;
   return (
-    <div role="group" aria-label={`${groupLocation} · ${costume.name}`} data-decor-set={decorSetId(groupLocation, costume.name)} style={{ marginBottom: 10 }}>
+    <div role="group" aria-label={`${groupLocation} · ${costume.name}`} data-decor-set={decorSetId(storageLocation, costume.name)} style={{ marginBottom: 10 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5, gap: 8 }}>
         <span style={{ fontSize: 12, fontWeight: 700, color: "#555", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{costume.name}</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexShrink: 0 }}>
@@ -82,7 +82,7 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
       <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
         {isDesignBased
           ? costume.designs.map(design => {
-              const id = decorId(groupLocation, costume.name, design);
+              const id = decorId(storageLocation, costume.name, design);
               const image = getDecorImage(id);
               if (image) return (
                 <DecorImageTile key={design} id={id} image={image} rare={rare} color={`${costume.color} ${design}`}
@@ -98,7 +98,7 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
               />;
             })
           : PIKMIN_COLORS.filter(color => availSet.has(color)).map(color => {
-              const id = decorId(groupLocation, costume.name, color);
+              const id = decorId(storageLocation, costume.name, color);
               const image = getDecorImage(id);
               if (image) return (
                 <DecorImageTile key={color} id={id} image={image} rare={rare} color={color}
@@ -123,7 +123,7 @@ function CostumeRow({ groupLocation, costume, collected, onToggleColor, bulkMode
 export default function DecorGroup({ group, collected, onToggleColor, isFirst, bulkMode, onBulkSet, showAllDecor }) {
   const { total, done } = countDecorGroups([group], collected);
   const visibleCostumes = group.costumes.filter(c => showAllDecor || !isRareLocked(group, c, collected));
-  const groupIds = visibleCostumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(group.location, c.name, variant)));
+  const groupIds = visibleCostumes.flatMap(c => (c.designs || c.colors).map(variant => decorId(decorStorageLocation(group), c.name, variant)));
   const allCollected = groupIds.every(id => collected[id]);
   return (
     <div style={{ padding: "12px 0", borderTop: isFirst ? "none" : "1px solid #f0f8ec" }}>
@@ -142,7 +142,7 @@ export default function DecorGroup({ group, collected, onToggleColor, isFirst, b
         </div>
       </div>
       {visibleCostumes.map(c => (
-        <CostumeRow key={c.name} groupLocation={group.location} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
+        <CostumeRow key={c.name} groupLocation={group.location} storageLocation={decorStorageLocation(group)} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
       ))}
     </div>
   );

@@ -11,9 +11,9 @@ A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor loc
 - Search by species, decor category, costume or collection status, such as `blue`, `restaurant`, `rare` or `missing`. Open **Search tips** for more options.
 - When using a missing-items search, newly collected Pikmin remain visible for three seconds so you can undo a misclick.
 
-Some older designs are grouped together and use a representative picture.
+Regular decor follows the in-game gallery order, with a separate picture and checkbox for each listed design.
 
-Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats and both white/black Chess Piece sets have individual checkboxes. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
+Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Chess Piece sets and Theme Park tickets have individual checkboxes. If you tracked them before this update, a review reminder keeps your older grouped selections available while you choose the exact designs you own.
 
 ## Decor map
 

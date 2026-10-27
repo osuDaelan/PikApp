@@ -96,6 +96,20 @@ test("old Chess marks and exact white/black choices survive export, import and r
   assert.equal(saved.chess_piece__chess_piece_white__Red, undefined);
 });
 
+test("display reordering keeps Weather/Fortune IDs and old/exact Theme Park marks compatible", () => {
+  const source = snapshot();
+  Object.assign(source.decor.collected, { weather__rainy_day_leaf_hat__2: true, weather__snowy_day_snow__White: true,
+    fortune__kichi__Rock: true, theme_park__theme_park_ticket__Red: true,
+    theme_park__theme_park_ticket_design_2__Blue: true, theme_park__theme_park_ticket_design_1__Blue: false });
+  const parsed = parseProgressBackup(createProgressBackup(source, date));
+  assert.deepEqual(parsed.decor, source.decor);
+  assert.equal(summarizeProgressBackup(parsed).collected, 5);
+  assert.equal(summarizeProgressBackup(parsed).pendingDecorReviews, 1);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(parsed, { current: snapshot(), getStorage: () => storage, now: () => Date.parse(date) });
+  assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")), source.decor.collected);
+});
+
 test("full backups round-trip calculator, explicit decor removals, map settings and private notes", () => {
   const source = snapshot();
   const text = createProgressBackup(source, date);

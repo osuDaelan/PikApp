@@ -1,5 +1,9 @@
 # Image sources
 
+## Theme Park tickets — October 27, 2026
+
+All six ticket PNGs are referenced by the two Theme Park rows in [Pikipedia's regular gallery](https://www.pikminwiki.com/Decor_Pikmin#Gallery). Three design-1 files are reused; the three design-2 files were retrieved October 27. The inventory records original file pages, URLs, dimensions and SHA-256 checksums, with old grouped records under `legacyGroupedImages`. These are Nintendo game images, not AI-generated artwork; attribution does not grant redistribution permission.
+
 ## Rainy Day Leaf Hats — October 27, 2026
 
 Three Blue Leaf Hat PNGs come from the three separate Rainy Day rows in [Pikipedia's regular decor gallery](https://www.pikminwiki.com/Decor_Pikmin#Gallery). The existing design-1 image is reused; designs 2 and 3 were retrieved October 27. The [inventory](../../docs/decor-image-sources.json) records original URLs, file pages, dimensions and checksums. The former grouped source record is preserved under `legacyGroupedImages`. These are Nintendo game images, not AI-generated artwork; attribution does not grant redistribution permission.

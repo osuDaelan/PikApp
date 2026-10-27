@@ -24,7 +24,7 @@ test("bulk updates report newly completed base and rare sets together once", () 
   const chef = findSet("Restaurant", "Chef Hat");
   const rare = findSet("Restaurant", "Chef Hat (Rare)");
   const next = collected([...chef.ids, ...rare.ids]);
-  assert.deepEqual(newlyCompletedSets({}, next), [chef, rare]);
+  assert.deepEqual(newlyCompletedSets({}, next), [rare, chef]);
   assert.deepEqual(newlyCompletedSets(next, { ...next }), []);
   assert.deepEqual(newlyCompletedSets(collected(chef.ids), next), [rare]);
 });
@@ -39,7 +39,7 @@ test("numbered and single-species sets use their actual requirements", () => {
   assert.deepEqual(newlyCompletedSets({}, collected(rain.ids.slice(0, 1))), []);
   assert.deepEqual(newlyCompletedSets({ weather__rainy_day_leaf_hat__Blue: true }, collected(rain.ids.slice(0, 2))), []);
   assert.deepEqual(newlyCompletedSets(collected(battery.ids.slice(0, 5)), collected(battery.ids)), [battery]);
-  assert.deepEqual(newlyCompletedSets({}, collected([...lights.ids, ...rain.ids])), [lights, rain]);
+  assert.deepEqual(newlyCompletedSets({}, collected([...lights.ids, ...rain.ids])), [rain, lights]);
 });
 
 test("uncollecting and genuinely completing the set again produces a new transition", () => {

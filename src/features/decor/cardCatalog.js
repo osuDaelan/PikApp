@@ -118,10 +118,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Hanafuda Card (Volume 2): Rock",
-      "color": "Rock",
+      "name": "Hanafuda Card (Volume 2): Winged",
+      "color": "Winged",
       "colors": [
-        "Rock"
+        "Winged"
       ],
       "designs": [
         "1",
@@ -130,10 +130,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Hanafuda Card (Volume 2): Winged",
-      "color": "Winged",
+      "name": "Hanafuda Card (Volume 2): Rock",
+      "color": "Rock",
       "colors": [
-        "Winged"
+        "Rock"
       ],
       "designs": [
         "1",
@@ -208,10 +208,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Mahjong Tile: Rock",
-      "color": "Rock",
+      "name": "Mahjong Tile: Winged",
+      "color": "Winged",
       "colors": [
-        "Rock"
+        "Winged"
       ],
       "designs": [
         "1",
@@ -221,10 +221,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Mahjong Tile: Winged",
-      "color": "Winged",
+      "name": "Mahjong Tile: Rock",
+      "color": "Rock",
       "colors": [
-        "Winged"
+        "Rock"
       ],
       "designs": [
         "1",
@@ -300,10 +300,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Playing Card: Rock",
-      "color": "Rock",
+      "name": "Playing Card: Winged",
+      "color": "Winged",
       "colors": [
-        "Rock"
+        "Winged"
       ],
       "designs": [
         "1",
@@ -313,10 +313,10 @@ export const CARD_COSTUMES = {
       ]
     },
     {
-      "name": "Playing Card: Winged",
-      "color": "Winged",
+      "name": "Playing Card: Rock",
+      "color": "Rock",
       "colors": [
-        "Winged"
+        "Rock"
       ],
       "designs": [
         "1",

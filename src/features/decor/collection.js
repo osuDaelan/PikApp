@@ -6,13 +6,18 @@ export function decorId(groupLocation, costumeName, color) {
   return `${slugify(groupLocation)}__${slugify(costumeName)}__${color}`;
 }
 
+// Display categories may change without changing people's saved collection IDs.
+export function decorStorageLocation(group) {
+  return group.storageLocation || group.location;
+}
+
 export function countDecorGroups(groups, collected) {
   let total = 0, done = 0;
   groups.forEach(g => {
     g.costumes.forEach(c => {
       (c.designs || c.colors).forEach(variant => {
         total++;
-        if (collected[decorId(g.location, c.name, variant)]) done++;
+        if (collected[decorId(decorStorageLocation(g), c.name, variant)]) done++;
       });
     });
   });
@@ -34,5 +39,5 @@ export function isRareLocked(group, costume, collected) {
   if (!m) return false;
   const base = group.costumes.find(c => c.name === m[1]);
   if (!base) return false;
-  return !isFullyCollected(group.location, base, collected);
+  return !isFullyCollected(decorStorageLocation(group), base, collected);
 }

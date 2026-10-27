@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "../src/features/decor/catalog.js";
-import { decorId } from "../src/features/decor/collection.js";
+import { decorId, decorStorageLocation } from "../src/features/decor/collection.js";
 import { getDecorImage, decorImageUrl } from "../src/features/decor/decorImages.js";
 
 test("every existing checklist entry resolves to its own verified PNG and source record", () => {
@@ -14,10 +14,11 @@ test("every existing checklist entry resolves to its own verified PNG and source
   for (const group of [...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES]) {
     for (const costume of group.costumes) {
       for (const variant of costume.designs || costume.colors) {
-        const id = decorId(group.location, costume.name, variant);
+        const id = decorId(decorStorageLocation(group), costume.name, variant);
         const image = getDecorImage(id);
         assert.ok(image, `No image for ${id}`);
         assert.ok(image.alt.length > 0);
+        assert.notEqual(image.representative, true, `Expected exact design artwork: ${id}`);
         assert.equal(usedFiles.has(image.file), false, `Unexpected artwork reuse: ${image.file}`);
         usedFiles.add(image.file);
         const source = sources.get(id);
@@ -33,7 +34,7 @@ test("every existing checklist entry resolves to its own verified PNG and source
       }
     }
   }
-  assert.equal(entries, 1053);
+  assert.equal(entries, 1056);
   assert.equal(sources.size, entries);
   assert.equal(getDecorImage("unknown_decor"), null);
 });

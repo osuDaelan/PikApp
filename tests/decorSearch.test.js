@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "../src/features/decor/catalog.js";
-import { decorId, countDecorGroups } from "../src/features/decor/collection.js";
+import { decorId, decorStorageLocation, countDecorGroups } from "../src/features/decor/collection.js";
 import { compileDecorSearch, searchDecorCatalog, MAX_DECOR_SEARCH_LENGTH } from "../src/features/decor/search.js";
 
 function results(query, collected = {}, recentEdits) {
@@ -12,7 +12,7 @@ function results(query, collected = {}, recentEdits) {
 function ids(query, collected = {}, recentEdits) {
   const { regular, special } = results(query, collected, recentEdits);
   return [...regular, ...special].flatMap(group => group.costumes.flatMap(costume =>
-    (costume.designs || costume.colors).map(variant => decorId(group.location, costume.name, variant))));
+    (costume.designs || costume.colors).map(variant => decorId(decorStorageLocation(group), costume.name, variant))));
 }
 const redChef = "restaurant__chef_hat__Red";
 const blueChef = "restaurant__chef_hat__Blue";
@@ -22,7 +22,7 @@ test("empty searches preserve the original catalog references, order and stable 
   const { regular, special } = results("  \u3000 ");
   assert.equal(regular, DECOR_LOCATIONS);
   assert.equal(special, DECOR_SPECIAL_CATEGORIES);
-  assert.equal(ids("").length, 1053);
+  assert.equal(ids("").length, 1056);
   assert.deepEqual(ids("!not-an-existing-costume"), ids(""));
 });
 
@@ -68,6 +68,24 @@ test("Rainy Day searches find exact designs without treating an old Blue mark as
   assert.equal(ids("missing rainy", saved).length, 2);
 });
 
+test("renamed categories keep old search aliases and collect the same saved variants", () => {
+  const saved = { weather__rainy_day_leaf_hat__2: true, weather__snowy_day_snow__White: true, fortune__kichi__Rock: true };
+  assert.deepEqual(ids("collected rainy", saved), ["weather__rainy_day_leaf_hat__2"]);
+  assert.deepEqual(ids("collected snowy", saved), ["weather__snowy_day_snow__White"]);
+  assert.equal(ids("weather").length, 6);
+  assert.deepEqual(ids("fortune"), ids('="Shrine & Temple"'));
+  assert.deepEqual(ids("collected shrine", saved), ["fortune__kichi__Rock"]);
+});
+
+test("Theme Park design searches expose six independent tiles and safe bulk targets", () => {
+  assert.equal(ids('"Theme Park"').length, 6);
+  assert.equal(ids('"Theme Park" "Design 2"').length, 3);
+  assert.deepEqual(ids('"Theme Park" "Design 2" blue'), ["theme_park__theme_park_ticket_design_2__Blue"]);
+  const saved = { theme_park__theme_park_ticket__Red: true, theme_park__theme_park_ticket_design_1__Red: true };
+  assert.deepEqual(ids('"Theme Park" collected', saved), ["theme_park__theme_park_ticket_design_1__Red"]);
+  assert.equal(ids('"Theme Park" missing', saved).length, 5);
+});
+
 test("Chess searches distinguish piece sides from Pikmin species and preserve filtered action targets", () => {
   assert.equal(ids("chess").length, 14);
   assert.equal(ids('"Chess Piece: White"').length, 7);
@@ -92,8 +110,8 @@ test("text searches cover categories, partial costume names, species labels, acc
 test("collected and missing reflect live progress and do not modify it", () => {
   const saved = { [redChef]: true, [blueChef]: false, [redRareChef]: true, unrelated: true };
   const before = structuredClone(saved);
-  assert.deepEqual(ids("collected", saved), [redChef, redRareChef]);
-  assert.equal(ids("missing", saved).length, 1051);
+  assert.deepEqual(ids("collected", saved), [redRareChef, redChef]);
+  assert.equal(ids("missing", saved).length, 1054);
   assert.ok(ids("missing", saved).includes(blueChef));
   assert.deepEqual(saved, before);
   assert.deepEqual(ids("collected restaurant !rare", { ...saved, [blueChef]: true }), [redChef, blueChef]);
@@ -101,10 +119,10 @@ test("collected and missing reflect live progress and do not modify it", () => {
 
 test("rare, regular and event/special filters use catalog metadata, not names", () => {
   assert.equal(ids("rare").length, 107);
-  assert.equal(ids("regular").length, 524);
+  assert.equal(ids("regular").length, 527);
   assert.equal(ids("event").length, 529);
   assert.deepEqual(ids("special"), ids("event"));
-  assert.equal(ids("regular !rare").length, 417);
+  assert.equal(ids("regular !rare").length, 420);
   assert.equal(ids("event rare").length, 0);
   assert.equal(ids("event golden").length, 1);
   assert.equal(ids("event golden rare").length, 0);

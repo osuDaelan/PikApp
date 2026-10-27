@@ -2,7 +2,7 @@
   "retrieved": "2026-10-18",
   "source": "Pikipedia gallery artwork",
   "rights": "Pikmin artwork belongs to Nintendo. Attribution does not grant a redistribution license.",
-  "representativeDesigns": "Some existing checklist entries combine multiple in-game designs. These records use one explicitly marked representative without changing saved IDs.",
+  "representativeDesigns": "All active entries map to exact designs. Retired representative records remain under legacyCardImages and legacyGroupedImages for historical provenance.",
   "images": [
     {
       "id": "restaurant__chef_hat__Red",
@@ -3682,45 +3682,6 @@
       "bytes": 24367,
       "sha256": "a884128dc5382c2e40c0b51adaa0a173f8c9e25e0a887e1efe0149ec059fb8d8",
       "representative": false
-    },
-    {
-      "id": "theme_park__theme_park_ticket__Red",
-      "file": "theme-park-theme-park-ticket-red.png",
-      "title": "Decor Red Theme Park Ticket 1.png",
-      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
-      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_Theme_Park_Ticket_1.png",
-      "originalUrl": "https://pikmin.wiki.gallery/images/0/0e/Decor_Red_Theme_Park_Ticket_1.png",
-      "width": 248,
-      "height": 258,
-      "bytes": 36890,
-      "sha256": "e3381800776d7aec11470bfc1d20e0ae383cdc6c3549bf0ff482ed3361e7917d",
-      "representative": true
-    },
-    {
-      "id": "theme_park__theme_park_ticket__Yellow",
-      "file": "theme-park-theme-park-ticket-yellow.png",
-      "title": "Decor Yellow Theme Park Ticket 1.png",
-      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
-      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_Theme_Park_Ticket_1.png",
-      "originalUrl": "https://pikmin.wiki.gallery/images/e/e2/Decor_Yellow_Theme_Park_Ticket_1.png",
-      "width": 237,
-      "height": 258,
-      "bytes": 41774,
-      "sha256": "28ea875c15ac6ad9f77f7dfa1f62b486d398f9bdfb377e6a054d2ffbeb0d6245",
-      "representative": true
-    },
-    {
-      "id": "theme_park__theme_park_ticket__Blue",
-      "file": "theme-park-theme-park-ticket-blue.png",
-      "title": "Decor Blue Theme Park Ticket 1.png",
-      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
-      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_Theme_Park_Ticket_1.png",
-      "originalUrl": "https://pikmin.wiki.gallery/images/4/40/Decor_Blue_Theme_Park_Ticket_1.png",
-      "width": 245,
-      "height": 258,
-      "bytes": 39330,
-      "sha256": "6e2facdacb373c821d520246b29fe6927d7c70a72a3ba037c46eebd4f4652ef1",
-      "representative": true
     },
     {
       "id": "bus_stop__bus_papercraft__Red",
@@ -13771,6 +13732,84 @@
       "bytes": 28198,
       "sha256": "266deeaff2efcd770f4d5ef9434804a9babeceebd75143b7bfe89c31084fe10a",
       "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_1__Blue",
+      "file": "theme-park-theme-park-ticket-blue.png",
+      "title": "Decor Blue Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/4/40/Decor_Blue_Theme_Park_Ticket_1.png",
+      "width": 245,
+      "height": 258,
+      "bytes": 39330,
+      "sha256": "6e2facdacb373c821d520246b29fe6927d7c70a72a3ba037c46eebd4f4652ef1",
+      "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_2__Blue",
+      "file": "theme-park-ticket-design-2-blue.png",
+      "title": "Decor Blue Theme Park Ticket 2.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_Theme_Park_Ticket_2.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/b/b3/Decor_Blue_Theme_Park_Ticket_2.png",
+      "width": 255,
+      "height": 258,
+      "bytes": 45014,
+      "sha256": "a711ed61b45d77cc03b23f700ee5663d8d7e7d6a550408c9d18b4d870c2deea9",
+      "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_1__Red",
+      "file": "theme-park-theme-park-ticket-red.png",
+      "title": "Decor Red Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/0/0e/Decor_Red_Theme_Park_Ticket_1.png",
+      "width": 248,
+      "height": 258,
+      "bytes": 36890,
+      "sha256": "e3381800776d7aec11470bfc1d20e0ae383cdc6c3549bf0ff482ed3361e7917d",
+      "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_2__Red",
+      "file": "theme-park-ticket-design-2-red.png",
+      "title": "Decor Red Theme Park Ticket 2.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_Theme_Park_Ticket_2.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/8/88/Decor_Red_Theme_Park_Ticket_2.png",
+      "width": 251,
+      "height": 258,
+      "bytes": 43206,
+      "sha256": "40bc6409e335fa4d3761a254448e8435c95d838aae79c8e75bec524368988c68",
+      "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_1__Yellow",
+      "file": "theme-park-theme-park-ticket-yellow.png",
+      "title": "Decor Yellow Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/e/e2/Decor_Yellow_Theme_Park_Ticket_1.png",
+      "width": 237,
+      "height": 258,
+      "bytes": 41774,
+      "sha256": "28ea875c15ac6ad9f77f7dfa1f62b486d398f9bdfb377e6a054d2ffbeb0d6245",
+      "representative": false
+    },
+    {
+      "id": "theme_park__theme_park_ticket_design_2__Yellow",
+      "file": "theme-park-ticket-design-2-yellow.png",
+      "title": "Decor Yellow Theme Park Ticket 2.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_Theme_Park_Ticket_2.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/a/a6/Decor_Yellow_Theme_Park_Ticket_2.png",
+      "width": 255,
+      "height": 258,
+      "bytes": 47418,
+      "sha256": "78fe842339de6f6a28b48f59efdf213bcd46cb651468bf31a584a085434f3a38",
+      "representative": false
     }
   ],
   "updated": "2026-10-27",
@@ -14217,6 +14256,45 @@
       "bytes": 20321,
       "sha256": "cd842adc4213ab1136767b61b702229e8af48540066b9847a0dc1e9c04130a5c",
       "representative": true
+    },
+    {
+      "id": "theme_park__theme_park_ticket__Red",
+      "file": "theme-park-theme-park-ticket-red.png",
+      "title": "Decor Red Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/0/0e/Decor_Red_Theme_Park_Ticket_1.png",
+      "width": 248,
+      "height": 258,
+      "bytes": 36890,
+      "sha256": "e3381800776d7aec11470bfc1d20e0ae383cdc6c3549bf0ff482ed3361e7917d",
+      "representative": true
+    },
+    {
+      "id": "theme_park__theme_park_ticket__Yellow",
+      "file": "theme-park-theme-park-ticket-yellow.png",
+      "title": "Decor Yellow Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/e/e2/Decor_Yellow_Theme_Park_Ticket_1.png",
+      "width": 237,
+      "height": 258,
+      "bytes": 41774,
+      "sha256": "28ea875c15ac6ad9f77f7dfa1f62b486d398f9bdfb377e6a054d2ffbeb0d6245",
+      "representative": true
+    },
+    {
+      "id": "theme_park__theme_park_ticket__Blue",
+      "file": "theme-park-theme-park-ticket-blue.png",
+      "title": "Decor Blue Theme Park Ticket 1.png",
+      "gallery": "https://www.pikminwiki.com/Decor_Pikmin",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_Theme_Park_Ticket_1.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/4/40/Decor_Blue_Theme_Park_Ticket_1.png",
+      "width": 245,
+      "height": 258,
+      "bytes": 39330,
+      "sha256": "6e2facdacb373c821d520246b29fe6927d7c70a72a3ba037c46eebd4f4652ef1",
+      "representative": true
     }
   ],
   "rainyDayDesignReview": {
@@ -14236,5 +14314,11 @@
       "Black": 7
     },
     "compatibility": "Previous species-level Chess Piece marks are preserved for review; they do not imply ownership of either side."
+  },
+  "themeParkDesignReview": {
+    "date": "2026-10-27",
+    "source": "https://www.pikminwiki.com/Decor_Pikmin#Gallery",
+    "designs": 6,
+    "compatibility": "Three old grouped marks remain available for review without inferring either ticket design. Other saved IDs are unchanged by display reordering."
   }
 }

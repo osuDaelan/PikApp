@@ -10,6 +10,7 @@ const definitions = [
   ["Playing Card", "Playing Card", colors],
   ["Weather", "Rainy Day: Leaf Hat", ["Blue"]],
   ["Chess Piece", "Chess Piece", colors],
+  ["Theme Park", "Theme Park Ticket", ["Red", "Yellow", "Blue"]],
 ];
 
 export const LEGACY_GROUPED_ENTRIES = definitions.flatMap(([location, costume, species]) =>
@@ -17,5 +18,5 @@ export const LEGACY_GROUPED_ENTRIES = definitions.flatMap(([location, costume, s
 
 export function pendingLegacyDecor(collected, section) {
   return LEGACY_GROUPED_ENTRIES.filter(entry => collected[entry.id] === true &&
-    (!section || (section === "regular" ? entry.location === "Weather" : entry.location !== "Weather")));
+    (!section || (section === "regular" ? ["Weather", "Theme Park"].includes(entry.location) : !["Weather", "Theme Park"].includes(entry.location))));
 }

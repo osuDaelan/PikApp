@@ -1,5 +1,15 @@
 # Decor image rollout and performance checks
 
+## Regular gallery order and Theme Park tickets — October 27, 2026
+
+Current coverage is **1,056 entries: 527 regular/rare and 529 special/event**, with exact local PNGs for every active entry and no representative mappings. Theme Park now has two numbered-design rows, each for Red, Yellow and Blue. Three matching existing PNGs are reused and three original design-2 PNGs added (135,638 bytes combined). Total active PNG bytes: 33,340,389. Sources, dimensions and checksums are in `decor-image-sources.json`; retired records remain archived.
+
+Regular categories, costume rows, numbered designs and species order now match [Pikipedia's Gallery](https://www.pikminwiki.com/Decor_Pikmin#Gallery). Roadside follows Library & Bookstore; Rainy Day and Snowy Day follow Stadium; Shrine & Temple follows Makeup Store. Rare rows precede base rows when visible, and Winged precedes Rock. Existing rare unlocking/Show all behavior is retained. `tests/fixtures/decor-regular-gallery.json` records the independently extracted gallery image sequence, category headings and species columns; tests compare all 527 rendered-order IDs with this source snapshot.
+
+`storageLocation` keeps display names separate from saved IDs. `decorStorageLocation` preserves Weather namespaces for Rainy/Snowy Day and Fortune for Shrine & Temple across counts, search, toggles, artwork, set IDs and version-1 transfers. Old category search aliases still work. Three retired Theme Park marks join the previous 33 grouped marks for explicit review without guessed ownership; the other 860 original IDs remain active. Map category IDs are unchanged, and Theme Park collection progress now counts six exact tickets.
+
+Verification: **180 Node tests and the production `/PikApp/` build pass**. Browser DOM order matched all 527 source-gallery filenames with Show all enabled. All six ticket PNGs loaded, and one exact choice survived reload independently. A synthetic old save retained Rainy Day, Snowy Day and Fortune selections under the new headings; its grouped Theme Park selection appeared for review without selecting a design. Completing review retained all four exact selections. No browser warnings/errors were recorded, and testing used an isolated origin without altering real user progress. Historical milestones below retain their original counts.
+
 ## Rainy Day Leaf Hats and Chess Pieces — October 27, 2026
 
 Current coverage is **1,053 entries: 524 regular/rare and 529 special/event**. The regular gallery has three separate Blue Leaf Hat rows, referencing `Decor_Blue_Leaf_Hat_1.png`, `_2.png` and `_3.png`. Weather → Rainy Day now uses three numbered design tiles, each with independent collection state and artwork. The existing design-1 PNG is reused and two original PNGs were added (37,035 bytes combined).

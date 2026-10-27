@@ -1,5 +1,5 @@
 import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES, PIKMIN_COLORS } from "./catalog.js";
-import { decorId, isRareCostume } from "./collection.js";
+import { decorId, decorStorageLocation, isRareCostume } from "./collection.js";
 
 export const MAX_DECOR_SEARCH_LENGTH = 512;
 export const DECOR_SEARCH_GRACE_MS = 3000;
@@ -16,9 +16,9 @@ function indexGroups(groups, section) {
     entries: (costume.designs || costume.colors).map(variant => {
       const species = costume.designs ? costume.color : variant;
       return {
-        id: decorId(group.location, costume.name, variant), variant, section,
+        id: decorId(decorStorageLocation(group), costume.name, variant), variant, section,
         species: normalize(species), rare: isRareCostume(costume),
-        fields: [group.location, costume.name, species, `${species} Pikmin`,
+        fields: [group.location, decorStorageLocation(group), costume.name, species, `${species} Pikmin`,
           ...(costume.designs ? [`design ${variant}`] : [])].map(normalize),
       };
     }),

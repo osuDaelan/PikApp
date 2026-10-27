@@ -2,7 +2,7 @@
 
 Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and one private feedback form, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
 
-Last reviewed October 27, 2026, after the individual card-design expansion. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 27, 2026, after matching regular gallery order and expanding all six Theme Park tickets. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -20,7 +20,7 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 
 ## 2. Add images to the decor tracker
 
-Images cover all 1,053 current checklist entries (524 regular/rare, 529 special/event), including numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; three remaining grouped Theme Park entries use representative designs. The October 27 card, Leaf Hat and Chess expansions retain old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
+Images cover all 1,056 current checklist entries (527 regular/rare, 529 special/event), including numbered designs. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums are recorded per asset; all active entries use exact design artwork. The October 27 card, Leaf Hat, Chess and Theme Park expansions retain old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
 
 - [x] Recheck regular/event galleries on October 22 and add 79 missing entries with verified artwork: 975 total (522 regular/rare, 453 event).
 - [x] Preserve all 896 original IDs and test old/new full-progress backup compatibility. Full suite: 114 tests; production build and ordinary browser persistence checks pass.
@@ -28,7 +28,8 @@ Images cover all 1,053 current checklist entries (524 regular/rare, 529 special/
 - [x] Expand Hanafuda (24 + 16), Playing Card (27) and Mahjong (27) into individual pictured designs. Preserve the 25 older grouped marks for explicit review and keep old/new progress backups compatible.
 - [x] Expand Rainy Day into three pictured Blue Leaf Hat designs; retain the previous grouped mark for explicit review and backup compatibility.
 - [x] Separate Chess Pieces into white and black sets of seven, with local artwork and safe review of older species-level marks.
-- [ ] Expand remaining grouped Theme Park tickets with explicit save compatibility rules; keep their representative flags until then.
+- [x] Expand all six Theme Park tickets, preserving three old grouped marks for review; no representative entries remain.
+- [x] Match regular category/costume/design order to the wiki gallery, with Winged before Rock. Retain Weather/Fortune save namespaces under the new display headings. Verify all 527 regular tiles against a source-derived gallery fixture.
 
 ### Asset preparation
 
