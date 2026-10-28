@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { fmtDate, fmtTime } from "../format.js";
 import BrowserSaveStatus from "./BrowserSaveStatus.jsx";
 import FeedbackButton from "../../features/feedback/FeedbackButton.jsx";
+import { readFirebaseConfig } from "../../features/auth/firebaseConfig.js";
+import AccountMenu from "../../features/auth/AccountMenu.jsx";
 import "./app-header.css";
+
+// Keep guest use and initial loading independent of the optional auth service.
+const signInConfigured = readFirebaseConfig(import.meta.env) !== null;
 
 export default function AppHeader({ getProgressSnapshot, onProgressImported, importComplete }) {
   const [now, setNow] = useState(() => new Date());
@@ -31,6 +36,7 @@ export default function AppHeader({ getProgressSnapshot, onProgressImported, imp
       <div className="app-header-actions">
         <BrowserSaveStatus getProgressSnapshot={getProgressSnapshot} onProgressImported={onProgressImported} importComplete={importComplete} />
         <FeedbackButton />
+        {signInConfigured && <AccountMenu />}
       </div>
     </div>
   );

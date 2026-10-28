@@ -1,8 +1,8 @@
 # PikApp TODOs
 
-Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus is reliable browser autosave, returning visits, manual full-progress file transfer and one private feedback form, alongside decor-map refinement. Accounts and automatic cloud synchronization are deferred.
+Goal: expand PikApp as an all-in-one Pikmin Bloom companion. The current focus includes reliable browser saves, manual transfer, private feedback, decor-map refinement and Google sign-in setup. Automatic cloud synchronization is a separate upcoming phase.
 
-Last reviewed October 27, 2026, after matching regular gallery order and expanding all six Theme Park tickets. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. At the user's request, Google sign-in is hidden entirely; its code is retained but unmounted, and Firebase configuration/cloud sync are deferred. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
+Last reviewed October 28, 2026, after preparing configuration-gated Google sign-in. Checked tasks are completed milestones; unchecked tasks are remaining work. See [the project guide](docs/PROJECT_GUIDE.md) for current architecture and [the map plan](docs/DECOR_MAP_PLAN.md) for proposed map boundaries. Google sign-in stays hidden until Firebase is configured; the owner needs a new project and setup guidance. Browser-local calculator, checklist and map progress remain available without an account. The map uses the chosen OSM/Overpass approach. The repository is public and HTTPS GitHub Pages uses GitHub Actions; pushes to `main` test, build and deploy the app to [PikApp](https://osuDaelan.github.io/PikApp/).
 
 ## 1. Organize the existing app for new sections
 
@@ -94,20 +94,20 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [ ] Profile dense real-world results and GPS/touch behavior on a physical phone; add clustering or list pagination if measurements justify it.
 - [x] Document data uncertainty and keep candidate locations distinct from guaranteed game results.
 
-## 4. Deferred accounts with Google sign-in
+## 4. Accounts with Google sign-in
 
-On October 22 the user chose to hide sign-in entirely and focus on browser autosave and returning visits. The completed auth groundwork below is retained for later; it is not mounted and does not initialize Firebase or enter the production app bundle. Configuration and real OAuth verification are deferred, not current user setup tasks. Google sign-in would establish identity; a separate database/storage layer would save account progress.
+On October 28 the owner resumed Google sign-in work. The header now enables its account control when complete Firebase Web configuration is supplied; otherwise it stays hidden and never initializes Firebase. Project configuration and real OAuth verification are the next steps. Google sign-in establishes identity; a separate database/storage layer will save account progress. Browser progress is shared by accounts using the same browser until that separate phase is implemented; the dialog explains this.
 
 - [x] Select Firebase Authentication with Google for the sign-in foundation. Firestore is proposed for the separate cloud-sync phase.
 - [ ] Define which data belongs to an account: decor collection, player stats, daily averages, and lasting preferences.
 - [ ] Set up separate development and production configuration.
 - [ ] Configure Google sign-in and approved local/production callback URLs.
-- [x] Implement sign-in, sign-out, and account status controls; retain them unmounted with no visible account control, at the user's request.
+- [x] Implement sign-in, sign-out, and account status controls, mounted in the shared header only with complete configuration.
 - [x] Implement cancelled sign-in, expired-session/error messages and loading/retry handling; cover the session controller with controlled-client tests.
-- [x] Implement Firebase's session observer and cleanup for future account use; do not mount it while sign-in is deferred.
+- [x] Implement Firebase's session observer and cleanup; clear stale displayed identities on failed checks and verify fresh identity before retrying.
 - [ ] Verify real Google sign-in, restoration, sign-out and mobile popup behavior after configuring Firebase. See [setup and verification](docs/GOOGLE_SIGN_IN.md).
 - [x] Keep guest use available without requiring an account.
-- [x] Keep privileged server credentials out of the frontend and Git; commit a blank Web-config template and ignore local env files.
+- [x] Keep privileged server credentials out of the frontend and Git; document the public Web configuration fields and ignore local env files. No public env template is retained, at owner request.
 - [ ] Enforce per-user access in the database/backend so users can only read and change their own progress.
 - [ ] Explain what account data is saved and how users can delete it.
 

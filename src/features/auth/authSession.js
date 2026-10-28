@@ -72,7 +72,7 @@ export function createAuthSession({ configured, loadClient }) {
     if (!configured || !leases.size) return;
     running = true;
     const run = generation;
-    update({ status: "loading", pending: null, error: "" });
+    update({ status: "loading", user: null, pending: null, error: "" });
     Promise.resolve().then(() => current(run) ? loadClient() : null).then(loaded => {
       if (!current(run)) return;
       if (!loaded || typeof loaded.watch !== "function" || typeof loaded.signIn !== "function"
@@ -82,17 +82,17 @@ export function createAuthSession({ configured, loadClient }) {
         if (!current(run)) return;
         const normalized = safeUser(user);
         if (user && !normalized) {
-          update({ status: "error", pending: null, error: authErrorMessage(null) });
+          update({ status: "error", user: null, pending: null, error: authErrorMessage(null) });
           return;
         }
         update({ status: normalized ? "signed-in" : "guest", user: normalized, error: "" });
       }, error => {
-        if (current(run)) update({ status: "error", pending: null, error: authErrorMessage(error) });
+        if (current(run)) update({ status: "error", user: null, pending: null, error: authErrorMessage(error) });
       });
       if (current(run)) unwatch = typeof cleanup === "function" ? cleanup : null;
       else cleanup?.();
     }).catch(error => {
-      if (current(run)) update({ status: "error", pending: null, error: authErrorMessage(error) });
+      if (current(run)) update({ status: "error", user: null, pending: null, error: authErrorMessage(error) });
     });
   }
 

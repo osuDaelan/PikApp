@@ -34,7 +34,7 @@ function AccountMenu() {
 
       <div className="account-dialog__local">
         <strong>Progress saves in this browser</strong>
-        <p>For now, your stats, checklist and map pins stay on this device. Cross-device saving is coming next.</p>
+        <p>Signing in does not upload your progress yet. Your stats, checklist and map pins stay in this browser, including when you switch accounts.</p>
       </div>
 
       {auth.status === "unconfigured" && <p className="account-dialog__hint">Google sign-in is being set up. Guest mode is ready to use.</p>}

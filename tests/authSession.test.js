@@ -71,6 +71,36 @@ test("actions wait for the observer to finish checking the session", async () =>
   stop();
 });
 
+test("a failed session check clears stale identity and waits for a verified retry", async () => {
+  const { session, observers, calls, stop } = await ready(person);
+  observers[0].error({ code: "auth/user-token-expired" });
+  assert.equal(session.getSnapshot().status, "error");
+  assert.equal(session.getSnapshot().user, null);
+  assert.match(session.getSnapshot().error, /expired/);
+  await session.signIn(); await session.signOut();
+  assert.equal(calls.signIn, 0);
+  assert.equal(calls.signOut, 0);
+  session.retry();
+  assert.equal(session.getSnapshot().status, "loading");
+  assert.equal(session.getSnapshot().user, null);
+  await settle();
+  observers[0].user(person); // Old listeners cannot restore the rejected account.
+  assert.equal(session.getSnapshot().user, null);
+  observers[1].user({ ...person, uid: "verified-account" });
+  assert.equal(session.getSnapshot().user.uid, "verified-account");
+  assert.equal(session.getSnapshot().status, "signed-in");
+  stop();
+});
+
+test("invalid observer identities cannot leave a previous account displayed", async () => {
+  const { session, observers, stop } = await ready(person);
+  observers[0].user({ displayName: "Unverified", accessToken: "private-token" });
+  assert.equal(session.getSnapshot().status, "error");
+  assert.equal(session.getSnapshot().user, null);
+  assert.doesNotMatch(session.getSnapshot().error, /Unverified|private-token/);
+  stop();
+});
+
 test("sign-in is observer-authoritative and duplicate actions are ignored", async () => {
   const { session, client, observers, stop } = await ready();
   const pending = deferred();

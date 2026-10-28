@@ -39,7 +39,7 @@ The public website uses [GitHub Pages](https://osuDaelan.github.io/PikApp/). `.g
 
 On October 21, 2026, the user authorized making the repository public and publishing the app. GitHub Pages is configured to use **GitHub Actions**, with HTTPS enforced. Follow deployments in [Actions → Deploy PikApp to GitHub Pages](https://github.com/osuDaelan/PikApp/actions/workflows/deploy.yml). A successful run publishes that commit; a local commit alone does not publish it. Future pushes to `main` automatically run the same checks and deployment.
 
-The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site; full-progress JSON export/import provides manual transfer. Devices do not sync automatically. Google sign-in is hidden and cloud saving is deferred. GitHub Pages hosts the frontend rather than an account database.
+The site is available on mobile and other computers without the development PC running. Progress remains in each browser's local storage. Existing localhost saves do not automatically transfer to the published site; full-progress JSON export/import provides manual transfer. Devices do not sync automatically. Google sign-in appears only with complete Firebase Web configuration; live setup/verification is pending and cloud saving is separate. See [Google sign-in setup](GOOGLE_SIGN_IN.md). GitHub Pages hosts the frontend rather than an account database.
 
 To check the hosted path locally:
 

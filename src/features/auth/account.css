@@ -1,4 +1,4 @@
-.account-menu { position: absolute; top: 18px; left: 18px; z-index: 10001; }
+.account-menu { display: flex; }
 .account-menu__trigger { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 12px; border: 1px solid #dce8d7; border-radius: 20px; background: #fffffff5; color: #285338; font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 2px 8px #00000012; }
 .account-menu__trigger:focus-visible, .account-dialog button:focus-visible { outline: 3px solid #285338; outline-offset: 3px; }
 .account-dialog { width: min(360px, calc(100vw - 36px)); max-height: calc(100dvh - 40px); overflow-y: auto; box-sizing: border-box; border: 1px solid #dce8d7; border-radius: 20px; padding: 26px 22px 18px; color: #24432c; background: #fffefb; text-align: left; font: inherit; box-shadow: 0 16px 60px #00000040; }
@@ -17,8 +17,3 @@
 .account-dialog__action { border: 0; background: #327b50; color: white; }
 .account-dialog__guest { margin-top: 8px; border: 0; background: transparent; color: #285338; }
 .account-dialog button:disabled { opacity: .55; cursor: default; }
-@media (max-width: 719px) {
-  .account-menu { left: 12px; top: 20px; }
-  .account-menu__trigger { padding: 0; width: 34px; height: 34px; justify-content: center; }
-  .account-menu__trigger span { display: none; }
-}
