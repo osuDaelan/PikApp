@@ -20,7 +20,7 @@ Hanafuda, Playing Cards, Mahjong tiles, Rainy Day Leaf Hats, both white/black Ch
 
 - Choose decor categories, zoom into an area, then select **Search this area**. Results stay visible while you move the map; search again to load another area.
 - Turn on **Missing only** to focus on categories you still need in your checklist.
-- Completed categories use yellow icons on dark charcoal-green. Completion includes every listed color and variant, including rares; incomplete categories keep their black icons.
+- Category icons keep their original black artwork. A gold star marks a fully completed category, including every listed color and variant and all rares. Green checkboxes show which categories you have selected for the map.
 - Use **Add pin**, select a spot on the map, then enter a name, optional notes and categories and choose **Save pin**. Reopen saved places through **My pins** or their map markers.
 - Use **Locate me** to move to your location, or explore manually. Location permission is requested only when you choose it.
 

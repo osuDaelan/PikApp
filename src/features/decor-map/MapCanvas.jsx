@@ -5,6 +5,7 @@ import { CATEGORY_BY_ID } from "./categories.js";
 import { MAP_TILES } from "./providers.js";
 import { featureStyle, markerColors, placeCategory } from "./mapPresentation.js";
 import { categoryImageUrl } from "./categoryImages.js";
+import completionStarUrl from "./completion-star.svg";
 
 function markerIcon(categoryId, saved = false, selected = false, completed = false) {
   const url = categoryImageUrl(categoryId, import.meta.env.BASE_URL);
@@ -13,13 +14,7 @@ function markerIcon(categoryId, saved = false, selected = false, completed = fal
   const colors = markerColors(categoryId, saved);
   element.style.setProperty("--marker-accent", colors.accent);
   element.style.setProperty("--marker-tint", colors.tint);
-  if (url && completed) {
-    const symbol = document.createElement("span");
-    symbol.className = "decor-map__completion-symbol";
-    symbol.style.setProperty("--decor-category-image", `url("${url}")`);
-    symbol.setAttribute("aria-hidden", "true");
-    element.append(symbol);
-  } else if (url) {
+  if (url) {
     const image = document.createElement("img");
     image.src = url;
     image.alt = "";
@@ -28,6 +23,16 @@ function markerIcon(categoryId, saved = false, selected = false, completed = fal
     image.decoding = "async";
     image.setAttribute("aria-hidden", "true");
     element.append(image);
+    if (completed) {
+      const star = document.createElement("img");
+      star.src = completionStarUrl;
+      star.className = "decor-map__completion-star";
+      star.alt = "";
+      star.width = 13;
+      star.height = 13;
+      star.setAttribute("aria-hidden", "true");
+      element.append(star);
+    }
   } else element.textContent = "📍";
   return L.divIcon({ html: element, className: "decor-map-marker-host", iconSize: [32, 32], iconAnchor: [16, 16] });
 }

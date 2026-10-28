@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MAP_CATEGORIES, CATEGORY_BY_ID } from "./categories.js";
 import CategoryIcon from "./CategoryIcon.jsx";
+import CompletionStar from "./CompletionStar.jsx";
 
 export function CategoryPanel({ selectedIds, stats, completedCategoryIds, onToggle, onSelectAll, onClear, missingOnly, onMissingOnly, results, onPlace }) {
   const [filter, setFilter] = useState("");
@@ -16,19 +17,19 @@ export function CategoryPanel({ selectedIds, stats, completedCategoryIds, onTogg
       {categories.map(category => {
         const count = stats.get(category.id);
         return <button type="button" key={category.id} aria-pressed={selectedIds.includes(category.id)} onClick={() => onToggle(category.id)}>
-          <CategoryIcon categoryId={category.id} completed={completedCategoryIds.has(category.id)} />
-          <span className="decor-map__category-name">{category.label}<small>{count.done}/{count.total} collected</small></span>
+          <CategoryIcon categoryId={category.id} />
+          <span className="decor-map__category-name"><span className="decor-map__category-title">{category.label}{completedCategoryIds.has(category.id) && <CompletionStar />}</span><small>{count.done}/{count.total} collected</small></span>
           <span className="decor-map__category-check" aria-hidden="true">{selectedIds.includes(category.id) ? "✓" : ""}</span>
         </button>;
       })}
       {!categories.length && <p className="decor-map__hint">No matching categories.</p>}
     </div>
-    <p className="decor-map__hint">Yellow icons mean the entire category is collected, including rare variants.</p>
+    <p className="decor-map__hint">Gold stars mean the entire category is collected, including rare variants.</p>
     <p className="decor-map__hint">Location categories only. Weather, event decors and rare variants are not predicted by this map.</p>
     {results.hasScan && <div className="decor-map__result-list">
       <h3>Places found · {results.places.length}</h3>
       {results.places.slice(0, shown).map(place => <button type="button" key={place.id} onClick={() => onPlace(place)}>
-        <CategoryIcon categoryId={place.categoryIds[0]} completed={completedCategoryIds.has(place.categoryIds[0])} /><span>{place.name}<small>{place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ")}</small></span>
+        <CategoryIcon categoryId={place.categoryIds[0]} /><span><span className="decor-map__category-title">{place.name}{completedCategoryIds.has(place.categoryIds[0]) && <CompletionStar />}</span><small>{place.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ")}</small></span>
       </button>)}
       {results.places.length > shown && <button type="button" onClick={() => setShown(value => value + 30)}>Show more places</button>}
     </div>}
@@ -43,7 +44,7 @@ export function PlaceDetails({ place, stats, completedCategoryIds, saved, onSave
     <p className="decor-map__hint">{place.geometry.type === "Point" ? "Mapped place" : "Mapped area or path · pin location is approximate"}</p>
     <div className="decor-map__place-categories">{place.categoryIds.map(id => {
       const category = CATEGORY_BY_ID.get(id), count = stats.get(id);
-      return <div key={id}><CategoryIcon categoryId={id} completed={completedCategoryIds.has(id)} /><div><strong>{category.label}</strong><small>{count.done}/{count.total} collected in your checklist{completedCategoryIds.has(id) ? " · Complete" : ""}</small></div></div>;
+      return <div key={id}><CategoryIcon categoryId={id} /><div><strong className="decor-map__category-title">{category.label}{completedCategoryIds.has(id) && <CompletionStar />}</strong><small>{count.done}/{count.total} collected in your checklist{completedCategoryIds.has(id) ? " · Complete" : ""}</small></div></div>;
     })}</div>
     <p>OSM tags suggest these categories. Pikmin Bloom may show different results.</p>
     <button type="button" className="decor-map__primary" onClick={onSave}>{saved ? "Edit saved pin" : "Save this place"}</button>
@@ -62,7 +63,7 @@ export function PinsPanel({ pins, completedCategoryIds, onSelect, onExport, onIm
     <button type="button" className="decor-map__primary" onClick={onAdd}>Place a new pin</button>
     {!pins.length && <div className="decor-map__empty"><span aria-hidden="true">📍</span><h3>Your places, all together</h3><p>Save a discovered place, or tap the map to pin a spot you want to remember.</p></div>}
     <div className="decor-map__saved-list">{pins.map(pin => <button key={pin.id} type="button" onClick={() => onSelect(pin)}>
-      <CategoryIcon categoryId={pin.categoryIds[0]} completed={completedCategoryIds.has(pin.categoryIds[0])} /><span><strong>{pin.name}</strong>
+      <CategoryIcon categoryId={pin.categoryIds[0]} /><span><strong className="decor-map__category-title">{pin.name}{completedCategoryIds.has(pin.categoryIds[0]) && <CompletionStar />}</strong>
       <small>{pin.categoryIds.map(id => CATEGORY_BY_ID.get(id)?.label).join(" · ") || "Personal pin"}</small>
       {pin.notes && <small>{pin.notes.slice(0, 100)}</small>}</span></button>)}</div>
   </>;

@@ -85,7 +85,7 @@ The first slice is implemented in its own lazy React feature: 39 OSM location ca
 - [x] Replace disliked pale emoji discovery pins with original Pikmin Bloom category symbols in compact circles; this supersedes the first custom SVG design. Keep selected rings and saved-pin badges.
 - [x] Add a temporary sidebar debug button to compare original game category symbols with emoji; keep map markers on game symbols regardless of the comparison setting.
 - [x] Choose original Pikmin Bloom category icons throughout the map section; remove the temporary emoji comparison button/state/props/CSS after approval.
-- [x] Apply the approved yellow-to-lime icon on dark charcoal-green for fully collected map categories, including all colors/designs/rares. Reuse local PNGs as masks in map markers, category/place/pin lists and pin editing. Preserve black incomplete icons, selection rings, saved-pin badges and Missing only behavior.
+- [x] Replace the colored completion-badge experiment with the approved black category artwork and a separate gold completion star: beside category/place/pin labels and at the corner of map markers. Include all colors/designs/rares in completion. Preserve independent green selection checkboxes/backgrounds, consistent mobile sizing, selection rings, saved-pin badges and Missing only behavior.
 - [x] Add selected-place details, category filtering and Missing only using the single existing collection state owner.
 - [x] Implement explicit one-shot Locate me and denied/unavailable fallbacks.
 - [x] Add versioned separate pin/preferences storage, protected unreadable saves, add/edit/confirmed delete, export and reviewed import/merge.

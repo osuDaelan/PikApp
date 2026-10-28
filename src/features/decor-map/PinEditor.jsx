@@ -3,6 +3,7 @@ import { MAP_CATEGORIES } from "./categories.js";
 import { validPoint } from "./coordinates.js";
 import { MAX_PIN_NAME_LENGTH } from "./mapStorage.js";
 import CategoryIcon from "./CategoryIcon.jsx";
+import CompletionStar from "./CompletionStar.jsx";
 
 export default function PinEditor({ draft, completedCategoryIds, onSave, onCancel, onDelete }) {
   const [name, setName] = useState(draft.name || "New pin");
@@ -32,7 +33,7 @@ export default function PinEditor({ draft, completedCategoryIds, onSave, onCance
     <fieldset><legend>Decor categories (optional)</legend><div className="decor-map__pin-categories">
       {MAP_CATEGORIES.map(category => <label key={category.id}><input type="checkbox" checked={categories.includes(category.id)}
         onChange={() => setCategories(previous => previous.includes(category.id) ? previous.filter(id => id !== category.id) : [...previous, category.id])} />
-        <CategoryIcon categoryId={category.id} completed={completedCategoryIds.has(category.id)} /><span>{category.label}</span></label>)}
+        <CategoryIcon categoryId={category.id} /><span className="decor-map__category-title">{category.label}{completedCategoryIds.has(category.id) && <CompletionStar />}</span></label>)}
     </div></fieldset>
     {draft.osmId && <a href={`https://www.openstreetmap.org/${draft.osmId}`} target="_blank" rel="noopener noreferrer">Original OSM place ↗</a>}
     {error && <p role="alert" className="decor-map__error">{error}</p>}
