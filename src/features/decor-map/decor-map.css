@@ -1,5 +1,8 @@
 .decor-map {
   --map-green: #2d7350; --map-muted: #718377; --map-line: #e2eadf;
+  --map-icon-frame: 28px; --map-icon-size: 22px;
+  --map-complete-bg: #24332b;
+  --map-complete-fill: linear-gradient(180deg, #ffe576 0%, #ffec79 40%, #e5f39c 100%);
   background: #fffef9; border: 1px solid rgba(255,255,255,.75); border-radius: 22px;
   box-shadow: 0 10px 36px #153a2526; overflow: hidden; color: #2a4233;
   display: flex; flex-direction: column; height: calc(100dvh - 202px); min-height: 520px;
@@ -45,22 +48,21 @@
 .decor-map__filter-actions label { display: flex; align-items: center; gap: 2px; margin-left: auto; font-size: 10px; white-space: nowrap; }
 .decor-map input[type=checkbox] { accent-color: var(--map-green); }
 .decor-map__category-list { display: flex; flex-direction: column; gap: 4px; max-height: 340px; overflow: auto; scrollbar-width: thin; padding: 3px; }
-.decor-map__category-list > button { display: flex; align-items: center; gap: 10px; padding: 9px; text-align: left; background: transparent; border-color: transparent; flex-shrink: 0; }
+.decor-map__category-list > button { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 9px; text-align: left; background: transparent; border-color: transparent; flex-shrink: 0; }
 .decor-map__category-list > button[aria-pressed=true] { background: #edf5e7; border-color: #bed4b4; }
-.decor-map__category-icon { display: inline-grid; place-items: center; font-size: 22px; width: 28px; height: 28px; text-align: center; flex-shrink: 0; }
-.decor-map__category-icon img { display: block; width: 24px; height: 24px; max-width: 100%; max-height: 100%; object-fit: contain; }
-.decor-map__category-icon--complete { background: #000000; border-radius: 50%; }
+.decor-map__category-icon { display: inline-grid; place-items: center; width: var(--map-icon-frame); height: var(--map-icon-frame); font-size: var(--map-icon-size); text-align: center; flex-shrink: 0; }
+.decor-map__category-icon img { display: block; width: var(--map-icon-size); height: var(--map-icon-size); object-fit: contain; }
+.decor-map__category-icon--complete { background: var(--map-complete-bg); border-radius: 50%; }
 .decor-map__completion-symbol {
-  display: block; width: 22px; height: 22px; flex-shrink: 0; pointer-events: none;
-  background: linear-gradient(180deg, #ffe576 0%, #ffec79 40%, #e5f39c 100%);
+  display: block; width: var(--map-icon-size); height: var(--map-icon-size); flex-shrink: 0; pointer-events: none;
+  background: var(--map-complete-fill);
   -webkit-mask: var(--decor-category-image) center / contain no-repeat;
   mask: var(--decor-category-image) center / contain no-repeat;
 }
-.decor-map__pin-categories .decor-map__category-icon { width: 18px; height: 18px; font-size: 17px; }
-.decor-map__pin-categories .decor-map__category-icon--complete .decor-map__completion-symbol { width: 14px; height: 14px; }
+.decor-map__pin-categories .decor-map__category-icon { --map-icon-frame: 20px; --map-icon-size: 16px; }
 .decor-map__category-name { min-width: 0; flex: 1; }
 .decor-map small { display: block; font-weight: 500; font-size: 10px; color: var(--map-muted); margin-top: 3px; line-height: 1.5; }
-.decor-map__category-check { border: 1px solid #c2cfbc; background: #fff; width: 17px; height: 17px; border-radius: 6px; text-align: center; color: #fff; line-height: 15px; font-size: 11px; }
+.decor-map__category-check { border: 1px solid #c2cfbc; background: #fff; width: 18px; height: 18px; flex-shrink: 0; border-radius: 5px; text-align: center; color: #fff; line-height: 16px; font-size: 11px; }
 .decor-map [aria-pressed=true] > .decor-map__category-check { background: #448553; border-color: #448553; }
 .decor-map__hint { font-size: 11px; line-height: 1.6; color: var(--map-muted); }
 .decor-map__options { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--map-line); }
@@ -84,9 +86,9 @@
 .decor-map-marker-host { background: none; border: none; display: grid; place-items: center; }
 .decor-map-marker { position: relative; width: 28px; height: 28px; display: grid; place-items: center; color: var(--marker-accent); background: var(--marker-tint); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 5px #243d4940; }
 /* Override Leaflet's marker-pane width:auto without stretching non-square icons. */
-.decor-map__canvas .decor-map-marker-host .decor-map-marker img { display: block; width: 22px; height: 22px; object-fit: contain; pointer-events: none; }
+.decor-map__canvas .decor-map-marker-host .decor-map-marker img { display: block; width: var(--map-icon-size); height: var(--map-icon-size); object-fit: contain; pointer-events: none; }
 .decor-map-marker--selected { background: #fff; box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--marker-accent); }
-.decor-map-marker--complete { background: #000000; }
+.decor-map-marker--complete { background: var(--map-complete-bg); }
 .decor-map-marker--saved::after { content: ""; position: absolute; right: -2px; top: -2px; width: 7px; height: 7px; border: 1px solid #fff; background: #bc851e; border-radius: 2px; }
 .decor-map-marker-host:focus-visible { outline: 3px solid #dfaf38; border-radius: 50%; }
 .decor-map__place-details { display: flex; flex-direction: column; gap: 12px; }
@@ -133,13 +135,13 @@
   .decor-map__map-area { order: -1; height: 55dvh; min-height: 360px; max-height: 600px; }
   .decor-map__sidebar { overflow: visible; border-right: 0; border-top: 1px solid var(--map-line); }
   .decor-map__category-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 325px; }
-  .decor-map__category-list > button { gap: 6px; padding: 8px 5px; font-size: 11px; }
-  .decor-map__category-icon { font-size: 19px; width: 22px; }
-  .decor-map__category-icon--complete { height: 22px; }
-  .decor-map__category-icon--complete .decor-map__completion-symbol { width: 18px; height: 18px; }
-  .decor-map__category-name small { font-size: 9px; }
-  .decor-map__category-check { flex-shrink: 0; width: 15px; height: 15px; line-height: 13px; }
+  .decor-map__category-list > button { gap: 8px; padding: 10px 7px; font-size: 12px; }
+  .decor-map__category-name { overflow-wrap: anywhere; }
+  .decor-map__category-name small { font-size: 10px; }
   .decor-map__map-tools { gap: 5px; left: 8px; right: 8px; top: 8px; }
   .decor-map__map-tools > button { font-size: 11px; padding: 8px; }
+}
+@media (max-width: 380px) {
+  .decor-map__category-list { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .decor-map__spinner { animation: none; } }

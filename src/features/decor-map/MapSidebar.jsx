@@ -17,7 +17,7 @@ export function CategoryPanel({ selectedIds, stats, completedCategoryIds, onTogg
         const count = stats.get(category.id);
         return <button type="button" key={category.id} aria-pressed={selectedIds.includes(category.id)} onClick={() => onToggle(category.id)}>
           <CategoryIcon categoryId={category.id} completed={completedCategoryIds.has(category.id)} />
-          <span className="decor-map__category-name">{category.label}<small>{count.done}/{count.total} collected{completedCategoryIds.has(category.id) ? " · Complete" : ""}</small></span>
+          <span className="decor-map__category-name">{category.label}<small>{count.done}/{count.total} collected</small></span>
           <span className="decor-map__category-check" aria-hidden="true">{selectedIds.includes(category.id) ? "✓" : ""}</span>
         </button>;
       })}

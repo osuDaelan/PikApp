@@ -8,6 +8,6 @@ export default function CategoryIcon({ categoryId, completed = false }) {
     role={complete ? "img" : undefined} aria-label={complete ? "Entire category collected" : undefined} aria-hidden={complete ? undefined : true}>
     {url ? completed
       ? <span className="decor-map__completion-symbol" style={{ "--decor-category-image": `url("${url}")` }} />
-      : <img src={url} alt="" width="24" height="24" loading="lazy" decoding="async" /> : "📍"}
+      : <img src={url} alt="" width="22" height="22" loading="lazy" decoding="async" /> : "📍"}
   </span>;
 }
