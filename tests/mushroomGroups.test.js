@@ -5,6 +5,37 @@ import { MUSHROOM_REFERENCE_ROWS } from "../src/features/mushrooms/selection.js"
 
 const choice = (id, typeId = "blue", size = "small", stars = 4, label = "") => ({ id, typeId, size, stars, label });
 
+test("the full combination totals screenshot quantities by color and keeps Special Nectar separate", () => {
+  const choices = [choice(1, "gray", "large"), choice(2, "gray", "large"), choice(3, "gray", "large"),
+    choice(4, "fire", "large"), choice(5, "white", "large"), choice(6, "blue", "large")];
+  const expected = { byColor: { white: { min: 480, max: 1996 }, yellow: { min: 0, max: 0 },
+    red: { min: 174, max: 366 }, blue: { min: 119, max: 270 } }, special: 7 };
+  assert.deepEqual(compareMushroomGroups(choices, ["white", "red", "blue"]).totals, expected);
+  assert.deepEqual(compareMushroomGroups(choices, ["red"], "max").totals, expected);
+  assert.deepEqual(compareMushroomGroups(choices, []).totals, expected);
+});
+
+test("combined totals follow mixed-star edits, quantity changes and removals", () => {
+  let choices = [choice(1, "water", "normal", 4), choice(2, "water", "normal", 3)];
+  let totals = compareMushroomGroups(choices, ["blue"]).totals;
+  assert.deepEqual([totals.byColor.blue.min, totals.byColor.blue.max, totals.special], [86, 191, 1]);
+  choices = addMushroomToGroup(choices, "water/normal"); // Copies the last three-star mushroom.
+  totals = compareMushroomGroups(choices, ["blue"]).totals;
+  assert.deepEqual([totals.byColor.blue.min, totals.byColor.blue.max, totals.special], [127, 278, 1]);
+  choices = setMushroomGroupStars(choices, "water/normal", 4);
+  totals = compareMushroomGroups(choices, ["blue"]).totals;
+  assert.deepEqual([totals.byColor.blue.min, totals.byColor.blue.max, totals.special], [135, 312, 3]);
+  choices = removeMushroomFromGroup(choices, "water/normal");
+  totals = compareMushroomGroups(choices, ["blue"]).totals;
+  assert.deepEqual([totals.byColor.blue.min, totals.byColor.blue.max, totals.special], [90, 208, 2]);
+});
+
+test("an empty combination resets every color and Special Nectar to zero", () => {
+  assert.deepEqual(compareMushroomGroups([], []).totals, { byColor: {
+    white: { min: 0, max: 0 }, yellow: { min: 0, max: 0 }, red: { min: 0, max: 0 }, blue: { min: 0, max: 0 },
+  }, special: 0 });
+});
+
 test("quantities sum nectar bounds and change the winning option", () => {
   let choices = [choice(1, "water", "normal"), choice(2)];
   choices = addMushroomToGroup(choices, "blue/small");

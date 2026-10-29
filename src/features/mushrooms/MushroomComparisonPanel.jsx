@@ -26,7 +26,18 @@ export default function MushroomComparisonPanel({ draft, onChange }) {
       : "Choose mushrooms in the reference, then adjust quantities and stars here."}</p>
     <MushroomPreferences draft={draft} onChange={onChange} />
     {!draft.choices.length ? <div className="mushroom-empty-state"><h3>Which mushrooms can you join?</h3><p>Check a mushroom in the reference to compare one of it against several of another.</p></div> : <>
-      {!draft.colors.length && <p className="mushroom-comparison-notice" role="status">Choose a nectar color to calculate and rank nectar totals. You can still edit your mushrooms.</p>}
+      <section className="mushroom-combined-totals" aria-labelledby="mushroom-combined-title" aria-live="polite">
+        <h3 id="mushroom-combined-title">Total from all selected mushrooms</h3>
+        <p>{draft.choices.length} {draft.choices.length === 1 ? "mushroom" : "mushrooms"} · all nectar colors · minimum–maximum</p>
+        <dl>{NECTAR_COLORS.filter(color => result.totals.byColor[color.id].max > 0).map(color => {
+          const reward = result.totals.byColor[color.id];
+          return <div key={color.id} style={{ "--nectar-color": color.hex }}>
+            <dt><span className="mushroom-color-dot" aria-hidden="true" />{color.label} nectar</dt>
+            <dd>{nectarRange(reward.min, reward.max)}</dd>
+          </div>;
+        })}<div className="mushroom-combined-special"><dt>Special Nectar</dt><dd>{result.totals.special}</dd></div></dl>
+      </section>
+      {!draft.colors.length && <p className="mushroom-comparison-notice" role="status">Choose a desired nectar color to rank the options. Combined totals above include every color.</p>}
       {atLimit && <p className="mushroom-comparison-notice" role="status">Limit: {MAX_MUSHROOM_CHOICES} mushrooms. Remove one to add another.</p>}
       <table className="mushroom-data-table mushroom-group-table" role="table" aria-label="Combined mushroom comparison">
         <caption>Totals for each row's quantity · nectar minimum–maximum</caption>
@@ -69,7 +80,7 @@ export default function MushroomComparisonPanel({ draft, onChange }) {
       </table>
       <p className="mushroom-caption">Each option combines all its copies. Row stars apply to the whole group; expand individual mushrooms for separate stars and names. The − button removes the last copy.</p>
       <p className="mushroom-caption">Documented ranges can overlap; a higher total minimum or maximum is not a guaranteed outcome.</p>
-      <details className="mushroom-details"><summary>Totals by nectar color</summary><div className="mushroom-breakdown-wrap">
+      <details className="mushroom-details"><summary>Color breakdown for each option</summary><div className="mushroom-breakdown-wrap">
         <table className="mushroom-data-table mushroom-breakdown-table"><caption>Combined rewards for each option</caption><thead><tr><th scope="col">Option</th>{NECTAR_COLORS.map(color => <th key={color.id} scope="col">{color.label}</th>)}<th scope="col">Special</th></tr></thead><tbody>
           {result.rows.map(group => <tr key={group.id}><th scope="row">{group.quantity} × {group.label}</th>{NECTAR_COLORS.map(color => <td key={color.id} className={result.winners[color.id]?.includes(group.id) ? "mushroom-result-best" : undefined}>{nectarRange(group.byColor[color.id].min, group.byColor[color.id].max)}</td>)}<td>{group.special}</td></tr>)}
         </tbody></table>

@@ -9,6 +9,18 @@ export function compareMushroomGroups(choices, colors, sortBy = "min") {
   const selected = [...new Set(colors)];
   if (selected.some(id => !NECTAR_COLORS.some(color => color.id === id))) throw new Error("Choose a supported nectar color.");
   const individual = compareMushrooms(choices, NECTAR_COLORS.map(color => color.id), sortBy);
+  // The complete combination is independent of the colors used to rank options.
+  const totals = {
+    byColor: Object.fromEntries(NECTAR_COLORS.map(color => [color.id, { min: 0, max: 0 }])),
+    special: 0,
+  };
+  for (const member of individual.rows) {
+    totals.special += member.special;
+    for (const color of NECTAR_COLORS) {
+      totals.byColor[color.id].min += member.byColor[color.id].min;
+      totals.byColor[color.id].max += member.byColor[color.id].max;
+    }
+  }
   const byId = new Map(individual.rows.map(row => [row.id, row]));
   const groups = new Map();
   for (const choice of choices) {
@@ -39,7 +51,7 @@ export function compareMushroomGroups(choices, colors, sortBy = "min") {
     const value = Math.max(0, ...rows.map(row => row.byColor[color][sortBy]));
     return [color, value > 0 ? rows.filter(row => row.byColor[color][sortBy] === value).map(row => row.id) : []];
   }));
-  return { rows, winners, bestIds: best > 0 ? rows.filter(row => row[metric] === best).map(row => row.id) : [] };
+  return { rows, totals, winners, bestIds: best > 0 ? rows.filter(row => row[metric] === best).map(row => row.id) : [] };
 }
 
 export function addMushroomToGroup(choices, key) {

@@ -65,6 +65,13 @@
 .mushroom-empty-state { padding: 18px 0; }
 .mushroom-empty-state p { font-size: 12px; color: #687764; line-height: 1.7; margin: 6px 0; }
 .mushroom-comparison-notice { padding: 9px 10px; border-radius: 8px; background: #f0f6e8; font-size: 12px; line-height: 1.6; }
+.mushroom-combined-totals { margin: 0 0 18px; padding: 12px; border-radius: 10px; background: #eef5e8; }
+.mushroom-combined-totals h3 { margin: 0 0 5px; }
+.mushroom-combined-totals > p { margin: 0 0 10px; font-size: 11px; line-height: 1.5; color: #647366; }
+.mushroom-combined-totals dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px 14px; margin: 0; font-variant-numeric: tabular-nums; }
+.mushroom-combined-totals dt { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+.mushroom-combined-totals dd { margin: 4px 0 0; font-size: 17px; font-weight: 800; overflow-wrap: anywhere; }
+.mushroom-combined-special { color: #88612e; }
 .mushroom-group-table { table-layout: fixed; }
 .mushroom-quantity-column { width: 105px; }
 .mushroom-stars-column { width: 77px; }
