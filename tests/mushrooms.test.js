@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { MUSHROOM_TYPES, NECTAR_COLORS, FRUITS, MAX_MUSHROOM_CHOICES } from "../src/features/mushrooms/data.js";
+import { MUSHROOM_TYPES, NECTAR_COLORS, FRUITS } from "../src/features/mushrooms/data.js";
 import { REWARD_RECIPES } from "../src/features/mushrooms/rewardRecipes.js";
 import { availableSizes, fruitPool, mushroomReward, updateMushroomChoice,
   addMushroomChoice, compareMushrooms, nectarRange } from "../src/features/mushrooms/calculations.js";
@@ -143,11 +143,11 @@ test("adding duplicates, editing and ranking never mutate existing choices", () 
   assert.throws(() => updateMushroomChoice(original, { stars: 0 }));
 });
 
-test("comparison inputs stay bounded and generated labels remain useful", () => {
+test("comparison accepts more than twenty mushrooms with unique IDs and useful labels", () => {
   let choices = [];
-  for (let index = 0; index < MAX_MUSHROOM_CHOICES + 5; index++) choices = addMushroomChoice(choices, choice(0, "blue"));
-  assert.equal(choices.length, 20);
-  assert.equal(new Set(choices.map(row => row.id)).size, 20);
+  for (let index = 0; index < 250; index++) choices = addMushroomChoice(choices, choice(0, "blue"));
+  assert.equal(choices.length, 250);
+  assert.equal(new Set(choices.map(row => row.id)).size, 250);
   assert.equal(compareMushrooms(choices, ["blue"]).rows[0].label, "Normal Blue");
   assert.equal(nectarRange(2, 2), "2");
   assert.equal(nectarRange(2, 8), "2–8");
@@ -187,13 +187,11 @@ test("unchecking removes all matching copies but individual removal can retain t
   assert.deepEqual(toggleMushroomSelection(choices, "water", "normal").map(row => row.size), ["large"]);
 });
 
-test("checkbox limits still allow deselection and reject unavailable combinations", () => {
+test("every supported checkbox can be selected together and unavailable combinations stay invalid", () => {
   let choices = [];
-  for (const row of MUSHROOM_REFERENCE_ROWS.slice(0, MAX_MUSHROOM_CHOICES)) choices = toggleMushroomSelection(choices, row.type.id, row.size);
-  assert.equal(choices.length, MAX_MUSHROOM_CHOICES);
-  const next = MUSHROOM_REFERENCE_ROWS[MAX_MUSHROOM_CHOICES];
-  assert.equal(toggleMushroomSelection(choices, next.type.id, next.size), choices);
-  assert.equal(toggleMushroomSelection(choices, choices[0].typeId, choices[0].size).length, MAX_MUSHROOM_CHOICES - 1);
+  for (const row of MUSHROOM_REFERENCE_ROWS) choices = toggleMushroomSelection(choices, row.type.id, row.size);
+  assert.equal(choices.length, 34);
+  assert.equal(toggleMushroomSelection(choices, choices[0].typeId, choices[0].size).length, 33);
   assert.throws(() => toggleMushroomSelection([], "fire", "small"));
   assert.throws(() => toggleMushroomSelection([], "water", "normal", 5));
 });

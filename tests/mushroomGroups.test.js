@@ -97,15 +97,16 @@ test("group edits preserve individual IDs, names, other groups and input arrays"
   assert.throws(() => setMushroomGroupStars(choices, "blue/small", 0));
 });
 
-test("adding copies stays bounded at twenty and removal permits adding again", () => {
+test("adding copies passes the former cap and removal still permits adding again", () => {
   let choices = [choice(1)];
-  for (let i = 0; i < 25; i++) choices = addMushroomToGroup(choices, "blue/small");
-  assert.equal(choices.length, 20);
-  assert.equal(new Set(choices.map(row => row.id)).size, 20);
-  assert.equal(addMushroomToGroup(choices, "blue/small"), choices);
+  for (let i = 0; i < 249; i++) choices = addMushroomToGroup(choices, "blue/small");
+  assert.equal(choices.length, 250);
+  assert.equal(new Set(choices.map(row => row.id)).size, 250);
+  const result = compareMushroomGroups(choices, ["blue"]);
+  assert.deepEqual([result.rows[0].quantity, result.totals.byColor.blue.min, result.totals.byColor.blue.max], [250, 2500, 5750]);
   assert.equal(addMushroomToGroup(choices, "unknown"), choices);
   choices = removeMushroomFromGroup(choices, "blue/small");
-  assert.equal(addMushroomToGroup(choices, "blue/small").length, 20);
+  assert.equal(addMushroomToGroup(choices, "blue/small").length, 250);
 });
 
 test("type/size group identity stays stable when ranking changes and reference data remains intact", () => {

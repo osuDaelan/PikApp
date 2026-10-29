@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { NECTAR_COLORS, MAX_MUSHROOM_CHOICES } from "./data.js";
+import { NECTAR_COLORS } from "./data.js";
 import { nectarRange, updateMushroomChoice } from "./calculations.js";
 import { compareMushroomGroups, addMushroomToGroup, removeMushroomFromGroup, setMushroomGroupStars } from "./groups.js";
 import MushroomImage from "./MushroomImage.jsx";
@@ -13,7 +13,6 @@ const selectedRange = (member, colors) => nectarRange(
 export default function MushroomComparisonPanel({ draft, onChange }) {
   const result = useMemo(() => compareMushroomGroups(draft.choices, draft.colors, draft.sortBy), [draft]);
   const metric = draft.sortBy === "min" ? "minimum" : "maximum";
-  const atLimit = draft.choices.length >= MAX_MUSHROOM_CHOICES;
   function changeChoices(updater) { onChange(previous => ({ ...previous, choices: updater(previous.choices) })); }
   function edit(id, patch) { changeChoices(choices => choices.map(choice => choice.id === id ? updateMushroomChoice(choice, patch) : choice)); }
   function remove(id) { changeChoices(choices => choices.filter(choice => choice.id !== id)); }
@@ -38,7 +37,6 @@ export default function MushroomComparisonPanel({ draft, onChange }) {
         })}<div className="mushroom-combined-special"><dt>Special Nectar</dt><dd>{result.totals.special}</dd></div></dl>
       </section>
       {!draft.colors.length && <p className="mushroom-comparison-notice" role="status">Choose a desired nectar color to rank the options. Combined totals above include every color.</p>}
-      {atLimit && <p className="mushroom-comparison-notice" role="status">Limit: {MAX_MUSHROOM_CHOICES} mushrooms. Remove one to add another.</p>}
       <table className="mushroom-data-table mushroom-group-table" role="table" aria-label="Combined mushroom comparison">
         <caption>Totals for each row's quantity · nectar minimum–maximum</caption>
         <colgroup><col /><col className="mushroom-quantity-column" /><col className="mushroom-stars-column" /><col className="mushroom-total-column" /></colgroup>
@@ -54,7 +52,7 @@ export default function MushroomComparisonPanel({ draft, onChange }) {
               <td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Quantity</span><div className="mushroom-quantity">
                 <button type="button" aria-label={`Remove one ${group.label}`} title="Removes the last copy" onClick={() => changeChoices(choices => removeMushroomFromGroup(choices, group.id))}>−</button>
                 <output aria-label={`${group.label} quantity`}>{group.quantity}</output>
-                <button type="button" aria-label={`Add one ${group.label}`} disabled={atLimit} onClick={() => changeChoices(choices => addMushroomToGroup(choices, group.id))}>＋</button>
+                <button type="button" aria-label={`Add one ${group.label}`} onClick={() => changeChoices(choices => addMushroomToGroup(choices, group.id))}>＋</button>
               </div></td>
               <td role="cell"><span className="mushroom-cell-label" aria-hidden="true">Stars</span><select aria-label={`Expected stars for ${group.label}`} value={group.stars ?? ""}
                 onChange={event => { const stars = Number(event.target.value); changeChoices(choices => setMushroomGroupStars(choices, group.id, stars)); }}>
@@ -90,6 +88,6 @@ export default function MushroomComparisonPanel({ draft, onChange }) {
         <ul>{member.fruitGroups.map((fruit, index) => <li key={index}>{fruit.count} {fruit.size} {fruit.color} {fruit.count === 1 ? "fruit" : "fruits"} ({fruit.fruits.join(" or ")}): {nectarRange(fruit.min * fruit.count, fruit.max * fruit.count)} nectar</li>)}</ul>
       </div>))}</details>
     </>}
-    <p className="mushroom-caption">Up to {MAX_MUSHROOM_CHOICES} mushrooms. Your comparison stays while switching pages; refreshing or closing this page resets it.</p>
+    <p className="mushroom-caption">Your comparison stays while switching pages; refreshing or closing this page resets it.</p>
   </section>;
 }

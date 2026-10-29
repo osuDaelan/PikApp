@@ -190,7 +190,7 @@ On October 28 the owner resumed Google sign-in work. The header now enables its 
 - [x] Verify checkbox selection/search, shared state, duplicate unchecking, limits and reference immutability with four additional tests (145 total); check desktop and compact mobile tables in the browser.
 - [x] Tighten the name/star spacing and desktop row padding; remove the reference table's internal scrollbar so its full contents use page scrolling.
 - [x] Add Pikipedia artwork for all 13 mushroom types to reference/search/results, with local lazy PNGs (about 193 KiB total), provenance/checksums and two asset tests (147 total passing). Verify image selection and 900px/390px layouts without clipped columns or page overflow.
-- [x] Add compact −/quantity/＋ controls; quantities change reward totals/ranking while individual names/stars stay expandable. Preserve the 20-copy limit, keyboard use and 44px touch targets. Verify mixed stars, minimum/maximum winners, filters, search retention and large totals at 320px; eight new tests bring the suite to 159.
+- [x] Add compact −/quantity/＋ controls; quantities change reward totals/ranking while individual names/stars stay expandable. Preserve keyboard use and 44px touch targets. At owner request on October 29, remove the former 20-copy cap entirely; verify 250 copies and selecting all 34 reference combinations.
 - [ ] Compare the calculated outer bounds with real in-game fruit rewards, especially small red and giant white alternatives; update sources/data when observations change.
 - [ ] Add Giant/event mushrooms only after reviewing their own recipes, color rules and current event behavior.
 - [ ] Consider saving comparison drafts if requested; they currently do not alter autosaves or the portable progress schema.

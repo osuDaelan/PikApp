@@ -1,4 +1,4 @@
-import { FRUITS, MUSHROOM_TYPES, NECTAR_COLORS, MAX_MUSHROOM_CHOICES } from "./data.js";
+import { FRUITS, MUSHROOM_TYPES, NECTAR_COLORS } from "./data.js";
 import { REWARD_RECIPES } from "./rewardRecipes.js";
 
 const types = new Map(MUSHROOM_TYPES.map(type => [type.id, type]));
@@ -44,8 +44,7 @@ export function updateMushroomChoice(choice, patch) {
 }
 
 export function addMushroomChoice(choices, choice) {
-  if (choices.length >= MAX_MUSHROOM_CHOICES) return choices;
-  const id = Math.max(0, ...choices.map(value => value.id)) + 1;
+  const id = choices.reduce((highest, value) => Math.max(highest, value.id), 0) + 1;
   return [...choices, updateMushroomChoice({ ...choice, id }, {})];
 }
 
@@ -63,9 +62,9 @@ export function compareMushrooms(choices, colors, sortBy = "min") {
   }).sort((a, b) => b[sortBy === "min" ? "selectedMin" : "selectedMax"] - a[sortBy === "min" ? "selectedMin" : "selectedMax"]
     || b[other === "min" ? "selectedMin" : "selectedMax"] - a[other === "min" ? "selectedMin" : "selectedMax"] || a.id - b.id);
   const metric = sortBy === "min" ? "selectedMin" : "selectedMax";
-  const best = Math.max(0, ...rows.map(row => row[metric]));
+  const best = rows.reduce((highest, row) => Math.max(highest, row[metric]), 0);
   const winners = Object.fromEntries(selected.map(color => {
-    const value = Math.max(0, ...rows.map(row => row.byColor[color][sortBy]));
+    const value = rows.reduce((highest, row) => Math.max(highest, row.byColor[color][sortBy]), 0);
     return [color, value > 0 ? rows.filter(row => row.byColor[color][sortBy] === value).map(row => row.id) : []];
   }));
   return { rows, winners, bestIds: best > 0 ? rows.filter(row => row[metric] === best).map(row => row.id) : [] };

@@ -14,7 +14,6 @@ export const NECTAR_COLORS = Object.freeze([
 export const SIZES = Object.freeze([
   { id: "small", label: "Small" }, { id: "normal", label: "Normal" }, { id: "large", label: "Large" },
 ]);
-export const MAX_MUSHROOM_CHOICES = 20;
 export const DEFAULT_MUSHROOM_DRAFT = Object.freeze({ choices: [], colors: NECTAR_COLORS.map(color => color.id), sortBy: "min", newStars: 4 });
 
 export const MUSHROOM_TYPES = Object.freeze([

@@ -1,5 +1,4 @@
 import React, { memo, useMemo, useState } from "react";
-import { MAX_MUSHROOM_CHOICES } from "./data.js";
 import { nectarRange } from "./calculations.js";
 import { filterMushrooms } from "./selection.js";
 import MushroomImage from "./MushroomImage.jsx";
@@ -23,11 +22,10 @@ function MushroomReference({ choices, onToggle, newStars, onNewStars }) {
         <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Compare / mushroom</th>{[1, 2, 3, 4].map(stars => <th scope="col" role="columnheader" key={stars}>{stars}★ nectar</th>)}<th scope="col" role="columnheader">4★ Special</th></tr></thead>
         <tbody role="rowgroup">{matches.map(row => {
           const selected = choices.filter(choice => choice.typeId === row.type.id && choice.size === row.size);
-          const disabled = !selected.length && choices.length >= MAX_MUSHROOM_CHOICES;
           const checkboxId = `mushroom-reference-${row.type.id}-${row.size}`;
-          return <tr role="row" key={row.key} className={selected.length ? "mushroom-reference-row is-selected" : "mushroom-reference-row"} data-mushroom-row={row.key} aria-disabled={disabled || undefined}
-            onClick={event => { if (!disabled && !event.target.closest("input, label, button, a, select")) onToggle(row); }}>
-            <th scope="row" role="rowheader"><div className="mushroom-table-choice"><input id={checkboxId} type="checkbox" aria-label={`Compare ${row.label} from table`} checked={selected.length > 0} disabled={disabled} onChange={() => onToggle(row)} />
+          return <tr role="row" key={row.key} className={selected.length ? "mushroom-reference-row is-selected" : "mushroom-reference-row"} data-mushroom-row={row.key}
+            onClick={event => { if (!event.target.closest("input, label, button, a, select")) onToggle(row); }}>
+            <th scope="row" role="rowheader"><div className="mushroom-table-choice"><input id={checkboxId} type="checkbox" aria-label={`Compare ${row.label} from table`} checked={selected.length > 0} onChange={() => onToggle(row)} />
               <label htmlFor={checkboxId}><MushroomImage typeId={row.type.id} /><span className="mushroom-label-text"><strong>{row.label}</strong><small style={{ "--nectar-color": row.color.hex }}><i className="mushroom-color-dot" aria-hidden="true" />{row.color.label} nectar{selected.length > 1 ? ` · ${selected.length} selected` : ""}</small></span></label></div></th>
             {row.rewards.map(reward => <td role="cell" key={reward.stars} className={selected.some(choice => choice.stars === reward.stars) ? "mushroom-used-rating" : undefined}>
               <span className="mushroom-cell-label" aria-hidden="true">{reward.stars}★ nectar</span>{nectarRange(reward.min, reward.max)}
