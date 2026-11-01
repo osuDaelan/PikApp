@@ -1,5 +1,5 @@
 // Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
-// All current catalogue entries have exact design artwork; older grouped marks remain readable for review.
+// Exact design artwork mappings; pending new artwork is documented separately in the source inventory.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",

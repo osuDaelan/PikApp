@@ -14375,6 +14375,24 @@
     "designs": 6,
     "compatibility": "Three old grouped marks remain available for review without inferring either ticket design. Other saved IDs are unchanged by display reordering."
   },
+  "pendingArtwork": [
+    {
+      "category": "5th Anniversary Toy Jewelry",
+      "source": "https://pikminbloom.com/en/news/nov26-5thanniv",
+      "reviewed": "2026-11-01",
+      "reason": "All eight species confirmed by the official announcement. Individual transparent artwork was not found in the checked public wiki uploads or official announcement assets; use labeled color toggles without substitute artwork.",
+      "ids": [
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Yellow",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Blue",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Purple",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__White",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Winged",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Rock",
+        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice"
+      ]
+    }
+  ],
   "cardLabelReview": {
     "date": "2026-10-27",
     "count": 27,

@@ -1,5 +1,13 @@
 # Decor image rollout and performance checks
 
+## 5th Anniversary Toy Jewelry — November 1, 2026
+
+The catalogue now has **1,064 entries: 527 regular/rare and 537 special/event**. Eight new Toy Jewelry entries (Red, Yellow, Blue, Purple, White, Winged, Rock and Ice) follow Wurst and precede Golden Toy Airplane, as requested by the owner. The [official announcement](https://pikminbloom.com/en/news/nov26-5thanniv) confirms the name, eight species and November 1–30 event; the wiki page had not yet added this set when checked.
+
+Existing image coverage remains **1,056 exact PNGs**. Individual transparent anniversary artwork was not found in the recent public wiki uploads or checked official announcement assets. The new category explicitly sets `artworkPending`; it uses eight labeled, 44px-high color toggles, with an artwork-pending note. No AI images, substituted designs, promotional-image crops or extra downloads are used at runtime. `decor-image-sources.json` lists the eight pending IDs and official source; asset tests still verify every existing PNG and allow only this explicitly listed pending category. Replace the flag and pending inventory when verified images become available.
+
+The addition uses independent, stable save IDs and existing search, counts, bulk selection and persistence. It does not rename older IDs or infer ownership. **219 tests** and the production `/PikApp/` build pass, including category placement/species, event/name/species/ownership search, artwork status and full-progress export/import alongside older selections. An isolated browser confirmed the neighboring category order, eight search results and Red/Ice selections surviving reload. At 390px, the page had no horizontal overflow and each labeled toggle measured 72×44px. Dark text remains readable for White and Yellow; collected toggles use a green check and background. No browser warnings/errors appeared, and existing user progress was untouched.
+
 ## Regular gallery order and Theme Park tickets — October 27, 2026
 
 Current coverage is **1,056 entries: 527 regular/rare and 529 special/event**, with exact local PNGs for every active entry and no representative mappings. Theme Park now has two numbered-design rows, each for Red, Yellow and Blue. Three matching existing PNGs are reused and three original design-2 PNGs added (135,638 bytes combined). Total active PNG bytes: 33,340,389. Sources, dimensions and checksums are in `decor-image-sources.json`; retired records remain archived.

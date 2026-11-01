@@ -6,9 +6,10 @@ import { DECOR_LOCATIONS, DECOR_SPECIAL_CATEGORIES } from "../src/features/decor
 import { decorId, decorStorageLocation } from "../src/features/decor/collection.js";
 import { getDecorImage, decorImageUrl } from "../src/features/decor/decorImages.js";
 
-test("every existing checklist entry resolves to its own verified PNG and source record", () => {
+test("every checklist entry has a verified PNG or explicitly documented pending artwork", () => {
   const provenance = JSON.parse(readFileSync(new URL("../docs/decor-image-sources.json", import.meta.url), "utf8"));
   const sources = new Map(provenance.images.map(image => [image.id, image]));
+  const pending = new Map(provenance.pendingArtwork.flatMap(record => record.ids.map(id => [id, record])));
   const usedFiles = new Set();
   let entries = 0;
   for (const group of [...DECOR_LOCATIONS, ...DECOR_SPECIAL_CATEGORIES]) {
@@ -16,6 +17,14 @@ test("every existing checklist entry resolves to its own verified PNG and source
       for (const variant of costume.designs || costume.colors) {
         const id = decorId(decorStorageLocation(group), costume.name, variant);
         const image = getDecorImage(id);
+        if (group.artworkPending) {
+          assert.equal(group.location, "5th Anniversary Toy Jewelry");
+          assert.equal(pending.get(id)?.category, group.location, `Missing pending-art record: ${id}`);
+          assert.equal(new URL(pending.get(id).source).hostname, "pikminbloom.com");
+          assert.equal(image, null, `Replace the pending-art flag when artwork is available: ${id}`);
+          entries++;
+          continue;
+        }
         assert.ok(image, `No image for ${id}`);
         assert.ok(image.alt.length > 0);
         assert.notEqual(image.representative, true, `Expected exact design artwork: ${id}`);
@@ -34,8 +43,10 @@ test("every existing checklist entry resolves to its own verified PNG and source
       }
     }
   }
-  assert.equal(entries, 1056);
-  assert.equal(sources.size, entries);
+  assert.equal(entries, 1064);
+  assert.equal(pending.size, 8);
+  assert.equal(sources.size, 1056);
+  assert.equal(sources.size + pending.size, entries);
   assert.equal(getDecorImage("unknown_decor"), null);
 });
 

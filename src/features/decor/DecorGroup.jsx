@@ -1,5 +1,5 @@
 import React from "react";
-import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, PIKMIN_COLOR_ABBR, DECOR_ICONS, DECOR_LOCATIONS } from "./catalog.js";
+import { PIKMIN_COLORS, PIKMIN_COLOR_HEX, DECOR_ICONS, DECOR_LOCATIONS } from "./catalog.js";
 import { decorId, decorStorageLocation, countDecorGroups, isRareLocked, isRareCostume } from "./collection.js";
 import { colors } from "../../shared/styles/theme.js";
 import DecorImageTile from "./DecorImageTile.jsx";
@@ -8,25 +8,28 @@ import { decorSetId } from "./setCompletion.js";
 const { green: G, orange: O, darkGreen: DG } = colors;
 
 // Color-coded fallback for an available entry without artwork.
-function ColorTile({ color, collected, onToggle }) {
+function ColorTile({ color, label, collected, onToggle }) {
   const hex = PIKMIN_COLOR_HEX[color];
   return (
     <button
+      type="button"
       onClick={onToggle}
-      title={color}
+      title={label}
+      aria-label={label}
+      aria-pressed={collected}
       style={{
-        width: 26, height: 26, borderRadius: "50%", flexShrink: 0,
-        border: collected ? "none" : `2px solid ${hex}`,
-        background: collected ? hex : "#fff",
-        color: collected ? "#fff" : hex,
-        fontSize: 9, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
-        display: "flex", alignItems: "center", justifyContent: "center",
+        width: 72, height: 44, borderRadius: 8, flexShrink: 0,
+        border: `2px solid ${collected ? G : hex}`,
+        background: collected ? "#eef7e7" : "#fff",
+        color: DG,
+        fontSize: 11, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
         boxShadow: collected ? "0 1px 3px rgba(0,0,0,0.3)" : "none",
         transition: "background 0.15s, box-shadow 0.15s",
         WebkitTapHighlightColor: "transparent",
       }}
     >
-      {PIKMIN_COLOR_ABBR[color]}
+      {collected && <span aria-hidden="true">✓</span>}{color}
     </button>
   );
 }
@@ -110,6 +113,7 @@ function CostumeRow({ groupLocation, storageLocation, costume, collected, onTogg
               <ColorTile
                 key={color}
                 color={color}
+                label={`${groupLocation} · ${costume.name} · ${color} Pikmin`}
                 collected={!!collected[id]}
                 onToggle={() => onToggleColor(id)}
               />
@@ -144,6 +148,7 @@ export default function DecorGroup({ group, collected, onToggleColor, isFirst, b
           <span style={{ fontSize: 10, color: "#bbb", whiteSpace: "nowrap" }}>{done}/{total}</span>
         </div>
       </div>
+      {group.artworkPending && <p style={{ margin: "0 0 8px", fontSize: 11, color: "#687764" }}>Artwork pending · Collection tracking is available.</p>}
       {visibleCostumes.map(c => (
         <CostumeRow key={c.name} groupLocation={group.location} storageLocation={decorStorageLocation(group)} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
       ))}

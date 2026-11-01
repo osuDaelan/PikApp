@@ -44,6 +44,20 @@ function rawSnapshot(value) {
     [MAP_STORAGE_KEY]: JSON.stringify(value.map), [UPDATED_KEY]: "100" };
 }
 
+test("anniversary marks survive full-progress export/import alongside older progress", () => {
+  const source = snapshot();
+  const anniversaryRed = "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red";
+  const anniversaryIce = "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice";
+  source.decor.collected[anniversaryRed] = true;
+  source.decor.collected[anniversaryIce] = false;
+  const parsed = parseProgressBackup(createProgressBackup(source, date));
+  assert.deepEqual(parsed.decor, source.decor);
+  assert.equal(summarizeProgressBackup(parsed).collected, 2);
+  const storage = memoryStorage(rawSnapshot(snapshot()));
+  applyProgressBackup(parsed, { current: snapshot(), getStorage: () => storage, now: () => Date.parse(date) });
+  assert.deepEqual(JSON.parse(storage.getItem("pb_decorCollected")), source.decor.collected);
+});
+
 test("old grouped card marks and new designs survive transfer without guessing ownership", () => {
   const source = snapshot();
   const old = LEGACY_GROUPED_ENTRIES[0].id;
