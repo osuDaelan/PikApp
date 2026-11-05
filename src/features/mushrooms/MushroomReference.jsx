@@ -1,19 +1,23 @@
 import React, { memo, useMemo, useState } from "react";
 import { nectarRange } from "./calculations.js";
-import { filterMushrooms } from "./selection.js";
+import { filterMushrooms, sortMushroomReference } from "./selection.js";
 import MushroomImage from "./MushroomImage.jsx";
 
 function MushroomReference({ choices, onToggle, newStars, onNewStars }) {
   const [query, setQuery] = useState("");
-  const matches = useMemo(() => filterMushrooms(query), [query]);
+  const [sortBy, setSortBy] = useState("default");
+  const matches = useMemo(() => sortMushroomReference(filterMushrooms(query), sortBy, newStars), [query, sortBy, newStars]);
   return <section className="mushroom-card mushroom-reference-card" aria-labelledby="mushroom-reference-title">
     <h2 id="mushroom-reference-title">Mushroom reward table</h2>
     <p className="mushroom-description">Nectar per mushroom at each star rating. Check a row to add it to your comparison.</p>
     <div role="search" aria-label="Search mushroom table" className="mushroom-search">
-      <div className="mushroom-reference-controls"><label>Find a mushroom<input type="search" value={query} maxLength={160} placeholder="Small blue, normal yellow…" aria-controls="mushroom-reference-table" aria-describedby="mushroom-search-help" onChange={event => setQuery(event.target.value)} /></label>
-      <label>Stars for new selections<select value={newStars} onChange={event => onNewStars(Number(event.target.value))}>{[1, 2, 3, 4].map(stars => <option key={stars} value={stars}>{stars}★</option>)}</select></label></div>
+      <div className="mushroom-reference-controls"><label className="mushroom-search-query">Find a mushroom<input type="search" value={query} maxLength={160} placeholder="Small blue, normal yellow…" aria-controls="mushroom-reference-table" aria-describedby="mushroom-search-help" onChange={event => setQuery(event.target.value)} /></label>
+      <label>Stars for sorting &amp; new selections<select value={newStars} onChange={event => onNewStars(Number(event.target.value))}>{[1, 2, 3, 4].map(stars => <option key={stars} value={stars}>{stars}★</option>)}</select></label>
+      <label>Sort mushrooms<select value={sortBy} aria-controls="mushroom-reference-table" onChange={event => setSortBy(event.target.value)}>
+        <option value="default">Default order</option><option value="min">Highest minimum nectar</option><option value="max">Highest maximum nectar</option>
+      </select></label></div>
       <p id="mushroom-search-help" className="mushroom-caption">Search by type or size. Use commas for alternatives. Searching keeps your selections.</p>
-      <div className="mushroom-search-status"><span role="status">Showing {matches.length} of 34 combinations</span>{query && <button type="button" onClick={() => setQuery("")}>Clear search</button>}</div>
+      <div className="mushroom-search-status"><span role="status">Showing {matches.length} of 34 combinations{sortBy !== "default" && ` · ranked by ${newStars}★ ${sortBy === "min" ? "minimum" : "maximum"} nectar`}</span>{query && <button type="button" onClick={() => setQuery("")}>Clear search</button>}</div>
     </div>
     <div className="mushroom-reference" role="region" aria-label="Full mushroom reward table">
       <table id="mushroom-reference-table" className="mushroom-data-table mushroom-reference-table" role="table">

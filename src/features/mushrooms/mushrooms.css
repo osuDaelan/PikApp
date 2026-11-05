@@ -16,7 +16,8 @@
 .mushrooms-section :is(input, select, button, a, summary, [tabindex]):focus-visible { outline: 3px solid #388b54; outline-offset: 3px; }
 .mushrooms-section label { min-width: 0; display: grid; gap: 5px; font-size: 11px; font-weight: 700; }
 .mushrooms-section input[type=checkbox] { width: 18px; height: 18px; min-height: 0; margin: 0; accent-color: #36794b; flex-shrink: 0; }
-.mushroom-reference-controls { display: grid; grid-template-columns: minmax(0, 1fr) 145px; gap: 10px; align-items: end; }
+.mushroom-reference-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: end; }
+.mushroom-search-query { grid-column: 1 / -1; }
 .mushroom-search input[type=search] { font-size: 16px; }
 .mushroom-search-status { min-height: 34px; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; color: #6d796a; }
 .mushrooms-section .mushroom-search-status button, .mushroom-comparison-heading button, .mushroom-small-actions button { border: 0; background: none; text-decoration: underline; padding: 4px; font-size: 11px; }

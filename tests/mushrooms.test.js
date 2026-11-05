@@ -5,7 +5,7 @@ import { REWARD_RECIPES } from "../src/features/mushrooms/rewardRecipes.js";
 import { availableSizes, fruitPool, mushroomReward, updateMushroomChoice,
   addMushroomChoice, compareMushrooms, nectarRange } from "../src/features/mushrooms/calculations.js";
 import { sectionFromHash } from "../src/shared/sections.js";
-import { MUSHROOM_REFERENCE_ROWS, filterMushrooms, toggleMushroomSelection } from "../src/features/mushrooms/selection.js";
+import { MUSHROOM_REFERENCE_ROWS, filterMushrooms, sortMushroomReference, toggleMushroomSelection } from "../src/features/mushrooms/selection.js";
 
 const choice = (id, typeId, size = "normal", stars = 4, label = "") => ({ id, typeId, size, stars, label });
 const bounds = (type, size, stars = 4) => {
@@ -92,6 +92,28 @@ test("the full reference keeps type/size order, all star ratings and unchanged v
   filterMushrooms("normal water");
   toggleMushroomSelection([], "blue", "small");
   assert.equal(JSON.stringify(MUSHROOM_REFERENCE_ROWS), original);
+});
+
+test("reference sorting switches minimum/maximum and star ratings without changing source rows", () => {
+  const rows = filterMushrooms("large white, large red");
+  const original = JSON.stringify(MUSHROOM_REFERENCE_ROWS);
+  assert.deepEqual(sortMushroomReference(rows, "min", 4).map(row => row.key), ["red/large", "white/large"]);
+  assert.deepEqual(sortMushroomReference(rows, "max", 4).map(row => row.key), ["white/large", "red/large"]);
+  assert.deepEqual(sortMushroomReference(rows, "min", 3).map(row => row.key), ["white/large", "red/large"]);
+  assert.strictEqual(sortMushroomReference(rows), rows);
+  assert.deepEqual(rows.map(row => row.key), ["red/large", "white/large"]);
+  assert.equal(JSON.stringify(MUSHROOM_REFERENCE_ROWS), original);
+});
+
+test("reference sorting preserves equal-yield order and all matching rows", () => {
+  const rows = filterMushrooms("large gray, large white");
+  for (const mode of ["min", "max"]) {
+    assert.deepEqual(sortMushroomReference(rows, mode).map(row => row.key), ["white/large", "gray/large"]);
+    assert.equal(sortMushroomReference(MUSHROOM_REFERENCE_ROWS, mode).length, 34);
+    assert.deepEqual(sortMushroomReference([], mode), []);
+  }
+  assert.throws(() => sortMushroomReference(rows, "unknown"));
+  for (const stars of [0, 5, 2.5, "4"]) assert.throws(() => sortMushroomReference(rows, "min", stars));
 });
 
 test("minimum and maximum ranking can recommend different available mushrooms", () => {

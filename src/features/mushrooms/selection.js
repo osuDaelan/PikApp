@@ -20,6 +20,16 @@ export function filterMushrooms(query) {
   return MUSHROOM_REFERENCE_ROWS.filter(row => groups.some(group => group.split(/\s+/).every(term => row.search.includes(term))));
 }
 
+// Sort a view of the reference without changing catalogue order or selections.
+export function sortMushroomReference(rows, sortBy = "default", stars = 4) {
+  if (!["default", "min", "max"].includes(sortBy)) throw new Error("Choose a supported mushroom sort order.");
+  if (!Number.isInteger(stars) || stars < 1 || stars > 4) throw new Error("Choose a star rating from 1 to 4.");
+  if (sortBy === "default") return rows;
+  const other = sortBy === "min" ? "max" : "min";
+  return [...rows].sort((a, b) => b.rewards[stars - 1][sortBy] - a.rewards[stars - 1][sortBy]
+    || b.rewards[stars - 1][other] - a.rewards[stars - 1][other]);
+}
+
 export function toggleMushroomSelection(choices, typeId, size, stars = 4) {
   if (!MUSHROOM_REFERENCE_ROWS.some(row => row.type.id === typeId && row.size === size)) throw new Error("Choose a supported mushroom and size.");
   if (choices.some(choice => choice.typeId === typeId && choice.size === size)) {
