@@ -56,7 +56,7 @@ for (const [location, names, required] of [
   });
 }
 
-test("only explicit Show all previews locked search results; undo grace cannot bypass unlocks", () => {
+test("only Show locked rares previews locked search results; undo grace cannot bypass unlocks", () => {
   const id = "stadium__ball_keychain_rare__Red";
   const saved = { [id]: true }, recent = new Set([id]);
   const before = structuredClone(saved);
@@ -68,6 +68,21 @@ test("only explicit Show all previews locked search results; undo grace cannot b
   assert.deepEqual(countDecorGroups(preview.regular, saved), { total: 1, done: 1 });
   assert.deepEqual(searchDecorCatalog(search, saved, recent, { showAllDecor: false }), hidden);
   assert.deepEqual(saved, before);
+});
+
+test("collection views scope results and the missing-search undo count", () => {
+  const redSnack = decorId("5th Anniversary Snack", "5th Anniversary Snack", "Red");
+  const saved = { [redChef]: true, [redSnack]: true };
+  const recent = new Set([redChef, redSnack]);
+  const search = compileDecorSearch("missing red (=restaurant | 5th anniversary snack)");
+  const all = searchDecorCatalog(search, saved, recent);
+  assert.equal(all.retainedCount, 2);
+  assert.deepEqual(all.regular.map(group => group.location), ["Restaurant"]);
+  assert.deepEqual(all.special.map(group => group.location), ["5th Anniversary Snack"]);
+  assert.deepEqual(searchDecorCatalog(search, saved, recent, { collectionView: "regular" }),
+    { regular: all.regular, special: [], retainedCount: 1 });
+  assert.deepEqual(searchDecorCatalog(search, saved, recent, { collectionView: "special" }),
+    { regular: [], special: all.special, retainedCount: 1 });
 });
 
 test("empty searches preserve the original catalog references, order and stable saved IDs", () => {

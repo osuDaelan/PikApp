@@ -23,10 +23,10 @@ export default function DecorSearch({ query, onQueryChange, search, matchCount, 
       {search.error
         ? <p id="decor-search-error" className="decor-search__error" role="alert">{search.error}</p>
         : <p id="decor-search-status" className="decor-search__status" role="status">
-          {search.active ? `${matchCount} matching ${matchCount === 1 ? "decor" : "decors"} · ${retainedCount
-            ? `${retainedCount} recently collected — tap again within ${DECOR_SEARCH_GRACE_MS / 1000} seconds to undo.`
-            : "Locked rare decor stays hidden unless Show all is enabled."}`
-            : "Search by species, category, costume, or collection status."}
+          {search.active
+            ? `${matchCount} matching ${matchCount === 1 ? "decor" : "decors"}`
+            : "Search by species, category, costume, or collection status in the selected view."}
+          {retainedCount > 0 && ` · ${retainedCount} recently collected — tap again within ${DECOR_SEARCH_GRACE_MS / 1000} seconds to undo.`}
         </p>}
       <details className="decor-search__help">
         <summary>Search tips</summary>
@@ -36,7 +36,7 @@ export default function DecorSearch({ query, onQueryChange, search, matchCount, 
         <p>Try <code>blue restaurant</code>, <code>missing &amp; (red | yellow)</code>, or <code>event &amp; !collected</code>.</p>
         <p>Decor names such as <code>ice cream</code> and <code>shaved ice</code> work without quotes. <code>ice</code> alone filters Ice Pikmin; <code>blue ice cream</code> finds Blue Pikmin wearing Ice Cream decor.</p>
         <p>Use straight quotes for a phrase or literal text: <code>"chef hat"</code>, <code>"Library &amp; Bookstore"</code>. Add <code>=</code> for a whole-field match: <code>="Chef Hat"</code> excludes <code>Chef Hat (Rare)</code>. Case and accents do not matter.</p>
-        <p>Numbered designs keep their species: <code>yellow battery "design 2"</code>. Bulk buttons change only the displayed results. Search follows the usual rare unlock rules; use Show all to preview locked rare decor.</p>
+        <p>Numbered designs keep their species: <code>yellow battery "design 2"</code>. Bulk buttons change only the displayed results. Use <strong>Show locked rares</strong> in Regular Decor to preview locked rare decor.</p>
         <p>When filtering missing decor, newly collected tiles stay visible for {DECOR_SEARCH_GRACE_MS / 1000} seconds so you can tap them again to undo. This also works with <code>!collected</code> and bulk selection. Progress saves immediately.</p>
         <p>This checklist tracks decor types. Nicknames, found locations, friendship, squad, and flower states are not tracked.</p>
         <a href="https://www.pikminwiki.com/Pikmin_Bloom_interface#Pikmin" target="_blank" rel="noopener noreferrer">In-game search reference ↗</a>

@@ -1,0 +1,110 @@
+.decor-checklist {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.decor-checklist__toolbar,
+.decor-checklist__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.decor-checklist__toolbar {
+  padding-bottom: 14px;
+  border-bottom: 1px solid #dfe9da;
+}
+
+.decor-checklist__views {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: 1 1 184px;
+  max-width: 330px;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 12px;
+  background: #eef4e9;
+}
+
+.decor-checklist__views button,
+.decor-checklist__action {
+  flex-shrink: 0;
+  min-height: 44px;
+  border: 1px solid transparent;
+  color: #284c38;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.decor-checklist__views button {
+  padding: 6px;
+  border-radius: 9px;
+  background: transparent;
+}
+
+.decor-checklist__views button[aria-pressed="true"] {
+  background: #fff;
+  border-color: #bdd1b8;
+  box-shadow: 0 1px 3px rgb(33 64 45 / 12%);
+}
+
+.decor-checklist__action {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #f3f5f1;
+  font-size: 12px;
+}
+
+.decor-checklist__action[aria-pressed="true"] {
+  background: #fff3de;
+  border-color: #dfae61;
+  color: #69410d;
+}
+
+.decor-checklist__rare-toggle[aria-pressed="true"] {
+  background: #eef4e9;
+  border-color: #83a77c;
+  color: #284c38;
+}
+
+.decor-checklist__views button:focus-visible,
+.decor-checklist__action:focus-visible {
+  outline: 3px solid #378753;
+  outline-offset: 2px;
+}
+
+.decor-checklist__collection {
+  padding-top: 14px;
+}
+
+.decor-checklist__collection + .decor-checklist__collection {
+  margin-top: 20px;
+  border-top: 1px solid #dfe9da;
+}
+
+.decor-checklist__heading h2 {
+  margin: 0;
+  color: #2d6e2d;
+  font-size: 16px;
+}
+
+.decor-checklist__count,
+.decor-checklist__empty {
+  margin-top: 3px;
+  color: #526455;
+  font-size: 12px;
+}
+
+.decor-checklist__shrine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: #2d6e2d;
+  font-size: 12px;
+  cursor: pointer;
+}

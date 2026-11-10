@@ -9,6 +9,7 @@ export default function useDecorCollection(store = guestProgressStore) {
   const [showAllDecor, setShowAllDecor] = useProgressState("showAllDecor", false, store);
   const [showShrineDecor, setShowShrineDecor] = useProgressState("showShrineDecor", false, store);
   const [decorBulkMode, setDecorBulkMode] = useState(false);
+  const [collectionView, setCollectionView] = useState("all");
   const [decorSearchQuery, updateDecorSearchQuery] = useState("");
   const [recentDecorEdits, setRecentDecorEdits] = useState(() => new Map());
   const { completion, dismissCompletion } = useSetCompletion(decorCollected);
@@ -51,5 +52,9 @@ export default function useDecorCollection(store = guestProgressStore) {
     });
   }
 
-  return { decorCollected, decorBulkMode, setDecorBulkMode, decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor, showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion };
+  return {
+    decorCollected, decorBulkMode, setDecorBulkMode, collectionView, setCollectionView,
+    decorSearchQuery, setDecorSearchQuery, recentDecorEdits, showAllDecor, toggleShowAllDecor,
+    showShrineDecor, setShowShrineDecor, toggleDecor, bulkSetDecor, completion, dismissCompletion,
+  };
 }

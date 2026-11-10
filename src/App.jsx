@@ -86,7 +86,7 @@ function AppSession({ importComplete, onProgressImported }) {
         {showsCalculator && <StatsEditor calculator={calculator} />}
 
         {showsCalculator && <section aria-label="Level calculator"><CalculatorSection calculator={calculator} /></section>}
-        {tab === "decor" && <DecorSection decor={decor} isWide={isWide} />}
+        {tab === "decor" && <DecorSection decor={decor} />}
         {tab === "mushrooms" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading mushroom rewards…</div>}>
           <MushroomsSection draft={mushroomDraft} setDraft={setMushroomDraft} />
         </Suspense>}

@@ -178,11 +178,23 @@ export function regularDecorGroups(showShrineDecor = false) {
   return showShrineDecor ? DECOR_LOCATIONS : DECOR_LOCATIONS.filter(group => group.location !== "Shrine & Temple");
 }
 
-export function searchDecorCatalog(search, collected, recentEdits = new Set(), { showShrineDecor = true, showAllDecor = false } = {}) {
+export function searchDecorCatalog(search, collected, recentEdits = new Set(), {
+  showShrineDecor = true, showAllDecor = false, collectionView = "all",
+} = {}) {
   if (search.error) return { regular: [], special: [], retainedCount: 0 };
-  if (!search.active) return { regular: regularDecorGroups(showShrineDecor), special: DECOR_SPECIAL_CATEGORIES, retainedCount: 0 };
-  const regular = filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits, showAllDecor);
-  const special = filterGroups(specialIndex, search.expression, collected, recentEdits, showAllDecor);
+  const includeRegular = collectionView !== "special";
+  const includeSpecial = collectionView !== "regular";
+  if (!search.active) return {
+    regular: includeRegular ? regularDecorGroups(showShrineDecor) : [],
+    special: includeSpecial ? DECOR_SPECIAL_CATEGORIES : [],
+    retainedCount: 0,
+  };
+  const regular = includeRegular
+    ? filterGroups(regularIndex.filter(({group}) => showShrineDecor || group.location !== "Shrine & Temple"), search.expression, collected, recentEdits, showAllDecor)
+    : { groups: [], retainedCount: 0 };
+  const special = includeSpecial
+    ? filterGroups(specialIndex, search.expression, collected, recentEdits, showAllDecor)
+    : { groups: [], retainedCount: 0 };
   return {
     regular: regular.groups, special: special.groups,
     retainedCount: regular.retainedCount + special.retainedCount,
