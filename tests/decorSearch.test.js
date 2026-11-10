@@ -74,7 +74,7 @@ test("empty searches preserve the original catalog references, order and stable 
   const { regular, special } = results("  \u3000 ");
   assert.equal(regular, DECOR_LOCATIONS);
   assert.equal(special, DECOR_SPECIAL_CATEGORIES);
-  assert.equal(ids("").length, 1064);
+  assert.equal(ids("").length, 1071);
   assert.deepEqual(ids("!not-an-existing-costume"), ids(""));
 });
 
@@ -121,7 +121,7 @@ test("decor names containing a species word work without quotation marks", () =>
   const saved = { ice_cream__ice_cream_classic__Blue: true };
   assert.equal(ids("missing ice cream", saved).length, 14);
   assert.deepEqual(ids("collected ice cream", saved), ["ice_cream__ice_cream_classic__Blue"]);
-  assert.equal(ids("!ice cream").length, 1049);
+  assert.deepEqual(ids("!ice cream"), ids("").filter(id => !id.startsWith("ice_cream__")));
   assert.deepEqual(ids("ice"), ids("ice !ice cream !shaved ice | ice ice cream | ice shaved ice"));
 });
 
@@ -207,7 +207,7 @@ test("collected and missing reflect live progress and do not modify it", () => {
   const saved = { [redChef]: true, [blueChef]: false, [redRareChef]: true, unrelated: true };
   const before = structuredClone(saved);
   assert.deepEqual(ids("collected", saved), [redRareChef, redChef]);
-  assert.equal(ids("missing", saved).length, 1062);
+  assert.equal(ids("missing", saved).length, ids("").length - 2);
   assert.ok(ids("missing", saved).includes(blueChef));
   assert.deepEqual(saved, before);
   assert.deepEqual(ids("collected restaurant !rare", { ...saved, [blueChef]: true }), [redChef, blueChef]);
@@ -216,7 +216,7 @@ test("collected and missing reflect live progress and do not modify it", () => {
 test("rare, regular and event/special filters use catalog metadata, not names", () => {
   assert.equal(ids("rare").length, 107);
   assert.equal(ids("regular").length, 527);
-  assert.equal(ids("event").length, 537);
+  assert.equal(ids("event").length, 544);
   assert.deepEqual(ids("special"), ids("event"));
   assert.equal(ids("regular !rare").length, 420);
   assert.equal(ids("event rare").length, 0);
@@ -228,11 +228,12 @@ test("rare, regular and event/special filters use catalog metadata, not names", 
 test("anniversary entries are searchable by event name, species and ownership", () => {
   const red = decorId("5th Anniversary Toy Jewelry", "5th Anniversary Toy Jewelry", "Red");
   const ice = decorId("5th Anniversary Toy Jewelry", "5th Anniversary Toy Jewelry", "Ice");
-  assert.equal(ids("5th anniversary").length, 8);
+  assert.equal(ids("5th anniversary").length, 15);
   assert.equal(ids("toy jewelry").length, 8);
+  assert.equal(ids("5th anniversary snack").length, 7);
   assert.deepEqual(ids("event 5th ice"), [ice]);
   assert.deepEqual(ids("5th collected", { [red]: true }), [red]);
-  assert.equal(ids("5th missing", { [red]: true }).length, 7);
+  assert.equal(ids("5th missing", { [red]: true }).length, 14);
 });
 
 test("AND accepts spaces, full-width spaces, ampersands and commas", () => {

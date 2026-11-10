@@ -1,5 +1,4 @@
 // Original Pikipedia artwork. Sources: docs/decor-image-sources.json.
-// Exact design artwork mappings; pending new artwork is documented separately in the source inventory.
 export default {
   "restaurant__chef_hat__Red": {
     "file": "restaurant-chef-hat-red.png",
@@ -6453,5 +6452,95 @@ export default {
     "height": 258,
     "representative": false,
     "alt": "Yellow Pikmin with Theme Park Ticket decor, design 2"
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red": {
+    "file": "5th-anniversary-toy-jewelry-red.png",
+    "alt": "Red Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 213,
+    "height": 312
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Yellow": {
+    "file": "5th-anniversary-toy-jewelry-yellow.png",
+    "alt": "Yellow Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 197,
+    "height": 280
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Blue": {
+    "file": "5th-anniversary-toy-jewelry-blue.png",
+    "alt": "Blue Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 275,
+    "height": 258
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Purple": {
+    "file": "5th-anniversary-toy-jewelry-purple.png",
+    "alt": "Purple Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 251,
+    "height": 321
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__White": {
+    "file": "5th-anniversary-toy-jewelry-white.png",
+    "alt": "White Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 184,
+    "height": 244
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Winged": {
+    "file": "5th-anniversary-toy-jewelry-winged.png",
+    "alt": "Winged Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 161,
+    "height": 244
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Rock": {
+    "file": "5th-anniversary-toy-jewelry-rock.png",
+    "alt": "Rock Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 235,
+    "height": 289
+  },
+  "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice": {
+    "file": "5th-anniversary-toy-jewelry-ice.png",
+    "alt": "Ice Pikmin with 5th Anniversary Toy Jewelry decor",
+    "width": 236,
+    "height": 280
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Red": {
+    "file": "5th-anniversary-snack-red.png",
+    "alt": "Red Pikmin with 5th Anniversary Snack decor",
+    "width": 212,
+    "height": 258
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Yellow": {
+    "file": "5th-anniversary-snack-yellow.png",
+    "alt": "Yellow Pikmin with 5th Anniversary Snack decor",
+    "width": 245,
+    "height": 258
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Blue": {
+    "file": "5th-anniversary-snack-blue.png",
+    "alt": "Blue Pikmin with 5th Anniversary Snack decor",
+    "width": 274,
+    "height": 258
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Purple": {
+    "file": "5th-anniversary-snack-purple.png",
+    "alt": "Purple Pikmin with 5th Anniversary Snack decor",
+    "width": 222,
+    "height": 322
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__White": {
+    "file": "5th-anniversary-snack-white.png",
+    "alt": "White Pikmin with 5th Anniversary Snack decor",
+    "width": 208,
+    "height": 212
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Winged": {
+    "file": "5th-anniversary-snack-winged.png",
+    "alt": "Winged Pikmin with 5th Anniversary Snack decor",
+    "width": 217,
+    "height": 230
+  },
+  "5th_anniversary_snack__5th_anniversary_snack__Rock": {
+    "file": "5th-anniversary-snack-rock.png",
+    "alt": "Rock Pikmin with 5th Anniversary Snack decor",
+    "width": 343,
+    "height": 289
   }
 };

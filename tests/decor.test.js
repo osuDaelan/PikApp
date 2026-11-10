@@ -12,8 +12,8 @@ test("original IDs stay stable, with grouped design IDs retained separately for 
       decorId(decorStorageLocation(group), costume.name, variant))));
   const legacy = JSON.parse(readFileSync(new URL("./fixtures/decor-legacy-ids.json", import.meta.url), "utf8"));
   const legacySet = new Set(legacy);
-  assert.equal(ids.length, 1064);
-  assert.equal(new Set(ids).size, 1064);
+  assert.equal(ids.length, 1071);
+  assert.equal(new Set(ids).size, 1071);
   assert.equal(legacy.length, 896);
   const retired = new Set(LEGACY_GROUPED_ENTRIES.map(entry => entry.id));
   assert.equal(retired.size, 36);
@@ -24,19 +24,24 @@ test("original IDs stay stable, with grouped design IDs retained separately for 
     "0fe9bd95e1a91e9d235c44f188d419441c49f99041f9a1978a973309747ba11d");
 });
 
-test("5th Anniversary Toy Jewelry contains all eight species between Wurst and Golden Toy", () => {
+test("5th Anniversary sets follow the gallery order and preserve collected Toy Jewelry", () => {
   const index = DECOR_SPECIAL_CATEGORIES.findIndex(group => group.location === "5th Anniversary Toy Jewelry");
-  assert.equal(DECOR_SPECIAL_CATEGORIES[index - 1].location, "Wurst");
-  assert.equal(DECOR_SPECIAL_CATEGORIES[index + 1].location, "Golden Toy Airplane");
-  const group = DECOR_SPECIAL_CATEGORIES[index];
+  assert.deepEqual(DECOR_SPECIAL_CATEGORIES.slice(index - 1, index + 3).map(group => group.location),
+    ["Wurst", "5th Anniversary Toy Jewelry", "5th Anniversary Snack", "Golden Toy Airplane"]);
+  const [group, snack] = DECOR_SPECIAL_CATEGORIES.slice(index, index + 2);
   assert.equal(group.costumes.length, 1);
   assert.deepEqual(group.costumes[0].colors, PIKMIN_COLORS);
+  assert.equal(snack.costumes.length, 1);
+  assert.deepEqual(snack.costumes[0].colors, PIKMIN_COLORS.filter(color => color !== "Ice"));
   assert.equal(isRareCostume(group.costumes[0]), false);
   assert.equal(isRareLocked(group, group.costumes[0], {}), false);
-  const saved = { restaurant__chef_hat__Red: true,
-    [decorId(group.location, group.costumes[0].name, "Red")]: true,
-    [decorId(group.location, group.costumes[0].name, "Ice")]: true };
+  const saved = {
+    restaurant__chef_hat__Red: true,
+    "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red": true,
+    "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice": true,
+  };
   assert.deepEqual(countDecorGroups([group], saved), { total: 8, done: 2 });
+  assert.deepEqual(countDecorGroups([snack], saved), { total: 7, done: 0 });
   assert.equal(saved.restaurant__chef_hat__Red, true);
 });
 
@@ -100,7 +105,7 @@ test("Chess has separate seven-species white and black sets without guessed owne
 test("legacy selected/unselected entries retain progress with the expanded collection totals", () => {
   const saved = { restaurant__chef_hat__Red: true, restaurant__chef_hat__Blue: false };
   assert.deepEqual(countDecorGroups(DECOR_LOCATIONS, saved), { total: 527, done: 1 });
-  assert.deepEqual(countDecorGroups(DECOR_SPECIAL_CATEGORIES, saved), { total: 537, done: 0 });
+  assert.deepEqual(countDecorGroups(DECOR_SPECIAL_CATEGORIES, saved), { total: 544, done: 0 });
 });
 
 test("card sets track every verified design without inferring species or sibling ownership", () => {

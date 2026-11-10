@@ -2,7 +2,7 @@ import { CARD_COSTUMES } from "./cardCatalog.js";
 
 // Regular gallery order and all ticket designs verified 2026-10-27. Display labels preserve older save namespaces.
 // Sources: pikminwiki.com/Decor_Pikmin and pikminwiki.com/Special_Decor_Pikmin.
-// 5th Anniversary Toy Jewelry: official pikminbloom.com/en/news/nov26-5thanniv, 2026-11-01.
+// 5th Anniversary Toy Jewelry and Snack gallery entries verified 2026-11-10.
 export const DECOR_LOCATIONS = [
   { location: "Restaurant", costumes: [
     { name: "Chef Hat (Rare)", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Winged", "Rock", "Ice"] },
@@ -358,8 +358,11 @@ export const DECOR_SPECIAL_CATEGORIES = [
   { location: "Wurst", costumes: [
     { name: "Wurst", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Winged", "Rock", "Ice"] },
   ]},
-  { location: "5th Anniversary Toy Jewelry", artworkPending: true, costumes: [
+  { location: "5th Anniversary Toy Jewelry", costumes: [
     { name: "5th Anniversary Toy Jewelry", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Winged", "Rock", "Ice"] },
+  ]},
+  { location: "5th Anniversary Snack", costumes: [
+    { name: "5th Anniversary Snack", colors: ["Red", "Yellow", "Blue", "Purple", "White", "Winged", "Rock"] },
   ]},
   { location: "Golden Toy Airplane", costumes: [
     { name: "Golden Toy Airplane", colors: ["Yellow"] },
@@ -400,7 +403,8 @@ export const DECOR_ICONS = {
   "4th Anniversary Flower Box": "💐", "4th Anniversary Snack": "🍪", "2025 Ornament": "🎄",
   "Pacifier": "🍼", "Osechi": "🍱", "2026 Chocolate": "🍫", "Color Powder": "🌈",
   "Klompen Keychain": "👞", "Game Pak": "💾", "Flower Crown": "🌼",
-  "Tiny Instrument: Orchestra": "🎻", "Balinese Carving": "🪵", "Wurst": "🌭", "5th Anniversary Toy Jewelry": "💎", "Golden Toy Airplane": "🛩️",
+  "Tiny Instrument: Orchestra": "🎻", "Balinese Carving": "🪵", "Wurst": "🌭",
+  "5th Anniversary Toy Jewelry": "💎", "5th Anniversary Snack": "🍫", "Golden Toy Airplane": "🛩️",
 };
 
 export const PIKMIN_COLORS = ["Red", "Yellow", "Blue", "Purple", "White", "Winged", "Rock", "Ice"];

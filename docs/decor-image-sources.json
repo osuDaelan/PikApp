@@ -13864,6 +13864,201 @@
       "bytes": 47418,
       "sha256": "78fe842339de6f6a28b48f59efdf213bcd46cb651468bf31a584a085434f3a38",
       "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red",
+      "file": "5th-anniversary-toy-jewelry-red.png",
+      "title": "Decor Red 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/0/02/Decor_Red_5th_Anniversary_Toy_Jewelry.png",
+      "width": 213,
+      "height": 312,
+      "bytes": 44825,
+      "sha256": "f34b1a29ee1cf76b80a7156c95e0b84fb0c06a5061c7eefd0eba1d9bea227fec",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Yellow",
+      "file": "5th-anniversary-toy-jewelry-yellow.png",
+      "title": "Decor Yellow 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/7/77/Decor_Yellow_5th_Anniversary_Toy_Jewelry.png",
+      "width": 197,
+      "height": 280,
+      "bytes": 36585,
+      "sha256": "1f9d19b6559e9884a04f2851163d149e9580fed29db85850bf9a2632ad86ff02",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Blue",
+      "file": "5th-anniversary-toy-jewelry-blue.png",
+      "title": "Decor Blue 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/1/14/Decor_Blue_5th_Anniversary_Toy_Jewelry.png",
+      "width": 275,
+      "height": 258,
+      "bytes": 48075,
+      "sha256": "8215e3fb90b4955be8c9903c49d18e69584293a9545c6e78a9c679eba7693893",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Purple",
+      "file": "5th-anniversary-toy-jewelry-purple.png",
+      "title": "Decor Purple 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Purple_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/5/59/Decor_Purple_5th_Anniversary_Toy_Jewelry.png",
+      "width": 251,
+      "height": 321,
+      "bytes": 62157,
+      "sha256": "b11461d9deba9aa2ffce1be76b44179b1e3f7556ad44bd625e06ac7f2aaf7f5b",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__White",
+      "file": "5th-anniversary-toy-jewelry-white.png",
+      "title": "Decor White 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_White_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/1/1b/Decor_White_5th_Anniversary_Toy_Jewelry.png",
+      "width": 184,
+      "height": 244,
+      "bytes": 36512,
+      "sha256": "275cedb85edfc6f3c4e6fbe4229657a8fc9399d28439ad22cd7472080ffa32da",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Winged",
+      "file": "5th-anniversary-toy-jewelry-winged.png",
+      "title": "Decor Winged 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Winged_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/0/06/Decor_Winged_5th_Anniversary_Toy_Jewelry.png",
+      "width": 161,
+      "height": 244,
+      "bytes": 31836,
+      "sha256": "ef2df25ccad3dae7e5044710be045235dd3a16a23b3808eb923be6f551aa472a",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Rock",
+      "file": "5th-anniversary-toy-jewelry-rock.png",
+      "title": "Decor Rock 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Rock_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/f/fd/Decor_Rock_5th_Anniversary_Toy_Jewelry.png",
+      "width": 235,
+      "height": 289,
+      "bytes": 52308,
+      "sha256": "4a592318392437fedd9d0b18b7aaab4eddb5663d667bf0b3b9c50828d79573ba",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice",
+      "file": "5th-anniversary-toy-jewelry-ice.png",
+      "title": "Decor Ice 5th Anniversary Toy Jewelry.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Ice_5th_Anniversary_Toy_Jewelry.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/5/50/Decor_Ice_5th_Anniversary_Toy_Jewelry.png",
+      "width": 236,
+      "height": 280,
+      "bytes": 55250,
+      "sha256": "e444ccc4d7a1bf2d17046cd2e8659ad5d59ad6f2719044b72b8da1b13195d2f1",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Red",
+      "file": "5th-anniversary-snack-red.png",
+      "title": "Decor Red 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Red_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/3/39/Decor_Red_5th_Anniversary_Snack.png",
+      "width": 212,
+      "height": 258,
+      "bytes": 41667,
+      "sha256": "42274eeb30440a9fc3855ee28659676b15f0111a151696be0527f8b58fc459e3",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Yellow",
+      "file": "5th-anniversary-snack-yellow.png",
+      "title": "Decor Yellow 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Yellow_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/9/9b/Decor_Yellow_5th_Anniversary_Snack.png",
+      "width": 245,
+      "height": 258,
+      "bytes": 34289,
+      "sha256": "acb342a773c7d26874173949d19cdb15470bc97e1a17d6f74c3fdc62829ae102",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Blue",
+      "file": "5th-anniversary-snack-blue.png",
+      "title": "Decor Blue 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Blue_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/c/cd/Decor_Blue_5th_Anniversary_Snack.png",
+      "width": 274,
+      "height": 258,
+      "bytes": 61258,
+      "sha256": "155003051f40ae69245cc7b30db3134dd255d48b206654883cec50e69011a134",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Purple",
+      "file": "5th-anniversary-snack-purple.png",
+      "title": "Decor Purple 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Purple_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/4/4f/Decor_Purple_5th_Anniversary_Snack.png",
+      "width": 222,
+      "height": 322,
+      "bytes": 53415,
+      "sha256": "e8e1866f1861d575cd0109d1ab2a94d4934f9b879fa25badae9560956e86de1c",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__White",
+      "file": "5th-anniversary-snack-white.png",
+      "title": "Decor White 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_White_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/d/d9/Decor_White_5th_Anniversary_Snack.png",
+      "width": 208,
+      "height": 212,
+      "bytes": 34398,
+      "sha256": "ae6b36be9792b9471813876ec53c2418c232c2cc0e2d1129ab0126b73890d87d",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Winged",
+      "file": "5th-anniversary-snack-winged.png",
+      "title": "Decor Winged 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Winged_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/1/18/Decor_Winged_5th_Anniversary_Snack.png",
+      "width": 217,
+      "height": 230,
+      "bytes": 34465,
+      "sha256": "ad20d1af1574f74b6f8ea6c309bcb61c5879986821bb7fef2a599fba3d0fd523",
+      "representative": false
+    },
+    {
+      "id": "5th_anniversary_snack__5th_anniversary_snack__Rock",
+      "file": "5th-anniversary-snack-rock.png",
+      "title": "Decor Rock 5th Anniversary Snack.png",
+      "gallery": "https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Snack",
+      "sourcePage": "https://www.pikminwiki.com/File:Decor_Rock_5th_Anniversary_Snack.png",
+      "originalUrl": "https://pikmin.wiki.gallery/images/3/32/Decor_Rock_5th_Anniversary_Snack.png",
+      "width": 343,
+      "height": 289,
+      "bytes": 66136,
+      "sha256": "22b8761f86ad49b6d9700a7dbe4b7beee4fc603ddd200ae8890f60829b4263e3",
+      "representative": false
     }
   ],
   "updated": "2026-10-27",
@@ -14375,28 +14570,15 @@
     "designs": 6,
     "compatibility": "Three old grouped marks remain available for review without inferring either ticket design. Other saved IDs are unchanged by display reordering."
   },
-  "pendingArtwork": [
-    {
-      "category": "5th Anniversary Toy Jewelry",
-      "source": "https://pikminbloom.com/en/news/nov26-5thanniv",
-      "reviewed": "2026-11-01",
-      "reason": "All eight species confirmed by the official announcement. Individual transparent artwork was not found in the checked public wiki uploads or official announcement assets; use labeled color toggles without substitute artwork.",
-      "ids": [
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Red",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Yellow",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Blue",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Purple",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__White",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Winged",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Rock",
-        "5th_anniversary_toy_jewelry__5th_anniversary_toy_jewelry__Ice"
-      ]
-    }
-  ],
   "cardLabelReview": {
     "date": "2026-10-27",
     "count": 27,
     "verification": "Playing Card suits/ranks checked against wiki tables and original PNGs. Numbered IDs unchanged.",
     "deferred": "At owner request, Hanafuda month and Mahjong face names are not displayed or searchable pending further verification. Previous draft labels remain in commit 7e77844."
+  },
+  "fifthAnniversaryReview": {
+    "date": "2026-11-10",
+    "toyJewelry": 8,
+    "snack": 7
   }
 }

@@ -1,5 +1,9 @@
 # Decor image rollout and performance checks
 
+## 5th Anniversary artwork and Snack — November 10, 2026
+
+The [Pikipedia gallery](https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry) now has individual PNGs for all eight Toy Jewelry designs and all seven Snack designs. The checklist follows the gallery order: Wurst, Toy Jewelry, Snack, Golden Toy Airplane. Existing Toy Jewelry IDs carry forward. The catalog now has 1,071 entries with verified individual PNGs.
+
 ## 5th Anniversary Toy Jewelry — November 1, 2026
 
 The catalogue now has **1,064 entries: 527 regular/rare and 537 special/event**. Eight new Toy Jewelry entries (Red, Yellow, Blue, Purple, White, Winged, Rock and Ice) follow Wurst and precede Golden Toy Airplane, as requested by the owner. The [official announcement](https://pikminbloom.com/en/news/nov26-5thanniv) confirms the name, eight species and November 1–30 event; the wiki page had not yet added this set when checked.

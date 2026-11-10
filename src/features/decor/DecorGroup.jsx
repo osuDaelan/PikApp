@@ -148,7 +148,6 @@ export default function DecorGroup({ group, collected, onToggleColor, isFirst, b
           <span style={{ fontSize: 10, color: "#bbb", whiteSpace: "nowrap" }}>{done}/{total}</span>
         </div>
       </div>
-      {group.artworkPending && <p style={{ margin: "0 0 8px", fontSize: 11, color: "#687764" }}>Artwork pending · Collection tracking is available.</p>}
       {visibleCostumes.map(c => (
         <CostumeRow key={c.name} groupLocation={group.location} storageLocation={decorStorageLocation(group)} costume={c} collected={collected} onToggleColor={onToggleColor} bulkMode={bulkMode} onBulkSet={onBulkSet} />
       ))}

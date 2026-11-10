@@ -27,8 +27,8 @@ Completed: feature modules, shared controls/styles, and a storage interface with
 - [x] Recognize decor names containing species words without quotes, including Ice Cream and Shaved Ice.
 - [x] Make Shrine & Temple a browser-persisted option, off by default, excluded from hidden results/totals/bulk actions while preserving saved marks.
 
-The checklist has 1,064 entries (527 regular/rare, 537 special/event). Images cover 1,056 entries, including numbered designs; the eight 5th Anniversary Toy Jewelry entries use labeled color toggles with an explicit artwork-pending note until verified individual images are available. Original Pikipedia PNGs use the approved pop/confetti tile with lazy loading and memoized rendering. Sources/checksums and pending IDs are recorded in the asset inventory. The October 27 card, Leaf Hat, Chess and Theme Park expansions retain old grouped marks for explicit review rather than guessing ownership; unaffected IDs stay unchanged. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
-- [ ] Add verified individual artwork for all eight 5th Anniversary Toy Jewelry Pikmin, then remove their pending flags/inventory. The category, order and species are confirmed against the official November announcement; do not substitute other designs or generated artwork.
+The checklist has 1,071 entries (527 regular/rare, 544 special/event), all with individual Pikipedia PNGs. Sources and checksums are recorded in the asset inventory. The October 27 card, Leaf Hat, Chess and Theme Park expansions retain old grouped marks for explicit review. See `docs/DECOR_IMAGE_ROLLOUT.md` for verification and remaining performance checks.
+- [x] Add verified artwork for all eight 5th Anniversary Toy Jewelry Pikmin and add all seven 5th Anniversary Snack designs with artwork.
 
 - [x] Recheck regular/event galleries on October 22 and add 79 missing entries with verified artwork: 975 total (522 regular/rare, 453 event).
 - [x] Preserve all 896 original IDs and test old/new full-progress backup compatibility. Full suite: 114 tests; production build and ordinary browser persistence checks pass.
