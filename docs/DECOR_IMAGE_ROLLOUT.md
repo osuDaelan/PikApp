@@ -1,5 +1,13 @@
 # Decor image rollout and performance checks
 
+## Smaller images for mobile — November 16, 2026
+
+The checklist uses transparent WebP thumbnails bounded by 150 × 264 pixels, three times the size of the on-screen artwork. It loads the original PNG if the thumbnail is unavailable. The original files and their source checksums remain in the repository. Phones use smaller Garden wallpapers in portrait and landscape, with the full-size WebP on larger screens.
+
+All 1,071 thumbnails total 8.8 MiB compared with 32.5 MiB for their originals. The three mobile wallpapers are about 54–55% smaller. These figures compare image files. The browser requests tiles as needed while scrolling.
+
+After adding artwork, run `python scripts/optimize-images.py` with Pillow and WebP support to refresh the thumbnails, mobile wallpapers, and thumbnail dimensions. The script checks transparency and only uses a decor thumbnail when it saves space. The normal app build uses the checked-in assets.
+
 ## 5th Anniversary artwork and Snack — November 10, 2026
 
 The [Pikipedia gallery](https://www.pikminwiki.com/Special_Decor_Pikmin#5th_Anniversary_Toy_Jewelry) now has individual PNGs for all eight Toy Jewelry designs and all seven Snack designs. The checklist follows the gallery order: Wurst, Toy Jewelry, Snack, Golden Toy Airplane. Existing Toy Jewelry IDs carry forward. The catalog now has 1,071 entries with verified individual PNGs.

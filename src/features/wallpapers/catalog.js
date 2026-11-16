@@ -9,6 +9,10 @@ export function wallpaperUrl(wallpaper, baseUrl = "/") {
   return `${baseUrl}images/wallpapers/${wallpaper.file}`;
 }
 
+export function mobileWallpaperUrl(wallpaper, baseUrl = "/") {
+  return `${baseUrl}images/wallpapers/mobile/${wallpaper.file}`;
+}
+
 export function getWallpaper(id) {
   return WALLPAPERS.find(wallpaper => wallpaper.id === id);
 }

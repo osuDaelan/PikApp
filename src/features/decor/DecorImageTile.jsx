@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { decorImageUrl } from "./decorImages.js";
+import { decorImageUrl, getDecorThumbnail } from "./decorImages.js";
 import useDecorTileMotion from "./useDecorTileMotion.js";
 import RareTileStars from "./RareTileStars.jsx";
 import NewDecorSparkles from "./NewDecorSparkles.jsx";
@@ -9,7 +9,9 @@ import "./decor-tile-motion.css";
 function DecorImageTile({ id, image, rare = false, color, caption, label, collected, onToggle }) {
   const [failedSource, setFailedSource] = useState(null);
   const motion = useDecorTileMotion(collected);
-  const src = decorImageUrl(image, import.meta.env.BASE_URL);
+  const originalSrc = decorImageUrl(image, import.meta.env.BASE_URL);
+  const thumbnail = getDecorThumbnail(image, import.meta.env.BASE_URL);
+  const art = thumbnail && failedSource !== thumbnail.src ? thumbnail : { ...image, src: originalSrc };
   return (
     <button type="button" className={`decor-image-tile${rare ? " decor-image-tile--rare" : ""}${caption ? " decor-image-tile--named" : ""}`} aria-label={label} {...motion}
       aria-pressed={collected} onClick={() => onToggle(id)}
@@ -28,10 +30,10 @@ function DecorImageTile({ id, image, rare = false, color, caption, label, collec
         </span>
       )}
       <span className="decor-image-tile__art">
-        {failedSource === src
+        {failedSource === originalSrc
           ? <span className="decor-image-tile__fallback" aria-hidden="true">{color[0]}</span>
-          : <img src={src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async"
-              onError={() => setFailedSource(src)} />}
+          : <img src={art.src} alt={image.alt} width={art.width} height={art.height} loading="lazy" decoding="async"
+              onError={() => setFailedSource(art.src)} />}
       </span>
       <span className="decor-image-tile__label">{caption || color}</span>
     </button>

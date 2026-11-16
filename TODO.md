@@ -47,7 +47,7 @@ The checklist has 1,071 entries (527 regular/rare, 544 special/event), all with 
 - [x] Create a consistent file naming convention and store image assets separately from UI code.
 - [x] Map each existing collection ID to its image, display name, and accessible description.
 - [x] Track which catalogue entries still need an image.
-- [ ] Optimize image dimensions and file sizes for mobile use.
+- [x] Optimize image dimensions and file sizes for mobile use with smaller Garden wallpapers and transparent decor thumbnails.
 
 ### Tracker interface
 

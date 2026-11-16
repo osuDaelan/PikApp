@@ -12,7 +12,7 @@ import Navigation from "./shared/components/Navigation.jsx";
 import useWindowWidth from "./shared/hooks/useWindowWidth.js";
 import { appStyle, cardStyle } from "./shared/styles/theme.js";
 import useWallpaper from "./features/wallpapers/useWallpaper.js";
-import { wallpaperUrl } from "./features/wallpapers/catalog.js";
+import { mobileWallpaperUrl, wallpaperUrl } from "./features/wallpapers/catalog.js";
 import LocalCalculatorSave from "./shared/components/LocalCalculatorSave.jsx";
 import useSectionNavigation from "./shared/hooks/useSectionNavigation.js";
 import { calculatorSnapshot } from "./storage/calculatorBackupData.js";
@@ -69,7 +69,11 @@ function AppSession({ importComplete, onProgressImported }) {
 
   return (
     <div className={`pikapp-root${isDesktopMap ? " pikapp-root--desktop-map" : ""}`} data-wallpaper-id={wallpaper.id} style={{ ...appStyle, background: "#203e30", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible" }}>
-      <img className="pikapp-wallpaper" src={wallpaperUrl(wallpaper, import.meta.env.BASE_URL)} alt="" style={{ objectFit: "cover", objectPosition: "center 50%" }} />
+      <picture>
+        <source media="(max-width: 767px), (max-width: 950px) and (max-height: 540px)"
+          srcSet={mobileWallpaperUrl(wallpaper, import.meta.env.BASE_URL)} />
+        <img className="pikapp-wallpaper" src={wallpaperUrl(wallpaper, import.meta.env.BASE_URL)} alt="" style={{ objectFit: "cover", objectPosition: "center 50%" }} />
+      </picture>
       <div className="pikapp-wallpaper-shade" aria-hidden="true" style={{ background: "rgba(0,0,0,0.18)" }} />
     <div style={{ maxWidth: containerMax, margin: "0 auto", display: "flex", flexDirection: "column", minHeight: "100vh", height: viewportHeight, overflow: fillsViewport ? "hidden" : "visible", transition: "max-width 0.15s" }}>
 
