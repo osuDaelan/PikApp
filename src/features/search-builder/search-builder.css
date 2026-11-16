@@ -1,0 +1,176 @@
+.search-builder {
+  max-width: 1040px;
+  margin-inline: auto;
+  color: #244633;
+}
+
+.search-builder__surface {
+  min-width: 0;
+  padding: clamp(14px, 2.2vw, 22px);
+  border: 1px solid #e0e9db;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.search-builder__intro {
+  background: #fbfdf7;
+}
+
+.search-builder h1,
+.search-builder h2,
+.search-builder h3 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.search-builder h1 { font-size: clamp(22px, 4vw, 30px); }
+.search-builder h2 { font-size: 18px; }
+.search-builder h3 { font-size: 13px; }
+.search-builder p { margin: 8px 0 0; line-height: 1.5; }
+
+.search-builder__muted,
+.search-builder__empty {
+  color: #4d6454;
+  font-size: 13px;
+}
+
+.search-builder a { color: #266a46; }
+
+.search-builder__output {
+  margin-block: 12px;
+  position: sticky;
+  top: 8px;
+  z-index: 2;
+}
+
+.search-builder__output > label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 800;
+}
+
+.search-builder__command {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.search-builder button,
+.search-builder select,
+.search-builder input:not([type="checkbox"]) {
+  min-height: 44px;
+  max-width: 100%;
+  border: 1px solid #bbcfb7;
+  border-radius: 9px;
+  padding: 6px 10px;
+  color: inherit;
+  background: #fff;
+  font: inherit;
+}
+
+.search-builder button {
+  background: #eff5eb;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.search-builder button:not(:disabled):hover { background: #e4efde; }
+.search-builder button:disabled { opacity: .52; cursor: default; }
+.search-builder :is(button, input, select, a):focus-visible { outline: 2px solid #347950; outline-offset: 2px; }
+
+.search-builder .search-builder__primary {
+  background: #286744;
+  border-color: #286744;
+  color: #fff;
+}
+
+.search-builder .search-builder__primary:not(:disabled):hover { background: #1c5436; }
+
+.search-builder__command input {
+  flex: 1 1 240px;
+  min-width: 0;
+  font-family: ui-monospace, monospace !important;
+  font-size: 16px !important;
+}
+
+.search-builder__workspace {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (min-width: 880px) {
+  .search-builder__workspace { grid-template-columns: 1.3fr 1fr; }
+}
+
+.search-builder__section-heading,
+.search-builder__tile-header,
+.search-builder__options,
+.search-builder__heart-bounds,
+.search-builder__chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.search-builder__section-heading { justify-content: space-between; }
+.search-builder__filter-group { margin-top: 16px; }
+.search-builder__chips { margin-top: 7px; }
+.search-builder__destination { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.search-builder__list { display: grid; gap: 8px; }
+.search-builder__entry { min-width: 0; margin-top: 6px; }
+.search-builder__join { margin-bottom: 6px; }
+
+.search-builder__tile {
+  min-width: 0;
+  border: 1px solid #c9dac4;
+  border-radius: 12px;
+  background: #f8fbf5;
+}
+
+.search-builder__tile--group { background: #edf5e9; }
+
+.search-builder__tile-header {
+  padding: 5px 8px;
+  border-bottom: 1px solid #dce8d8;
+}
+
+.search-builder__drag {
+  display: none;
+  padding: 6px;
+  color: #4e6f59;
+  cursor: grab;
+  font-size: 20px;
+}
+
+@media (any-pointer: fine) {
+  .search-builder__drag { display: inline-block; }
+  .search-builder__chips button { cursor: grab; }
+}
+
+.search-builder__tile-actions { display: flex; gap: 4px; margin-inline-start: auto; }
+.search-builder__tile-actions button { min-width: 40px; padding-inline: 4px; font-size: 16px; }
+.search-builder__tile-body { display: grid; gap: 8px; padding: 8px; }
+.search-builder__tile-body > button { justify-self: start; }
+.search-builder__options { column-gap: 13px; }
+.search-builder__options label { display: inline-flex; align-items: center; min-height: 44px; gap: 4px; font-size: 13px; cursor: pointer; }
+.search-builder__options input { width: 16px; height: 16px; margin: 0; accent-color: #286744; }
+.search-builder__fields label { display: grid; gap: 4px; font-size: 13px; }
+.search-builder__fields input { width: 100%; font-size: 16px !important; }
+.search-builder__error { font-size: 13px; color: #8d2824; }
+
+.search-builder__drop,
+.search-builder [data-drop-target]:hover {
+  background: #e2efde;
+}
+
+.search-builder__drop {
+  padding: 12px;
+  border: 1px dashed #608f68;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+}
