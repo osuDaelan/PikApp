@@ -1,6 +1,6 @@
 # PikApp
 
-A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor locations, compare mushroom rewards, estimate level-up progress, and build in-game searches.
+A web companion for Pikmin Bloom: track decor Pikmin, explore possible decor locations, compare mushroom rewards, and estimate your level-up progress.
 
 **[Open PikApp](https://osudaelan.github.io/PikApp/)** — works on desktop and mobile, with no login required.
 
@@ -39,10 +39,6 @@ Mushroom comparisons are temporary and reset when you refresh the page.
 ## Level calculator
 
 Enter your current level, lifetime steps or remaining steps, and remaining flowers. Set your daily step and flower averages—or daily goals—to see estimated level-up dates and coin earnings. The current level data goes through level 120.
-
-## Search Builder
-
-Open **Search** to build a command for the in-game Pikmin list. Tap or drag filters into your search, use **AND** or **OR** between tiles, and add groups for parentheses. Use **Copy for Pikmin Bloom** to take the command into the game. [Pikipedia’s search reference](https://www.pikminwiki.com/Pikmin_Bloom_interface#Pikmin)
 
 ## Saving and moving your progress
 

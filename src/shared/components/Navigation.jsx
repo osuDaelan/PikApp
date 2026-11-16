@@ -4,7 +4,7 @@ import { SECTIONS } from "../sections.js";
 
 export default function Navigation({ tab, setTab, isWide, containerMax }) {
   const { green: G, darkGreen: DG } = colors;
-  const navMax = SECTIONS.length * 84;
+  const navMax = 360;
   return (
     <nav aria-label="Main sections" style={{
       position: "fixed", bottom: isWide ? 16 : 0,

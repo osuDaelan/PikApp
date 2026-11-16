@@ -21,7 +21,6 @@ import { guestProgressStore } from "./storage/progressStore.js";
 
 const DecorMapSection = lazy(() => import("./features/decor-map/DecorMapSection.jsx"));
 const MushroomsSection = lazy(() => import("./features/mushrooms/MushroomsSection.jsx"));
-const SearchBuilderSection = lazy(() => import("./features/search-builder/SearchBuilderSection.jsx"));
 
 export default function App() {
   const [importRevision, setImportRevision] = useState(0);
@@ -35,7 +34,6 @@ function AppSession({ importComplete, onProgressImported }) {
   const winWidth = useWindowWidth();
   const [tab, setTab] = useSectionNavigation();
   const [mushroomDraft, setMushroomDraft] = useState(null);
-  const [searchDraft, setSearchDraft] = useState([]);
   const showsCalculator = tab === "calculator";
   const isWide = winWidth >= 720;
   const isDesktopMap = winWidth >= 1100 && tab === "map";
@@ -95,9 +93,6 @@ function AppSession({ importComplete, onProgressImported }) {
         {tab === "decor" && <DecorSection decor={decor} />}
         {tab === "mushrooms" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading mushroom rewards…</div>}>
           <MushroomsSection draft={mushroomDraft} setDraft={setMushroomDraft} />
-        </Suspense>}
-        {tab === "search-builder" && <Suspense fallback={<div role="status" style={{ ...cardStyle, padding: 25 }}>Loading search builder…</div>}>
-          <SearchBuilderSection blocks={searchDraft} setBlocks={setSearchDraft} />
         </Suspense>}
         {tab === "map" && <Suspense fallback={<div role="status" style={{ ...appStyle, minHeight: 250, borderRadius: 18, padding: 25 }}>Loading decor map…</div>}>
           <DecorMapSection decorCollected={decor.decorCollected} onProgressSnapshot={captureMapProgress} />

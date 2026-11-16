@@ -3,7 +3,6 @@ export const SECTIONS = [
   { id: "map", icon: "🗺️", label: "Map" },
   { id: "mushrooms", icon: "🍄", label: "Mushroom" },
   { id: "calculator", icon: "🧮", label: "Calculator" },
-  { id: "search-builder", icon: "🔎", label: "Search" },
 ];
 export function sectionFromHash(hash) {
   const id = hash.replace(/^#/, "");
